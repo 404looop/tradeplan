@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>پنل مدیریت — ترید پلن</title>
+<style>
+:root{
+  --navy:#081226; --navy-card:#112240; --navy-deep:#0a1830;
+  --gold:#e8a020; --gold-light:#f4c86a; --gold-border:rgba(232,160,32,.28);
+  --text:#e8ecf4; --muted:#8fa0bd; --dim:#5a6b8a;
+  --green:#22c55e; --red:#ef4444; --blue:#7fb4e8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(1200px 800px at 50% -10%,#12294d 0%,var(--navy) 62%);min-height:100vh;font-family:'Vazirmatn',Tahoma,Arial,sans-serif;color:var(--text)}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+
+/* ===== login ===== */
+#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px}
+#login-screen.hidden{display:none}
+.login-card{width:100%;max-width:360px;background:linear-gradient(160deg,rgba(17,34,64,.96),rgba(12,24,48,.98));border:1px solid var(--gold-border);border-radius:22px;padding:32px 26px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.login-logo{font-size:40px;margin-bottom:8px;filter:drop-shadow(0 0 16px rgba(232,160,32,.5))}
+.login-title{font-size:20px;font-weight:900;color:var(--gold)}
+.login-sub{font-size:12px;color:var(--muted);margin:4px 0 20px}
+.login-card input{width:100%;padding:13px 15px;margin-bottom:12px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.09);border-radius:12px;color:var(--text);font-size:16px;text-align:right}
+.login-card input:focus{outline:none;border-color:var(--gold-border)}
+.login-card input.ltr{direction:ltr;text-align:left}
+.login-err{min-height:20px;color:var(--red);font-size:12.5px;font-weight:700;margin-bottom:8px;line-height:1.6}
+.login-btn{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#c8881a,var(--gold));color:#081020;font-size:15px;font-weight:900}
+.login-btn:disabled{opacity:.6}
+
+/* ===== panel ===== */
+#panel{display:none;max-width:1100px;margin:0 auto;padding:18px 14px 60px}
+#panel.show{display:block}
+.p-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.p-title{font-size:19px;font-weight:900;color:var(--gold)}
+.p-title small{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-top:3px}
+.p-actions{display:flex;gap:8px}
+.p-refresh,.p-logout{padding:9px 14px;border-radius:10px;font-size:12.5px;font-weight:800;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text)}
+.p-logout{border-color:rgba(239,68,68,.35);color:var(--red);background:rgba(239,68,68,.07)}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--navy-card);border:1px solid var(--gold-border);border-radius:15px;padding:15px 14px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;background:radial-gradient(circle at top right,rgba(232,160,32,.14),transparent 70%)}
+.sc-icon{font-size:20px;margin-bottom:8px}
+.sc-val{font-size:26px;font-weight:900;color:var(--gold-light);line-height:1.2}
+.sc-label{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:4px}
+
+.card{background:var(--navy-card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;margin-bottom:14px}
+.card-title{font-size:14px;font-weight:900;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.legend{display:flex;gap:14px;margin-right:auto;font-size:11px;color:var(--muted);font-weight:700}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:5px;vertical-align:-1px}
+#chart{width:100%;height:220px;display:block}
+
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th{font-size:11px;color:var(--muted);font-weight:800;text-align:right;padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.09);white-space:nowrap}
+td{font-size:12.5px;padding:11px 10px;border-bottom:1px solid rgba(255,255,255,.05);white-space:nowrap;vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.02)}
+.u-name{font-weight:800;color:var(--text)}
+.u-email{direction:ltr;text-align:left;font-family:monospace;font-size:11px;color:var(--muted)}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:10.5px;font-weight:800}
+.badge.ok{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.badge.mid{background:rgba(232,160,32,.12);color:var(--gold);border:1px solid var(--gold-border)}
+.badge.no{background:rgba(255,255,255,.05);color:var(--dim);border:1px solid rgba(255,255,255,.1)}
+.badge.ban{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.act-btn{padding:7px 10px;border-radius:9px;font-size:11px;font-weight:800;border:1px solid;background:transparent;margin-left:5px}
+.act-ban{color:#fbbf24;border-color:rgba(251,191,36,.4)}
+.act-pass{color:var(--blue);border-color:rgba(127,180,232,.4)}
+.act-del{color:var(--red);border-color:rgba(239,68,68,.4)}
+.act-btn:active{opacity:.7}
+.empty-row{text-align:center;color:var(--dim);padding:26px 0!important;font-size:13px}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a2c50;border:1px solid var(--gold-border);color:var(--text);padding:12px 20px;border-radius:13px;font-size:13px;font-weight:700;box-shadow:0 12px 34px rgba(0,0,0,.5);transition:transform .3s;z-index:9999;max-width:90vw}
+#toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen">
+  <form class="login-card" onsubmit="event.preventDefault();doLogin();">
+    <div class="login-logo">🛡️</div>
+    <div class="login-title">پنل مدیریت ترید پلن</div>
+    <div class="login-sub">ورود فقط برای مدیر</div>
+    <input type="text" id="adm-user" class="ltr" placeholder="Username" autocomplete="username" autocapitalize="off" spellcheck="false">
+    <input type="password" id="adm-pass" class="ltr" placeholder="Password" autocomplete="current-password">
+    <div class="login-err" id="login-err"></div>
+    <button type="submit" class="login-btn" id="login-btn">ورود به پنل</button>
+  </form>
+</div>
+
+<!-- ===== PANEL ===== -->
+<div id="panel">
+  <div class="p-head">
+    <div class="p-title">🛡️ پنل مدیریت<small id="p-updated"></small></div>
+    <div class="p-actions">
+      <button class="p-refresh" onclick="loadAll()">🔄 به‌روزرسانی</button>
+      <button class="p-logout" onclick="doLogout()">خروج</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="sc-icon">👁️</div><div class="sc-val" id="st-visits">—</div><div class="sc-label">بازدید امروز</div></div>
+    <div class="stat-card"><div class="sc-icon">👥</div><div class="sc-val" id="st-users">—</div><div class="sc-label">کل کاربران</div></div>
+    <div class="stat-card"><div class="sc-icon">✨</div><div class="sc-val" id="st-signups">—</div><div class="sc-label">ثبت‌نام امروز</div></div>
+    <div class="stat-card"><div class="sc-icon">📊</div><div class="sc-val" id="st-trades">—</div><div class="sc-label">تریدهای ثبت‌شده امروز</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 بازدید و ثبت‌نام — ۱۴ روز اخیر
+      <span class="legend">
+        <span><i style="background:var(--gold)"></i>بازدید</span>
+        <span><i style="background:var(--green)"></i>ثبت‌نام</span>
+      </span>
+    </div>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👥 مدیریت کاربران <span class="legend" id="u-count"></span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>نام کاربری</th><th>ایمیل</th><th>تاریخ عضویت</th><th>اکسپرت</th><th>آخرین بازدید</th><th>وضعیت</th><th>عملیات</th>
+        </tr></thead>
+        <tbody id="users-body"><tr><td colspan="7" class="empty-row">در حال بارگذاری…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SUPA_URL='https://lrcsbamzdoldopjklnqh.supabase.co';
+const SUPA_KEY='sb_publishable_mAeK0Je17QOT5YVX9qkAxA_SdIbwRSp';
+const TOKEN_KEY='tp_admin_token';
+let ADMIN_TOKEN=sessionStorage.getItem(TOKEN_KEY)||'';
+let _chartData=null;
+
+async function rpc(fn,args){
+  const res=await fetch(SUPA_URL+'/rest/v1/rpc/'+fn,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPA_KEY},
+    body:JSON.stringify(args||{})
+  });
+  return res.json();
+}
+
+let toastTimer=null;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+const faNum=n=>Number(n||0).toLocaleString('fa-IR');
+function faDate(iso){
+  if(!iso)return '—';
+  try{return new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'short',day:'numeric'}).format(new Date(iso));}catch(e){return '—';}
+}
+function faDateTime(iso){
+  if(!iso)return '—';
+  try{return new Intl.DateTimeFormat('fa-IR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));}catch(e){return '—';}
+}
+
+/* ===== login ===== */
+async function doLogin(){
+  const u=document.getElementById('adm-user').value.trim();
+  const p=document.getElementById('adm-pass').value;
+  const err=document.getElementById('login-err');
+  const btn=document.getElementById('login-btn');
+  if(!u||!p){err.textContent='نام کاربری و رمز را وارد کن';return;}
+  err.textContent=''; btn.disabled=true; btn.textContent='یه لحظه…';
+  try{
+    const r=await rpc('admin_login',{p_user:u,p_pass:p});
+    if(r&&r.ok){
+      ADMIN_TOKEN=r.token;
+      sessionStorage.setItem(TOKEN_KEY,ADMIN_TOKEN);
+      enterPanel();
+    }else if(r&&r.error==='locked'){
+      err.textContent='به دلیل تلاش‌های زیاد، ورود ۱۵ دقیقه قفل شد.';
+    }else{
+      err.textContent='نام کاربری یا رمز اشتباه است';
+    }
+  }catch(e){ err.textContent='اتصال به سرور برقرار نشد'; }
+  btn.disabled=false; btn.textContent='ورود به پنل';
+}
+function doLogout(){
+  sessionStorage.removeItem(TOKEN_KEY); ADMIN_TOKEN='';
+  location.reload();
+}
+function authFail(){
+  toast('نشست منقضی شد — دوباره وارد شو');
+  doLogout();
+}
+
+/* ===== dashboard ===== */
+function enterPanel(){
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('panel').classList.add('show');
+  loadAll();
+}
+async function loadAll(){
+  loadStats(); loadUsers();
+  document.getElementById('p-updated').textContent='آخرین به‌روزرسانی: '+new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());
+}
+
+async function loadStats(){
+  try{
+    const r=await rpc('admin_stats',{p_token:ADMIN_TOKEN});
+    if(!r||!r.ok){ if(r&&r.error==='unauthorized')authFail(); return; }
+    document.getElementById('st-visits').textContent =faNum(r.visits_today);
+    document.getElementById('st-users').textContent  =faNum(r.total_users);
+    document.getElementById('st-signups').textContent=faNum(r.signups_today);
+    document.getElementById('st-trades').textContent =faNum(r.trades_today);
+    _chartData=r.chart||[];
+    drawChart();
+  }catch(e){}
+}
+
+/* ===== chart (vanilla canvas, dual line) ===== */
+function drawChart(){
+  const cv=document.getElementById('chart');
+  if(!cv||!_chartData)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.clientWidth,H=cv.clientHeight||220;
+  cv.width=W*dpr; cv.height=H*dpr;
+  const c=cv.getContext('2d'); c.scale(dpr,dpr); c.clearRect(0,0,W,H);
+
+  const d=_chartData;
+  if(!d.length)return;
+  const padL=8,padR=30,padT=14,padB=26;
+  const iw=W-padL-padR, ih=H-padT-padB;
+  const maxV=Math.max(2,...d.map(x=>Math.max(x.visits,x.signups)));
+  const stepX=iw/Math.max(1,d.length-1);
+  const X=i=>W-padR-i*stepX; // RTL: روز اول سمت راست
+  const Y=v=>padT+ih-(v/maxV)*ih;
+
+  // grid
+  c.strokeStyle='rgba(255,255,255,.06)'; c.lineWidth=1;
+  c.font='10px Tahoma'; c.fillStyle='#5a6b8a'; c.textAlign='left';
+  const gridN=4;
+  for(let g=0;g<=gridN;g++){
+    const v=Math.round(maxV*g/gridN), y=Y(v);
+    c.beginPath(); c.moveTo(padL,y); c.lineTo(W-padR,y); c.stroke();
+    c.fillText(String(v),W-padR+6,y+3);
+  }
+  // day labels (هر روز دوم)
+  c.textAlign='center';
+  d.forEach((p,i)=>{
+    if(i%2)return;
+    const day=p.d.slice(8);
+    c.fillText(day,X(i),H-8);
+  });
+
+  function line(key,color){
+    c.strokeStyle=color; c.lineWidth=2.2; c.lineJoin='round'; c.beginPath();
+    d.forEach((p,i)=>{ const x=X(i),y=Y(p[key]); i?c.lineTo(x,y):c.moveTo(x,y); });
+    c.stroke();
+    c.fillStyle=color;
+    d.forEach((p,i)=>{ c.beginPath(); c.arc(X(i),Y(p[key]),2.6,0,7); c.fill(); });
+  }
+  line('visits','#e8a020');
+  line('signups','#22c55e');
+}
+window.addEventListener('resize',drawChart);
+
+/* ===== users ===== */
+let _users=[];
+async function loadUsers(){
+  try{
+    const r=await rpc('admin_users',{p_token:ADMIN_TOKEN});
+    if(!r||!r.ok){ if(r&&r.error==='unauthorized')authFail(); return; }
+    _users=r.users||[];
+    renderUsers();
+  }catch(e){}
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function renderUsers(){
+  const tb=document.getElementById('users-body');
+  document.getElementById('u-count').textContent=faNum(_users.length)+' کاربر';
+  if(!_users.length){ tb.innerHTML='<tr><td colspan="7" class="empty-row">هنوز کاربری ثبت‌نام نکرده</td></tr>'; return; }
+  tb.innerHTML=_users.map(u=>{
+    const ea = u.trades>0 ? '<span class="badge ok">✅ وصل — '+faNum(u.trades)+' ترید</span>'
+             : u.has_token ? '<span class="badge mid">🔑 توکن ساخته</span>'
+             : '<span class="badge no">وصل نشده</span>';
+    const status = u.banned ? '<span class="badge ban">🚫 مسدود</span>' : '<span class="badge ok">فعال</span>';
+    const banBtn = u.banned
+      ? '<button class="act-btn act-ban" onclick="setBan(\''+u.id+'\',false)">✅ رفع مسدودی</button>'
+      : '<button class="act-btn act-ban" onclick="setBan(\''+u.id+'\',true)">🚫 مسدود</button>';
+    return '<tr>'+
+      '<td class="u-name">'+esc(u.name)+'</td>'+
+      '<td class="u-email">'+esc(u.email)+'</td>'+
+      '<td>'+faDate(u.created_at)+'</td>'+
+      '<td>'+ea+'</td>'+
+      '<td>'+faDateTime(u.last_visit)+'</td>'+
+      '<td>'+status+'</td>'+
+      '<td>'+banBtn+
+        '<button class="act-btn act-pass" onclick="changePass(\''+u.id+'\',\''+esc(u.name)+'\')">🔑 تغییر رمز</button>'+
+        '<button class="act-btn act-del" onclick="delUser(\''+u.id+'\',\''+esc(u.name)+'\')">🗑 حذف</button>'+
+      '</td></tr>';
+  }).join('');
+}
+
+async function setBan(id,ban){
+  const u=_users.find(x=>x.id===id);
+  if(ban && !confirm('کاربر «'+(u?u.name:'')+'» مسدود شود؟ دیگر نمی‌تواند وارد شود.'))return;
+  const r=await rpc('admin_set_ban',{p_token:ADMIN_TOKEN,p_user:id,p_ban:ban});
+  if(r&&r.ok){ toast(ban?'🚫 کاربر مسدود شد':'✅ مسدودی برداشته شد'); loadUsers(); }
+  else if(r&&r.error==='unauthorized')authFail();
+  else toast('❌ خطا در انجام عملیات');
+}
+async function changePass(id,name){
+  const p=prompt('رمز جدید برای «'+name+'» (حداقل ۶ کاراکتر):');
+  if(p===null)return;
+  if((p||'').length<6){ toast('رمز حداقل ۶ کاراکتر باشد'); return; }
+  const r=await rpc('admin_set_password',{p_token:ADMIN_TOKEN,p_user:id,p_pass:p});
+  if(r&&r.ok) toast('🔑 رمز «'+name+'» تغییر کرد');
+  else if(r&&r.error==='unauthorized')authFail();
+  else toast('❌ خطا در تغییر رمز');
+}
+async function delUser(id,name){
+  if(!confirm('⚠️ حذف کامل «'+name+'»؟\nتمام داده‌ها، ژورنال و تریدهایش برای همیشه پاک می‌شود.'))return;
+  if(!confirm('مطمئنی؟ این عمل قابل بازگشت نیست!'))return;
+  const r=await rpc('admin_delete_user',{p_token:ADMIN_TOKEN,p_user:id});
+  if(r&&r.ok){ toast('🗑 کاربر حذف شد'); loadAll(); }
+  else if(r&&r.error==='unauthorized')authFail();
+  else toast('❌ خطا در حذف');
+}
+
+/* ===== boot ===== */
+if(ADMIN_TOKEN){
+  // اعتبار توکن ذخیره‌شده را با یک درخواست چک می‌کنیم
+  rpc('admin_stats',{p_token:ADMIN_TOKEN}).then(r=>{
+    if(r&&r.ok){ enterPanel(); }
+    else{ sessionStorage.removeItem(TOKEN_KEY); ADMIN_TOKEN=''; }
+  }).catch(()=>{});
+}
+// آمار هر ۶۰ ثانیه تازه می‌شود
+setInterval(()=>{ if(ADMIN_TOKEN&&document.visibilityState==='visible') loadStats(); },60000);
+</script>
+</body>
+</html>

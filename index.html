@@ -9302,6 +9302,20 @@ async function pushRemote(){
   catch(e){ /* offline — will retry on the next save */ }
 }
 
+/* ----- visit logging (برای پنل مدیریت) -----
+   هر بار که کاربر وارد برنامه می‌شود یک ردیف در visit_logs ثبت می‌شود
+   (حداکثر یک بار در هر ۳۰ دقیقه تا اسپم نشود). */
+async function logVisit(){
+  if(!SB||!CURRENT_USER) return;
+  try{
+    const k='tp_visitlog:'+CURRENT_USER.id;
+    const last=parseInt(localStorage.getItem(k)||'0');
+    if(Date.now()-last < 30*60*1000) return;
+    localStorage.setItem(k,String(Date.now()));
+    await SB.from('visit_logs').insert({user_id:CURRENT_USER.id});
+  }catch(e){ /* جدول هنوز ساخته نشده یا آفلاین — مهم نیست */ }
+}
+
 /* ----- MT5 auto-sync -----
    اکسپرت TradePlanSync هر پوزیشن بسته‌شده را در جدول mt5_trades
    می‌نویسد؛ اینجا خوانده می‌شود و با همان مسیر ایمپورت فایل
@@ -9519,6 +9533,7 @@ async function enterApp(interactive){
   hideAuthScreen();
   if(!appStarted){ appStarted=true; init(); }
   mtCloudSync(); // تریدهای ارسالی از متاتریدر را بگیر و در ژورنال ثبت کن
+  logVisit();    // ثبت بازدید برای آمار پنل مدیریت
   // For a brand-new account with no data yet, seed the display name into the app.
   if(!hadRow){
     const dn = CURRENT_USER.user_metadata && CURRENT_USER.user_metadata.display_name;

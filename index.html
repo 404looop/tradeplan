@@ -2746,6 +2746,53 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mls-step{font-size:11.5px;color:var(--text);opacity:.75;line-height:2}
 .mls-url{display:block;direction:ltr;text-align:left;font-family:monospace;font-size:10.5px;background:rgba(0,0,0,.3);border-radius:6px;padding:6px 8px;color:#7fb4e8;margin:4px 0;overflow-x:auto;white-space:nowrap}
 
+/* ===== MT5 connect banner (journal top) ===== */
+.mt5-connect-banner{display:flex;align-items:center;gap:11px;margin:12px 14px 0;padding:13px 14px;background:linear-gradient(135deg,rgba(232,160,32,.14),rgba(232,160,32,.05));border:1px solid var(--gold-border);border-radius:14px;position:relative;overflow:hidden}
+.mt5-connect-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);animation:mcbSheen 3.2s linear infinite}
+@keyframes mcbSheen{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.mcb-icon{font-size:26px;flex-shrink:0;filter:drop-shadow(0 0 10px rgba(232,160,32,.5))}
+.mcb-text{flex:1;min-width:0}
+.mcb-title{font-size:13.5px;font-weight:900;color:var(--gold)}
+.mcb-sub{font-size:11px;color:var(--text);opacity:.8;line-height:1.8;margin-top:2px}
+.mcb-btn{flex-shrink:0;background:linear-gradient(135deg,#c8881a,#e8a020);border:none;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:800;color:#081020;cursor:pointer;font-family:'Vazirmatn',sans-serif;box-shadow:0 4px 14px rgba(232,160,32,.3)}
+@media (max-width:420px){.mt5-connect-banner{flex-wrap:wrap}.mcb-btn{width:100%}}
+
+/* ===== MT5 guide button (settings) ===== */
+.mt5link-guide-btn{width:100%;display:flex;align-items:center;gap:12px;margin-top:12px;padding:13px 14px;background:rgba(232,160,32,.08);border:1px dashed var(--gold-border);border-radius:12px;cursor:pointer;font-family:'Vazirmatn',sans-serif;text-align:right;transition:background .2s}
+.mt5link-guide-btn:active{background:rgba(232,160,32,.16)}
+.mgb-q{font-size:30px;flex-shrink:0;filter:drop-shadow(0 0 10px rgba(232,160,32,.45))}
+.mgb-txt{display:flex;flex-direction:column;gap:2px}
+.mgb-txt b{font-size:13.5px;color:var(--gold);font-weight:900}
+.mgb-txt small{font-size:11px;color:var(--text);opacity:.7;font-weight:600}
+
+/* ===== MT5 guide modal ===== */
+#mt5-guide{position:fixed;inset:0;z-index:99000;display:none;align-items:flex-end;justify-content:center;background:rgba(4,10,22,.78);backdrop-filter:blur(4px)}
+#mt5-guide.show{display:flex}
+.mg-card{width:100%;max-width:560px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(170deg,#112240,#0a1830);border:1px solid var(--gold-border);border-radius:22px 22px 0 0;animation:authIn .35s cubic-bezier(.2,.8,.2,1)}
+@media (min-width:560px){#mt5-guide{align-items:center;padding:24px}.mg-card{border-radius:22px}}
+.mg-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 12px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.mg-title{font-size:15.5px;font-weight:900;color:var(--gold)}
+.mg-close{width:34px;height:34px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:10px;color:var(--text);font-size:15px;cursor:pointer;flex-shrink:0}
+.mg-body{overflow-y:auto;padding:16px 18px 26px;-webkit-overflow-scrolling:touch}
+.mg-intro{font-size:12.5px;color:var(--text);opacity:.85;line-height:2;background:rgba(232,160,32,.07);border:1px solid var(--gold-border);border-radius:12px;padding:12px 13px;margin-bottom:16px}
+.mg-step{margin-bottom:14px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden}
+.mg-step-head{display:flex;align-items:center;gap:10px;padding:12px 13px;font-size:13.5px;font-weight:900;color:var(--text);background:rgba(255,255,255,.03)}
+.mg-num{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#c8881a,#e8a020);color:#081020;border-radius:9px;font-size:13px;font-weight:900;flex-shrink:0}
+.mg-step-body{padding:11px 14px 13px;font-size:12.5px;color:var(--text);opacity:.88;line-height:2.1}
+.mg-step-body b{color:var(--gold)}
+.mg-li{display:flex;gap:8px;margin-top:4px}
+.mg-li::before{content:'◂';color:var(--gold);flex-shrink:0;opacity:.7}
+.mg-dl{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 6px;padding:13px;background:linear-gradient(135deg,#c8881a,#e8a020);border-radius:11px;color:#081020;font-size:13.5px;font-weight:900;text-decoration:none;box-shadow:0 6px 18px rgba(232,160,32,.3)}
+.mg-code{display:flex;align-items:center;gap:8px;margin:8px 0;direction:ltr}
+.mg-code code{flex:1;font-family:monospace;font-size:11px;background:rgba(0,0,0,.35);border:1px dashed var(--gold-border);border-radius:8px;padding:9px 10px;color:#7fb4e8;overflow-x:auto;white-space:nowrap;text-align:left}
+.mg-code button{background:rgba(232,160,32,.12);border:1px solid var(--gold-border);border-radius:8px;padding:8px 11px;font-size:13px;cursor:pointer;flex-shrink:0}
+.mg-note{font-size:11px;color:var(--gold);opacity:.85;font-weight:700;margin-top:6px;line-height:1.9}
+.mg-settings-btn{display:block;width:100%;margin-top:8px;padding:11px;background:rgba(127,180,232,.1);border:1px solid rgba(127,180,232,.3);border-radius:10px;color:#7fb4e8;font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Vazirmatn',sans-serif}
+.mg-ok{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25)}
+.mg-ok .mg-step-head{color:#4ade80}
+.mg-fix{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2)}
+.mg-fix .mg-step-head{color:#f87171}
+
 /* positions section */
 .positions-section{padding:16px 14px 0}
 .positions-section-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -3246,6 +3293,100 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a></div>
   </div>
 </div>
+
+<!-- ===== MT5 CONNECTION GUIDE MODAL ===== -->
+<div id="mt5-guide" onclick="if(event.target===this)closeMt5Guide()">
+  <div class="mg-card">
+    <div class="mg-head">
+      <div class="mg-title">🤖 راهنمای کامل اتصال به متاتریدر ۵</div>
+      <button type="button" class="mg-close" onclick="closeMt5Guide()">✕</button>
+    </div>
+    <div class="mg-body">
+
+      <div class="mg-intro">
+        با این اتصال، هر پوزیشنی که در متاتریدر ۵ ببندی، چند ثانیه بعد <b>خودکار و با تمام جزئیات</b> (نماد، نوع، حجم، قیمت ورود/خروج، زمان و سود/ضرر) در ژورنال ثبت می‌شود — دیگر هیچ ثبت دستی لازم نیست. فقط ۵ مرحله‌ی ساده، یک بار برای همیشه. 🚀
+      </div>
+
+      <div class="mg-step">
+        <div class="mg-step-head"><span class="mg-num">۱</span>دانلود فایل اکسپرت</div>
+        <div class="mg-step-body">
+          روی دکمه‌ی زیر بزن تا فایل اکسپرت دانلود شود:
+          <a class="mg-dl" href="TradePlanSync.mq5" download>⬇️ دانلود اکسپرت TradePlanSync</a>
+          <div class="mg-note">⚠️ این مراحل را روی همان کامپیوتری انجام بده که متاتریدر ۵ رویش نصب است.</div>
+        </div>
+      </div>
+
+      <div class="mg-step">
+        <div class="mg-step-head"><span class="mg-num">۲</span>نصب اکسپرت در متاتریدر</div>
+        <div class="mg-step-body">
+          <div class="mg-li">متاتریدر ۵ را باز کن</div>
+          <div class="mg-li">منوی <b>File ← Open Data Folder</b> را بزن — یک پوشه باز می‌شود</div>
+          <div class="mg-li">داخل آن برو به پوشه‌ی <b>MQL5</b> و بعد <b>Experts</b></div>
+          <div class="mg-li">فایل دانلودشده‌ی <b>TradePlanSync.mq5</b> را داخل این پوشه کپی کن</div>
+          <div class="mg-li">متاتریدر را کامل ببند و دوباره باز کن</div>
+          <div class="mg-li">حالا در پنجره‌ی <b>Navigator</b> (کلید Ctrl+N) زیر شاخه‌ی Expert Advisors باید <b>TradePlanSync</b> را ببینی</div>
+        </div>
+      </div>
+
+      <div class="mg-step">
+        <div class="mg-step-head"><span class="mg-num">۳</span>اجازه‌ی اتصال به اینترنت</div>
+        <div class="mg-step-body">
+          <div class="mg-li">در متاتریدر برو به <b>Tools ← Options ← Expert Advisors</b></div>
+          <div class="mg-li">تیک <b>Allow WebRequest for listed URL</b> را بزن</div>
+          <div class="mg-li">روی خط خالی زیرش دابل‌کلیک کن و این آدرس را اضافه کن:</div>
+          <div class="mg-code">
+            <code>https://lrcsbamzdoldopjklnqh.supabase.co</code>
+            <button type="button" onclick="mt5CopyText('https://lrcsbamzdoldopjklnqh.supabase.co')" title="کپی">📋</button>
+          </div>
+          <div class="mg-li">دکمه‌ی <b>OK</b> را بزن</div>
+        </div>
+      </div>
+
+      <div class="mg-step">
+        <div class="mg-step-head"><span class="mg-num">۴</span>ساخت توکن اتصال در همین برنامه</div>
+        <div class="mg-step-body">
+          <div class="mg-li">در همین برنامه برو به صفحه‌ی <b>تنظیمات</b> (نوار پایین)</div>
+          <div class="mg-li">در کارت <b>«اتصال خودکار متاتریدر ۵»</b> دکمه‌ی <b>🔑 ساخت توکن اتصال</b> را بزن</div>
+          <div class="mg-li">با دکمه‌ی <b>📋</b> توکن را کپی کن</div>
+          <button type="button" class="mg-settings-btn" onclick="mt5GuideGoSettings()">⚙️ برو به تنظیمات و ساخت توکن</button>
+        </div>
+      </div>
+
+      <div class="mg-step">
+        <div class="mg-step-head"><span class="mg-num">۵</span>فعال‌سازی اکسپرت روی چارت</div>
+        <div class="mg-step-body">
+          <div class="mg-li">از پنجره‌ی Navigator، اکسپرت <b>TradePlanSync</b> را بگیر و بنداز روی یک چارت (هر نمادی، فرقی نمی‌کند)</div>
+          <div class="mg-li">پنجره‌ای باز می‌شود — برو به تب <b>Inputs</b></div>
+          <div class="mg-li">روی ردیف اول (<b>توکن اتصال</b>)، در ستون Value دابل‌کلیک کن و توکن را جای‌گذاری کن (Ctrl+V)</div>
+          <div class="mg-li">در تب <b>Common</b> تیک <b>Allow Algo Trading</b> را روشن کن و <b>OK</b> را بزن</div>
+          <div class="mg-li">دکمه‌ی <b>Algo Trading</b> در نوار بالای متاتریدر هم باید روشن (سبز) باشد</div>
+        </div>
+      </div>
+
+      <div class="mg-step mg-ok">
+        <div class="mg-step-head"><span class="mg-num">✓</span>چک نهایی — از کجا بفهمم وصل شد؟</div>
+        <div class="mg-step-body">
+          <div class="mg-li">گوشه‌ی بالا-راست چارت باید <b>TradePlanSync</b> با کلاه آبی 🎩 دیده شود (خاکستری = Algo Trading خاموش است)</div>
+          <div class="mg-li">پایین متاتریدر، تب <b>Experts</b> را باز کن — باید پیام <b>started for account</b> باشد</div>
+          <div class="mg-li">یک معامله (ترجیحاً دمو) باز کن و ببند — چند ثانیه بعد پیام <b>batch sent OK</b> می‌آید</div>
+          <div class="mg-li">حالا در برنامه، صفحه‌ی ژورنال را باز کن — معامله‌ات با تمام جزئیات ثبت شده 🎉</div>
+        </div>
+      </div>
+
+      <div class="mg-step mg-fix">
+        <div class="mg-step-head"><span class="mg-num">🛠</span>رفع اشکال — اگر کار نکرد</div>
+        <div class="mg-step-body">
+          <div class="mg-li">پیام «آدرس را اضافه کن» یا خطای 4014 → مرحله‌ی ۳ (اجازه‌ی WebRequest) انجام نشده</div>
+          <div class="mg-li">پیام «توکن نامعتبر» → توکن را دوباره از تنظیمات کپی کن؛ اگر توکن جدید ساخته‌ای، قبلی باطل شده و باید توکن جدید را در اکسپرت بگذاری</div>
+          <div class="mg-li">کلاه خاکستری روی چارت → دکمه‌ی Algo Trading در نوار بالای متاتریدر را روشن کن</div>
+          <div class="mg-li">وقتی متاتریدر بسته است چیزی ارسال نمی‌شود؛ ولی نگران نباش — به محض باز شدن، معاملات جامانده خودکار ارسال می‌شوند</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <div id="app">
 
 <!-- ===== HOME ===== -->
@@ -3488,6 +3629,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       </div>
       <span class="save-dot" id="j-save-dot"></span>
     </div>
+  </div>
+
+  <!-- MT5 AUTO-CONNECT BANNER (hidden once trades sync) -->
+  <div class="mt5-connect-banner" id="mt5-journal-banner" style="display:none">
+    <div class="mcb-icon">📡</div>
+    <div class="mcb-text">
+      <div class="mcb-title">متاتریدرت رو وصل کن — ثبت خودکار معاملات!</div>
+      <div class="mcb-sub">هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.</div>
+    </div>
+    <button type="button" class="mcb-btn" onclick="openMt5Guide()">❓ راهنمای اتصال</button>
   </div>
 
   <!-- MT REPORT IMPORT -->
@@ -4124,14 +4275,13 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
     </div>
     <button type="button" class="mt5link-btn" id="mt5-token-btn" onclick="mt5CreateToken()">🔑 ساخت توکن اتصال</button>
-    <div class="mt5link-steps">
-      <div class="mls-title">راه‌اندازی (فقط یک بار):</div>
-      <div class="mls-step">۱. فایل اکسپرت <b>TradePlanSync</b> را در متاتریدر ۵ نصب کن (پوشه Experts)</div>
-      <div class="mls-step">۲. در متاتریدر: <b>Tools ← Options ← Expert Advisors</b> تیک «Allow WebRequest» را بزن و این آدرس را به لیست اضافه کن:</div>
-      <code class="mls-url">https://lrcsbamzdoldopjklnqh.supabase.co</code>
-      <div class="mls-step">۳. اکسپرت را روی یک چارت (هر نمادی) بینداز و توکن بالا را در ورودی «توکن اتصال» جای‌گذاری کن</div>
-      <div class="mls-step">از این به بعد هر پوزیشنی که ببندی، تا چند ثانیه بعد در ژورنال ثبت می‌شود ✨</div>
-    </div>
+    <button type="button" class="mt5link-guide-btn" onclick="openMt5Guide()">
+      <span class="mgb-q">❓</span>
+      <span class="mgb-txt">
+        <b>راهنمای کامل اتصال به متاتریدر ۵</b>
+        <small>آموزش قدم‌به‌قدم، از دانلود اکسپرت تا ثبت خودکار اولین معامله</small>
+      </span>
+    </button>
   </div>
 
   <div class="settings-section"><h2>هدف‌گذاری پیشرفته</h2></div>
@@ -4571,7 +4721,7 @@ function showPage(name){
   if(name==='home') updateHome();
   if(name==='settings'){ updateSettings(); if(typeof mt5LoadToken==='function') mt5LoadToken(); }
   if(name==='setup') renderStrategy();
-  if(name==='journal'){ renderJournal(); renderYearCumulative(true); animateMonthlyPnl(); if(typeof mtCloudSync==='function') mtCloudSync(); }
+  if(name==='journal'){ renderJournal(); renderYearCumulative(true); animateMonthlyPnl(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); }
   if(name==='psychology') renderPsychology();
 }
 
@@ -9190,6 +9340,7 @@ async function mtCloudSync(){
     const res=mtMergeDays(daily);
     data.mtCloudSig=sig;
     saveData();
+    updateMt5Banner();
     if(res.imported+res.updated>0){
       showToast('📥 '+toFA(res.imported+res.updated)+' روز از متاتریدر همگام شد',3500);
       if(currentPage==='journal'){ renderJournal(); renderYearCumulative(true); }
@@ -9244,6 +9395,36 @@ function fallbackCopy(txt){
   document.body.appendChild(ta); ta.select();
   try{ document.execCommand('copy'); }catch(e){}
   document.body.removeChild(ta);
+}
+function mt5CopyText(txt){
+  const done=()=>showToast('📋 کپی شد');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>{ fallbackCopy(txt); done(); });
+  }else{ fallbackCopy(txt); done(); }
+}
+
+/* ----- MT5 guide modal + journal banner ----- */
+function openMt5Guide(){
+  const g=document.getElementById('mt5-guide');
+  if(g){ g.classList.add('show'); const b=g.querySelector('.mg-body'); if(b) b.scrollTop=0; }
+}
+function closeMt5Guide(){
+  const g=document.getElementById('mt5-guide');
+  if(g) g.classList.remove('show');
+}
+function mt5GuideGoSettings(){
+  closeMt5Guide();
+  showPage('settings');
+  // اسکرول به کارت اتصال متاتریدر
+  setTimeout(()=>{
+    const card=document.getElementById('mt5-token-wrap');
+    if(card) card.scrollIntoView({behavior:'smooth',block:'center'});
+  },120);
+}
+// بنر «اتصال متاتریدر» بالای ژورنال — تا وقتی اولین ترید سینک نشده نمایش داده می‌شود
+function updateMt5Banner(){
+  const b=document.getElementById('mt5-journal-banner');
+  if(b) b.style.display = (data&&data.mtCloudSig) ? 'none' : 'flex';
 }
 
 // ----- auth screen UI -----

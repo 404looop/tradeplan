@@ -662,28 +662,30 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .journal-header{background:linear-gradient(135deg,var(--navy-mid),#0a1830);padding:14px 15px 10px;border-bottom:1px solid var(--gold-border);position:sticky;top:0;z-index:10}
 
 /* Month Summary */
-.month-summary{margin:12px 14px 0;background:linear-gradient(135deg,#16304f 0%,#0f2238 55%,#0a1830 100%);border-radius:18px;border:1px solid var(--gold-border);padding:10px 16px 10px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4);display:flex;align-items:center;gap:12px}
+.month-summary{margin:12px 14px 0;background:linear-gradient(135deg,#16304f 0%,#0f2238 55%,#0a1830 100%);border-radius:20px;border:1px solid var(--gold-border);padding:16px 16px 15px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4)}
 .month-summary::before{content:'';position:absolute;top:-40px;right:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.13),transparent 70%);pointer-events:none}
 .ms-shine{position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.06),transparent);transform:skewX(-18deg);animation:msShine 5.5s ease-in-out infinite;pointer-events:none}
-.ms-left{display:flex;flex-direction:column;align-items:flex-start;gap:1px;position:relative;z-index:1;flex-shrink:0}
-.ms-center{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
-.ms-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;position:relative;z-index:1;flex-shrink:0}
+.ms-top{display:flex;align-items:center;justify-content:space-between;gap:14px;position:relative;z-index:1}
+.ms-left{display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex-shrink:0}
 @keyframes msShine{0%,72%{left:-60%}88%,100%{left:120%}}
-.ms-label{font-size:10px;color:var(--text-warm);font-weight:700;position:relative;z-index:1;letter-spacing:.2px}
-.ms-month{font-size:16px;font-weight:900;color:#fff;direction:ltr;position:relative;z-index:1;letter-spacing:.2px;text-shadow:0 2px 8px rgba(0,0,0,.45)}
-.ms-value{font-size:34px;font-weight:900;line-height:1;letter-spacing:-1px;direction:ltr;position:relative;z-index:1;font-variant-numeric:tabular-nums}
+.ms-label{font-size:13.5px;color:var(--gold-light,#f4c86a);font-weight:900;position:relative;z-index:1;letter-spacing:.2px}
+.ms-month{font-size:12px;font-weight:800;color:var(--text-muted);direction:ltr;position:relative;z-index:1;letter-spacing:.4px}
+.ms-value{font-size:42px;font-weight:900;line-height:1.05;letter-spacing:-1px;direction:ltr;position:relative;z-index:1;font-variant-numeric:tabular-nums;text-align:left}
+@media (max-width:360px){.ms-value{font-size:36px}}
 .ms-value.pos{background:linear-gradient(135deg,#7dffb0,#16a34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 12px rgba(34,197,94,.35))}
 .ms-value.neg{background:linear-gradient(135deg,#ff9a9a,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 12px rgba(239,68,68,.3))}
 .ms-value.zero{color:var(--text-muted)}
-.ms-meta{font-size:9.5px;color:var(--text-muted);font-weight:600;position:relative;z-index:1;direction:rtl}
-.ms-goal{position:relative;z-index:1;margin-top:6px;padding-top:7px;border-top:1px dashed rgba(255,255,255,.1)}
+.ms-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px;position:relative;z-index:1;direction:rtl}
+.msm-chip{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:6px 12px;font-size:11.5px;font-weight:800;color:var(--text);white-space:nowrap}
+.msm-chip b{color:var(--gold-light,#f4c86a)}
+.ms-goal{position:relative;z-index:1;margin-top:13px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.12)}
 .msg-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
-.msg-title{font-size:10.5px;color:var(--text-warm-dim);font-weight:700}
-.msg-pct{font-size:12px;font-weight:900;color:var(--gold);direction:ltr}
-.msg-bar{height:9px;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden;position:relative}
+.msg-title{font-size:12.5px;color:var(--text);font-weight:800}
+.msg-pct{font-size:15px;font-weight:900;color:var(--gold);direction:ltr}
+.msg-bar{height:12px;border-radius:7px;background:rgba(255,255,255,.07);overflow:hidden;position:relative}
 .msg-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#e8a020,#34d27e);transition:width .9s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(232,160,32,.4)}
 .msg-fill.reached{background:linear-gradient(90deg,#34d27e,#5fe896)}
-.msg-foot{font-size:10px;color:var(--text-muted);margin-top:7px;direction:rtl;font-weight:600}
+.msg-foot{font-size:11.5px;color:var(--text-muted);margin-top:8px;direction:rtl;font-weight:700;line-height:1.8}
 .msg-foot b{color:var(--gold)}
 .ms-sub{font-size:12px;margin-top:6px;color:var(--text-muted)}
 .ms-sub span{color:var(--gold);font-weight:700}
@@ -2756,6 +2758,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mcb-sub{font-size:11px;color:var(--text);opacity:.8;line-height:1.8;margin-top:2px}
 .mcb-btn{flex-shrink:0;background:linear-gradient(135deg,#c8881a,#e8a020);border:none;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:800;color:#081020;cursor:pointer;font-family:'Vazirmatn',sans-serif;box-shadow:0 4px 14px rgba(232,160,32,.3)}
 @media (max-width:420px){.mt5-connect-banner{flex-wrap:wrap}.mcb-btn{width:100%}}
+.mt5-connect-banner.connected{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.04));border-color:rgba(34,197,94,.3)}
+.mt5-connect-banner.connected::before{display:none}
+.mt5-connect-banner.connected .mcb-title{color:#4ade80}
+.mt5-connect-banner.connected .mcb-icon{filter:drop-shadow(0 0 10px rgba(34,197,94,.5))}
+.mt5-connect-banner.connected .mcb-btn{background:rgba(34,197,94,.15);color:#4ade80;box-shadow:none;border:1px solid rgba(34,197,94,.3)}
 
 /* ===== MT5 guide button (settings) ===== */
 .mt5link-guide-btn{width:100%;display:flex;align-items:center;gap:12px;margin-top:12px;padding:13px 14px;background:rgba(232,160,32,.08);border:1px dashed var(--gold-border);border-radius:12px;cursor:pointer;font-family:'Vazirmatn',sans-serif;text-align:right;transition:background .2s}
@@ -3631,7 +3638,46 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     </div>
   </div>
 
-  <!-- MT5 AUTO-CONNECT BANNER (hidden once trades sync) -->
+  <!-- month nav -->
+  <div class="month-nav">
+    <button class="mnav-btn" onclick="journalChangeMonth(-1)">‹</button>
+    <div class="mnav-title" id="j-month-title">
+      —
+      <span id="j-month-shamsi">—</span>
+    </div>
+    <button class="mnav-btn" onclick="journalChangeMonth(1)">›</button>
+  </div>
+
+  <!-- calendar -->
+  <div class="cal-wrap">
+    <table class="cal-grid" id="j-cal-table" dir="ltr">
+      <thead>
+        <tr>
+          <th class="weekend-th">Sun</th>
+          <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th>
+          <th class="weekend-th">Sat</th>
+          <th class="week-col">Wk</th>
+        </tr>
+      </thead>
+      <tbody id="j-cal-body"></tbody>
+    </table>
+  </div>
+
+  <!-- month summary -->
+  <div class="month-summary" id="j-month-summary">
+    <div class="ms-shine"></div>
+    <div class="ms-top">
+      <div class="ms-left">
+        <div class="ms-label">📊 سود این ماه</div>
+        <div class="ms-month" id="ms-month">—</div>
+      </div>
+      <div class="ms-value zero" id="j-monthly-pnl">$0.0</div>
+    </div>
+    <div class="ms-meta" id="j-month-meta"></div>
+    <div class="ms-goal" id="j-goal-progress" style="display:none"></div>
+  </div>
+
+  <!-- MT5 AUTO-CONNECT BANNER (two states: connect CTA / connected) -->
   <div class="mt5-connect-banner" id="mt5-journal-banner" style="display:none">
     <div class="mcb-icon">📡</div>
     <div class="mcb-text">
@@ -3724,50 +3770,6 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
       </div>
     </div>
-  </div>
-
-  <!-- month summary -->
-  <div class="month-summary" id="j-month-summary">
-    <div class="ms-shine"></div>
-    <!-- چپ: ماه و لیبل -->
-    <div class="ms-left">
-      <div class="ms-month" id="ms-month">—</div>
-      <div class="ms-label">📊 سود این ماه</div>
-    </div>
-    <!-- وسط: عدد اصلی -->
-    <div class="ms-center">
-      <div class="ms-value zero" id="j-monthly-pnl">$0.0</div>
-    </div>
-    <!-- راست: متا + هدف -->
-    <div class="ms-right">
-      <div class="ms-meta" id="j-month-meta"></div>
-      <div class="ms-goal" id="j-goal-progress" style="display:none"></div>
-    </div>
-  </div>
-
-  <!-- month nav -->
-  <div class="month-nav">
-    <button class="mnav-btn" onclick="journalChangeMonth(-1)">‹</button>
-    <div class="mnav-title" id="j-month-title">
-      —
-      <span id="j-month-shamsi">—</span>
-    </div>
-    <button class="mnav-btn" onclick="journalChangeMonth(1)">›</button>
-  </div>
-
-  <!-- calendar -->
-  <div class="cal-wrap">
-    <table class="cal-grid" id="j-cal-table" dir="ltr">
-      <thead>
-        <tr>
-          <th class="weekend-th">Sun</th>
-          <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th>
-          <th class="weekend-th">Sat</th>
-          <th class="week-col">Wk</th>
-        </tr>
-      </thead>
-      <tbody id="j-cal-body"></tbody>
-    </table>
   </div>
 
   <!-- bottom stats -->
@@ -7486,7 +7488,10 @@ function renderJournalMonth(){
   const metaEl=document.getElementById('j-month-meta');
   if(metaEl){
     const wr=(stats.wins+stats.losses)>0?Math.round(stats.wins/(stats.wins+stats.losses)*100):0;
-    metaEl.textContent=`${toFA(stats.totalTrades)} معامله · ${toFA(stats.activeDays)} روز فعال · وین‌ریت ${toFA(wr)}٪`;
+    metaEl.innerHTML=
+      `<span class="msm-chip">📈 <b>${toFA(stats.totalTrades)}</b> معامله</span>`+
+      `<span class="msm-chip">📅 <b>${toFA(stats.activeDays)}</b> روز فعال</span>`+
+      `<span class="msm-chip">🎯 وین‌ریت <b>${toFA(wr)}٪</b></span>`;
   }
 
   // monthly goal progress bar
@@ -9435,10 +9440,27 @@ function mt5GuideGoSettings(){
     if(card) card.scrollIntoView({behavior:'smooth',block:'center'});
   },120);
 }
-// بنر «اتصال متاتریدر» بالای ژورنال — تا وقتی اولین ترید سینک نشده نمایش داده می‌شود
+// بنر «اتصال متاتریدر» در ژورنال — دو حالت دارد:
+// وصل‌نشده => دعوت پررنگ به اتصال؛ وصل‌شده => تأیید سبزِ فعال بودن ثبت خودکار
 function updateMt5Banner(){
   const b=document.getElementById('mt5-journal-banner');
-  if(b) b.style.display = (data&&data.mtCloudSig) ? 'none' : 'flex';
+  if(!b) return;
+  const connected=!!(data&&data.mtCloudSig);
+  b.style.display='flex';
+  b.classList.toggle('connected',connected);
+  const ic=b.querySelector('.mcb-icon'), t=b.querySelector('.mcb-title'),
+        s=b.querySelector('.mcb-sub'), btn=b.querySelector('.mcb-btn');
+  if(connected){
+    if(ic) ic.textContent='✅';
+    if(t)  t.textContent='اتصال خودکار متاتریدر فعاله';
+    if(s)  s.textContent='هر پوزیشنی که ببندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود.';
+    if(btn) btn.textContent='❓ راهنما';
+  }else{
+    if(ic) ic.textContent='📡';
+    if(t)  t.textContent='متاتریدرت رو وصل کن — ثبت خودکار معاملات!';
+    if(s)  s.textContent='هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.';
+    if(btn) btn.textContent='❓ راهنمای اتصال';
+  }
 }
 
 // ----- auth screen UI -----

@@ -2741,6 +2741,20 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mt5link-desc{font-size:12.5px;color:var(--text);opacity:.85;line-height:1.9;margin-bottom:10px}
 .mt5link-token-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
 .mt5link-token{flex:1;direction:ltr;text-align:left;font-family:monospace;font-size:11px;background:rgba(0,0,0,.3);border:1px dashed var(--gold-border);border-radius:8px;padding:9px 10px;color:var(--gold);overflow-x:auto;white-space:nowrap}
+
+/* JOURNAL — live MT5 account card (balance / deposit / last sync) */
+.acct-card{margin:12px 14px 0;padding:15px 17px 11px;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(150deg,#16304f,#0d1f3c 58%,#0a1830);border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
+.acct-card::before{content:'';position:absolute;top:-46px;right:-34px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.16),transparent 70%);pointer-events:none}
+.acct-num{font-family:'Segoe UI','SF Pro Display','Helvetica Neue',Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:embed}
+.acct-top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;position:relative}
+.acct-label{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.acct-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:acctPulse 2.2s ease-in-out infinite;flex-shrink:0}
+@keyframes acctPulse{0%,100%{opacity:1}50%{opacity:.3}}
+.acct-balance{font-size:32px;font-weight:800;color:#fff;line-height:1.2;letter-spacing:.4px;text-shadow:0 2px 16px rgba(232,160,32,.3);white-space:nowrap}
+.acct-dep{text-align:left;padding-bottom:3px}
+.acct-dep-label{font-size:9.5px;font-weight:800;color:rgba(255,255,255,.45);letter-spacing:1px;margin-bottom:2px}
+.acct-deposit{font-size:15.5px;font-weight:700;color:rgba(255,255,255,.82)}
+.acct-sync{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(232,160,32,.22);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.55);position:relative}
 .mt5link-copy{background:rgba(232,160,32,.12);border:1px solid var(--gold-border);border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
 .mt5link-btn{width:100%;background:linear-gradient(135deg,#c8881a,#e8a020);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:800;color:#081020;cursor:pointer;font-family:'Vazirmatn',sans-serif}
 .mt5link-steps{margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:10px}
@@ -3350,12 +3364,12 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       </div>
 
       <div class="mg-step">
-        <div class="mg-step-head"><span class="mg-num">۴</span>ساخت توکن اتصال در همین برنامه</div>
+        <div class="mg-step-head"><span class="mg-num">۴</span>کپی توکن اتصال از همین برنامه</div>
         <div class="mg-step-body">
           <div class="mg-li">در همین برنامه برو به صفحه‌ی <b>تنظیمات</b> (نوار پایین)</div>
-          <div class="mg-li">در کارت <b>«اتصال خودکار متاتریدر ۵»</b> دکمه‌ی <b>🔑 ساخت توکن اتصال</b> را بزن</div>
-          <div class="mg-li">با دکمه‌ی <b>📋</b> توکن را کپی کن</div>
-          <button type="button" class="mg-settings-btn" onclick="mt5GuideGoSettings()">⚙️ برو به تنظیمات و ساخت توکن</button>
+          <div class="mg-li">در کارت <b>«اتصال خودکار متاتریدر ۵»</b> توکنِ حسابت آماده است — با دکمه‌ی <b>📋</b> کپی‌اش کن</div>
+          <div class="mg-li">این توکن مخصوص حساب توست و در دسکتاپ و موبایل یکی است</div>
+          <button type="button" class="mg-settings-btn" onclick="mt5GuideGoSettings()">⚙️ برو به تنظیمات و کپی توکن</button>
         </div>
       </div>
 
@@ -3364,7 +3378,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
         <div class="mg-step-body">
           <div class="mg-li">از پنجره‌ی Navigator، اکسپرت <b>TradePlanSync</b> را بگیر و بنداز روی یک چارت (هر نمادی، فرقی نمی‌کند)</div>
           <div class="mg-li">پنجره‌ای باز می‌شود — برو به تب <b>Inputs</b></div>
-          <div class="mg-li">روی ردیف اول (<b>توکن اتصال</b>)، در ستون Value دابل‌کلیک کن و توکن را جای‌گذاری کن (Ctrl+V)</div>
+          <div class="mg-li">روی ردیف اول (<b>توکن اتصال</b>)، در ستون Value دابل‌کلیک کن و توکن را جای‌گذاری کن (Ctrl+V) — <b>فقط بار اول</b> لازم است؛ اکسپرت توکن را ذخیره می‌کند و دفعات بعد خودش استفاده می‌کند</div>
           <div class="mg-li">در تب <b>Common</b> تیک <b>Allow Algo Trading</b> را روشن کن و <b>OK</b> را بزن</div>
           <div class="mg-li">دکمه‌ی <b>Algo Trading</b> در نوار بالای متاتریدر هم باید روشن (سبز) باشد</div>
         </div>
@@ -3384,7 +3398,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
         <div class="mg-step-head"><span class="mg-num">🛠</span>رفع اشکال — اگر کار نکرد</div>
         <div class="mg-step-body">
           <div class="mg-li">پیام «آدرس را اضافه کن» یا خطای 4014 → مرحله‌ی ۳ (اجازه‌ی WebRequest) انجام نشده</div>
-          <div class="mg-li">پیام «توکن نامعتبر» → توکن را دوباره از تنظیمات کپی کن؛ اگر توکن جدید ساخته‌ای، قبلی باطل شده و باید توکن جدید را در اکسپرت بگذاری</div>
+          <div class="mg-li">پیام «توکن نامعتبر» → توکن جدید ساخته‌ای و قبلی باطل شده؛ توکن را دوباره از تنظیمات کپی کن و یک بار در ورودی اکسپرت بگذار</div>
           <div class="mg-li">کلاه خاکستری روی چارت → دکمه‌ی Algo Trading در نوار بالای متاتریدر را روشن کن</div>
           <div class="mg-li">وقتی متاتریدر بسته است چیزی ارسال نمی‌شود؛ ولی نگران نباش — به محض باز شدن، معاملات جامانده خودکار ارسال می‌شوند</div>
         </div>
@@ -3636,6 +3650,21 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       </div>
       <span class="save-dot" id="j-save-dot"></span>
     </div>
+  </div>
+
+  <!-- MT5 ACCOUNT — live balance / deposit / last sync (from MetaTrader) -->
+  <div class="acct-card" id="acct-card" style="display:none">
+    <div class="acct-top">
+      <div>
+        <div class="acct-label"><span class="acct-live"></span>بالانس حساب</div>
+        <div class="acct-balance acct-num" id="acct-balance">—</div>
+      </div>
+      <div class="acct-dep">
+        <div class="acct-dep-label">DEPOSIT · سرمایه اولیه</div>
+        <div class="acct-deposit acct-num" id="acct-deposit">—</div>
+      </div>
+    </div>
+    <div class="acct-sync" id="acct-sync">—</div>
   </div>
 
   <!-- month nav -->
@@ -4273,10 +4302,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   <div class="mt5link-card" id="mt5-token-wrap">
     <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر) در ژورنال ثبت می‌شود.</div>
     <div class="mt5link-token-row">
-      <code class="mt5link-token" id="mt5-token-value">هنوز توکن نساخته‌ای</code>
+      <code class="mt5link-token" id="mt5-token-value">در حال دریافت توکن…</code>
       <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
     </div>
-    <button type="button" class="mt5link-btn" id="mt5-token-btn" onclick="mt5CreateToken()">🔑 ساخت توکن اتصال</button>
+    <div class="mt5link-desc">این توکن مخصوص حساب توست و در همه‌ی دستگاه‌هایت (دسکتاپ و موبایل) یکی است.</div>
+    <button type="button" class="mt5link-btn" id="mt5-token-btn" onclick="mt5CreateToken()">🔄 ساخت توکن جدید (توکن قبلی باطل می‌شود)</button>
     <button type="button" class="mt5link-guide-btn" onclick="openMt5Guide()">
       <span class="mgb-q">❓</span>
       <span class="mgb-txt">
@@ -4723,7 +4753,7 @@ function showPage(name){
   if(name==='home') updateHome();
   if(name==='settings'){ updateSettings(); if(typeof mt5LoadToken==='function') mt5LoadToken(); }
   if(name==='setup') renderStrategy();
-  if(name==='journal'){ renderJournal(); renderYearCumulative(true); animateMonthlyPnl(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); }
+  if(name==='journal'){ renderJournal(); renderYearCumulative(true); animateMonthlyPnl(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); if(typeof renderMt5Account==='function'){ renderMt5Account(); mt5LoadAccount(); } }
   if(name==='psychology') renderPsychology();
 }
 
@@ -9369,38 +9399,100 @@ async function mtCloudSync(){
   }catch(e){ /* آفلاین — تلاش بعدی در سینک بعدی */ }
   finally{ _mtCloudBusy=false; }
 }
-// هر ۲ دقیقه وقتی برنامه باز و قابل‌مشاهده است، تریدهای جدید را بگیر
-setInterval(()=>{ if(document.visibilityState==='visible') mtCloudSync(); },120000);
+// هر ۲ دقیقه وقتی برنامه باز و قابل‌مشاهده است، تریدها و وضعیت حساب را بگیر
+setInterval(()=>{ if(document.visibilityState==='visible'){ mtCloudSync(); mt5LoadAccount(); } },120000);
+
+/* ----- MT5 account card: balance / deposit / last sync (journal top) ----- */
+function acctFmt(v,cur){
+  const n=parseFloat(v)||0;
+  const s=n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return (!cur||cur==='USD')?('$'+s):(s+' '+cur);
+}
+let _acctShownBal=null;
+function renderMt5Account(){
+  const card=document.getElementById('acct-card');
+  if(!card) return;
+  const a=data&&data.mt5Account;
+  if(!a||!a.syncedAt){ card.style.display='none'; return; }
+  card.style.display='block';
+  const balEl=document.getElementById('acct-balance');
+  const bal=parseFloat(a.balance)||0;
+  if(_acctShownBal!==null&&Math.abs(_acctShownBal-bal)>=0.005&&typeof animateValue==='function'){
+    animateValue(balEl,_acctShownBal,bal,900,v=>acctFmt(v,a.currency)); // تغییر بالانس با شمارنده
+  }else{
+    balEl.textContent=acctFmt(bal,a.currency);
+  }
+  _acctShownBal=bal;
+  const depEl=document.getElementById('acct-deposit');
+  if(depEl) depEl.textContent=(parseFloat(a.deposit)||0)>0?acctFmt(a.deposit,a.currency):'—';
+  // زمان آخرین سینک اکسپرت، به شمسی
+  const syncEl=document.getElementById('acct-sync');
+  if(syncEl){
+    const d=new Date(a.syncedAt);
+    if(!isNaN(d)){
+      const date=d.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      const time=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+      syncEl.textContent='🔄 آخرین به‌روزرسانی از متاتریدر: '+date+'، ساعت '+time;
+    }else syncEl.textContent='';
+  }
+}
+let _acctBusy=false;
+async function mt5LoadAccount(){
+  if(!SB||!CURRENT_USER||_acctBusy||!appStarted) return;
+  _acctBusy=true;
+  try{
+    const {data:row,error}=await SB.from('mt5_accounts')
+      .select('account,balance,deposit,currency,synced_at').eq('user_id',CURRENT_USER.id).maybeSingle();
+    if(error||!row) return;
+    const acct={account:row.account,balance:parseFloat(row.balance)||0,deposit:parseFloat(row.deposit)||0,currency:row.currency||'',syncedAt:row.synced_at};
+    // فقط وقتی چیزی عوض شده ذخیره و رندر کن
+    if(JSON.stringify(data.mt5Account||null)!==JSON.stringify(acct)){
+      data.mt5Account=acct;
+      saveData();
+    }
+    renderMt5Account();
+  }catch(e){ /* آفلاین — کارت از داده‌ی ذخیره‌شده نمایش می‌ماند */ }
+  finally{ _acctBusy=false; }
+}
 
 /* ----- MT5 connection token (settings) ----- */
 let _mt5Token='';
+// توکن هر حساب یکی است و در سرور نگه‌داری می‌شود؛ اگر هنوز ساخته نشده،
+// همین‌جا خودکار ساخته می‌شود تا دسکتاپ و موبایل همیشه توکن یکسان ببینند.
 async function mt5LoadToken(){
   const el=document.getElementById('mt5-token-value');
   if(!el||!SB||!CURRENT_USER) return;
   try{
-    const {data:row}=await SB.from('mt5_tokens').select('token').eq('user_id',CURRENT_USER.id).maybeSingle();
+    const {data:row,error}=await SB.from('mt5_tokens').select('token').eq('user_id',CURRENT_USER.id).maybeSingle();
+    if(error) throw error;
     if(row&&row.token){
       _mt5Token=row.token;
       el.textContent=row.token;
-      const btn=document.getElementById('mt5-token-btn');
-      if(btn) btn.textContent='🔄 ساخت توکن جدید (توکن قبلی باطل می‌شود)';
+    }else{
+      await mt5CreateToken(true); // اولین بار: ساخت خودکار، بدون دخالت کاربر
     }
-  }catch(e){}
+  }catch(e){
+    if(!_mt5Token) el.textContent='⚠️ توکن دریافت نشد — اینترنت را چک کن و دوباره این صفحه را باز کن';
+  }
 }
-async function mt5CreateToken(){
-  if(!SB||!CURRENT_USER){ showToast('❌ ابتدا وارد حساب شو'); return; }
+async function mt5CreateToken(silent){
+  if(!SB||!CURRENT_USER){ if(!silent) showToast('❌ ابتدا وارد حساب شو'); return; }
+  if(!silent&&_mt5Token&&!confirm('توکن جدید ساخته شود؟\nتوکن قبلی باطل می‌شود و باید توکن جدید را یک بار در اکسپرت متاتریدر وارد کنی.')) return;
   const bytes=new Uint8Array(16); crypto.getRandomValues(bytes);
   const tok='tp_'+Array.from(bytes).map(b=>b.toString(16).padStart(2,'0')).join('');
   try{
     const {error}=await SB.from('mt5_tokens').upsert({user_id:CURRENT_USER.id,token:tok});
-    if(error){ showToast('❌ خطا در ساخت توکن'); console.error('mt5 token',error); return; }
+    if(error){ if(!silent){ showToast('❌ خطا در ساخت توکن'); } console.error('mt5 token',error); return; }
     _mt5Token=tok;
     const el=document.getElementById('mt5-token-value'); if(el) el.textContent=tok;
-    const btn=document.getElementById('mt5-token-btn');
-    if(btn) btn.textContent='🔄 ساخت توکن جدید (توکن قبلی باطل می‌شود)';
-    showToast('🔑 توکن ساخته شد — کپی کن و در اکسپرت بگذار',3500);
-  }catch(e){ showToast('❌ اتصال برقرار نشد'); }
+    if(!silent) showToast('🔑 توکن جدید ساخته شد — کپی کن و در اکسپرت بگذار',3500);
+  }catch(e){ if(!silent) showToast('❌ اتصال برقرار نشد'); }
 }
+// وقتی کاربر به برنامه برمی‌گردد، توکن را تازه کن تا اگر در دستگاه دیگر
+// عوض شده باشد، همین‌جا هم به‌روز دیده شود.
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&SB&&CURRENT_USER) mt5LoadToken();
+});
 function mt5CopyToken(){
   if(!_mt5Token){ showToast('اول با دکمه‌ی زیر توکن بساز'); return; }
   const done=()=>showToast('📋 توکن کپی شد');
@@ -9554,8 +9646,9 @@ async function enterApp(interactive){
   }catch(e){ /* offline: fall back to whatever local cache exists for this user */ }
   hideAuthScreen();
   if(!appStarted){ appStarted=true; init(); }
-  mtCloudSync(); // تریدهای ارسالی از متاتریدر را بگیر و در ژورنال ثبت کن
-  logVisit();    // ثبت بازدید برای آمار پنل مدیریت
+  mtCloudSync();    // تریدهای ارسالی از متاتریدر را بگیر و در ژورنال ثبت کن
+  mt5LoadAccount(); // بالانس و وضعیت حساب برای کارت بالای ژورنال
+  logVisit();       // ثبت بازدید برای آمار پنل مدیریت
   // For a brand-new account with no data yet, seed the display name into the app.
   if(!hadRow){
     const dn = CURRENT_USER.user_metadata && CURRENT_USER.user_metadata.display_name;

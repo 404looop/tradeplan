@@ -2,7 +2,7 @@
    Strategy: network-first for page loads (so updates always win when online),
    cache fallback for offline. Supabase and other cross-origin requests are
    never intercepted. Bump CACHE to force-refresh all clients. */
-const CACHE = 'tradeplan-v1';
+const CACHE = 'tradeplan-v2';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -25,7 +25,9 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   if (new URL(req.url).origin !== location.origin) return;
 
-  if (req.mode === 'navigate') {
+  // The EA download must always be fresh: network-first like page loads,
+  // otherwise users grab a stale cached copy right after an update.
+  if (req.mode === 'navigate' || new URL(req.url).pathname.endsWith('.mq5')) {
     e.respondWith(
       fetch(req)
         .then(res => {

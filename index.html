@@ -2750,13 +2750,17 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .acct-label{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
 .acct-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:acctPulse 2.2s ease-in-out infinite;flex-shrink:0}
 @keyframes acctPulse{0%,100%{opacity:1}50%{opacity:.3}}
-.acct-balance{font-size:32px;font-weight:800;color:#fff;line-height:1.2;letter-spacing:.4px;text-shadow:0 2px 16px rgba(232,160,32,.3);white-space:nowrap}
+.acct-balance{font-size:32px;font-weight:800;line-height:1.2;letter-spacing:.4px;white-space:nowrap;background:linear-gradient(180deg,#86efac 0%,#22c55e 55%,#15803d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(34,197,94,.35));animation:acctGlow 3s ease-in-out infinite}
+@keyframes acctGlow{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,197,94,.28))}50%{filter:drop-shadow(0 3px 22px rgba(34,197,94,.6))}}
 .acct-dep{text-align:left;padding-bottom:3px}
 .acct-dep-label{font-size:9.5px;font-weight:800;color:rgba(255,255,255,.45);letter-spacing:1px;margin-bottom:2px}
-.acct-deposit{font-size:15.5px;font-weight:700;color:rgba(255,255,255,.82)}
+.acct-dep-box{display:flex;align-items:baseline;gap:3px;direction:ltr;color:rgba(255,255,255,.82);font-size:15.5px;font-weight:700}
+.acct-deposit-input{width:88px;background:transparent;border:none;outline:none;border-bottom:1px dashed rgba(232,160,32,.4);border-radius:0;color:rgba(255,255,255,.85);font-size:15.5px;font-weight:700;padding:1px 2px;text-align:left}
+.acct-deposit-input:focus{border-bottom:1px solid var(--gold);background:rgba(232,160,32,.06)}
+.acct-deposit-input::placeholder{color:rgba(255,255,255,.25)}
 .acct-sync{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(232,160,32,.22);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.55);position:relative}
 .acct-card.waiting .acct-live{background:#8496ad;box-shadow:none;animation:none}
-.acct-card.waiting .acct-balance{color:rgba(255,255,255,.35);text-shadow:none}
+.acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
 .mt5link-copy{background:rgba(232,160,32,.12);border:1px solid var(--gold-border);border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
 .mt5link-btn{width:100%;background:linear-gradient(135deg,#c8881a,#e8a020);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:800;color:#081020;cursor:pointer;font-family:'Vazirmatn',sans-serif}
 .mt5link-steps{margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:10px}
@@ -3662,8 +3666,8 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
         <div class="acct-balance acct-num" id="acct-balance">—</div>
       </div>
       <div class="acct-dep">
-        <div class="acct-dep-label">DEPOSIT · سرمایه اولیه</div>
-        <div class="acct-deposit acct-num" id="acct-deposit">—</div>
+        <div class="acct-dep-label">DEPOSIT · سرمایه اولیه ✏️</div>
+        <div class="acct-dep-box acct-num">$<input class="acct-deposit-input" id="acct-deposit-input" type="text" inputmode="decimal" placeholder="0.00" dir="ltr" onblur="acctDepositBlur(this)"></div>
       </div>
     </div>
     <div class="acct-sync" id="acct-sync">⏳ در انتظار اولین داده از متاتریدر — اکسپرت TradePlanSync باید روی چارت فعال باشد</div>
@@ -9410,16 +9414,30 @@ function acctFmt(v,cur){
   const s=n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   return (!cur||cur==='USD')?('$'+s):(s+' '+cur);
 }
+// سرمایه اولیه (Deposit) — کاملاً دستی؛ کاربر خودش عدد را می‌نویسد و در
+// حسابش ذخیره می‌شود (بین دسکتاپ و موبایل مشترک است). از متاتریدر نمی‌آید.
+function renderAcctDeposit(){
+  const inp=document.getElementById('acct-deposit-input');
+  if(!inp||document.activeElement===inp) return; // وسط تایپ کاربر دست نزن
+  const v=parseFloat(data&&data.acctDeposit)||0;
+  inp.value=v>0?v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2}):'';
+}
+function acctDepositBlur(inp){
+  const v=parseFloat(String(inp.value).replace(/[^0-9.]/g,''));
+  data.acctDeposit=(isNaN(v)||v<0)?0:v;
+  saveData();
+  renderAcctDeposit();
+}
 let _acctShownBal=null;
 function renderMt5Account(){
   const card=document.getElementById('acct-card');
   if(!card) return;
   const a=data&&data.mt5Account;
   // هنوز داده‌ای از متاتریدر نرسیده => حالت «در انتظار اتصال»
+  renderAcctDeposit(); // سرمایه اولیه دستی است و ربطی به داده‌ی متاتریدر ندارد
   if(!a||!a.syncedAt){
     card.classList.add('waiting');
     const b=document.getElementById('acct-balance'); if(b) b.textContent='—';
-    const dp=document.getElementById('acct-deposit'); if(dp) dp.textContent='—';
     const sy=document.getElementById('acct-sync');
     if(sy) sy.textContent='⏳ در انتظار اولین داده از متاتریدر — اکسپرت TradePlanSync باید روی چارت فعال باشد';
     return;
@@ -9433,8 +9451,6 @@ function renderMt5Account(){
     balEl.textContent=acctFmt(bal,a.currency);
   }
   _acctShownBal=bal;
-  const depEl=document.getElementById('acct-deposit');
-  if(depEl) depEl.textContent=(parseFloat(a.deposit)||0)>0?acctFmt(a.deposit,a.currency):'—';
   // زمان آخرین سینک اکسپرت، به شمسی
   const syncEl=document.getElementById('acct-sync');
   if(syncEl){

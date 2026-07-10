@@ -3465,15 +3465,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
      بقیه‌ی بخش‌ها زیرش با اسکرول عادی */
   #page-journal{padding:0 12px 30px}
   #page-journal .cal-wrap{padding:12px 8px 0}
-  #page-journal .day-cell{min-height:118px;padding:7px 9px;border-radius:12px}
-  #page-journal .dc-greg{font-size:16px}
-  #page-journal .dc-shamsi{font-size:9.5px}
-  #page-journal .dc-pnl{font-size:19px}
-  #page-journal .dc-trades{font-size:10.5px}
-  #page-journal .week-summary-cell{padding:13px 6px}
-  #page-journal .wsc-label{font-size:10px}
-  #page-journal .wsc-val{font-size:16px}
-  #page-journal .wsc-trades{font-size:10px}
+  #page-journal .day-cell{min-height:124px;padding:8px 10px;border-radius:12px}
+  #page-journal .dc-greg{font-size:17px}
+  #page-journal .dc-shamsi{font-size:10px}
+  /* سود/ضرر روز: بزرگ و پرکننده‌ی خانه؛ اگر عدد خیلی بلند شد به‌جای سرریز، کمی جمع می‌شود */
+  #page-journal .dc-pnl{font-size:clamp(17px,1.75vw,24px);margin-top:5px}
+  #page-journal .dc-trades{font-size:11.5px}
+  #page-journal .week-summary-cell{padding:14px 6px}
+  #page-journal .wsc-label{font-size:11px}
+  #page-journal .wsc-val{font-size:clamp(15px,1.5vw,21px)}
+  #page-journal .wsc-trades{font-size:11px}
   /* نمودار سود تجمعی: باکس محدودتر و وسط‌چین تا حتی با زوم هم کامل دیده شود */
   #page-journal .year-hero{max-width:740px;margin-left:auto;margin-right:auto}
   /* setup page (پلن ترید): two-column desktop layout.
@@ -3527,6 +3528,9 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .auth-input::placeholder{color:var(--text-dim)}
 .auth-err{min-height:18px;color:var(--red);font-size:12.5px;font-weight:700;margin:2px 2px 12px;text-align:right;line-height:1.55}
 .auth-err.ok{color:var(--green)}
+.auth-err.info{color:#F4C86A;line-height:2}
+.auth-err.info a{color:#fff2cf;font-weight:900;text-decoration:underline}
+.auth-forgot{display:inline-block;margin-top:7px;font-size:11.5px;opacity:.85}
 .auth-submit{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#0b1628;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;transition:transform .15s,box-shadow .2s,opacity .2s;box-shadow:0 8px 22px rgba(232,160,32,.28)}
 .auth-submit:active{transform:translateY(1px)}
 .auth-submit:disabled{opacity:.6;cursor:default}
@@ -3551,6 +3555,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     <form class="auth-fields" id="auth-form" onsubmit="event.preventDefault();submitAuth();">
       <label class="auth-label" for="auth-name">اسم</label>
       <input type="text" id="auth-name" name="username" class="auth-input" placeholder="اسمت رو بنویس" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('auth-pass').focus();}">
+      <div class="auth-pass-note" id="auth-name-note" style="display:none">💡 اسمی انتخاب کن که قبلاً کسی ثبت نکرده باشد و حتماً به خاطر بسپارش — ورودت فقط با همین اسم و رمز است</div>
       <label class="auth-label" for="auth-pass">رمز</label>
       <div class="auth-pass-wrap">
         <input type="password" id="auth-pass" name="password" class="auth-input" placeholder="رمز عبور" autocomplete="current-password" enterkeyhint="go" onkeydown="if(event.key==='Enter'&&authMode==='signup'){event.preventDefault();document.getElementById('auth-pass2').focus();}">
@@ -3567,8 +3572,8 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <div class="auth-err" id="auth-err"></div>
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
-    <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v75.6</div>
+    <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a><br><a class="auth-forgot" onclick="authForgot()">رمزت رو فراموش کردی؟</a></div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.7</div>
   </div>
 </div>
 
@@ -3977,7 +3982,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   <div class="mt5-connect-banner" id="mt5-journal-banner" style="display:none">
     <div class="mcb-icon">📡</div>
     <div class="mcb-text">
-      <div class="mcb-title">متاتریدرت رو وصل کن — ثبت خودکار معاملات!</div>
+      <div class="mcb-title">اتصال خودکار متاتریدر (با نصب اکسپرت در متاتریدر ۵)</div>
       <div class="mcb-sub">هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.</div>
     </div>
     <button type="button" class="mcb-btn" onclick="openMt5Guide()">❓ راهنمای اتصال</button>
@@ -3989,8 +3994,8 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <div class="mt-ih-left">
         <div class="mt-ih-icon">📊</div>
         <div>
-          <div class="mt-ih-title">وارد کردن گزارش MetaTrader</div>
-          <div class="mt-ih-sub">MT4 / MT5 · Trade History Report · HTML</div>
+          <div class="mt-ih-title">وارد کردن گزارش MetaTrader (به صورت دستی)</div>
+          <div class="mt-ih-sub">به‌جز اتصال خودکار، می‌توانید فایل گزارش HTML را دستی آپلود کنید — دیتا خودکار وارد خانه‌ها می‌شود</div>
         </div>
       </div>
       <button class="mt-toggle-btn" id="mt-toggle-btn" onclick="event.stopPropagation();toggleMtImport()">
@@ -4699,7 +4704,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       NDS
     </a>
     <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.6 — اکسپرت متاتریدر: v1.20</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.7 — اکسپرت متاتریدر: v1.20</div>
   </div>
   </div><!-- /set-cols -->
 </div>
@@ -9634,7 +9639,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='75.6';
+const APP_VERSION='75.7';
 const MT5_EA_VERSION='1.20';
 (function(){
   const av=document.getElementById('auth-version');
@@ -10101,7 +10106,7 @@ function updateMt5Banner(){
     if(btn) btn.textContent='❓ راهنما';
   }else{
     if(ic) ic.textContent='📡';
-    if(t)  t.textContent='متاتریدرت رو وصل کن — ثبت خودکار معاملات!';
+    if(t)  t.textContent='اتصال خودکار متاتریدر (با نصب اکسپرت در متاتریدر ۵)';
     if(s)  s.textContent='هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.';
     if(btn) btn.textContent='❓ راهنمای اتصال';
   }
@@ -10117,13 +10122,24 @@ function setAuthMode(m){
   document.getElementById('auth-submit').textContent = m==='login'?'ورود':'ثبت‌نام';
   document.getElementById('auth-pass').setAttribute('autocomplete', m==='login'?'current-password':'new-password');
   document.getElementById('auth-hint').innerHTML = m==='login'
-    ? 'حساب نداری؟ <a onclick="setAuthMode(\'signup\')">ثبت‌نام کن</a>'
+    ? 'حساب نداری؟ <a onclick="setAuthMode(\'signup\')">ثبت‌نام کن</a><br><a class="auth-forgot" onclick="authForgot()">رمزت رو فراموش کردی؟</a>'
     : 'حساب داری؟ <a onclick="setAuthMode(\'login\')">وارد شو</a>';
-  // فیلد «تکرار رمز» فقط در ثبت‌نام — جلوی تایپ اشتباه رمز (که قابل بازیابی نیست) را می‌گیرد
+  // فیلد «تکرار رمز» و راهنمای انتخاب اسم فقط در ثبت‌نام
   const p2row=document.getElementById('auth-pass2-row');
   if(p2row) p2row.style.display = m==='signup' ? 'block' : 'none';
+  const nnote=document.getElementById('auth-name-note');
+  if(nnote) nnote.style.display = m==='signup' ? 'block' : 'none';
   if(m==='login'){ const p2=document.getElementById('auth-pass2'); if(p2) p2.value=''; }
   authError('');
+}
+// فراموشی رمز: بازیابی خودکار نداریم؛ ریست رمز از راه پشتیبانی اینستاگرام انجام می‌شود
+function authForgot(){
+  const el=document.getElementById('auth-err');
+  if(!el) return;
+  el.classList.remove('ok'); el.classList.add('info');
+  el.innerHTML='برای ریست رمز، به پیج اینستاگرام '+
+    '<a href="https://instagram.com/trade.planfx" target="_blank" rel="noopener">trade.planfx</a>'+
+    ' پیام بده — پشتیبان‌های ما ۲۴ ساعته پاسخگو هستند 💬';
 }
 function toggleAuthEye(id,btn){
   const el=document.getElementById(id);
@@ -10134,6 +10150,7 @@ function toggleAuthEye(id,btn){
 }
 function authError(msg,ok){
   const el=document.getElementById('auth-err');
+  el.classList.remove('info');
   el.textContent=msg||''; el.classList.toggle('ok',!!ok);
 }
 function setAuthBusy(b){
@@ -10173,7 +10190,7 @@ async function submitAuth(){
     if(authMode==='signup'){
       const {data:res,error}=await withTimeout(SB.auth.signUp({email,password:pass,options:{data:{display_name:name}}}));
       if(error){
-        if(/already|registered|exists/i.test(error.message||'')) authError('این اسم قبلاً گرفته شده. وارد شو یا اسم دیگه بزن.');
+        if(/already|registered|exists/i.test(error.message||'')) authError('این اسم قبلاً ثبت شده ❌ — یک اسم دیگر انتخاب کن که کسی نگرفته باشد و حتماً به خاطر بسپارش.');
         else if(isNetErr(error)) authError('ثبت‌نام انجام نشد — '+VPN_HINT);
         else authError((error.message||'خطا در ثبت‌نام')+' — '+VPN_HINT);
         setAuthBusy(false); return;

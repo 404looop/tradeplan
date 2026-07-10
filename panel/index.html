@@ -323,9 +323,9 @@ async function doLogin(){
     }else if(r&&(r.code==='PGRST202'||/could not find the function/i.test(r.message||''))){
       err.textContent='سرور پنل هنوز راه‌اندازی نشده — فایل admin-panel.sql باید در Supabase SQL Editor اجرا شود.';
     }else{
-      err.textContent='نام کاربری یا رمز اشتباه است';
+      err.textContent='رمز اشتباست یا با قند شکن وارد شوید';
     }
-  }catch(e){ err.textContent='اتصال به سرور برقرار نشد'; }
+  }catch(e){ err.textContent='اتصال برقرار نشد — با قند شکن وارد شوید'; }
   btn.disabled=false; btn.textContent='ورود به پنل';
 }
 function doLogout(){

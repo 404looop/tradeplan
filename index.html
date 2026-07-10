@@ -2226,7 +2226,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
 
 /* ── Settings Stats Grid ── */
-.settings-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 14px}
+.settings-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:0 14px}
 .ssg-card{
   border-radius:16px;padding:13px 9px;text-align:center;
   position:relative;overflow:hidden;
@@ -3354,6 +3354,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   #panel-plan .strat-section-rules{grid-column:2;grid-row:1/span 3}
   #panel-checklist.active{display:grid;grid-template-columns:1fr 1fr;gap:13px;align-items:start}
   .settings-section{break-after:avoid}
+  /* آمار در دسکتاپ: grid داخل ستون‌های masonry کلیپ می‌شود (باگ fragmentation
+     کروم) — inline-grid عنصر را اتمیک می‌کند تا همیشه دیده شود. باکس هم جمع‌وجورتر. */
+  #page-settings .settings-stats-grid{
+    display:inline-grid;vertical-align:top;box-sizing:border-box;
+    width:calc(100% - 28px);
+    grid-template-columns:repeat(4,1fr);gap:8px;
+  }
+  #page-settings .ssg-card{padding:10px 7px;border-radius:13px}
+  #page-settings .ssg-icon{font-size:14px;margin-bottom:4px}
+  #page-settings .ssg-val{font-size:16px}
 }
 /* mouse niceties — touch devices unaffected */
 @media (hover:hover) and (pointer:fine){
@@ -3392,6 +3402,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .auth-submit:disabled{opacity:.6;cursor:default}
 .auth-hint{margin-top:16px;font-size:12.5px;color:var(--text-muted);font-weight:600}
 .auth-hint a{color:var(--gold);font-weight:800;cursor:pointer;text-decoration:none}
+.auth-ver{margin-top:14px;font-size:10.5px;font-weight:600;color:var(--text-dim);direction:ltr;letter-spacing:.4px}
 .settings-logout{display:block;width:calc(100% - 24px);margin:14px 12px 4px;padding:13px;background:rgba(239,68,68,.08);border:1px solid var(--red-dim);border-radius:13px;color:var(--red);font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:background .2s}
 .settings-logout:active{background:rgba(239,68,68,.16)}
 .settings-acct-name{font-size:11px;color:var(--text-dim);text-align:center;margin-top:8px;font-weight:600}
@@ -3427,6 +3438,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a></div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.0</div>
   </div>
 </div>
 
@@ -3455,7 +3467,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <div class="mg-step">
         <div class="mg-step-head"><span class="mg-num">۱</span>دانلود اکسپرت</div>
         <div class="mg-step-body">
-          <a class="mg-dl" href="TradePlanSync.mq5" download>⬇️ دانلود اکسپرت TradePlanSync</a>
+          <a class="mg-dl" id="mt5-ea-dl" href="TradePlanSync.mq5" download="TradePlanSync-v1.20.mq5">⬇️ دانلود اکسپرت TradePlanSync v1.20</a>
           <div class="mg-note">⚠️ این قدم‌ها را روی همان کامپیوترِ متاتریدر انجام بده.</div>
         </div>
       </div>
@@ -4505,20 +4517,6 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <div class="ssg-val" id="s-total-pnl">$0</div>
       <div class="ssg-label">سود / ضرر کل</div>
     </div>
-    <div class="ssg-card teal">
-      <div class="ssg-icon">✅</div>
-      <div class="ssg-val" id="s-win-pos">۰</div>
-      <div class="ssg-label">معامله سودده</div>
-    </div>
-    <div class="ssg-card red">
-      <div class="ssg-icon">❌</div>
-      <div class="ssg-val" id="s-loss-pos">۰</div>
-      <div class="ssg-label">معامله زیان‌ده</div>
-    </div>
-  </div>
-  <div class="stats-strip" style="margin-top:9px">
-    <div class="strip-stat"><div class="ss-icon">📈</div><div class="ss-val" id="s-win-positions" style="color:var(--green)">۰</div><div class="ss-label">تعداد معامله‌ی سودده</div></div>
-    <div class="strip-stat"><div class="ss-icon">📉</div><div class="ss-val" id="s-loss-positions" style="color:var(--red)">۰</div><div class="ss-label">تعداد معامله‌ی ضررده</div></div>
   </div>
 
   <div class="settings-section"><h2>داده‌ها</h2></div>
@@ -4546,6 +4544,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       NDS
     </a>
     <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.0 — اکسپرت متاتریدر: v1.20</div>
   </div>
 </div>
 
@@ -9313,8 +9312,6 @@ function updateSettings(){
   setText('s-total',    toFA(totalTrades));
   setText('s-days',     toFA(activeDays));
   setText('s-winrate',  toFA(winRate)+'٪');
-  setText('s-win-pos',  toFA(winTrades));
-  setText('s-loss-pos', toFA(lossTrades));
 
   // سود/ضرر کل
   const pnlEl=document.getElementById('s-total-pnl');
@@ -9461,6 +9458,25 @@ function init(){
 const SUPA_URL='https://lrcsbamzdoldopjklnqh.supabase.co';
 const SUPA_KEY='sb_publishable_mAeK0Je17QOT5YVX9qkAxA_SdIbwRSp';
 const AUTH_EMAIL_DOMAIN='tradeplan.app';
+
+/* ----- نسخه‌ها -----
+   APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
+   MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
+   اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
+const APP_VERSION='75.0';
+const MT5_EA_VERSION='1.20';
+(function(){
+  const av=document.getElementById('auth-version');
+  if(av) av.textContent='TradePlan v'+APP_VERSION;
+  const sv=document.getElementById('app-version-line');
+  if(sv) sv.textContent='نسخه برنامه: '+APP_VERSION+' — اکسپرت متاتریدر: v'+MT5_EA_VERSION;
+  const dl=document.getElementById('mt5-ea-dl');
+  if(dl){
+    dl.setAttribute('download','TradePlanSync-v'+MT5_EA_VERSION+'.mq5');
+    dl.textContent='⬇️ دانلود اکسپرت TradePlanSync v'+MT5_EA_VERSION;
+  }
+})();
+
 let SB=null, CURRENT_USER=null, remoteTimer=null, appStarted=false, authBusy=false;
 
 try{
@@ -9717,7 +9733,7 @@ async function mt5LoadToken(){
       await mt5CreateToken(true); // اولین بار: ساخت خودکار، بدون دخالت کاربر
     }
   }catch(e){
-    if(!_mt5Token) el.textContent='⚠️ توکن دریافت نشد — اینترنت را چک کن و دوباره این صفحه را باز کن';
+    if(!_mt5Token) el.textContent='⚠️ توکن دریافت نشد — با قند شکن وارد شوید و دوباره این صفحه را باز کن';
   }
 }
 async function mt5CreateToken(silent){
@@ -9841,6 +9857,20 @@ function setAuthBusy(b){
   btn.disabled=b;
   btn.textContent = b ? 'یه لحظه…' : (authMode==='login'?'ورود':'ثبت‌نام');
 }
+// خطای شبکه/فیلترینگ (نه خطای واقعی سرور): وقتی درخواست اصلاً به Supabase نمی‌رسد،
+// supabase-js خطای fetch با status صفر برمی‌گرداند — نباید «رمز اشتباه» تعبیر شود.
+function isNetErr(err){
+  if(!err) return false;
+  if(err.message==='TP_TIMEOUT') return true;
+  if(/retryable|fetcherror/i.test(err.name||'')) return true;
+  if(err.status===0 || err.status===undefined || err.status===null) return true;
+  return /fetch|network|load failed|timed? ?out|connection/i.test(err.message||'');
+}
+// اگر درخواست روی «یه لحظه…» گیر کرد (فیلترینگ)، بعد از ۲۰ ثانیه قطعش کن
+function withTimeout(p,ms){
+  return Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('TP_TIMEOUT')),ms||20000))]);
+}
+const VPN_HINT='با قند شکن وارد شوید';
 async function submitAuth(){
   if(authBusy) return;
   const name=(document.getElementById('auth-name').value||'').trim();
@@ -9851,26 +9881,35 @@ async function submitAuth(){
     const pass2=(document.getElementById('auth-pass2')||{}).value||'';
     if(pass!==pass2){ authError('رمز و تکرارش یکسان نیستن — دوباره چک کن'); return; }
   }
-  if(!SB){ authError('اتصال به سرور برقرار نشد. اینترنتت رو چک کن.'); return; }
+  if(!SB){ authError('اتصال به سرور برقرار نشد — '+VPN_HINT); return; }
   authError(''); setAuthBusy(true);
   const email=nameToEmail(name);
   try{
     if(authMode==='signup'){
-      const {data:res,error}=await SB.auth.signUp({email,password:pass,options:{data:{display_name:name}}});
+      const {data:res,error}=await withTimeout(SB.auth.signUp({email,password:pass,options:{data:{display_name:name}}}));
       if(error){
         if(/already|registered|exists/i.test(error.message||'')) authError('این اسم قبلاً گرفته شده. وارد شو یا اسم دیگه بزن.');
-        else authError(error.message||'خطا در ثبت‌نام');
+        else if(isNetErr(error)) authError('ثبت‌نام انجام نشد — '+VPN_HINT);
+        else authError((error.message||'خطا در ثبت‌نام')+' — '+VPN_HINT);
         setAuthBusy(false); return;
       }
       if(!res.session){ authError('ثبت‌نام شد ولی «تأیید ایمیل» توی پنل Supabase هنوز روشنه؛ باید خاموشش کنی.'); setAuthBusy(false); return; }
       CURRENT_USER=res.user;
     }else{
-      const {data:res,error}=await SB.auth.signInWithPassword({email,password:pass});
-      if(error){ authError('اسم یا رمز اشتباهه'); setAuthBusy(false); return; }
+      const {data:res,error}=await withTimeout(SB.auth.signInWithPassword({email,password:pass}));
+      if(error){
+        if(isNetErr(error)) authError('وارد نشدی — '+VPN_HINT);
+        else authError('رمز اشتباست یا '+VPN_HINT);
+        setAuthBusy(false); return;
+      }
       CURRENT_USER=res.user;
     }
     await enterApp(true);
-  }catch(e){ authError('خطا: '+(e.message||e)); setAuthBusy(false); }
+  }catch(e){
+    if(isNetErr(e)) authError('اتصال برقرار نشد — '+VPN_HINT);
+    else authError('خطا: '+(e.message||e));
+    setAuthBusy(false);
+  }
 }
 function showAuthScreen(){
   authScreenEl.classList.remove('hidden');

@@ -388,6 +388,9 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .gp-ring-fg{fill:none;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .9s cubic-bezier(.4,0,.2,1)}
 .gp-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;direction:ltr}
 .gp-label{font-size:9.5px;font-weight:700;color:var(--text-warm-dim)}
+.gp-loss{color:#f87171;font-size:10px;letter-spacing:.5px;text-shadow:0 0 10px rgba(248,113,113,.45)}
+.gp-sub{font-size:8.5px;font-weight:700;color:var(--text-dim);direction:ltr;font-variant-numeric:tabular-nums}
+.gp-sub-loss{color:#f87171;opacity:.85}
 .gp-icon{font-size:11px}
 .gp-empty{text-align:center;font-size:11px;color:var(--text-dim);line-height:1.8;padding:4px}
 .gp-empty b{color:var(--gold)}
@@ -3500,7 +3503,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v75.1</div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.2</div>
   </div>
 </div>
 
@@ -4606,7 +4609,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       NDS
     </a>
     <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.1 — اکسپرت متاتریدر: v1.20</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.2 — اکسپرت متاتریدر: v1.20</div>
   </div>
 </div>
 
@@ -7379,7 +7382,9 @@ function getYearStats(year){
 function getTodayPnl(){ const e=getTodayEntry(); return (e&&e.trades>0)?e.pnl:0; }
 function getYearPnlNow(){ return getYearStats(new Date().getFullYear()).totalPnl; }
 
-// Progress toward each configured goal (only profit counts toward % )
+// Progress toward each configured goal, measured over the CURRENT period:
+// daily = today, weekly = this Iranian week (Sat→Fri), monthly = this calendar
+// month, yearly = this calendar year. Loss => flagged, ring stays at 0.
 function getGoalsProgress(){
   ensureGoals();
   const g=data.goals;
@@ -7393,7 +7398,11 @@ function getGoalsProgress(){
     {key:'monthly',icon:'🗓️',label:'ماهانه',cur:month,goal:parseFloat(g.monthly)||0},
     {key:'yearly',icon:'🏆',label:'سالانه',cur:year,goal:parseFloat(g.yearly)||0}
   ];
-  defs.forEach(d=>{ d.pct = d.goal>0 ? Math.max(0,Math.min(100,Math.round(d.cur/d.goal*100))) : 0; });
+  defs.forEach(d=>{
+    d.isLoss = d.goal>0 && d.cur<0;
+    d.pct    = d.goal>0 ? Math.max(0,Math.round(d.cur/d.goal*100)) : 0; // real percent (can pass 100)
+    d.ringPct= d.isLoss ? 0 : Math.min(100,d.pct); // ring fill is capped
+  });
   return defs;
 }
 
@@ -7485,23 +7494,30 @@ function renderGoalsProgress(animate){
     return;
   }
   const C=2*Math.PI*26;
-  const ringColor=pct=>pct>=100?'#22c55e':pct>=60?'#e8a020':'#3b82f6';
+  const ringColor=d=>d.isLoss?'#f87171':d.pct>=100?'#22c55e':d.pct>=60?'#e8a020':'#3b82f6';
   let grid='';
   items.forEach(d=>{
     if(d.goal>0){
-      const off=C*(1-d.pct/100);
+      const off=C*(1-d.ringPct/100);
+      const center = d.isLoss
+        ? `<div class="gp-pct gp-loss">ضرر</div>`
+        : `<div class="gp-pct">${toFA(Math.min(d.pct,999))}٪</div>`;
+      const sub = d.isLoss
+        ? `<div class="gp-sub gp-sub-loss">${fmtUSDshort(d.cur)}</div>`
+        : `<div class="gp-sub">${fmtUSDshort(d.cur)} از ${fmtUSDshort(d.goal)}</div>`;
       grid+=`<div class="gp-item">
         <div class="gp-ring">
           <svg viewBox="0 0 60 60">
             <circle cx="30" cy="30" r="26" class="gp-ring-bg"></circle>
-            <circle cx="30" cy="30" r="26" class="gp-ring-fg" data-off="${off.toFixed(1)}" style="stroke:${ringColor(d.pct)};stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${animate?C.toFixed(1):off.toFixed(1)}"></circle>
+            <circle cx="30" cy="30" r="26" class="gp-ring-fg" data-off="${off.toFixed(1)}" style="stroke:${ringColor(d)};stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${animate?C.toFixed(1):off.toFixed(1)}"></circle>
           </svg>
-          <div class="gp-pct">${toFA(d.pct)}٪</div>
+          ${center}
         </div>
         <div class="gp-label">${d.icon} ${d.label}</div>
+        ${sub}
       </div>`;
     } else {
-      grid+=`<div class="gp-item"><div class="gp-ring"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" class="gp-ring-bg"></circle></svg><div class="gp-pct" style="font-size:9px;color:var(--text-dim)">—</div></div><div class="gp-label">${d.icon} ${d.label}</div></div>`;
+      grid+=`<div class="gp-item"><div class="gp-ring"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" class="gp-ring-bg"></circle></svg><div class="gp-pct" style="font-size:9px;color:var(--text-dim)">—</div></div><div class="gp-label">${d.icon} ${d.label}</div><div class="gp-sub">هدف تنظیم نشده</div></div>`;
     }
   });
   el.innerHTML=`<div class="gp-head">🎯 پیشرفت اهداف</div><div class="gp-grid">${grid}</div>`;
@@ -9398,6 +9414,7 @@ function ensureGoals(){ if(!data.goals) data.goals={daily:'',weekly:'',monthly:d
     if(key==='monthly') data.monthlyGoal=el.value; // keep journal progress in sync
     saveData();
     if(currentPage==='journal') renderJournalMonth();
+    if(typeof renderGoalsProgress==='function') renderGoalsProgress(); // حلقه‌های داشبورد همان لحظه به‌روز شوند
   });
 });
 
@@ -9525,7 +9542,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='75.1';
+const APP_VERSION='75.2';
 const MT5_EA_VERSION='1.20';
 (function(){
   const av=document.getElementById('auth-version');

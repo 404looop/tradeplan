@@ -1604,10 +1604,36 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 }
 .credit-text{font-size:12px;color:rgba(255,255,255,.5);font-weight:600;text-align:center;position:relative;z-index:1}
 .credit-link{
-  display:flex;align-items:center;gap:7px;color:#F4C86A;
+  display:flex;align-items:center;gap:8px;color:#F4C86A;
   font-size:13px;font-weight:700;text-decoration:none;direction:ltr;
   position:relative;z-index:1;
+  margin-top:2px;padding:9px 18px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(244,200,106,.12),rgba(232,160,32,.04));
+  border:1px solid rgba(244,200,106,.35);
+  box-shadow:0 0 16px rgba(244,200,106,.1);
+  transition:box-shadow .25s,transform .15s;
 }
+.credit-link:active{transform:scale(.97)}
+.credit-link .ig-icon{filter:drop-shadow(0 0 7px rgba(244,200,106,.55))}
+/* آیدی اینستاگرام — بولد با گرادیان طلایی براقِ متحرک */
+.cl-handle{
+  font-size:15.5px;font-weight:900;letter-spacing:.6px;
+  background:linear-gradient(90deg,#F4C86A,#fff2cf 45%,#F4C86A);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hgShine 4.5s linear infinite;
+  filter:drop-shadow(0 0 10px rgba(244,200,106,.3));
+}
+.credit-title-row{display:flex;align-items:center;gap:6px;position:relative;z-index:1}
+.ct-emoji{font-size:16px;filter:drop-shadow(0 2px 8px rgba(244,200,106,.45))}
+.credit-title{
+  font-size:15px;font-weight:900;letter-spacing:.3px;position:relative;z-index:1;
+  background:linear-gradient(90deg,#F4C86A,#fff2cf 45%,#F4C86A);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hgShine 6s linear infinite;
+}
+.cb-shine{position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,240,200,.05),transparent);transform:skewX(-18deg);animation:annSweep 5.6s ease-in-out infinite;pointer-events:none}
 
 
 /* ══════════════════════════════════════════
@@ -3573,7 +3599,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a><br><a class="auth-forgot" onclick="authForgot()">رمزت رو فراموش کردی؟</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v75.8</div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.9</div>
   </div>
 </div>
 
@@ -4694,17 +4720,18 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   </div>
 
   <div class="credit-box">
-    <div class="credit-text">ترید پلن — ابزار حرفه‌ای تریدر ایرانی</div>
-    <a href="https://instagram.com/NDS" target="_blank" class="credit-link">
+    <div class="cb-shine"></div>
+    <div class="credit-title-row"><span class="ct-emoji">📈</span><span class="credit-title">ترید پلن</span></div>
+    <div class="credit-text">ابزار حرفه‌ای و هوشمند معامله‌گری</div>
+    <a href="https://instagram.com/trade.planfx" target="_blank" class="credit-link">
       <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
         <circle cx="12" cy="12" r="4"/>
         <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
       </svg>
-      NDS
+      <span class="cl-handle">trade.planfx</span>
     </a>
-    <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.8 — اکسپرت متاتریدر: v1.20</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.9 — اکسپرت متاتریدر: v1.20</div>
   </div>
   </div><!-- /set-cols -->
 </div>
@@ -9639,7 +9666,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='75.8';
+const APP_VERSION='75.9';
 const MT5_EA_VERSION='1.20';
 (function(){
   const av=document.getElementById('auth-version');

@@ -3454,8 +3454,13 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   .home-brand-bar,.journal-header,.psych-header,.page-header,.setup-tabs{column-span:all}
   /* masonry column layouts per page */
   #page-home{column-count:3;column-gap:2px;padding:0 10px 26px}
-  #page-psychology,#page-settings{column-count:2;column-gap:2px;padding:0 10px 26px}
-  #page-home>*,#page-psychology>*,#page-settings>*{break-inside:avoid}
+  #page-psychology{column-count:2;column-gap:2px;padding:0 10px 26px}
+  /* تنظیمات: ستون‌بندی روی wrapper داخلی (ارتفاع آزاد) است نه خود صفحه‌ی
+     ارتفاع‌ثابت — وگرنه محتوای اضافه به‌جای اسکرول، به ستون سوم نامرئی
+     بیرون صفحه می‌رود و آخرِ صفحه (دونیت و…) دیده نمی‌شود. */
+  #page-settings{padding:0 10px 26px}
+  #page-settings .set-cols{column-count:2;column-gap:2px}
+  #page-home>*,#page-psychology>*,#page-settings .set-cols>*{break-inside:avoid}
   /* ژورنال در دسکتاپ: تک‌ستونه مثل موبایل — تقویم تمام‌عرض با خانه‌های بزرگ،
      بقیه‌ی بخش‌ها زیرش با اسکرول عادی */
   #page-journal{padding:0 12px 30px}
@@ -3563,7 +3568,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v75.5</div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.6</div>
   </div>
 </div>
 
@@ -4548,6 +4553,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     <h1>⚙️ تنظیمات</h1>
     <p>شخصی‌سازی و مدیریت داده</p>
   </div>
+  <div class="set-cols">
 
   <div class="settings-hero">
     <div class="sh-avatar-wrap">🎯</div>
@@ -4693,8 +4699,9 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       NDS
     </a>
     <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.5 — اکسپرت متاتریدر: v1.20</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.6 — اکسپرت متاتریدر: v1.20</div>
   </div>
+  </div><!-- /set-cols -->
 </div>
 
 <!-- BOTTOM NAV -->
@@ -9627,7 +9634,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='75.5';
+const APP_VERSION='75.6';
 const MT5_EA_VERSION='1.20';
 (function(){
   const av=document.getElementById('auth-version');

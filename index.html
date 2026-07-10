@@ -3465,16 +3465,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
      بقیه‌ی بخش‌ها زیرش با اسکرول عادی */
   #page-journal{padding:0 12px 30px}
   #page-journal .cal-wrap{padding:12px 8px 0}
-  #page-journal .day-cell{min-height:124px;padding:8px 10px;border-radius:12px}
-  #page-journal .dc-greg{font-size:17px}
-  #page-journal .dc-shamsi{font-size:10px}
+  #page-journal .day-cell{min-height:134px;padding:9px 10px;border-radius:12px}
+  #page-journal .dc-greg{font-size:19px}
+  #page-journal .dc-shamsi{font-size:11px}
   /* سود/ضرر روز: بزرگ و پرکننده‌ی خانه؛ اگر عدد خیلی بلند شد به‌جای سرریز، کمی جمع می‌شود */
-  #page-journal .dc-pnl{font-size:clamp(17px,1.75vw,24px);margin-top:5px}
-  #page-journal .dc-trades{font-size:11.5px}
-  #page-journal .week-summary-cell{padding:14px 6px}
-  #page-journal .wsc-label{font-size:11px}
-  #page-journal .wsc-val{font-size:clamp(15px,1.5vw,21px)}
-  #page-journal .wsc-trades{font-size:11px}
+  #page-journal .dc-pnl{font-size:clamp(20px,2.1vw,30px);margin-top:6px}
+  #page-journal .dc-trades{font-size:12.5px}
+  #page-journal .week-summary-cell{padding:16px 6px}
+  #page-journal .wsc-label{font-size:12px}
+  #page-journal .wsc-val{font-size:clamp(18px,1.9vw,27px)}
+  #page-journal .wsc-trades{font-size:12px}
   /* نمودار سود تجمعی: باکس محدودتر و وسط‌چین تا حتی با زوم هم کامل دیده شود */
   #page-journal .year-hero{max-width:740px;margin-left:auto;margin-right:auto}
   /* setup page (پلن ترید): two-column desktop layout.
@@ -3573,7 +3573,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a><br><a class="auth-forgot" onclick="authForgot()">رمزت رو فراموش کردی؟</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v75.7</div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.8</div>
   </div>
 </div>
 
@@ -4704,7 +4704,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       NDS
     </a>
     <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.7 — اکسپرت متاتریدر: v1.20</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.8 — اکسپرت متاتریدر: v1.20</div>
   </div>
   </div><!-- /set-cols -->
 </div>
@@ -7971,7 +7971,7 @@ function fitDayPnl(){
     if(!el.textContent || el.textContent==='—') return;
     const max=parseFloat(getComputedStyle(el).fontSize);
     let size=max, guard=0;
-    while(el.scrollWidth>el.clientWidth+0.5 && size>9 && guard<14){
+    while(el.scrollWidth>el.clientWidth+0.5 && size>9 && guard<44){
       size-=0.5; el.style.fontSize=size+'px'; guard++;
     }
   });
@@ -9639,7 +9639,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='75.7';
+const APP_VERSION='75.8';
 const MT5_EA_VERSION='1.20';
 (function(){
   const av=document.getElementById('auth-version');

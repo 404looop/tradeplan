@@ -2503,6 +2503,49 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   border:1px solid rgba(255,255,255,.05);line-height:1.6;
 }
 
+/* ===== هدف‌گذاری پیشرفته — luxe restyle ===== */
+.settings-section h2.h2-lux{
+  font-size:13px;letter-spacing:2px;
+  background:linear-gradient(90deg,#F4C86A,#fff2cf 45%,#F4C86A);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hgShine 5s linear infinite;
+  filter:drop-shadow(0 0 10px rgba(244,200,106,.25));
+}
+.goals-card{
+  position:relative;
+  border:1px solid rgba(244,200,106,.4);
+  box-shadow:0 12px 34px rgba(0,0,0,.45),0 0 38px rgba(232,160,32,.12),inset 0 1px 0 rgba(255,255,255,.07);
+}
+.goals-card::before{
+  content:'';position:absolute;top:-48px;left:-38px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,200,106,.16),transparent 70%);
+  pointer-events:none;z-index:1;
+}
+.goals-card::after{ /* shine sweep */
+  content:'';position:absolute;top:0;left:-80%;width:55%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,240,200,.06),transparent);
+  transform:skewX(-18deg);animation:annSweep 4.6s ease-in-out infinite;
+  pointer-events:none;z-index:1;
+}
+.gc-emoji{font-size:14px;filter:drop-shadow(0 2px 8px rgba(244,200,106,.45))}
+.gc-label{gap:6px}
+.gc-label-txt{
+  font-size:12.5px;font-weight:900;letter-spacing:.5px;
+  background:linear-gradient(90deg,#F4C86A,#fff2cf 45%,#F4C86A);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hgShine 6s linear infinite;
+}
+.gc-input-wrap{background:rgba(0,0,0,.3);border:1px solid rgba(244,200,106,.25)}
+.gc-item:focus-within .gc-input-wrap{
+  border-color:rgba(244,200,106,.8);background:rgba(244,200,106,.07);
+  box-shadow:0 0 0 2px rgba(244,200,106,.15),0 0 20px rgba(244,200,106,.3);
+}
+.gc-cur{font-size:14px;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
+.gc-inp input{font-size:16.5px;font-weight:900;text-shadow:0 0 14px rgba(244,200,106,.4)}
+.gc-hint{color:rgba(244,200,106,.55);border-color:rgba(244,200,106,.14);background:rgba(244,200,106,.04);font-weight:700}
+
 /* ══════════════════════════════════════════════
    PLAN PAGE — Strategy & Checklist Polish
    ══════════════════════════════════════════════ */
@@ -2763,10 +2806,29 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 @keyframes acctGlow{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,197,94,.28))}50%{filter:drop-shadow(0 3px 22px rgba(34,197,94,.6))}}
 .acct-dep{text-align:left;padding-bottom:3px}
 .acct-dep-label{font-size:9.5px;font-weight:800;color:rgba(255,255,255,.45);letter-spacing:1px;margin-bottom:2px}
-.acct-dep-box{display:flex;align-items:baseline;gap:3px;direction:ltr;color:rgba(255,255,255,.82);font-size:15.5px;font-weight:700}
-.acct-deposit-input{width:88px;background:transparent;border:none;outline:none;border-bottom:1px dashed rgba(232,160,32,.4);border-radius:0;color:rgba(255,255,255,.85);font-size:15.5px;font-weight:700;padding:1px 2px;text-align:left}
-.acct-deposit-input:focus{border-bottom:1px solid var(--gold);background:rgba(232,160,32,.06)}
-.acct-deposit-input::placeholder{color:rgba(255,255,255,.25)}
+.acct-dep-box{display:flex;align-items:center;gap:5px;direction:ltr;color:rgba(255,255,255,.82);font-size:15.5px;font-weight:700}
+.acct-dep-cur{font-size:14px;font-weight:900;color:#F4C86A;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
+.acct-deposit-input{
+  width:74px;max-width:74px;box-sizing:border-box;
+  background:linear-gradient(150deg,rgba(244,200,106,.1),rgba(0,0,0,.3));
+  border:1px solid rgba(244,200,106,.35);border-radius:10px;
+  outline:none;color:#fff;font-size:14px;font-weight:800;
+  padding:4px 8px;text-align:center;
+  font-variant-numeric:tabular-nums;
+  box-shadow:inset 0 1px 4px rgba(0,0,0,.35);
+  animation:depGlow 3.2s ease-in-out infinite;
+  transition:border-color .25s,background .25s;
+}
+@keyframes depGlow{
+  0%,100%{box-shadow:inset 0 1px 4px rgba(0,0,0,.35),0 0 8px rgba(244,200,106,.1)}
+  50%{box-shadow:inset 0 1px 4px rgba(0,0,0,.35),0 0 16px rgba(244,200,106,.28)}
+}
+.acct-deposit-input:focus{
+  border-color:var(--gold);background:rgba(244,200,106,.13);
+  animation:none;
+  box-shadow:inset 0 1px 4px rgba(0,0,0,.25),0 0 0 2px rgba(244,200,106,.18),0 0 18px rgba(244,200,106,.35);
+}
+.acct-deposit-input::placeholder{color:rgba(255,255,255,.28)}
 .acct-sync{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(232,160,32,.22);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.55);position:relative}
 .acct-card.waiting .acct-live{background:#8496ad;box-shadow:none;animation:none}
 .acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
@@ -3438,7 +3500,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v75.0</div>
+    <div class="auth-ver" id="auth-version">TradePlan v75.1</div>
   </div>
 </div>
 
@@ -3790,7 +3852,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       </div>
       <div class="acct-dep">
         <div class="acct-dep-label">DEPOSIT · سرمایه اولیه ✏️</div>
-        <div class="acct-dep-box acct-num">$<input class="acct-deposit-input" id="acct-deposit-input" type="text" inputmode="decimal" placeholder="0.00" dir="ltr" onblur="acctDepositBlur(this)"></div>
+        <div class="acct-dep-box acct-num"><span class="acct-dep-cur">$</span><input class="acct-deposit-input" id="acct-deposit-input" type="text" inputmode="decimal" placeholder="0.00" dir="ltr" onblur="acctDepositBlur(this)"></div>
       </div>
     </div>
     <div class="acct-sync" id="acct-sync">⏳ در انتظار اولین داده از متاتریدر — اکسپرت TradePlanSync باید روی چارت فعال باشد</div>
@@ -4427,65 +4489,32 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   <button type="button" class="settings-logout" onclick="doLogout()">🚪 خروج از حساب</button>
   <div class="settings-acct-name" id="settings-acct-name"></div>
 
-  <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
-  <div class="mt5link-card" id="mt5-token-wrap">
-    <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر) در ژورنال ثبت می‌شود.</div>
-    <div class="mt5link-token-row">
-      <code class="mt5link-token" id="mt5-token-value">در حال دریافت توکن…</code>
-      <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
-    </div>
-    <div class="mt5link-desc">این توکن مخصوص حساب توست و در همه‌ی دستگاه‌هایت (دسکتاپ و موبایل) یکی است.</div>
-    <button type="button" class="mt5link-btn" id="mt5-token-btn" onclick="mt5CreateToken()">🔄 ساخت توکن جدید (توکن قبلی باطل می‌شود)</button>
-    <button type="button" class="mt5link-guide-btn" onclick="openMt5Guide()">
-      <span class="mgb-q">❓</span>
-      <span class="mgb-txt">
-        <b>راهنمای کامل اتصال به متاتریدر ۵</b>
-        <small>آموزش قدم‌به‌قدم، از دانلود اکسپرت تا ثبت خودکار اولین معامله</small>
-      </span>
-    </button>
-  </div>
-
-  <div class="settings-section"><h2>💬 بازخورد و پیشنهاد</h2></div>
-  <div class="fb-card">
-    <div class="fb-desc">نظرت درباره‌ی برنامه چیه؟ پیشنهاد، انتقاد یا باگی که دیدی رو همین‌جا بنویس — مستقیم به دست سازنده می‌رسه و خونده می‌شه. 💛</div>
-    <div class="fb-kinds">
-      <button type="button" class="fb-kind active" data-kind="suggestion" onclick="fbKind(this)">💡 پیشنهاد</button>
-      <button type="button" class="fb-kind" data-kind="bug" onclick="fbKind(this)">🐛 گزارش باگ</button>
-      <button type="button" class="fb-kind" data-kind="other" onclick="fbKind(this)">💬 سایر</button>
-    </div>
-    <textarea id="fb-text" class="fb-text" rows="4" maxlength="2000" placeholder="پیامت رو بنویس… (حداقل ۵ حرف)" oninput="fbInput()"></textarea>
-    <div class="fb-foot">
-      <span class="fb-chars" id="fb-chars"></span>
-      <button type="button" class="fb-send" id="fb-send" onclick="fbSend()" disabled>📤 ارسال</button>
-    </div>
-  </div>
-
-  <div class="settings-section"><h2>هدف‌گذاری پیشرفته</h2></div>
+  <div class="settings-section"><h2 class="h2-lux">✨ هدف‌گذاری پیشرفته</h2></div>
   <div class="goals-card">
     <div class="goals-grid">
       <div class="gc-item">
-        <div class="gc-label">☀️ روزانه</div>
+        <div class="gc-label"><span class="gc-emoji">☀️</span><span class="gc-label-txt">روزانه</span></div>
         <div class="gc-input-wrap">
           <span class="gc-cur">$</span>
           <div class="gc-inp"><input type="number" id="goal-daily" min="0" step="1" placeholder="۲۰"></div>
         </div>
       </div>
       <div class="gc-item">
-        <div class="gc-label">📅 هفتگی</div>
+        <div class="gc-label"><span class="gc-emoji">📅</span><span class="gc-label-txt">هفتگی</span></div>
         <div class="gc-input-wrap">
           <span class="gc-cur">$</span>
           <div class="gc-inp"><input type="number" id="goal-weekly" min="0" step="1" placeholder="۱۰۰"></div>
         </div>
       </div>
       <div class="gc-item">
-        <div class="gc-label">🗓️ ماهانه</div>
+        <div class="gc-label"><span class="gc-emoji">🗓️</span><span class="gc-label-txt">ماهانه</span></div>
         <div class="gc-input-wrap">
           <span class="gc-cur">$</span>
           <div class="gc-inp"><input type="number" id="goal-monthly" min="0" step="1" placeholder="۵۰۰"></div>
         </div>
       </div>
       <div class="gc-item">
-        <div class="gc-label">🏆 سالانه</div>
+        <div class="gc-label"><span class="gc-emoji">🏆</span><span class="gc-label-txt">سالانه</span></div>
         <div class="gc-input-wrap">
           <span class="gc-cur">$</span>
           <div class="gc-inp"><input type="number" id="goal-yearly" min="0" step="1" placeholder="۶۰۰۰"></div>
@@ -4519,6 +4548,39 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     </div>
   </div>
 
+  <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
+  <div class="mt5link-card" id="mt5-token-wrap">
+    <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر) در ژورنال ثبت می‌شود.</div>
+    <div class="mt5link-token-row">
+      <code class="mt5link-token" id="mt5-token-value">در حال دریافت توکن…</code>
+      <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
+    </div>
+    <div class="mt5link-desc">این توکن مخصوص حساب توست و در همه‌ی دستگاه‌هایت (دسکتاپ و موبایل) یکی است.</div>
+    <button type="button" class="mt5link-btn" id="mt5-token-btn" onclick="mt5CreateToken()">🔄 ساخت توکن جدید (توکن قبلی باطل می‌شود)</button>
+    <button type="button" class="mt5link-guide-btn" onclick="openMt5Guide()">
+      <span class="mgb-q">❓</span>
+      <span class="mgb-txt">
+        <b>راهنمای کامل اتصال به متاتریدر ۵</b>
+        <small>آموزش قدم‌به‌قدم، از دانلود اکسپرت تا ثبت خودکار اولین معامله</small>
+      </span>
+    </button>
+  </div>
+
+  <div class="settings-section"><h2>💬 بازخورد و پیشنهاد</h2></div>
+  <div class="fb-card">
+    <div class="fb-desc">نظرت درباره‌ی برنامه چیه؟ پیشنهاد، انتقاد یا باگی که دیدی رو همین‌جا بنویس — مستقیم به دست سازنده می‌رسه و خونده می‌شه. 💛</div>
+    <div class="fb-kinds">
+      <button type="button" class="fb-kind active" data-kind="suggestion" onclick="fbKind(this)">💡 پیشنهاد</button>
+      <button type="button" class="fb-kind" data-kind="bug" onclick="fbKind(this)">🐛 گزارش باگ</button>
+      <button type="button" class="fb-kind" data-kind="other" onclick="fbKind(this)">💬 سایر</button>
+    </div>
+    <textarea id="fb-text" class="fb-text" rows="4" maxlength="2000" placeholder="پیامت رو بنویس… (حداقل ۵ حرف)" oninput="fbInput()"></textarea>
+    <div class="fb-foot">
+      <span class="fb-chars" id="fb-chars"></span>
+      <button type="button" class="fb-send" id="fb-send" onclick="fbSend()" disabled>📤 ارسال</button>
+    </div>
+  </div>
+
   <div class="settings-section"><h2>داده‌ها</h2></div>
   <div class="settings-list" style="margin:0 15px">
     <div class="settings-row" onclick="exportData()">
@@ -4544,7 +4606,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       NDS
     </a>
     <div class="credit-text" style="font-size:10px;color:var(--text-dim)">ساخته شده توسط Hossein</div>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.0 — اکسپرت متاتریدر: v1.20</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 75.1 — اکسپرت متاتریدر: v1.20</div>
   </div>
 </div>
 
@@ -9463,7 +9525,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='75.0';
+const APP_VERSION='75.1';
 const MT5_EA_VERSION='1.20';
 (function(){
   const av=document.getElementById('auth-version');

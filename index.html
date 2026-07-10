@@ -2849,6 +2849,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mg-ok .mg-step-head{color:#4ade80}
 .mg-fix{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2)}
 .mg-fix .mg-step-head{color:#f87171}
+/* بنر آموزش تصویری اینستاگرام — بالای راهنما */
+.mg-insta{display:flex;align-items:center;gap:11px;margin-bottom:13px;padding:12px 13px;border-radius:15px;text-decoration:none;background:linear-gradient(135deg,rgba(188,42,141,.18),rgba(253,89,73,.10) 55%,rgba(255,220,128,.08));border:1px solid rgba(228,64,95,.5);box-shadow:0 6px 20px rgba(238,42,123,.12);-webkit-tap-highlight-color:transparent}
+.mg-insta-ic{width:42px;height:42px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;border-radius:13px;background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7);box-shadow:0 4px 14px rgba(238,42,123,.4)}
+.mg-insta-txt{flex:1;min-width:0}
+.mg-insta-txt b{display:block;font-size:12.5px;font-weight:900;color:#fff;line-height:1.7}
+.mg-insta-txt small{display:block;font-size:11px;color:rgba(255,255,255,.7);margin-top:1px;font-weight:600;line-height:1.8}
+.mg-insta-id{direction:ltr;unicode-bidi:isolate;font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:#ff9db8;font-weight:800}
+.mg-insta-go{font-size:11px;font-weight:900;color:#ff9db8;flex-shrink:0;white-space:nowrap}
+/* چیپ واژه‌های انگلیسی/دکمه‌ها — خوانا در موبایل و دسکتاپ */
+.mg-k{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:'Segoe UI',Tahoma,Arial,sans-serif;font-size:11.5px;font-weight:800;color:#ffd98a;background:rgba(0,0,0,.35);border:1px solid rgba(244,200,106,.32);border-radius:7px;padding:1px 8px;margin:0 2px;white-space:nowrap;line-height:1.9;vertical-align:baseline}
 
 /* positions section */
 .positions-section{padding:16px 14px 0}
@@ -3405,83 +3415,84 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     </div>
     <div class="mg-body">
 
+      <a class="mg-insta" href="https://instagram.com/trade.planfx" target="_blank" rel="noopener">
+        <span class="mg-insta-ic">📸</span>
+        <span class="mg-insta-txt">
+          <b>آموزش تصویری نحوه‌ی اتصال به متاتریدر</b>
+          <small>در بخش هایلایت‌های پیج اینستاگرام <span class="mg-insta-id">trade.planfx</span></small>
+        </span>
+        <span class="mg-insta-go">مشاهده ‹</span>
+      </a>
+
       <div class="mg-intro">
-        با این اتصال، هر پوزیشنی که در متاتریدر ۵ ببندی، چند ثانیه بعد <b>خودکار و با تمام جزئیات</b> (نماد، نوع، حجم، قیمت ورود/خروج، زمان و سود/ضرر) در ژورنال ثبت می‌شود — دیگر هیچ ثبت دستی لازم نیست. فقط ۵ مرحله‌ی ساده، یک بار برای همیشه. 🚀
+        هر معامله‌ای که در متاتریدر ۵ ببندی، چند ثانیه بعد <b>خودکار</b> در ژورنال ثبت می‌شود. فقط ۵ قدم، یک بار برای همیشه. 🚀
       </div>
 
       <div class="mg-step">
-        <div class="mg-step-head"><span class="mg-num">۱</span>دانلود فایل اکسپرت</div>
+        <div class="mg-step-head"><span class="mg-num">۱</span>دانلود اکسپرت</div>
         <div class="mg-step-body">
-          روی دکمه‌ی زیر بزن تا فایل اکسپرت دانلود شود:
           <a class="mg-dl" href="TradePlanSync.mq5" download>⬇️ دانلود اکسپرت TradePlanSync</a>
-          <div class="mg-note">⚠️ این مراحل را روی همان کامپیوتری انجام بده که متاتریدر ۵ رویش نصب است.</div>
+          <div class="mg-note">⚠️ این قدم‌ها را روی همان کامپیوترِ متاتریدر انجام بده.</div>
         </div>
       </div>
 
       <div class="mg-step">
-        <div class="mg-step-head"><span class="mg-num">۲</span>نصب اکسپرت در متاتریدر</div>
+        <div class="mg-step-head"><span class="mg-num">۲</span>نصب در متاتریدر</div>
         <div class="mg-step-body">
-          <div class="mg-li">متاتریدر ۵ را باز کن</div>
-          <div class="mg-li">منوی <b>File ← Open Data Folder</b> را بزن — یک پوشه باز می‌شود</div>
-          <div class="mg-li">داخل آن برو به پوشه‌ی <b>MQL5</b> و بعد <b>Experts</b></div>
-          <div class="mg-li">فایل دانلودشده‌ی <b>TradePlanSync.mq5</b> را داخل این پوشه کپی کن</div>
-          <div class="mg-li">متاتریدر را کامل ببند و دوباره باز کن</div>
-          <div class="mg-li">حالا در پنجره‌ی <b>Navigator</b> (کلید Ctrl+N) زیر شاخه‌ی Expert Advisors باید <b>TradePlanSync</b> را ببینی</div>
+          <div class="mg-li">در متاتریدر: منوی <span class="mg-k">File</span> ← <span class="mg-k">Open Data Folder</span></div>
+          <div class="mg-li">برو داخل پوشه‌ی <span class="mg-k">MQL5</span> ← <span class="mg-k">Experts</span> و فایل دانلودشده را همان‌جا کپی کن</div>
+          <div class="mg-li">متاتریدر را ببند و دوباره باز کن</div>
         </div>
       </div>
 
       <div class="mg-step">
         <div class="mg-step-head"><span class="mg-num">۳</span>اجازه‌ی اتصال به اینترنت</div>
         <div class="mg-step-body">
-          <div class="mg-li">در متاتریدر برو به <b>Tools ← Options ← Expert Advisors</b></div>
-          <div class="mg-li">تیک <b>Allow WebRequest for listed URL</b> را بزن</div>
-          <div class="mg-li">روی خط خالی زیرش دابل‌کلیک کن و این آدرس را اضافه کن:</div>
+          <div class="mg-li">برو به <span class="mg-k">Tools</span> ← <span class="mg-k">Options</span> ← <span class="mg-k">Expert Advisors</span></div>
+          <div class="mg-li">تیک <span class="mg-k">Allow WebRequest for listed URL</span> را بزن و این آدرس را اضافه کن:</div>
           <div class="mg-code">
             <code>https://lrcsbamzdoldopjklnqh.supabase.co</code>
             <button type="button" onclick="mt5CopyText('https://lrcsbamzdoldopjklnqh.supabase.co')" title="کپی">📋</button>
           </div>
-          <div class="mg-li">دکمه‌ی <b>OK</b> را بزن</div>
+          <div class="mg-li"><span class="mg-k">OK</span> را بزن</div>
         </div>
       </div>
 
       <div class="mg-step">
-        <div class="mg-step-head"><span class="mg-num">۴</span>کپی توکن اتصال از همین برنامه</div>
+        <div class="mg-step-head"><span class="mg-num">۴</span>کپی توکن از همین برنامه</div>
         <div class="mg-step-body">
-          <div class="mg-li">در همین برنامه برو به صفحه‌ی <b>تنظیمات</b> (نوار پایین)</div>
-          <div class="mg-li">در کارت <b>«اتصال خودکار متاتریدر ۵»</b> توکنِ حسابت آماده است — با دکمه‌ی <b>📋</b> کپی‌اش کن</div>
-          <div class="mg-li">این توکن مخصوص حساب توست و در دسکتاپ و موبایل یکی است</div>
+          <div class="mg-li">تنظیمات ← کارت <b>«اتصال خودکار متاتریدر ۵»</b> ← دکمه‌ی <b>📋</b></div>
+          <div class="mg-li">توکن مخصوص حساب توست و در همه‌ی دستگاه‌هایت یکی است</div>
           <button type="button" class="mg-settings-btn" onclick="mt5GuideGoSettings()">⚙️ برو به تنظیمات و کپی توکن</button>
         </div>
       </div>
 
       <div class="mg-step">
-        <div class="mg-step-head"><span class="mg-num">۵</span>فعال‌سازی اکسپرت روی چارت</div>
+        <div class="mg-step-head"><span class="mg-num">۵</span>فعال‌سازی روی چارت</div>
         <div class="mg-step-body">
-          <div class="mg-li">از پنجره‌ی Navigator، اکسپرت <b>TradePlanSync</b> را بگیر و بنداز روی یک چارت (هر نمادی، فرقی نمی‌کند)</div>
-          <div class="mg-li">پنجره‌ای باز می‌شود — برو به تب <b>Inputs</b></div>
-          <div class="mg-li">روی ردیف اول (<b>توکن اتصال</b>)، در ستون Value دابل‌کلیک کن و توکن را جای‌گذاری کن (Ctrl+V) — <b>فقط بار اول</b> لازم است؛ اکسپرت توکن را ذخیره می‌کند و دفعات بعد خودش استفاده می‌کند</div>
-          <div class="mg-li">در تب <b>Common</b> تیک <b>Allow Algo Trading</b> را روشن کن و <b>OK</b> را بزن</div>
-          <div class="mg-li">دکمه‌ی <b>Algo Trading</b> در نوار بالای متاتریدر هم باید روشن (سبز) باشد</div>
+          <div class="mg-li">از پنجره‌ی <span class="mg-k">Navigator</span> اکسپرت <span class="mg-k">TradePlanSync</span> را بنداز روی یک چارت (هر نمادی)</div>
+          <div class="mg-li">در تب <span class="mg-k">Inputs</span> توکن را جای‌گذاری کن — <b>فقط بار اول</b>؛ بعداً خودش یادش می‌ماند</div>
+          <div class="mg-li">در تب <span class="mg-k">Common</span> تیک <span class="mg-k">Allow Algo Trading</span> را بزن و <span class="mg-k">OK</span></div>
+          <div class="mg-li">دکمه‌ی <span class="mg-k">Algo Trading</span> بالای متاتریدر هم باید سبز باشد</div>
         </div>
       </div>
 
       <div class="mg-step mg-ok">
-        <div class="mg-step-head"><span class="mg-num">✓</span>چک نهایی — از کجا بفهمم وصل شد؟</div>
+        <div class="mg-step-head"><span class="mg-num">✓</span>از کجا بفهمم وصل شد؟</div>
         <div class="mg-step-body">
-          <div class="mg-li">گوشه‌ی بالا-راست چارت باید <b>TradePlanSync</b> با کلاه آبی 🎩 دیده شود (خاکستری = Algo Trading خاموش است)</div>
-          <div class="mg-li">پایین متاتریدر، تب <b>Experts</b> را باز کن — باید پیام <b>started for account</b> باشد</div>
-          <div class="mg-li">یک معامله (ترجیحاً دمو) باز کن و ببند — چند ثانیه بعد پیام <b>batch sent OK</b> می‌آید</div>
-          <div class="mg-li">حالا در برنامه، صفحه‌ی ژورنال را باز کن — معامله‌ات با تمام جزئیات ثبت شده 🎉</div>
+          <div class="mg-li">بالای چارت: <span class="mg-k">TradePlanSync</span> با کلاه آبی 🎩 (خاکستری = Algo Trading خاموش)</div>
+          <div class="mg-li">تب <span class="mg-k">Experts</span> پایین متاتریدر: پیام <span class="mg-k">started for account</span></div>
+          <div class="mg-li">یک معامله ببند — پیام <span class="mg-k">batch sent OK</span> می‌آید و در ژورنال ثبت می‌شود 🎉</div>
         </div>
       </div>
 
       <div class="mg-step mg-fix">
-        <div class="mg-step-head"><span class="mg-num">🛠</span>رفع اشکال — اگر کار نکرد</div>
+        <div class="mg-step-head"><span class="mg-num">🛠</span>اگر کار نکرد</div>
         <div class="mg-step-body">
-          <div class="mg-li">پیام «آدرس را اضافه کن» یا خطای 4014 → مرحله‌ی ۳ (اجازه‌ی WebRequest) انجام نشده</div>
-          <div class="mg-li">پیام «توکن نامعتبر» → توکن جدید ساخته‌ای و قبلی باطل شده؛ توکن را دوباره از تنظیمات کپی کن و یک بار در ورودی اکسپرت بگذار</div>
-          <div class="mg-li">کلاه خاکستری روی چارت → دکمه‌ی Algo Trading در نوار بالای متاتریدر را روشن کن</div>
-          <div class="mg-li">وقتی متاتریدر بسته است چیزی ارسال نمی‌شود؛ ولی نگران نباش — به محض باز شدن، معاملات جامانده خودکار ارسال می‌شوند</div>
+          <div class="mg-li">خطای <span class="mg-k">4014</span> یا «آدرس را اضافه کن» → قدم ۳ انجام نشده</div>
+          <div class="mg-li">«توکن نامعتبر» → توکن را دوباره از تنظیمات کپی کن و در اکسپرت بگذار</div>
+          <div class="mg-li">کلاه خاکستری روی چارت → دکمه‌ی <span class="mg-k">Algo Trading</span> را روشن کن</div>
+          <div class="mg-li">متاتریدر بسته = ارسال متوقف؛ با باز شدنش، معاملات جامانده خودکار می‌رسند</div>
         </div>
       </div>
 

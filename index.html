@@ -5896,7 +5896,7 @@ function renderMtPreview(parsed){
           <span class="mpr-num">${toFA(i+1)}</span>
           <span class="mpr-time">${tm}</span>
           <span class="mpr-type ${t.type}">${typeIcon} ${typeLabel}</span>
-          <span class="mpr-symbol">${t.symbol}</span>
+          <span class="mpr-symbol">${escapeHtml(t.symbol)}</span>
           <span class="mpr-pnl ${isPos?'pos':'neg'}">${isPos?'+':''}$${Math.abs(t.profit).toFixed(2)}</span>
         </div>`;
     });
@@ -8323,7 +8323,7 @@ function renderDayTradeRows(){
     const hasMt = pos.mtType || pos.mtSymbol;
     const typeIcon = pos.mtType==='buy' ? '🟢' : pos.mtType==='sell' ? '🔴' : '';
     const typeLabel = pos.mtType ? pos.mtType.toUpperCase() : '';
-    const symLabel  = pos.mtSymbol || '';
+    const symLabel  = escapeHtml(pos.mtSymbol || '');
     const netSign   = pos.pnlSign==='loss' ? '-' : '+';
     const netVal    = parseFloat(val)||0;
     const netFmt    = netVal>0 ? `${netSign}$${Math.abs(netVal).toFixed(2)}` : '$0.00';
@@ -9217,7 +9217,7 @@ function renderPositionsList(positions){
     card.innerHTML=`
       <div class="position-top-row">
         <div class="position-num-badge">${toFA(idx+1)}</div>
-        ${isMt5?`<span class="pq-mt5" title="از متاتریدر — عدد قابل ویرایش نیست">🔒 ${pos.mtSymbol||'MT5'}</span>`:''}
+        ${isMt5?`<span class="pq-mt5" title="از متاتریدر — عدد قابل ویرایش نیست">🔒 ${escapeHtml(pos.mtSymbol||'MT5')}</span>`:''}
         <div class="position-pnl-wrap">
           ${isMt5?'':`<div class="position-sign-toggle">
             <button class="position-sign-btn profit ${pos.pnlSign!=='loss'?'active':''}" onclick="event.stopPropagation();setPositionSign(${idx},'profit')">✅</button>

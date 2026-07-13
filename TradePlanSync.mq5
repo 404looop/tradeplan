@@ -13,11 +13,12 @@
 //|      دفعات بعد (ری‌استارت، چارت جدید، نصب مجدد) خودکار لود می‌شود |
 //+------------------------------------------------------------------+
 #property copyright "TradePlan"
-#property version   "1.20"
+#property version   "1.30"
 #property description "Auto-sync closed positions + account balance to the TradePlan journal"
 
 input string InpToken     = "";   // توکن اتصال (فقط بار اول لازم است؛ ذخیره می‌شود)
-input int    InpFirstDays = 30;   // در اولین اجرا چند روزِ گذشته ارسال شود
+input int    InpFirstDays = 60;   // در اولین اجرا چند روزِ گذشته ارسال شود
+input int    InpDeepDays  = 60;   // با هر روشن شدن اکسپرت، این چند روزِ اخیر دوباره ارسال و تصحیح شود
 input int    InpTimerSec  = 30;   // بازه‌ی بررسی (ثانیه)
 
 const string TP_HOST   = "https://lrcsbamzdoldopjklnqh.supabase.co";
@@ -26,6 +27,7 @@ const string TP_APIKEY = "sb_publishable_mAeK0Je17QOT5YVX9qkAxA_SdIbwRSp";
 const int    TP_BATCH  = 100;     // حداکثر ترید در هر ارسال (سرور تا 200 می‌پذیرد)
 
 bool   g_needSync      = false;
+bool   g_deepSync      = false; // در شروع اکسپرت: کل بازه‌ی InpDeepDays دوباره ارسال می‌شود
 string g_token         = "";
 double g_sentBalance   = -1;   // آخرین بالانسی که با موفقیت ارسال شد
 
@@ -78,6 +80,8 @@ int OnInit()
    SaveToken(g_token); // برای دفعات بعد ذخیره شود
    EventSetTimer(MathMax(10, InpTimerSec));
    g_needSync = true; // در شروع، تریدهای جامانده از آخرین سینک هم ارسال می‌شوند
+   g_deepSync = true; // و کل InpDeepDays روزِ اخیر دوباره ارسال می‌شود تا تریدهای
+                      // موبایل و اصلاحات بروکر هم در ژورنال دقیق و تصحیح شوند
    Print("TradePlanSync: started for account ", (long)AccountInfoInteger(ACCOUNT_LOGIN));
    return(INIT_SUCCEEDED);
   }
@@ -115,6 +119,7 @@ void OnTimer()
    if(SyncClosedPositions())
      {
       g_needSync    = false; // در صورت خطا، فلگ می‌ماند و تایمر بعدی دوباره تلاش می‌کند
+      g_deepSync    = false; // سینک عمیقِ شروع با موفقیت انجام شد
       g_sentBalance = bal;
      }
   }
@@ -163,6 +168,14 @@ bool SyncClosedPositions()
    // دو روز هم‌پوشانی؛ ارسال تکراری سمت سرور فقط آپدیت می‌شود (بی‌ضرر)
    datetime from = (last == 0) ? TimeCurrent() - (datetime)InpFirstDays * 86400
                                : last - 172800;
+
+   // سینک عمیق در شروع اکسپرت: کل بازه‌ی InpDeepDays دوباره ارسال می‌شود تا
+   // پوزیشن‌های گرفته‌شده با موبایل و هر مغایرت قدیمی هم آپدیت/تصحیح شود
+   if(g_deepSync)
+     {
+      datetime deepFrom = TimeCurrent() - (datetime)MathMax(1, InpDeepDays) * 86400;
+      if(deepFrom < from) from = deepFrom;
+     }
 
    if(!HistorySelect(from, TimeCurrent() + 86400))
       return false;

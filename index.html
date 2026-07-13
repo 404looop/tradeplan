@@ -3697,7 +3697,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <div class="mg-step">
         <div class="mg-step-head"><span class="mg-num">۱</span>دانلود اکسپرت</div>
         <div class="mg-step-body">
-          <a class="mg-dl" id="mt5-ea-dl" href="TradePlanSync.mq5" download="TradePlanSync-v1.20.mq5">⬇️ دانلود اکسپرت TradePlanSync v1.20</a>
+          <a class="mg-dl" id="mt5-ea-dl" href="TradePlanSync.mq5" download="TradePlanSync-v1.30.mq5">⬇️ دانلود اکسپرت TradePlanSync v1.30</a>
           <div class="mg-note">⚠️ این قدم‌ها را روی همان کامپیوترِ متاتریدر انجام بده.</div>
         </div>
       </div>
@@ -4735,7 +4735,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
   <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
   <div class="mt5link-card" id="mt5-token-wrap">
-    <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر) در ژورنال ثبت می‌شود.</div>
+    <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر خالص شامل کمیسیون و سواپ) در ژورنال ثبت می‌شود. با هر بار روشن شدن متاتریدر، کل ۲ ماه اخیر هم دوباره بررسی می‌شود — پوزیشن‌های موبایل و حتی ثبت‌های دستی اشتباه، با ارقام دقیق متاتریدر تصحیح می‌شوند.</div>
     <div class="mt5link-token-row">
       <code class="mt5link-token" id="mt5-token-value">در حال دریافت توکن…</code>
       <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
@@ -5743,7 +5743,8 @@ function parseMtReport(htmlText){
   //  [10] close_price
   //  [11] commission
   //  [12] swap
-  //  [13] profit  ← همین مقدار را استفاده می‌کنیم
+  //  [13] profit
+  //  سود ثبتی = profit + commission + swap ← آمار دقیقِ خالص (مثل سینک اکسپرت)
 
   const daily = {};
   const dateRe = /^(\d{4})\.(\d{2})\.(\d{2})/;
@@ -5784,8 +5785,9 @@ function parseMtReport(htmlText){
     const volume     = cells[5]  || '';
     const openPrice  = cells[6]  || '';
 
-    // فقط profit (آخرین ستون) — این عدد کامل و درست است
-    const profit = parseFloat(cells[13]) || 0;
+    // سود خالص = profit + commission + swap (گزارش MT جداکننده‌ی هزارگان فاصله می‌گذارد)
+    const mtNum = s => parseFloat(String(s||'').replace(/[\s ]/g,'')) || 0;
+    const profit = Math.round((mtNum(cells[13]) + mtNum(cells[11]) + mtNum(cells[12]))*100)/100;
 
     const dm = openTime.match(dateRe);
     const dk = `${dm[1]}-${dm[2]}-${dm[3]}`;
@@ -5932,10 +5934,19 @@ function mtMergeDays(daily){
     const dayNet   = dayPnl; // برای سازگاری با بقیه کد
     const numTrades= trades.length;
 
-    // امضای روز — اگر دقیقاً همین تریدها قبلاً ثبت شده‌اند، دست نمی‌زنیم
-    // (ویرایش‌های روانشناسی/دستی کاربر بی‌دلیل بازنویسی نمی‌شود)
+    // امضای روز + مقایسه با مقادیر واقعی ژورنال — روز فقط وقتی رد می‌شود که
+    // علاوه بر امضا، عددهای ثبت‌شده هم دقیقاً با متاتریدر یکی باشند؛ یعنی اگر
+    // کاربر سود/تعداد را دستی عوض کرده باشد، داده‌ی دقیق متاتریدر جایگزین می‌شود
+    // (داده‌های روانشناسی: score/mistakes/note همیشه حفظ می‌شوند)
     const sig = numTrades + '|' + trades.map(t=>t.profit).join(',');
-    if(existed && data.journal[k].mtSig === sig){ skipped++; return; }
+    if(existed){
+      const j = data.journal[k];
+      const untouched = j.mtSig === sig
+        && Math.abs((parseFloat(j.pnl)||0) - dayPnl) < 0.005
+        && j.trades === numTrades
+        && (j.positions||[]).length === numTrades;
+      if(untouched){ skipped++; return; }
+    }
 
     // ساخت پوزیشن‌های روانشناسی برای هر معامله
     // فرمت موجود: [{pnlSign, pnlValue, score, mistakes, note}]
@@ -10086,8 +10097,8 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='77.1';
-const MT5_EA_VERSION='1.20';
+const APP_VERSION='77.2';
+const MT5_EA_VERSION='1.30';
 (function(){
   const av=document.getElementById('auth-version');
   if(av) av.textContent='TradePlan v'+APP_VERSION;
@@ -10151,35 +10162,46 @@ async function mtCloudSync(){
   if(!SB||!CURRENT_USER||_mtCloudBusy||!appStarted||typeof mtMergeDays!=='function') return;
   _mtCloudBusy=true;
   try{
+    // فقط ~۲ ماه اخیر بررسی و تصحیح می‌شود (open_time متنی «YYYY.MM.DD …» است؛
+    // مقایسه‌ی رشته‌ای درست کار می‌کند). روزهای قدیمی‌تر ژورنال دست‌نخورده می‌مانند.
+    const cd=new Date(Date.now()-62*86400000);
+    const cutoff=cd.getFullYear()+'.'+String(cd.getMonth()+1).padStart(2,'0')+'.'+String(cd.getDate()).padStart(2,'0');
     const {data:rows,error}=await SB.from('mt5_trades')
-      .select('ticket,symbol,type,volume,open_price,close_price,profit,open_time,close_time')
-      .order('open_time');
+      .select('ticket,symbol,type,volume,open_price,close_price,profit,commission,swap,open_time,close_time')
+      .gte('open_time',cutoff)
+      .order('open_time',{ascending:false})
+      .limit(2000);
     if(error||!rows||!rows.length) return;
+    rows.reverse();
 
-    // امضای کل مجموعه — اگر از آخرین سینک چیزی تغییر نکرده، هیچ کاری نکن
+    // امضای مجموعه فقط نشانگر «اتصال برقرار است» می‌ماند؛ ادغام همیشه اجرا
+    // می‌شود تا ثبت/ویرایش دستی کاربر هم با ارقام دقیق متاتریدر تصحیح شود
+    // (mtMergeDays خودش روزهای بدون تغییر را رد می‌کند — سبک است)
     let maxTicket=0,sum=0;
     rows.forEach(r=>{ const tk=parseInt(r.ticket)||0; if(tk>maxTicket)maxTicket=tk; sum+=parseFloat(r.profit)||0; });
     const sig=rows.length+':'+maxTicket+':'+Math.round(sum*100);
-    if(data.mtCloudSig===sig) return;
 
     // گروه‌بندی بر اساس تاریخ باز شدن (همان قرارداد ایمپورت فایل، به وقت سرور بروکر)
+    // سود هر پوزیشن = profit + commission + swap  ← آمار دقیقِ خالص
     const daily={};
     rows.forEach(r=>{
       const m=(r.open_time||'').match(/^(\d{4})\.(\d{2})\.(\d{2})/);
       if(!m) return;
       const k=m[1]+'-'+m[2]+'-'+m[3];
+      const net=Math.round(((parseFloat(r.profit)||0)+(parseFloat(r.commission)||0)+(parseFloat(r.swap)||0))*100)/100;
       (daily[k]=daily[k]||[]).push({
         openTime:r.open_time, closeTime:r.close_time,
         type:r.type, symbol:r.symbol,
         volume:String(r.volume), openPrice:String(r.open_price), closePrice:String(r.close_price),
-        profit:parseFloat(r.profit)||0, ticket:r.ticket
+        profit:net, ticket:r.ticket
       });
     });
     Object.keys(daily).forEach(k=>daily[k].sort((a,b)=>(a.openTime||'').localeCompare(b.openTime||'')));
 
     const res=mtMergeDays(daily);
+    const changed=(res.imported+res.updated>0)||data.mtCloudSig!==sig;
     data.mtCloudSig=sig;
-    saveData();
+    if(changed) saveData();
     updateMt5Banner();
     if(res.imported+res.updated>0){
       showToast('📥 '+toFA(res.imported+res.updated)+' روز از متاتریدر همگام شد',3500);
@@ -10552,7 +10574,7 @@ function updateMt5Banner(){
   if(connected){
     if(ic) ic.textContent='✅';
     if(t)  t.textContent='اتصال خودکار متاتریدر فعاله';
-    if(s)  s.textContent='هر پوزیشنی که ببندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود.';
+    if(s)  s.textContent='هر پوزیشنی که ببندی، خودکار با سود خالص دقیق (شامل کمیسیون و سواپ) ثبت می‌شود؛ با هر روشن شدن متاتریدر، ۲ ماه اخیر هم بررسی و تصحیح می‌شود.';
     if(btn) btn.textContent='❓ راهنما';
   }else{
     if(ic) ic.textContent='📡';

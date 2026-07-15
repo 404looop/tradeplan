@@ -3009,6 +3009,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mg-ok .mg-step-head{color:#4ade80}
 .mg-fix{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2)}
 .mg-fix .mg-step-head{color:#f87171}
+.mg-svc{background:rgba(99,179,255,.06);border:1px solid rgba(99,179,255,.28)}
+.mg-svc .mg-step-head{color:#93c5fd}
+.mg-svc .mg-step-body b{color:#93c5fd}
+.mg-num-svc{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#eaf2ff;font-size:14px}
+.mg-dl-svc{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#eaf2ff;box-shadow:0 6px 18px rgba(59,130,246,.3)}
 /* بنر آموزش تصویری اینستاگرام — بالای راهنما */
 .mg-insta{display:flex;align-items:center;gap:11px;margin-bottom:13px;padding:12px 13px;border-radius:15px;text-decoration:none;background:linear-gradient(135deg,rgba(188,42,141,.18),rgba(253,89,73,.10) 55%,rgba(255,220,128,.08));border:1px solid rgba(228,64,95,.5);box-shadow:0 6px 20px rgba(238,42,123,.12);-webkit-tap-highlight-color:transparent}
 .mg-insta-ic{width:42px;height:42px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;border-radius:13px;background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7);box-shadow:0 4px 14px rgba(238,42,123,.4)}
@@ -3740,6 +3745,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
           <div class="mg-li">در تب <span class="mg-k">Inputs</span> توکن را جای‌گذاری کن — <b>فقط بار اول</b>؛ بعداً خودش یادش می‌ماند</div>
           <div class="mg-li">در تب <span class="mg-k">Common</span> تیک <span class="mg-k">Allow Algo Trading</span> را بزن و <span class="mg-k">OK</span></div>
           <div class="mg-li">دکمه‌ی <span class="mg-k">Algo Trading</span> بالای متاتریدر هم باید سبز باشد</div>
+          <div class="mg-note">🧩 اکسپرت دیگری (مدیریت سرمایه، پراپ و…) روی چارتت داری؟ هیچ تداخلی پیش نمی‌آید — یک <b>چارت جدید</b> باز کن و TradePlanSync را روی آن بینداز؛ محدودیت متاتریدر «یک اکسپرت روی هر چارت» است، نه کل برنامه. اگر نمی‌خواهی هیچ چارتی اشغال شود، «نصب بدون چارت» را در پایین همین راهنما ببین.</div>
         </div>
       </div>
 
@@ -3759,6 +3765,21 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
           <div class="mg-li">«توکن نامعتبر» → توکن را دوباره از تنظیمات کپی کن و در اکسپرت بگذار</div>
           <div class="mg-li">کلاه خاکستری روی چارت → دکمه‌ی <span class="mg-k">Algo Trading</span> را روشن کن</div>
           <div class="mg-li">متاتریدر بسته = ارسال متوقف؛ با باز شدنش، معاملات جامانده خودکار می‌رسند</div>
+        </div>
+      </div>
+
+      <div class="mg-step mg-svc">
+        <div class="mg-step-head"><span class="mg-num mg-num-svc">🧩</span>نصب بدون چارت (سرویس) — برای تداخل با اکسپرت دیگر</div>
+        <div class="mg-step-body">
+          <div style="margin-bottom:8px">اگر اکسپرت دیگری (مدیریت سرمایه، پراپ و…) داری یا نمی‌خواهی چارتی اشغال شود، به‌جای اکسپرت، نسخه‌ی <b>سرویس</b> را نصب کن: در پس‌زمینه‌ی خود متاتریدر اجرا می‌شود، <b>نه چارت می‌خواهد و نه با هیچ اکسپرتی تداخل دارد</b>. فقط یکی از دو روش (اکسپرت یا سرویس) کافی است.</div>
+          <a class="mg-dl mg-dl-svc" id="mt5-svc-dl" href="TradePlanSyncService.mq5" download="TradePlanSyncService-v1.30.mq5">⬇️ دانلود سرویس TradePlanSyncService v1.30</a>
+          <div class="mg-li">قدم ۳ (اجازه‌ی WebRequest) و قدم ۴ (کپی توکن) مثل بالا لازم است</div>
+          <div class="mg-li"><span class="mg-k">File</span> ← <span class="mg-k">Open Data Folder</span> ← پوشه‌ی <span class="mg-k">MQL5</span> ← <span class="mg-k">Services</span> (نه Experts!) و فایل را همان‌جا کپی کن</div>
+          <div class="mg-li">متاتریدر را ببند و دوباره باز کن</div>
+          <div class="mg-li">در پنجره‌ی <span class="mg-k">Navigator</span> روی بخش <span class="mg-k">Services</span> ← <span class="mg-k">TradePlanSyncService</span> راست‌کلیک کن ← <span class="mg-k">Add service</span></div>
+          <div class="mg-li">در پنجره‌ی باز‌شده توکن را در تب <span class="mg-k">Inputs</span> جای‌گذاری کن و <span class="mg-k">OK</span> — سرویس خودش شروع می‌شود (اگر نشد: راست‌کلیک ← <span class="mg-k">Start</span>)</div>
+          <div class="mg-li">نه چارت لازم دارد، نه دکمه‌ی <span class="mg-k">Algo Trading</span> ✅ — بررسی موفقیت: تب <span class="mg-k">Experts</span> پیام <span class="mg-k">started for account</span></div>
+          <div class="mg-note">💡 اگر قبلاً اکسپرت TradePlanSync را با توکن راه انداخته بودی، سرویس همان توکن را خودکار پیدا می‌کند و می‌توانی ورودی توکن را خالی بگذاری. (نیاز به متاتریدر ۵ به‌روز — همه‌ی نسخه‌های چند سال اخیر بخش Services را دارند.)</div>
         </div>
       </div>
 
@@ -4031,7 +4052,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
         <div class="acct-dep-box acct-num"><span class="acct-dep-cur">$</span><input class="acct-deposit-input" id="acct-deposit-input" type="text" inputmode="decimal" placeholder="0.00" dir="ltr" onblur="acctDepositBlur(this)"></div>
       </div>
     </div>
-    <div class="acct-sync" id="acct-sync">⏳ در انتظار اولین داده از متاتریدر — اکسپرت TradePlanSync باید روی چارت فعال باشد</div>
+    <div class="acct-sync" id="acct-sync">⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد</div>
   </div>
 
   <!-- month nav -->
@@ -4077,7 +4098,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   <div class="mt5-connect-banner" id="mt5-journal-banner" style="display:none">
     <div class="mcb-icon">📡</div>
     <div class="mcb-text">
-      <div class="mcb-title">اتصال خودکار متاتریدر (با نصب اکسپرت در متاتریدر ۵)</div>
+      <div class="mcb-title">اتصال خودکار متاتریدر (با نصب اکسپرت یا سرویس در متاتریدر ۵)</div>
       <div class="mcb-sub">هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.</div>
     </div>
     <button type="button" class="mcb-btn" onclick="openMt5Guide()">❓ راهنمای اتصال</button>
@@ -4736,6 +4757,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
   <div class="mt5link-card" id="mt5-token-wrap">
     <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر خالص شامل کمیسیون و سواپ) در ژورنال ثبت می‌شود. با هر بار روشن شدن متاتریدر، کل ۲ ماه اخیر هم دوباره بررسی می‌شود — پوزیشن‌های موبایل و حتی ثبت‌های دستی اشتباه، با ارقام دقیق متاتریدر تصحیح می‌شوند.</div>
+    <div class="mt5link-desc">دو روش نصب داری و فقط یکی کافی است: <b>اکسپرت</b> (ساده — روی یک چارت، هر نمادی) یا <b>سرویس بدون چارت</b> — مخصوص کسانی که اکسپرت دیگری مثل مدیریت سرمایه دارند؛ در پس‌زمینه‌ی متاتریدر اجرا می‌شود و با هیچ اکسپرتی تداخل ندارد. آموزش هر دو در راهنمای پایین 👇</div>
     <div class="mt5link-token-row">
       <code class="mt5link-token" id="mt5-token-value">در حال دریافت توکن…</code>
       <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
@@ -4746,7 +4768,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <span class="mgb-q">❓</span>
       <span class="mgb-txt">
         <b>راهنمای کامل اتصال به متاتریدر ۵</b>
-        <small>آموزش قدم‌به‌قدم، از دانلود اکسپرت تا ثبت خودکار اولین معامله</small>
+        <small>آموزش قدم‌به‌قدم هر دو روش: اکسپرت روی چارت، یا سرویس بدون چارت (بدون تداخل با اکسپرت‌های دیگر)</small>
       </span>
     </button>
   </div>
@@ -10136,9 +10158,11 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
 /* ----- نسخه‌ها -----
    APP_VERSION: نسخه‌ی خود برنامه — با هر تغییری که دیپلوی می‌شود یک دهم بالا برود.
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
-   اسم فایل دانلودی و متن دکمه‌ی دانلود از همین ثابت ساخته می‌شود. */
-const APP_VERSION='77.3';
+   MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
+   اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
+const APP_VERSION='77.4';
 const MT5_EA_VERSION='1.30';
+const MT5_SVC_VERSION='1.30';
 (function(){
   const av=document.getElementById('auth-version');
   if(av) av.textContent='TradePlan v'+APP_VERSION;
@@ -10148,6 +10172,11 @@ const MT5_EA_VERSION='1.30';
   if(dl){
     dl.setAttribute('download','TradePlanSync-v'+MT5_EA_VERSION+'.mq5');
     dl.textContent='⬇️ دانلود اکسپرت TradePlanSync v'+MT5_EA_VERSION;
+  }
+  const sdl=document.getElementById('mt5-svc-dl');
+  if(sdl){
+    sdl.setAttribute('download','TradePlanSyncService-v'+MT5_SVC_VERSION+'.mq5');
+    sdl.textContent='⬇️ دانلود سرویس TradePlanSyncService v'+MT5_SVC_VERSION;
   }
 })();
 
@@ -10289,7 +10318,7 @@ function renderMt5Account(){
     card.classList.add('waiting');
     const b=document.getElementById('acct-balance'); if(b) b.textContent='—';
     const sy=document.getElementById('acct-sync');
-    if(sy) sy.textContent='⏳ در انتظار اولین داده از متاتریدر — اکسپرت TradePlanSync باید روی چارت فعال باشد';
+    if(sy) sy.textContent='⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد';
     return;
   }
   card.classList.remove('waiting');
@@ -10540,7 +10569,7 @@ async function mt5LoadToken(){
 }
 async function mt5CreateToken(silent){
   if(!SB||!CURRENT_USER){ if(!silent) showToast('❌ ابتدا وارد حساب شو'); return; }
-  if(!silent&&_mt5Token&&!confirm('توکن جدید ساخته شود؟\nتوکن قبلی باطل می‌شود و باید توکن جدید را یک بار در اکسپرت متاتریدر وارد کنی.')) return;
+  if(!silent&&_mt5Token&&!confirm('توکن جدید ساخته شود؟\nتوکن قبلی باطل می‌شود و باید توکن جدید را یک بار در اکسپرت/سرویس متاتریدر وارد کنی.')) return;
   const bytes=new Uint8Array(16); crypto.getRandomValues(bytes);
   const tok='tp_'+Array.from(bytes).map(b=>b.toString(16).padStart(2,'0')).join('');
   try{
@@ -10548,7 +10577,7 @@ async function mt5CreateToken(silent){
     if(error){ if(!silent){ showToast('❌ خطا در ساخت توکن'); } console.error('mt5 token',error); return; }
     _mt5Token=tok;
     const el=document.getElementById('mt5-token-value'); if(el) el.textContent=tok;
-    if(!silent) showToast('🔑 توکن جدید ساخته شد — کپی کن و در اکسپرت بگذار',3500);
+    if(!silent) showToast('🔑 توکن جدید ساخته شد — کپی کن و در اکسپرت/سرویس بگذار',3500);
   }catch(e){ if(!silent) showToast('❌ اتصال برقرار نشد'); }
 }
 // وقتی کاربر به برنامه برمی‌گردد، توکن را تازه کن تا اگر در دستگاه دیگر
@@ -10618,7 +10647,7 @@ function updateMt5Banner(){
     if(btn) btn.textContent='❓ راهنما';
   }else{
     if(ic) ic.textContent='📡';
-    if(t)  t.textContent='اتصال خودکار متاتریدر (با نصب اکسپرت در متاتریدر ۵)';
+    if(t)  t.textContent='اتصال خودکار متاتریدر (با نصب اکسپرت یا سرویس در متاتریدر ۵)';
     if(s)  s.textContent='هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.';
     if(btn) btn.textContent='❓ راهنمای اتصال';
   }

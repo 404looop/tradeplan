@@ -1,28 +1,32 @@
 //+------------------------------------------------------------------+
-//|                                                TradePlanSync.mq5 |
-//|  ارسال خودکار پوزیشن‌های بسته‌شده به ژورنال TradePlan              |
+//|                                         TradePlanSyncService.mq5 |
+//|  ارسال خودکار پوزیشن‌های بسته‌شده به ژورنال TradePlan               |
+//|  «نسخه‌ی سرویس» — بدون چارت، در پس‌زمینه‌ی خود متاتریدر اجرا می‌شود  |
+//|  و با هیچ اکسپرت دیگری (مدیریت سرمایه، پراپ و…) تداخل ندارد        |
 //|                                                                  |
 //|  نصب:                                                            |
 //|   1) این فایل را در MetaEditor باز و Compile کن (F7)              |
+//|      (فایل باید در پوشه‌ی MQL5\Services باشد، نه Experts)          |
 //|   2) در متاتریدر: Tools > Options > Expert Advisors               |
 //|      تیک "Allow WebRequest for listed URL" را بزن و این آدرس     |
 //|      را اضافه کن:  https://lrcsbamzdoldopjklnqh.supabase.co      |
-//|   3) اکسپرت را روی یک چارت (هر نمادی) بینداز                     |
-//|      * اکسپرت دیگری (مدیریت سرمایه و…) داری؟ یک چارت جدید باز    |
-//|        کن و این را روی آن بینداز — محدودیت متاتریدر «یک اکسپرت   |
-//|        روی هر چارت» است نه کل برنامه. یا از نسخه‌ی بدون چارت      |
-//|        TradePlanSyncService استفاده کن (پوشه‌ی MQL5\Services)     |
+//|   3) در پنجره‌ی Navigator بخش Services روی TradePlanSyncService   |
+//|      راست‌کلیک کن > Add service                                   |
 //|   4) توکن اتصال را از صفحه‌ی تنظیمات برنامه کپی و در ورودی        |
 //|      InpToken جای‌گذاری کن — فقط بار اول! توکن ذخیره می‌شود و     |
-//|      دفعات بعد (ری‌استارت، چارت جدید، نصب مجدد) خودکار لود می‌شود |
+//|      دفعات بعد (ری‌استارت، نصب مجدد) خودکار لود می‌شود            |
+//|      (اگر قبلاً اکسپرت TradePlanSync را با توکن راه انداخته‌ای،    |
+//|      همان توکن خودکار پیدا می‌شود و می‌توانی ورودی را خالی بگذاری) |
+//|   5) نه چارت لازم دارد، نه دکمه‌ی Algo Trading                    |
 //+------------------------------------------------------------------+
+#property service
 #property copyright "TradePlan"
 #property version   "1.30"
-#property description "Auto-sync closed positions + account balance to the TradePlan journal"
+#property description "Auto-sync closed positions + account balance to the TradePlan journal (chart-free background service)"
 
 input string InpToken     = "";   // توکن اتصال (فقط بار اول لازم است؛ ذخیره می‌شود)
 input int    InpFirstDays = 60;   // در اولین اجرا چند روزِ گذشته ارسال شود
-input int    InpDeepDays  = 60;   // با هر روشن شدن اکسپرت، این چند روزِ اخیر دوباره ارسال و تصحیح شود
+input int    InpDeepDays  = 60;   // با هر شروع سرویس، این چند روزِ اخیر دوباره ارسال و تصحیح شود
 input int    InpTimerSec  = 30;   // بازه‌ی بررسی (ثانیه)
 
 const string TP_HOST   = "https://lrcsbamzdoldopjklnqh.supabase.co";
@@ -31,9 +35,11 @@ const string TP_APIKEY = "sb_publishable_mAeK0Je17QOT5YVX9qkAxA_SdIbwRSp";
 const int    TP_BATCH  = 100;     // حداکثر ترید در هر ارسال (سرور تا 200 می‌پذیرد)
 
 bool   g_needSync      = false;
-bool   g_deepSync      = false; // در شروع اکسپرت: کل بازه‌ی InpDeepDays دوباره ارسال می‌شود
+bool   g_deepSync      = false; // در شروع سرویس: کل بازه‌ی InpDeepDays دوباره ارسال می‌شود
 string g_token         = "";
 double g_sentBalance   = -1;   // آخرین بالانسی که با موفقیت ارسال شد
+long   g_lastDeal      = -1;   // آخرین دیل دیده‌شده — جایگزین OnTradeTransaction که در سرویس نیست
+long   g_login         = 0;    // برای تشخیص عوض شدن حساب در ترمینال
 
 //--- نام متغیر سراسری ترمینال که زمان آخرین سینک موفق را نگه می‌دارد
 string GVarName()
@@ -41,9 +47,8 @@ string GVarName()
    return "TPSYNC_" + IntegerToString((long)AccountInfoInteger(ACCOUNT_LOGIN));
   }
 
-//--- ذخیره‌ی دائمی توکن: بعد از اولین ورود، توکن در فایل مشترک ترمینال
-//--- نگه‌داری می‌شود تا با حذف/افزودن مجدد اکسپرت یا ری‌استارت لازم نباشد
-//--- دوباره وارد شود (پوشه‌ی Common بین همه‌ی ترمینال‌های همین ویندوز مشترک است)
+//--- ذخیره‌ی دائمی توکن: همان فایل مشترک اکسپرت TradePlanSync، بنابراین
+//--- اگر یکی از دو نسخه (اکسپرت/سرویس) قبلاً توکن گرفته باشد، دیگری هم دارد
 string TokenFile() { return "TradePlanSync\\token.txt"; }
 
 string LoadSavedToken()
@@ -60,72 +65,89 @@ string LoadSavedToken()
 void SaveToken(const string t)
   {
    int h = FileOpen(TokenFile(), FILE_WRITE|FILE_TXT|FILE_ANSI|FILE_COMMON);
-   if(h == INVALID_HANDLE) { Print("TradePlanSync: could not save token, error ", GetLastError()); return; }
+   if(h == INVALID_HANDLE) { Print("TradePlanSyncService: could not save token, error ", GetLastError()); return; }
    FileWriteString(h, t);
    FileClose(h);
   }
 
 //+------------------------------------------------------------------+
-int OnInit()
+//| بدنه‌ی سرویس: سرویس چارت و تایمر و OnTradeTransaction ندارد،       |
+//| پس یک حلقه‌ی پس‌زمینه هر InpTimerSec ثانیه تغییرات را چک می‌کند     |
+//+------------------------------------------------------------------+
+void OnStart()
   {
    g_token = InpToken;
    StringTrimLeft(g_token);
    StringTrimRight(g_token);
 
    if(StringLen(g_token) < 8)
-      g_token = LoadSavedToken(); // ورودی خالی است؛ توکن ذخیره‌شده از قبل
+      g_token = LoadSavedToken(); // ورودی خالی است؛ توکن ذخیره‌شده از قبل (اکسپرت یا سرویس)
 
    if(StringLen(g_token) < 8)
      {
-      Alert("TradePlanSync: توکن اتصال را در تنظیمات اکسپرت وارد کن (صفحه تنظیمات برنامه > اتصال متاتریدر). فقط بار اول لازم است.");
-      return(INIT_PARAMETERS_INCORRECT);
+      Alert("TradePlanSyncService: توکن اتصال را در تنظیمات سرویس وارد کن (صفحه تنظیمات برنامه > اتصال متاتریدر). فقط بار اول لازم است.");
+      Print("TradePlanSyncService: no token — right-click the service in Navigator > Properties and paste the token");
+      return;
      }
 
    SaveToken(g_token); // برای دفعات بعد ذخیره شود
-   EventSetTimer(MathMax(10, InpTimerSec));
+
+   int sleepMs = MathMax(10, InpTimerSec) * 1000;
+
+   // ممکن است سرویس قبل از لاگین حساب بالا بیاید؛ صبر تا حساب آماده شود
+   while(!IsStopped() && (long)AccountInfoInteger(ACCOUNT_LOGIN) == 0)
+      Sleep(1000);
+   if(IsStopped()) return;
+
+   g_login    = (long)AccountInfoInteger(ACCOUNT_LOGIN);
    g_needSync = true; // در شروع، تریدهای جامانده از آخرین سینک هم ارسال می‌شوند
    g_deepSync = true; // و کل InpDeepDays روزِ اخیر دوباره ارسال می‌شود تا تریدهای
                       // موبایل و اصلاحات بروکر هم در ژورنال دقیق و تصحیح شوند
-   Print("TradePlanSync: started for account ", (long)AccountInfoInteger(ACCOUNT_LOGIN));
-   return(INIT_SUCCEEDED);
+   Print("TradePlanSyncService: started for account ", g_login);
+
+   while(!IsStopped())
+     {
+      if((long)AccountInfoInteger(ACCOUNT_LOGIN) == 0)
+        { Sleep(1000); continue; } // بین دو حساب / قطع اتصال
+
+      // اگر کاربر در همین ترمینال حساب را عوض کند، سینک عمیق حساب جدید انجام می‌شود
+      long login = (long)AccountInfoInteger(ACCOUNT_LOGIN);
+      if(login != g_login)
+        {
+         g_login = login;
+         g_needSync = true; g_deepSync = true;
+         g_sentBalance = -1; g_lastDeal = -1;
+         Print("TradePlanSyncService: account changed, now syncing ", g_login);
+        }
+
+      // هر تغییر بالانس (بستن ترید، واریز، برداشت) یا دیلِ تازه => سینک
+      double bal      = AccountInfoDouble(ACCOUNT_BALANCE);
+      long   lastDeal = LatestDealTicket();
+      if(bal != g_sentBalance || lastDeal != g_lastDeal)
+         g_needSync = true;
+
+      if(g_needSync && SyncClosedPositions())
+        {
+         g_needSync    = false; // در صورت خطا، فلگ می‌ماند و دور بعدی دوباره تلاش می‌کند
+         g_deepSync    = false; // سینک عمیقِ شروع با موفقیت انجام شد
+         g_sentBalance = bal;
+         g_lastDeal    = lastDeal;
+        }
+
+      Sleep(sleepMs);
+     }
   }
 
-void OnDeinit(const int reason) { EventKillTimer(); }
-
 //+------------------------------------------------------------------+
-//| هر دیلِ خروج (بسته شدن کامل یا بخشی از پوزیشن) => سینک در تایمر بعد |
+//| تیکت آخرین دیلِ هیستوری اخیر — تشخیص ترید تازه حتی با سود صفر      |
 //+------------------------------------------------------------------+
-void OnTradeTransaction(const MqlTradeTransaction &trans,
-                        const MqlTradeRequest &request,
-                        const MqlTradeResult &result)
+long LatestDealTicket()
   {
-   if(trans.type != TRADE_TRANSACTION_DEAL_ADD)
-      return;
-   if(!HistoryDealSelect(trans.deal))
-     {
-      g_needSync = true; // هیستوری هنوز آماده نیست؛ در تایمر بعدی بررسی می‌شود
-      return;
-     }
-   ENUM_DEAL_ENTRY entry = (ENUM_DEAL_ENTRY)HistoryDealGetInteger(trans.deal, DEAL_ENTRY);
-   if(entry == DEAL_ENTRY_OUT || entry == DEAL_ENTRY_INOUT || entry == DEAL_ENTRY_OUT_BY)
-      g_needSync = true;
-  }
-
-void OnTimer()
-  {
-   // هر تغییری در بالانس (بستن ترید، واریز، برداشت) => سینک تازه
-   double bal = AccountInfoDouble(ACCOUNT_BALANCE);
-   if(bal != g_sentBalance)
-      g_needSync = true;
-
-   if(!g_needSync)
-      return;
-   if(SyncClosedPositions())
-     {
-      g_needSync    = false; // در صورت خطا، فلگ می‌ماند و تایمر بعدی دوباره تلاش می‌کند
-      g_deepSync    = false; // سینک عمیقِ شروع با موفقیت انجام شد
-      g_sentBalance = bal;
-     }
+   if(!HistorySelect(TimeCurrent() - 259200, TimeCurrent() + 86400))
+      return g_lastDeal;
+   int n = HistoryDealsTotal();
+   if(n <= 0) return 0;
+   return (long)HistoryDealGetTicket(n - 1);
   }
 
 //+------------------------------------------------------------------+
@@ -173,7 +195,7 @@ bool SyncClosedPositions()
    datetime from = (last == 0) ? TimeCurrent() - (datetime)InpFirstDays * 86400
                                : last - 172800;
 
-   // سینک عمیق در شروع اکسپرت: کل بازه‌ی InpDeepDays دوباره ارسال می‌شود تا
+   // سینک عمیق در شروع سرویس: کل بازه‌ی InpDeepDays دوباره ارسال می‌شود تا
    // پوزیشن‌های گرفته‌شده با موبایل و هر مغایرت قدیمی هم آپدیت/تصحیح شود
    if(g_deepSync)
      {
@@ -359,9 +381,9 @@ bool SendBatch(const string items, const string acct)
      {
       int err = GetLastError();
       if(err == 4014)
-         Alert("TradePlanSync: آدرس زیر را در Tools > Options > Expert Advisors > Allow WebRequest اضافه کن:\n", TP_HOST);
+         Alert("TradePlanSyncService: آدرس زیر را در Tools > Options > Expert Advisors > Allow WebRequest اضافه کن:\n", TP_HOST);
       else
-         Print("TradePlanSync: WebRequest failed, error ", err);
+         Print("TradePlanSyncService: WebRequest failed, error ", err);
       return false;
      }
 
@@ -369,7 +391,7 @@ bool SendBatch(const string items, const string acct)
 
    if(status != 200)
      {
-      Print("TradePlanSync: server HTTP ", status, " — ", body);
+      Print("TradePlanSyncService: server HTTP ", status, " — ", body);
       return false;
      }
    if(StringFind(body, "invalid_token") >= 0)
@@ -377,16 +399,16 @@ bool SendBatch(const string items, const string acct)
       // توکن ذخیره‌شده دیگر معتبر نیست (در برنامه توکن جدید ساخته شده) —
       // فایل پاک می‌شود تا دفعه‌ی بعد توکن کهنه دوباره لود نشود
       FileDelete(TokenFile(), FILE_COMMON);
-      Alert("TradePlanSync: توکن اتصال نامعتبر است. توکن جدید را از تنظیمات برنامه کپی کن و یک بار در ورودی اکسپرت بگذار.");
+      Alert("TradePlanSyncService: توکن اتصال نامعتبر است. توکن جدید را از تنظیمات برنامه کپی کن و یک بار در تنظیمات سرویس بگذار.");
       return false;
      }
    if(StringFind(body, "\"ok\": true") < 0 && StringFind(body, "\"ok\":true") < 0 && StringFind(body, "\"ok\" : true") < 0)
      {
-      Print("TradePlanSync: unexpected response — ", body);
+      Print("TradePlanSyncService: unexpected response — ", body);
       return false;
      }
 
-   Print("TradePlanSync: batch sent OK");
+   Print("TradePlanSyncService: batch sent OK");
    return true;
   }
 //+------------------------------------------------------------------+

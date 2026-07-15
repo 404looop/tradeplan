@@ -3567,8 +3567,10 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   }
   /* pages fill the area beside the rail */
   .page{inset:0 106px 0 0}
-  /* sticky headers become static (sticky breaks inside multi-column flow) */
-  .home-brand-bar,.journal-header,.psych-header,.page-header{position:sticky;position:static}
+  /* sticky headers become relative (sticky breaks inside multi-column flow).
+     relative — نه static — تا ::after مطلقِ هدرها (خط طلایی زیر هدر) به خود هدر
+     بچسبد؛ با static به .page می‌چسبید و به‌صورت یک نوار زرد پایین صفحه می‌افتاد */
+  .home-brand-bar,.journal-header,.psych-header,.page-header{position:relative}
   /* full-width strips above the columns */
   .home-brand-bar,.journal-header,.psych-header,.page-header,.setup-tabs{column-span:all}
   /* masonry column layouts per page */
@@ -6151,6 +6153,7 @@ function applyMtImport(){
     jMonth = parseInt(fd[1]) - 1;
   }
   renderJournal();
+  if(typeof renderMt5Account==='function') renderMt5Account(); // بالانسِ محاسبه‌شده از ژورنال به‌روز شود
   if(typeof drawChart==='function') drawChart(jYear, jMonth);
   if(typeof updateHome==='function') updateHome();
 
@@ -8372,6 +8375,7 @@ function liveSaveDay(){
   const dot=document.getElementById('day-save-dot');
   if(dot){dot.classList.add('active');setTimeout(()=>dot.classList.remove('active'),900);}
   renderJournalMonth();
+  if(typeof renderMt5Account==='function') renderMt5Account(); // بالانسِ محاسبه‌شده از ژورنال به‌روز شود
   // Sync the home chart view-state to this exact journal month,
   // then redraw — so saving a day's PnL immediately appears on the chart
   const now2=new Date();
@@ -8423,6 +8427,7 @@ function deleteDayEntry(){
       .then(()=>{},()=>{});
   }
   saveData(); closeDayModal(); renderJournalMonth();
+  if(typeof renderMt5Account==='function') renderMt5Account(); // بالانسِ محاسبه‌شده از ژورنال به‌روز شود
   const now2=new Date();
   const chartY=(typeof jYear!=='undefined'&&jYear!==null)?jYear:now2.getFullYear();
   const chartM=(typeof jMonth!=='undefined'&&jMonth!==null)?jMonth:now2.getMonth();
@@ -9908,17 +9913,18 @@ function drawChart(y,m){
   // ── 2) Glow shadow line (soft blur behind main line) ──
   ctx.save();
   ctx.shadowColor = glowColor;
-  ctx.shadowBlur  = 10;
+  ctx.shadowBlur  = 7;
   ctx.beginPath();
   catmullRomPath(ctx, pts, 0.35);
   ctx.strokeStyle = lineColor;
-  ctx.lineWidth   = 4;
+  ctx.lineWidth   = 2.2;
   ctx.lineJoin    = 'round';
   ctx.lineCap     = 'round';
   ctx.stroke();
   ctx.restore();
 
   // ── 3) Crisp main line (no shadow) ──
+  // خط یکپارچه و باریک، بدون نقطه/گره روی روزها — تمیز و خوانا
   ctx.save();
   ctx.beginPath();
   catmullRomPath(ctx, pts, 0.35);
@@ -9927,88 +9933,38 @@ function drawChart(y,m){
   lineGrad.addColorStop(0.5, lineColor);
   lineGrad.addColorStop(1,   lineColorDark);
   ctx.strokeStyle = lineGrad;
-  ctx.lineWidth   = 2.5;
+  ctx.lineWidth   = 1.6;
   ctx.lineJoin    = 'round';
   ctx.lineCap     = 'round';
   ctx.stroke();
   ctx.restore();
 
-  // ── 4) Decorative tick marks at each data point ──
-  ctx.save();
-  pts.forEach((p,i)=>{
-    const isLast = (i === pts.length-1);
-    const r = isLast ? 5 : 3.5;
-    // outer ring
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r+2.5, 0, Math.PI*2);
-    ctx.fillStyle = isPos ? 'rgba(52,211,153,0.18)' : 'rgba(248,113,113,0.18)';
-    ctx.fill();
-    // filled dot
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-    ctx.fillStyle   = lineColor;
-    ctx.fill();
-    ctx.strokeStyle = '#0c1d35';
-    ctx.lineWidth   = 1.5;
-    ctx.stroke();
-    // value label for last point
-    if(isLast && pts.length > 1){
-      const lbl = fmtUSD(p.val);
-      ctx.fillStyle = isPos ? 'rgba(134,239,172,0.98)' : 'rgba(252,165,165,0.98)';
-      ctx.font = '800 9.5px Vazirmatn,sans-serif';
-      ctx.textAlign = 'center';
-      const lx = Math.max(pad.l+28, Math.min(p.x, W-pad.r-28));
-      const ly = p.y - 12;
-      ctx.fillText(lbl, lx, ly);
-    }
-  });
-  ctx.restore();
+  // ── 4) Last-point value label (بدون گره — فقط عدد آخرین نقطه) ──
+  if(pts.length > 1){
+    const p = pts[pts.length-1];
+    ctx.save();
+    ctx.fillStyle = isPos ? 'rgba(134,239,172,0.98)' : 'rgba(252,165,165,0.98)';
+    ctx.font = '800 9.5px Vazirmatn,sans-serif';
+    ctx.textAlign = 'center';
+    const lx = Math.max(pad.l+28, Math.min(p.x, W-pad.r-28));
+    ctx.fillText(fmtUSD(p.val), lx, p.y - 10);
+    ctx.restore();
+  }
 
-  // ── 5) Single data point label ──
+  // ── 5) Single data point — تنها استثنا: با یک نقطه، خطی وجود ندارد ──
   if(pts.length===1){
     const p=pts[0];
     ctx.save();
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,3,0,Math.PI*2);
+    ctx.fillStyle=lineColor;
+    ctx.fill();
     ctx.fillStyle=isPos?'rgba(134,239,172,0.98)':'rgba(252,165,165,0.98)';
     ctx.font='800 9.5px Vazirmatn,sans-serif';
     ctx.textAlign='center';
     const lx=Math.max(pad.l+28,Math.min(p.x,W-pad.r-28));
     ctx.fillText(fmtUSD(p.val),lx,p.y-12);
     ctx.restore();
-  }
-
-  // ── 6) TODAY node — pulsing ring ──
-  if(isCurrentMonth){
-    const todayPt=pts.find(p=>p.day===now.getDate());
-    if(todayPt){
-      ctx.save();
-      // Pulsing outer glow rings
-      [[16,0.12],[12,0.22],[8,0.35]].forEach(([r,a])=>{
-        ctx.beginPath();
-        ctx.arc(todayPt.x,todayPt.y,r,0,Math.PI*2);
-        ctx.fillStyle=`rgba(244,200,106,${a})`;
-        ctx.fill();
-      });
-      // Gold inner dot
-      ctx.beginPath();
-      ctx.arc(todayPt.x,todayPt.y,5,0,Math.PI*2);
-      ctx.fillStyle='#F4C86A';
-      ctx.fill();
-      ctx.strokeStyle='#0c1d35';
-      ctx.lineWidth=2;
-      ctx.stroke();
-      // Value label above
-      const todayLabel=fmtUSD(todayPt.val);
-      ctx.fillStyle='rgba(244,200,106,0.96)';
-      ctx.font='800 9.5px Vazirmatn,sans-serif';
-      ctx.textAlign='center';
-      const lx=Math.max(pad.l+28,Math.min(todayPt.x,W-pad.r-28));
-      ctx.fillText(todayLabel,lx,todayPt.y-13);
-      // "TODAY" micro-label below
-      ctx.font='700 7.5px Vazirmatn,sans-serif';
-      ctx.fillStyle='rgba(244,200,106,0.5)';
-      ctx.fillText('TODAY',lx,todayPt.y+18);
-      ctx.restore();
-    }
   }
 }
 
@@ -10250,7 +10206,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='77.6';
+const APP_VERSION='77.7';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -10396,6 +10352,7 @@ function acctDepositBlur(inp){
   data.acctDeposit=(isNaN(v)||v<0)?0:v;
   saveData();
   renderAcctDeposit();
+  renderMt5Account(); // در حالت دستی، بالانس = سرمایه اولیه + سود/زیان ژورنال
 }
 let _acctShownBal=null;
 function renderMt5Account(){
@@ -10405,10 +10362,33 @@ function renderMt5Account(){
   // هنوز داده‌ای از متاتریدر نرسیده => حالت «در انتظار اتصال»
   renderAcctDeposit(); // سرمایه اولیه دستی است و ربطی به داده‌ی متاتریدر ندارد
   if(!a||!a.syncedAt){
-    card.classList.add('waiting');
-    const b=document.getElementById('acct-balance'); if(b) b.textContent='—';
+    // بدون اتصال متاتریدر: بالانس از «سرمایه اولیه + جمع سود/زیان ثبت‌شده در ژورنال»
+    // محاسبه می‌شود تا کاربرانِ ثبتِ دستی هم بالانس فعلی‌شان را ببینند.
+    const dep=parseFloat(data&&data.acctDeposit)||0;
+    let pnl=0,hasJournal=false;
+    Object.values((data&&data.journal)||{}).forEach(e=>{
+      if(e&&e.trades>0){ pnl+=parseFloat(e.pnl)||0; hasJournal=true; }
+    });
+    const b=document.getElementById('acct-balance');
     const sy=document.getElementById('acct-sync');
-    if(sy) sy.textContent='⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد';
+    if(dep>0||hasJournal){
+      card.classList.remove('waiting');
+      const bal=dep+pnl;
+      if(b){
+        if(_acctShownBal!==null&&Math.abs(_acctShownBal-bal)>=0.005&&typeof animateValue==='function'){
+          animateValue(b,_acctShownBal,bal,900,v=>acctFmt(v,'USD'));
+        }else{
+          b.textContent=acctFmt(bal,'USD');
+        }
+      }
+      _acctShownBal=bal;
+      if(sy) sy.textContent='🧮 محاسبه‌شده از سرمایه اولیه + سود/زیان ژورنال — با اتصال متاتریدر، بالانس واقعی حساب جایگزین می‌شود';
+    }else{
+      card.classList.add('waiting');
+      if(b) b.textContent='—';
+      _acctShownBal=null;
+      if(sy) sy.textContent='⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد';
+    }
     return;
   }
   card.classList.remove('waiting');

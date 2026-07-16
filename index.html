@@ -129,9 +129,19 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .gal-select{padding:7px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:700;outline:none;cursor:pointer;max-width:160px}
 .gal-select option{background:#0f2238;color:#fff}
 .gal-count{font-size:11.5px;font-weight:700;color:var(--text-muted);margin-inline-start:auto;white-space:nowrap}
-.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px;padding:12px 15px 30px}
+/* فیلتر بازه زمانی */
+.gal-range{display:flex;align-items:center;gap:5px}
+.gr-lbl{font-size:11px;font-weight:800;color:var(--text-muted)}
+.gal-date-inp{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 10px;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:700;color:var(--text);outline:none;color-scheme:dark;max-width:130px}
+.gal-date-inp:focus{border-color:var(--gold)}
+.gal-range-clear{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text-muted);font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center}
+.gal-range-clear.show{display:inline-flex}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:12px;padding:12px 15px 30px}
 /* add card */
-.gal-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:18px;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr)}
+.gal-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:16px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr)}
+.gal-add-card.locked{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.02)}
+.gal-add-card.locked .gal-add-plus{color:var(--text-muted);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);box-shadow:none}
+.gal-add-card.locked .gal-add-title{color:var(--text-muted)}
 .gal-add-card:hover{background:rgba(232,160,32,.07);border-color:var(--gold)}
 .gal-add-card:active{transform:scale(.98)}
 .gal-add-plus{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08);box-shadow:0 6px 18px rgba(232,160,32,.15)}
@@ -142,29 +152,58 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .gal-card.win{border-color:rgba(34,197,94,.3)}
 .gal-card.loss{border-color:rgba(239,68,68,.3)}
 .gal-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(0,0,0,.5)}
-.gal-img-wrap{position:relative;aspect-ratio:16/10;background:#0a1424;cursor:zoom-in;overflow:hidden}
+.gal-img-wrap{position:relative;aspect-ratio:16/9;background:#0a1424;cursor:zoom-in;overflow:hidden}
 .gal-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
 .gal-card:hover .gal-img{transform:scale(1.04)}
-.gal-chip-date,.gal-chip-time{position:absolute;top:9px;padding:4px 10px;border-radius:14px;font-size:10.5px;font-weight:800;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff}
-.gal-chip-date{right:9px}
-.gal-chip-time{left:9px;direction:ltr;font-variant-numeric:tabular-nums}
-.gal-body{padding:11px 13px 12px;display:flex;flex-direction:column;gap:9px}
+.gal-chip-date,.gal-chip-time{position:absolute;top:7px;padding:3px 8px;border-radius:12px;font-size:9.5px;font-weight:800;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff}
+.gal-chip-date{right:7px}
+.gal-chip-time{left:7px;direction:ltr;font-variant-numeric:tabular-nums}
+.gal-body{padding:9px 10px 10px;display:flex;flex-direction:column;gap:7px}
+/* نوار افقی نتیجه — WIN/LOSS پهن و واضح + مبلغ جدا در سمت چپ */
+.gal-strip{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:11px;border:1px solid}
+.gal-strip.win{background:linear-gradient(to left,rgba(34,197,94,.24),rgba(34,197,94,.05));border-color:rgba(34,197,94,.5)}
+.gal-strip.loss{background:linear-gradient(to left,rgba(239,68,68,.24),rgba(239,68,68,.05));border-color:rgba(239,68,68,.5)}
+.gs-label{font-size:11.5px;font-weight:900;letter-spacing:.4px;white-space:nowrap}
+.gal-strip.win .gs-label{color:#4ade80}
+.gal-strip.loss .gs-label{color:#f87171}
+.gs-pnl{margin-inline-start:auto;direction:ltr;font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}
+.gal-strip.win .gs-pnl{color:#4ade80;text-shadow:0 1px 10px rgba(34,197,94,.35)}
+.gal-strip.loss .gs-pnl{color:#f87171;text-shadow:0 1px 10px rgba(239,68,68,.35)}
 .gal-row1{display:flex;align-items:center;gap:8px}
-.gal-symbol{font-size:15px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.3px}
+.gal-symbol{font-size:13.5px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.3px}
 .gal-badge{font-size:10px;font-weight:900;letter-spacing:.6px;padding:3px 9px;border-radius:7px;direction:ltr}
 .gal-badge.win{background:rgba(34,197,94,.16);color:#4ade80;border:1px solid rgba(34,197,94,.4)}
 .gal-badge.loss{background:rgba(239,68,68,.16);color:#f87171;border:1px solid rgba(239,68,68,.4)}
 .gal-pnl{margin-inline-start:auto;font-size:19px;font-weight:900;direction:ltr;font-variant-numeric:tabular-nums}
 .gal-pnl.pos{color:#4ade80;text-shadow:0 1px 10px rgba(34,197,94,.3)}
 .gal-pnl.neg{color:#f87171;text-shadow:0 1px 10px rgba(239,68,68,.3)}
-.gal-row2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:30px}
-.gal-tag{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:14px;background:rgba(59,130,246,.14);color:#93c5fd;border:1px solid rgba(59,130,246,.35)}
+.gal-row2{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-height:28px}
+.gal-tag{font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:12px;background:rgba(59,130,246,.14);color:#93c5fd;border:1px solid rgba(59,130,246,.35)}
 .gal-tag.rr{background:rgba(255,255,255,.05);color:var(--text-muted);border-color:rgba(255,255,255,.12);direction:ltr}
 .gal-actions{margin-inline-start:auto;display:flex;gap:4px}
-.gal-act{width:30px;height:30px;border-radius:9px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.gal-act{width:27px;height:27px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
 .gal-act:hover{color:#fff;border-color:rgba(255,255,255,.25)}
 .gal-act.del:hover{color:#f87171;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1)}
 .gal-empty{grid-column:1/-1;text-align:center;padding:30px 10px;color:var(--text-muted);font-size:13px;font-weight:700}
+/* موبایل: دو ستون جمع‌وجور */
+@media (max-width:700px){
+  .gal-grid{grid-template-columns:repeat(2,1fr);gap:9px;padding:10px 12px 26px}
+  .gal-body{padding:7px 8px 8px;gap:6px}
+  .gal-strip{padding:6px 8px;gap:5px;border-radius:9px}
+  .gs-label{font-size:9.5px;letter-spacing:.2px}
+  .gs-pnl{font-size:14px}
+  .gal-symbol{font-size:11.5px}
+  .gal-chip-date,.gal-chip-time{font-size:8.5px;padding:2px 6px;top:5px}
+  .gal-chip-date{right:5px}
+  .gal-chip-time{left:5px}
+  .gal-tag{font-size:8.5px;padding:2px 6px}
+  .gal-act{width:24px;height:24px;font-size:10.5px}
+  .gal-add-card{min-height:140px;gap:6px}
+  .gal-add-plus{width:40px;height:40px;font-size:19px;border-radius:12px}
+  .gal-add-title{font-size:11.5px}
+  .gal-add-sub{font-size:9.5px;padding:0 8px;text-align:center}
+  .gal-date-inp{max-width:118px;font-size:10px}
+}
 /* add/edit sheet */
 .gal-sheet{max-height:92vh;overflow-y:auto}
 .gal-drop{position:relative;border:1.5px dashed rgba(232,160,32,.5);border-radius:16px;min-height:170px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:rgba(232,160,32,.04);margin-top:4px;transition:all var(--tr)}
@@ -4387,6 +4426,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <select class="gal-select" id="gal-symbol-filter" onchange="galSetSymbol(this.value)">
         <option value="all">همه نمادها</option>
       </select>
+      <div class="gal-range">
+        <span class="gr-lbl">از</span><input type="date" class="gal-date-inp" id="gal-from" onchange="galSetRange()">
+        <span class="gr-lbl">تا</span><input type="date" class="gal-date-inp" id="gal-to" onchange="galSetRange()">
+        <button type="button" class="gal-range-clear" id="gal-range-clear" onclick="galClearRange()" title="حذف فیلتر تاریخ">✕</button>
+      </div>
       <div class="gal-count" id="gal-count"></div>
     </div>
     <div class="gal-grid" id="gal-grid"></div>
@@ -5499,11 +5543,29 @@ function switchJournalTab(idx){
    آفلاین کار کند و بعداً خودش سینک شود. */
 let galItems=[];          // [{id,symbol,result,pnl,rr,strategy,note,taken_at,img,synced}]
 let galFilter='all', galSymbol='all', galResult='win';
+let galFrom='', galTo='';                 // فیلتر بازه زمانی (YYYY-MM-DD)
 let galEditId=null, galDelId=null, galPendingImg=null;
 let galLoaded=false, galPulled=false;
+let galAccess=false, galAccChecked=false; // مجوز آپلود — فقط ادمین از پنل فعال می‌کند
 
 function GAL_KEY(){ return CURRENT_USER?('tradeplan_gallery:'+CURRENT_USER.id):'tradeplan_gallery'; }
 function GAL_DEL_KEY(){ return GAL_KEY()+':del'; }
+function GAL_ACC_KEY(){ return GAL_KEY()+':acc'; }
+
+// وضعیت مجوز آپلود: اول از کش (برای آفلاین)، بعد تازه‌سازی از سرور
+async function galCheckAccess(){
+  galAccess = localStorage.getItem(GAL_ACC_KEY())==='1';
+  if(!SB||!CURRENT_USER) return;
+  try{
+    const {data:row,error}=await SB.from('gallery_access').select('enabled')
+      .eq('user_id',CURRENT_USER.id).maybeSingle();
+    if(!error){
+      galAccess=!!(row&&row.enabled);
+      localStorage.setItem(GAL_ACC_KEY(),galAccess?'1':'0');
+    }
+  }catch(e){ /* آفلاین یا جدول ساخته نشده — همان کش می‌ماند */ }
+}
+function galLockedMsg(){ showToast('🔒 آپلود عکس گالری بعد از تأیید مدیر برایت فعال می‌شود'); }
 function galEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function galNum(s){ return String(s||'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); }
 function galUUID(){ return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,10); }
@@ -5592,6 +5654,11 @@ async function galCloudPull(){
 // ---------- رندر ----------
 function renderGallery(){
   if(!galLoaded){ galLoadLocal(); galSort(); galLoaded=true; }
+  if(!galAccChecked){
+    galAccChecked=true;
+    galAccess=localStorage.getItem(GAL_ACC_KEY())==='1'; // فوری از کش
+    galCheckAccess().then(()=>galRenderGrid());          // بعد از سرور
+  }
   galRenderToolbar(); galRenderGrid();
   if(!galPulled&&SB&&CURRENT_USER){
     galPulled=true;
@@ -5616,35 +5683,63 @@ function galRenderToolbar(){
     c.textContent=galItems.length?`${toFA(galItems.length)} معامله · ${toFA(wins)} سود · ${toFA(galItems.length-wins)} ضرر`:'';
   }
 }
+function galDayKey(iso){
+  const d=new Date(iso); if(isNaN(d)) return '';
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
 function galFiltered(){
-  return galItems.filter(i=>(galFilter==='all'||i.result===galFilter)&&(galSymbol==='all'||i.symbol===galSymbol));
+  return galItems.filter(i=>
+    (galFilter==='all'||i.result===galFilter)&&
+    (galSymbol==='all'||i.symbol===galSymbol)&&
+    (!galFrom||galDayKey(i.taken_at)>=galFrom)&&
+    (!galTo||galDayKey(i.taken_at)<=galTo)
+  );
+}
+function galSetRange(){
+  galFrom=document.getElementById('gal-from').value;
+  galTo=document.getElementById('gal-to').value;
+  document.getElementById('gal-range-clear').classList.toggle('show',!!(galFrom||galTo));
+  galRenderGrid();
+}
+function galClearRange(){
+  galFrom=''; galTo='';
+  document.getElementById('gal-from').value='';
+  document.getElementById('gal-to').value='';
+  document.getElementById('gal-range-clear').classList.remove('show');
+  galRenderGrid();
 }
 function galRenderGrid(){
   const grid=document.getElementById('gal-grid'); if(!grid) return;
   const items=galFiltered();
-  let html=`<div class="gal-add-card" onclick="openGallerySheet()">
-      <div class="gal-add-plus">＋</div>
-      <div class="gal-add-title">افزودن معامله جدید</div>
-      <div class="gal-add-sub">عکس چارت معامله‌ات را بارگذاری کن</div>
-    </div>`;
+  let html=galAccess
+    ? `<div class="gal-add-card" onclick="openGallerySheet()">
+        <div class="gal-add-plus">＋</div>
+        <div class="gal-add-title">افزودن معامله جدید</div>
+        <div class="gal-add-sub">عکس چارت معامله‌ات را بارگذاری کن</div>
+      </div>`
+    : `<div class="gal-add-card locked" onclick="galLockedMsg()">
+        <div class="gal-add-plus">🔒</div>
+        <div class="gal-add-title">آپلود عکس غیرفعال است</div>
+        <div class="gal-add-sub">این بخش بعد از تأیید مدیر برایت فعال می‌شود</div>
+      </div>`;
   html+=items.map(it=>`
     <div class="gal-card ${it.result}">
       <div class="gal-img-wrap" onclick="galOpenView('${it.id}')">
         <img class="gal-img" src="${it.img}" loading="lazy" alt="chart">
         <div class="gal-chip-date">${galDateChip(it.taken_at)}</div>
-        <div class="gal-chip-time">${galTimeChip(it.taken_at)}</div>
+        <div class="gal-chip-time">🕐 ${galTimeChip(it.taken_at)}</div>
       </div>
       <div class="gal-body">
-        <div class="gal-row1">
-          <div class="gal-symbol">${galEsc(it.symbol)}</div>
-          <span class="gal-badge ${it.result}">${it.result==='win'?'WIN':'LOSS'}</span>
-          <div class="gal-pnl ${it.pnl<0?'neg':'pos'}">${galFmtPnl(it.pnl)}</div>
+        <div class="gal-strip ${it.result}">
+          <span class="gs-label">${it.result==='win'?'▲ WIN · سود':'▼ LOSS · ضرر'}</span>
+          <span class="gs-pnl">${galFmtPnl(it.pnl)}</span>
         </div>
         <div class="gal-row2">
+          <div class="gal-symbol">${galEsc(it.symbol)}</div>
           ${it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:''}
           ${it.rr?`<span class="gal-tag rr">RR ${galEsc(it.rr)}</span>`:''}
           <div class="gal-actions">
-            <button type="button" class="gal-act" onclick="openGallerySheet('${it.id}')" title="ویرایش">✏️</button>
+            ${galAccess?`<button type="button" class="gal-act" onclick="openGallerySheet('${it.id}')" title="ویرایش">✏️</button>`:''}
             <button type="button" class="gal-act del" onclick="galAskDelete('${it.id}')" title="حذف">🗑</button>
           </div>
         </div>
@@ -5660,6 +5755,7 @@ function galSetSymbol(s){ galSymbol=s; galRenderGrid(); }
 function galToLocalInput(d){ const p=n=>String(n).padStart(2,'0');
   return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes()); }
 function openGallerySheet(id){
+  if(!galAccess){ galLockedMsg(); return; }
   galEditId=id||null;
   const it=id?galItems.find(i=>i.id===id):null;
   galPendingImg=it?it.img:null;
@@ -10683,7 +10779,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='77.9';
+const APP_VERSION='78.0';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

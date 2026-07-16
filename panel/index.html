@@ -254,9 +254,9 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
     <div class="tbl-wrap">
       <table>
         <thead><tr>
-          <th>نام کاربری</th><th>ایمیل</th><th>تاریخ عضویت</th><th>اکسپرت</th><th>آخرین بازدید</th><th>۳ روز اخیر</th><th>وضعیت</th><th>عملیات</th>
+          <th>نام کاربری</th><th>ایمیل</th><th>تاریخ عضویت</th><th>اکسپرت</th><th>آخرین بازدید</th><th>۳ روز اخیر</th><th>وضعیت</th><th>گالری</th><th>عملیات</th>
         </tr></thead>
-        <tbody id="users-body"><tr><td colspan="8" class="empty-row">در حال بارگذاری…</td></tr></tbody>
+        <tbody id="users-body"><tr><td colspan="9" class="empty-row">در حال بارگذاری…</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -661,13 +661,33 @@ window.addEventListener('resize',()=>drawChart());
 
 /* ===== users ===== */
 let _users=[];
+/* گالری معاملات: نقشه‌ی user_id → {enabled, photos}؛ null یعنی gallery.sql هنوز اجرا نشده */
+let _gal=null;
+async function loadGallery(){
+  try{
+    const r=await rpc('admin_gallery_list',{p_token:ADMIN_TOKEN});
+    if(r&&r.ok){
+      _gal={};
+      (r.rows||[]).forEach(x=>{ _gal[x.user_id]={enabled:!!x.enabled,photos:x.photos||0}; });
+    }
+  }catch(e){ _gal=null; }
+}
 async function loadUsers(){
   try{
     const r=await rpc('admin_users',{p_token:ADMIN_TOKEN});
     if(!r||!r.ok){ if(r&&r.error==='unauthorized')authFail(); return; }
     _users=r.users||[];
+    await loadGallery();
     renderUsers();
   }catch(e){}
+}
+async function setGallery(id,en){
+  const u=_users.find(x=>x.id===id);
+  if(!en && !confirm('آپلود عکس گالری برای «'+(u?u.name:'')+'» غیرفعال شود؟'))return;
+  const r=await rpc('admin_set_gallery',{p_token:ADMIN_TOKEN,p_user:id,p_enabled:en});
+  if(r&&r.ok){ toast(en?'🖼 گالری کاربر فعال شد':'🔒 گالری کاربر غیرفعال شد'); loadUsers(); }
+  else if(r&&r.error==='unauthorized')authFail();
+  else toast('❌ خطا — فایل gallery.sql در Supabase اجرا شده؟');
 }
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 let _userQuery='';
@@ -703,7 +723,7 @@ function renderUsers(){
   document.getElementById('u-count').textContent=filtered
     ? faNum(list.length)+' از '+faNum(_users.length)+' کاربر'
     : faNum(_users.length)+' کاربر';
-  if(!list.length){ tb.innerHTML='<tr><td colspan="8" class="empty-row">'+(filtered?'کاربری با این شرایط پیدا نشد':'هنوز کاربری ثبت‌نام نکرده')+'</td></tr>'; return; }
+  if(!list.length){ tb.innerHTML='<tr><td colspan="9" class="empty-row">'+(filtered?'کاربری با این شرایط پیدا نشد':'هنوز کاربری ثبت‌نام نکرده')+'</td></tr>'; return; }
   tb.innerHTML=list.map(u=>{
     const ea = u.trades>0 ? '<span class="badge ok">✅ وصل — '+faNum(u.trades)+' ترید</span>'
              : u.has_token ? '<span class="badge mid">🔑 توکن ساخته</span>'
@@ -715,6 +735,18 @@ function renderUsers(){
     const banBtn = u.banned
       ? '<button class="act-btn act-ban" onclick="setBan(\''+u.id+'\',false)">✅ رفع مسدودی</button>'
       : '<button class="act-btn act-ban" onclick="setBan(\''+u.id+'\',true)">🚫 مسدود</button>';
+    // ستون گالری معاملات — بج وضعیت + دکمه فعال/غیرفعال آپلود عکس
+    let galCell;
+    if(_gal===null){
+      galCell='<span class="badge no" title="فایل gallery.sql هنوز در Supabase اجرا نشده">—</span>';
+    }else{
+      const g=_gal[u.id]||{enabled:false,photos:0};
+      galCell=(g.enabled
+          ? '<span class="badge ok">🖼 فعال'+(g.photos?' — '+faNum(g.photos)+' عکس':'')+'</span>'
+          : '<span class="badge no">🔒 قفل'+(g.photos?' — '+faNum(g.photos)+' عکس':'')+'</span>')
+        +'<br><button class="act-btn act-ban" onclick="setGallery(\''+u.id+'\','+(g.enabled?'false':'true')+')">'
+        +(g.enabled?'🔒 غیرفعال کن':'🖼 فعال کن')+'</button>';
+    }
     return '<tr>'+
       '<td class="u-name">'+esc(u.name)+'</td>'+
       '<td class="u-email">'+esc(u.email)+'</td>'+
@@ -723,6 +755,7 @@ function renderUsers(){
       '<td>'+faDateTime(u.last_visit)+'</td>'+
       '<td>'+act3+'</td>'+
       '<td>'+status+'</td>'+
+      '<td>'+galCell+'</td>'+
       '<td>'+banBtn+
         '<button class="act-btn act-pass" onclick="changePass(\''+u.id+'\',\''+esc(u.name)+'\')">🔑 تغییر رمز</button>'+
         '<button class="act-btn act-del" onclick="delUser(\''+u.id+'\',\''+esc(u.name)+'\')">🗑 حذف</button>'+

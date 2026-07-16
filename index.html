@@ -2975,8 +2975,8 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
 
 /* ===== ANNOUNCEMENT modal — luxe broadcast from admin ===== */
-#ann-overlay{position:fixed;inset:0;z-index:98000;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(3,8,18,.82);backdrop-filter:blur(6px)}
-#ann-overlay.show{display:flex}
+#ann-overlay,#pm-overlay{position:fixed;inset:0;z-index:98000;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(3,8,18,.82);backdrop-filter:blur(6px)}
+#ann-overlay.show,#pm-overlay.show{display:flex}
 .ann-card{position:relative;width:100%;max-width:380px;background:linear-gradient(160deg,#1a2f4e 0%,#0f2238 55%,#0a1830 100%);border:1px solid rgba(244,200,106,.4);border-radius:24px;padding:30px 24px 24px;text-align:center;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(232,160,32,.12);animation:annIn .5s cubic-bezier(.2,.8,.2,1)}
 @keyframes annIn{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
 .ann-card::before{content:'';position:absolute;top:-50px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(244,200,106,.18),transparent 70%);pointer-events:none}
@@ -5410,6 +5410,18 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     <div class="ann-body" id="ann-body"></div>
     <div class="ann-date" id="ann-date"></div>
     <button type="button" class="ann-ok" onclick="annDismiss()">متوجه شدم ✨</button>
+  </div>
+</div>
+
+<!-- پیام خصوصی ادمین به همین کاربر (جدول user_messages) -->
+<div id="pm-overlay" onclick="if(event.target===this)pmDismiss()">
+  <div class="ann-card">
+    <div class="ann-shine"></div>
+    <div class="ann-emoji">📩</div>
+    <div class="ann-title">پیام خصوصی از مدیریت</div>
+    <div class="ann-body" id="pm-body"></div>
+    <div class="ann-date" id="pm-date"></div>
+    <button type="button" class="ann-ok" onclick="pmDismiss()">متوجه شدم ✅</button>
   </div>
 </div>
 
@@ -10779,7 +10791,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='78.0';
+const APP_VERSION='78.1';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -11005,6 +11017,43 @@ async function mt5LoadAccount(){
 
 /* ----- Announcements — broadcast written in the admin panel ----- */
 let _annQueue=[];
+/* ----- پیام خصوصی ادمین (user_messages — فایل admin-users-extra.sql) -----
+   پیام‌های دیده‌نشده بعد از ورود نمایش داده می‌شوند؛ با «متوجه شدم»
+   seen_at پر می‌شود و دیگر تکرار نمی‌شوند. */
+let _pmQueue=[];
+async function checkPrivateMessages(){
+  if(!SB||!CURRENT_USER) return;
+  try{
+    const {data:rows,error}=await SB.from('user_messages')
+      .select('id,body,created_at')
+      .eq('user_id',CURRENT_USER.id)
+      .is('seen_at',null)
+      .order('id',{ascending:true}).limit(10);
+    if(error||!rows||!rows.length) return;
+    _pmQueue=rows;
+    pmShowNext();
+  }catch(e){ /* جدول هنوز ساخته نشده یا آفلاین — بی‌صدا رد شو */ }
+}
+function pmShowNext(){
+  const m=_pmQueue[0]; if(!m) return;
+  const ov=document.getElementById('pm-overlay'); if(!ov) return;
+  document.getElementById('pm-body').textContent=m.body;
+  const d=new Date(m.created_at);
+  document.getElementById('pm-date').textContent=isNaN(d)?'':
+    d.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long'})+'، '+
+    d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+  ov.classList.add('show');
+}
+async function pmDismiss(){
+  const m=_pmQueue.shift();
+  if(m&&SB&&CURRENT_USER){
+    try{ await SB.from('user_messages').update({seen_at:new Date().toISOString()}).eq('id',m.id); }
+    catch(e){ /* آفلاین — دفعه بعد دوباره نشان داده می‌شود؛ اشکالی ندارد */ }
+  }
+  if(_pmQueue.length){ pmShowNext(); }
+  else{ const ov=document.getElementById('pm-overlay'); if(ov) ov.classList.remove('show'); }
+}
+
 async function checkAnnouncements(){
   if(!SB||!CURRENT_USER) return;
   try{
@@ -11435,6 +11484,7 @@ async function enterApp(interactive){
   mtCloudSync();         // تریدهای ارسالی از متاتریدر را بگیر و در ژورنال ثبت کن
   mt5LoadAccount();      // بالانس و وضعیت حساب برای کارت بالای ژورنال
   checkAnnouncements();  // اطلاعیه‌های جدید ادمین (اگر باشد، نمایش داده می‌شود)
+  checkPrivateMessages();// پیام خصوصی ادمین به همین کاربر
   logVisit();            // ثبت بازدید برای آمار پنل مدیریت
   donateLoad();          // تنظیمات حمایت مالی (از پنل مدیریت)
   // For a brand-new account with no data yet, seed the display name into the app.

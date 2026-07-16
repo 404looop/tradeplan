@@ -250,20 +250,28 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         <button class="ch-chip" id="uf-active3" onclick="userFilter('active3')">⚡ فعال ۳ روز</button>
         <button class="ch-chip" id="uf-idle3" onclick="userFilter('idle3')">💤 غیرفعال ۳ روز</button>
       </div>
+      <div class="ch-metric">
+        <button class="ch-chip" onclick="setGalleryAll(true)">🖼 گالری همه: فعال</button>
+        <button class="ch-chip" onclick="setGalleryAll(false)">🔒 گالری همه: غیرفعال</button>
+      </div>
     </div>
     <div class="tbl-wrap">
       <table>
         <thead><tr>
-          <th>نام کاربری</th><th>ایمیل</th><th>تاریخ عضویت</th><th>اکسپرت</th><th>آخرین بازدید</th><th>۳ روز اخیر</th><th>وضعیت</th><th>گالری</th><th>عملیات</th>
+          <th>#</th><th>نام کاربری</th><th>ایمیل</th><th>تاریخ عضویت</th><th>اکسپرت</th><th>آخرین بازدید</th><th>۳ روز اخیر</th><th>وضعیت</th><th>گالری</th><th>عملیات</th>
         </tr></thead>
-        <tbody id="users-body"><tr><td colspan="9" class="empty-row">در حال بارگذاری…</td></tr></tbody>
+        <tbody id="users-body"><tr><td colspan="10" class="empty-row">در حال بارگذاری…</td></tr></tbody>
       </table>
     </div>
   </div>
 
   <!-- ===== leaderboard ===== -->
   <div class="card">
-    <div class="card-title">🏆 فعال‌ترین کاربران <span class="legend">۳۰ روز اخیر</span></div>
+    <div class="card-title">🏆 فعال‌ترین کاربران <span class="legend" id="lb-count"></span></div>
+    <div class="ch-metric" style="margin-bottom:10px">
+      <button class="ch-chip active" id="lbf-active3" onclick="lbFilter('active3')">⚡ فعال ۳ روز اخیر</button>
+      <button class="ch-chip" id="lbf-all" onclick="lbFilter('all')">همه (۳۰ روز)</button>
+    </div>
     <div class="tbl-wrap">
       <table class="lb-table">
         <thead><tr>
@@ -272,7 +280,21 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         <tbody id="lb-body"><tr><td colspan="8" class="empty-row">در حال بارگذاری…</td></tr></tbody>
       </table>
     </div>
-    <div class="dn-hint">امتیاز = روزِ فعال ×۱۰ + بازدید (تا سقف ۹۰) + ترید ثبت‌شده ×۲ (تا سقف ۳۰ ترید) + بازخورد ×۵ — همه در ۳۰ روز اخیر.</div>
+    <div class="dn-hint">امتیاز = روزِ فعال ×۱۰ + بازدید (تا سقف ۹۰) + ترید ثبت‌شده ×۲ (تا سقف ۳۰ ترید) + بازخورد ×۵ — همه در ۳۰ روز اخیر. از رتبه ۱ (بالاترین امتیاز) تا آخرین نفر.</div>
+  </div>
+
+  <!-- ===== account growth ===== -->
+  <div class="card">
+    <div class="card-title">📈 رشد حساب کاربران <span class="legend">درصد رشد نسبت به سرمایه اولیه — از بیشترین تا کمترین</span></div>
+    <div class="tbl-wrap">
+      <table class="lb-table">
+        <thead><tr>
+          <th>رتبه</th><th>نام کاربری</th><th>سرمایه اولیه</th><th>بالانس فعلی</th><th>سود / ضرر</th><th>درصد رشد</th><th>آخرین سینک</th>
+        </tr></thead>
+        <tbody id="gr-body"><tr><td colspan="7" class="empty-row">در حال بارگذاری…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="dn-hint">داده از سینک خودکار متاتریدر (mt5_accounts) می‌آید — فقط کاربرانی که اکسپرت وصل است و سرمایه اولیه ثبت شده.</div>
   </div>
 
   <!-- ===== announcements ===== -->
@@ -435,7 +457,7 @@ function enterPanel(){
   loadAll();
 }
 async function loadAll(){
-  loadStats(); loadStatsExtra(); loadUsers(); chLoad(true); annLoad(); fbLoad(); donAdmLoad(); lbLoad();
+  loadStats(); loadStatsExtra(); loadUsers(); chLoad(true); annLoad(); fbLoad(); donAdmLoad(); lbLoad(); growthLoad();
   document.getElementById('p-updated').textContent='آخرین به‌روزرسانی: '+new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());
 }
 async function loadStats(){
@@ -689,6 +711,27 @@ async function setGallery(id,en){
   else if(r&&r.error==='unauthorized')authFail();
   else toast('❌ خطا — فایل gallery.sql در Supabase اجرا شده؟');
 }
+/* سوییچ کلی گالری — برای همه کاربران فعلی یکجا */
+async function setGalleryAll(en){
+  if(!confirm(en
+    ? 'آپلود عکس گالری برای «همه» کاربران فعال شود؟'
+    : '⚠️ آپلود عکس گالری برای «همه» کاربران غیرفعال شود؟'))return;
+  const r=await rpc('admin_set_gallery_all',{p_token:ADMIN_TOKEN,p_enabled:en});
+  if(r&&r.ok){ toast(en?'🖼 گالری برای همه ('+faNum(r.count||0)+' کاربر) فعال شد':'🔒 گالری برای همه غیرفعال شد'); loadUsers(); }
+  else if(r&&r.error==='unauthorized')authFail();
+  else toast('❌ خطا — فایل admin-users-extra.sql در Supabase اجرا شده؟');
+}
+/* پیام خصوصی به یک کاربر — دفعه بعدی که وارد برنامه شود می‌بیند */
+async function sendMsg(id,name){
+  const b=prompt('📩 پیام خصوصی به «'+name+'» (کوتاه، حداکثر ۵۰۰ حرف):\nدفعه بعد که وارد برنامه شود نمایش داده می‌شود.');
+  if(b===null)return;
+  if(!(b||'').trim()){ toast('پیام خالی است'); return; }
+  if(b.length>500){ toast('پیام حداکثر ۵۰۰ حرف باشد'); return; }
+  const r=await rpc('admin_send_message',{p_token:ADMIN_TOKEN,p_user:id,p_body:b.trim()});
+  if(r&&r.ok) toast('📩 پیام برای «'+name+'» ارسال شد');
+  else if(r&&r.error==='unauthorized')authFail();
+  else toast('❌ خطا — فایل admin-users-extra.sql در Supabase اجرا شده؟');
+}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 let _userQuery='';
 function userSearch(v){ _userQuery=(v||'').trim().toLowerCase(); renderUsers(); }
@@ -723,8 +766,8 @@ function renderUsers(){
   document.getElementById('u-count').textContent=filtered
     ? faNum(list.length)+' از '+faNum(_users.length)+' کاربر'
     : faNum(_users.length)+' کاربر';
-  if(!list.length){ tb.innerHTML='<tr><td colspan="9" class="empty-row">'+(filtered?'کاربری با این شرایط پیدا نشد':'هنوز کاربری ثبت‌نام نکرده')+'</td></tr>'; return; }
-  tb.innerHTML=list.map(u=>{
+  if(!list.length){ tb.innerHTML='<tr><td colspan="10" class="empty-row">'+(filtered?'کاربری با این شرایط پیدا نشد':'هنوز کاربری ثبت‌نام نکرده')+'</td></tr>'; return; }
+  tb.innerHTML=list.map((u,idx)=>{
     const ea = u.trades>0 ? '<span class="badge ok">✅ وصل — '+faNum(u.trades)+' ترید</span>'
              : u.has_token ? '<span class="badge mid">🔑 توکن ساخته</span>'
              : '<span class="badge no">وصل نشده</span>';
@@ -742,12 +785,13 @@ function renderUsers(){
     }else{
       const g=_gal[u.id]||{enabled:false,photos:0};
       galCell=(g.enabled
-          ? '<span class="badge ok">🖼 فعال'+(g.photos?' — '+faNum(g.photos)+' عکس':'')+'</span>'
-          : '<span class="badge no">🔒 قفل'+(g.photos?' — '+faNum(g.photos)+' عکس':'')+'</span>')
+          ? '<span class="badge ok">🖼 فعال — '+faNum(g.photos)+' عکس</span>'
+          : '<span class="badge no">🔒 قفل — '+faNum(g.photos)+' عکس</span>')
         +'<br><button class="act-btn act-ban" onclick="setGallery(\''+u.id+'\','+(g.enabled?'false':'true')+')">'
         +(g.enabled?'🔒 غیرفعال کن':'🖼 فعال کن')+'</button>';
     }
     return '<tr>'+
+      '<td class="lb-rank">'+faNum(idx+1)+'</td>'+
       '<td class="u-name">'+esc(u.name)+'</td>'+
       '<td class="u-email">'+esc(u.email)+'</td>'+
       '<td>'+faDate(u.created_at)+'</td>'+
@@ -757,6 +801,7 @@ function renderUsers(){
       '<td>'+status+'</td>'+
       '<td>'+galCell+'</td>'+
       '<td>'+banBtn+
+        '<button class="act-btn act-pass" onclick="sendMsg(\''+u.id+'\',\''+esc(u.name)+'\')">📩 پیام</button>'+
         '<button class="act-btn act-pass" onclick="changePass(\''+u.id+'\',\''+esc(u.name)+'\')">🔑 تغییر رمز</button>'+
         '<button class="act-btn act-del" onclick="delUser(\''+u.id+'\',\''+esc(u.name)+'\')">🗑 حذف</button>'+
       '</td></tr>';
@@ -806,7 +851,40 @@ async function loadStatsExtra(){
   }catch(e){}
 }
 
-/* ===== leaderboard (فعال‌ترین کاربران ۳۰ روز اخیر) ===== */
+/* ===== leaderboard (فعال‌ترین کاربران — رتبه ۱ تا آخر) ===== */
+let _lbItems=[], _lbFilter='active3';
+function lbFilter(f){
+  _lbFilter=f;
+  ['active3','all'].forEach(k=>{
+    const b=document.getElementById('lbf-'+k);
+    if(b)b.className='ch-chip'+(k===f?' active':'');
+  });
+  lbRender();
+}
+function lbRender(){
+  const tb=document.getElementById('lb-body');
+  // اگر تابع قدیمی باشد active3 ندارد — در حالت «فعال ۳ روز» همه را نشان بده
+  const items=_lbFilter==='active3'
+    ? _lbItems.filter(u=>u.active3===undefined?true:u.active3)
+    : _lbItems;
+  const c=document.getElementById('lb-count');
+  if(c)c.textContent=_lbFilter==='active3'
+    ? faNum(items.length)+' کاربر فعال ۳ روز اخیر'
+    : faNum(items.length)+' کاربر فعال ۳۰ روز اخیر';
+  if(!items.length){ tb.innerHTML='<tr><td colspan="8" class="empty-row">'+(_lbFilter==='active3'?'در ۳ روز اخیر کاربر فعالی نبوده':'در ۳۰ روز اخیر فعالیتی ثبت نشده')+'</td></tr>'; return; }
+  const MEDALS=['🥇','🥈','🥉'];
+  tb.innerHTML=items.map((u,i)=>
+    '<tr'+(i<3?' class="lb-top"':'')+'>'+
+      '<td class="lb-rank">'+(MEDALS[i]||faNum(i+1))+'</td>'+
+      '<td class="u-name">'+esc(u.name)+'</td>'+
+      '<td>'+faNum(u.days30)+' روز</td>'+
+      '<td>'+faNum(u.visits30)+'</td>'+
+      '<td>'+faNum(u.trades30)+'</td>'+
+      '<td>'+faNum(u.fb30)+'</td>'+
+      '<td>'+faDateTime(u.last_visit)+'</td>'+
+      '<td class="lb-score">'+faNum(u.score)+'</td>'+
+    '</tr>').join('');
+}
 async function lbLoad(){
   const tb=document.getElementById('lb-body');
   try{
@@ -817,20 +895,41 @@ async function lbLoad(){
         tb.innerHTML='<tr><td colspan="8" class="empty-row">⚠️ فایل admin-activity.sql هنوز در Supabase اجرا نشده</td></tr>';
       return;
     }
+    _lbItems=r.items||[];
+    lbRender();
+  }catch(e){}
+}
+
+/* ===== رشد حساب کاربران (نسبت به سرمایه اولیه) ===== */
+async function growthLoad(){
+  const tb=document.getElementById('gr-body');
+  try{
+    const r=await rpc('admin_growth',{p_token:ADMIN_TOKEN});
+    if(!r||!r.ok){
+      if(r&&r.error==='unauthorized'){ authFail(); return; }
+      if(r&&(r.code==='PGRST202'||/could not find the function/i.test(r.message||'')))
+        tb.innerHTML='<tr><td colspan="7" class="empty-row">⚠️ فایل admin-users-extra.sql هنوز در Supabase اجرا نشده</td></tr>';
+      return;
+    }
     const items=r.items||[];
-    if(!items.length){ tb.innerHTML='<tr><td colspan="8" class="empty-row">در ۳۰ روز اخیر فعالیتی ثبت نشده</td></tr>'; return; }
+    if(!items.length){ tb.innerHTML='<tr><td colspan="7" class="empty-row">هنوز حسابی از متاتریدر سینک نشده (سرمایه اولیه لازم است)</td></tr>'; return; }
     const MEDALS=['🥇','🥈','🥉'];
-    tb.innerHTML=items.map((u,i)=>
-      '<tr'+(i<3?' class="lb-top"':'')+'>'+
-        '<td class="lb-rank">'+(MEDALS[i]||faNum(i+1))+'</td>'+
+    tb.innerHTML=items.map((u,i)=>{
+      const pos=Number(u.pct)>=0;
+      const pctHtml='<span style="font-weight:900;color:'+(pos?'#34d399':'#f87171')+'">'
+        +(pos?'+':'')+faNum(u.pct)+'٪</span>';
+      const prHtml='<span style="color:'+(Number(u.profit)>=0?'#34d399':'#f87171')+'">'
+        +(Number(u.profit)>=0?'+':'')+'$'+faNum(Math.abs(u.profit))+'</span>';
+      return '<tr'+(i<3&&pos?' class="lb-top"':'')+'>'+
+        '<td class="lb-rank">'+(pos?(MEDALS[i]||faNum(i+1)):faNum(i+1))+'</td>'+
         '<td class="u-name">'+esc(u.name)+'</td>'+
-        '<td>'+faNum(u.days30)+' روز</td>'+
-        '<td>'+faNum(u.visits30)+'</td>'+
-        '<td>'+faNum(u.trades30)+'</td>'+
-        '<td>'+faNum(u.fb30)+'</td>'+
-        '<td>'+faDateTime(u.last_visit)+'</td>'+
-        '<td class="lb-score">'+faNum(u.score)+'</td>'+
-      '</tr>').join('');
+        '<td>$'+faNum(u.deposit)+'</td>'+
+        '<td>$'+faNum(u.balance)+'</td>'+
+        '<td>'+prHtml+'</td>'+
+        '<td>'+pctHtml+'</td>'+
+        '<td>'+faDateTime(u.synced_at)+'</td>'+
+      '</tr>';
+    }).join('');
   }catch(e){}
 }
 

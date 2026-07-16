@@ -121,6 +121,73 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .jpanel-empty{margin:26px 15px;padding:52px 20px;border-radius:18px;border:1px dashed rgba(255,255,255,.14);background:rgba(255,255,255,.03);text-align:center;font-size:15px;font-weight:800;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:8px}
 .jpanel-empty span{font-size:12px;font-weight:600;color:var(--text-muted)}
 
+/* ═══════ TRADE GALLERY (گالری معاملات) ═══════ */
+.gal-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 15px 2px}
+.gal-pills{display:flex;gap:6px}
+.gal-pill{padding:7px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all var(--tr);white-space:nowrap}
+.gal-pill.active{background:var(--gold);border-color:var(--gold);color:#0b1628}
+.gal-select{padding:7px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:700;outline:none;cursor:pointer;max-width:160px}
+.gal-select option{background:#0f2238;color:#fff}
+.gal-count{font-size:11.5px;font-weight:700;color:var(--text-muted);margin-inline-start:auto;white-space:nowrap}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px;padding:12px 15px 30px}
+/* add card */
+.gal-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:18px;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr)}
+.gal-add-card:hover{background:rgba(232,160,32,.07);border-color:var(--gold)}
+.gal-add-card:active{transform:scale(.98)}
+.gal-add-plus{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08);box-shadow:0 6px 18px rgba(232,160,32,.15)}
+.gal-add-title{font-size:14px;font-weight:900;color:var(--gold)}
+.gal-add-sub{font-size:11.5px;color:var(--text-muted)}
+/* trade card */
+.gal-card{border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#122540,#0a1830);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform var(--tr),box-shadow var(--tr);position:relative}
+.gal-card.win{border-color:rgba(34,197,94,.3)}
+.gal-card.loss{border-color:rgba(239,68,68,.3)}
+.gal-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(0,0,0,.5)}
+.gal-img-wrap{position:relative;aspect-ratio:16/10;background:#0a1424;cursor:zoom-in;overflow:hidden}
+.gal-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
+.gal-card:hover .gal-img{transform:scale(1.04)}
+.gal-chip-date,.gal-chip-time{position:absolute;top:9px;padding:4px 10px;border-radius:14px;font-size:10.5px;font-weight:800;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff}
+.gal-chip-date{right:9px}
+.gal-chip-time{left:9px;direction:ltr;font-variant-numeric:tabular-nums}
+.gal-body{padding:11px 13px 12px;display:flex;flex-direction:column;gap:9px}
+.gal-row1{display:flex;align-items:center;gap:8px}
+.gal-symbol{font-size:15px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.3px}
+.gal-badge{font-size:10px;font-weight:900;letter-spacing:.6px;padding:3px 9px;border-radius:7px;direction:ltr}
+.gal-badge.win{background:rgba(34,197,94,.16);color:#4ade80;border:1px solid rgba(34,197,94,.4)}
+.gal-badge.loss{background:rgba(239,68,68,.16);color:#f87171;border:1px solid rgba(239,68,68,.4)}
+.gal-pnl{margin-inline-start:auto;font-size:19px;font-weight:900;direction:ltr;font-variant-numeric:tabular-nums}
+.gal-pnl.pos{color:#4ade80;text-shadow:0 1px 10px rgba(34,197,94,.3)}
+.gal-pnl.neg{color:#f87171;text-shadow:0 1px 10px rgba(239,68,68,.3)}
+.gal-row2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:30px}
+.gal-tag{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:14px;background:rgba(59,130,246,.14);color:#93c5fd;border:1px solid rgba(59,130,246,.35)}
+.gal-tag.rr{background:rgba(255,255,255,.05);color:var(--text-muted);border-color:rgba(255,255,255,.12);direction:ltr}
+.gal-actions{margin-inline-start:auto;display:flex;gap:4px}
+.gal-act{width:30px;height:30px;border-radius:9px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.gal-act:hover{color:#fff;border-color:rgba(255,255,255,.25)}
+.gal-act.del:hover{color:#f87171;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1)}
+.gal-empty{grid-column:1/-1;text-align:center;padding:30px 10px;color:var(--text-muted);font-size:13px;font-weight:700}
+/* add/edit sheet */
+.gal-sheet{max-height:92vh;overflow-y:auto}
+.gal-drop{position:relative;border:1.5px dashed rgba(232,160,32,.5);border-radius:16px;min-height:170px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:rgba(232,160,32,.04);margin-top:4px;transition:all var(--tr)}
+.gal-drop.drag-over{border-color:var(--gold);background:rgba(232,160,32,.1)}
+.gal-drop-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px;text-align:center}
+.gal-drop-icon{font-size:30px}
+.gal-drop-title{font-size:13.5px;font-weight:800;color:var(--text)}
+.gal-drop-sub{font-size:11px;color:var(--text-muted)}
+#gal-preview{width:100%;max-height:290px;object-fit:contain;background:#0a1424;display:none}
+.gal-size-badge{position:absolute;bottom:8px;left:8px;background:rgba(5,12,24,.82);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:4px 10px;font-size:10.5px;font-weight:800;color:#4ade80;direction:ltr;display:none}
+.gal-res-toggle{display:flex;gap:6px}
+.gal-res-btn{flex:1;padding:11px 0;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:900;cursor:pointer;letter-spacing:.4px;transition:all var(--tr)}
+.gal-res-btn.win.active{background:rgba(34,197,94,.18);border-color:#22c55e;color:#4ade80}
+.gal-res-btn.loss.active{background:rgba(239,68,68,.18);border-color:#ef4444;color:#f87171}
+input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:11px 13px;font-family:'Vazirmatn',sans-serif;font-size:13.5px;color:var(--text);outline:none;color-scheme:dark}
+/* lightbox */
+#gal-view{position:fixed;inset:0;z-index:99500;background:rgba(3,8,18,.93);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:18px}
+#gal-view.show{display:flex}
+#gal-view-img{max-width:min(1200px,96vw);max-height:76vh;border-radius:14px;border:1px solid rgba(255,255,255,.15);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.gv-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:16px;cursor:pointer;z-index:1}
+.gv-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.gv-note{max-width:620px;text-align:center;font-size:12px;color:var(--text-muted);line-height:1.8}
+
 /* ===== STRATEGY (Setup) — selection-based luxury redesign ===== */
 .strat-section{margin:16px 14px 0}
 .strat-q{font-size:13px;font-weight:800;color:var(--text);margin-bottom:11px;display:flex;align-items:center;gap:8px}
@@ -4309,9 +4376,20 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
   </div><!-- /jpanel-trades -->
 
-  <!-- Panel 1: GALLERY -->
+  <!-- Panel 1: GALLERY — گالری عکس چارت معاملات -->
   <div class="journal-panel" id="jpanel-gallery">
-    <div class="jpanel-empty">🖼 گالری معاملات<span>به‌زودی…</span></div>
+    <div class="gal-toolbar">
+      <div class="gal-pills">
+        <button type="button" class="gal-pill active" id="gal-pill-all" onclick="galSetFilter('all')">همه معاملات</button>
+        <button type="button" class="gal-pill" id="gal-pill-win" onclick="galSetFilter('win')">🟢 سودها</button>
+        <button type="button" class="gal-pill" id="gal-pill-loss" onclick="galSetFilter('loss')">🔴 ضررها</button>
+      </div>
+      <select class="gal-select" id="gal-symbol-filter" onchange="galSetSymbol(this.value)">
+        <option value="all">همه نمادها</option>
+      </select>
+      <div class="gal-count" id="gal-count"></div>
+    </div>
+    <div class="gal-grid" id="gal-grid"></div>
   </div>
 
   <!-- Panel 2: STATS -->
@@ -4985,6 +5063,95 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
 <!-- STRATEGY DETAILS — bottom sheet opened from the identity card -->
 <!-- RADAR HELP — explains each score with real numbers & time window -->
+<!-- ═══════ GALLERY: add/edit trade sheet ═══════ -->
+<div class="modal-overlay" id="gallery-modal">
+  <div class="modal-sheet gal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="gal-sheet-title">📸 افزودن معامله به گالری</div>
+
+    <div class="gal-drop" id="gal-drop"
+      onclick="document.getElementById('gal-file').click()"
+      ondragover="event.preventDefault();this.classList.add('drag-over')"
+      ondragleave="this.classList.remove('drag-over')"
+      ondrop="event.preventDefault();this.classList.remove('drag-over');galPickFile(event.dataTransfer.files[0])">
+      <div class="gal-drop-empty" id="gal-drop-empty">
+        <div class="gal-drop-icon">🖼</div>
+        <div class="gal-drop-title">عکس چارت معامله‌ات را اینجا بارگذاری کن</div>
+        <div class="gal-drop-sub">کلیک کن یا فایل را بکش و رها کن · JPG / PNG / WebP · خودکار فشرده می‌شود</div>
+      </div>
+      <img id="gal-preview" alt="">
+      <div class="gal-size-badge" id="gal-size-badge"></div>
+    </div>
+    <input type="file" id="gal-file" accept="image/*" style="display:none" onchange="galPickFile(this.files[0]);this.value=''">
+
+    <div class="modal-form">
+      <div class="modal-row">
+        <div style="flex:1">
+          <div class="modal-label">نماد معامله</div>
+          <input type="text" id="gal-symbol" dir="ltr" placeholder="XAU/USD" list="gal-symbols-dl">
+          <datalist id="gal-symbols-dl"></datalist>
+        </div>
+        <div style="flex:1">
+          <div class="modal-label">مقدار سود / ضرر (دلار)</div>
+          <input type="text" id="gal-pnl" dir="ltr" inputmode="decimal" placeholder="24.60">
+        </div>
+      </div>
+      <div>
+        <div class="modal-label">نتیجه معامله</div>
+        <div class="gal-res-toggle">
+          <button type="button" class="gal-res-btn win active" id="gal-res-win" onclick="galSetResult('win')">🟢 WIN · سود</button>
+          <button type="button" class="gal-res-btn loss" id="gal-res-loss" onclick="galSetResult('loss')">🔴 LOSS · ضرر</button>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div style="flex:1.3">
+          <div class="modal-label">⏰ تاریخ و ساعت دقیق معامله</div>
+          <input type="datetime-local" id="gal-dt" dir="ltr">
+        </div>
+        <div style="flex:.7">
+          <div class="modal-label">ریسک به ریوارد</div>
+          <input type="text" id="gal-rr" dir="ltr" placeholder="1:2.5">
+        </div>
+      </div>
+      <div>
+        <div class="modal-label">استراتژی / ستاپ (اختیاری)</div>
+        <input type="text" id="gal-strategy" placeholder="مثلاً: اوردربلاک تایم ۴ ساعته" list="gal-strats-dl">
+        <datalist id="gal-strats-dl"></datalist>
+      </div>
+      <div>
+        <div class="modal-label">یادداشت (اختیاری)</div>
+        <textarea id="gal-note" rows="2" placeholder="درس این معامله، دلیل ورود، نکته‌ای برای آینده…"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeGallerySheet()">انصراف</button>
+      <button class="modal-btn primary" onclick="gallerySave()">ذخیره معامله ✅</button>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY: delete confirm -->
+<div class="modal-overlay" id="gal-del-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🗑 حذف معامله از گالری</div>
+    <div class="modal-body">این معامله و عکس چارتش برای همیشه حذف می‌شود. مطمئنی؟</div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeModal('gal-del-modal')">انصراف</button>
+      <button class="modal-btn danger" onclick="galDoDelete()">بله، حذف کن</button>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY: fullscreen lightbox -->
+<div id="gal-view" onclick="if(event.target===this)galCloseView()">
+  <button type="button" class="gv-close" onclick="galCloseView()">✕</button>
+  <img id="gal-view-img" alt="">
+  <div class="gv-meta" id="gal-view-meta"></div>
+  <div class="gv-note" id="gal-view-note"></div>
+</div>
+
 <div class="modal-overlay" id="radar-help">
   <div class="modal-sheet strat-sheet">
     <div class="modal-handle"></div>
@@ -5322,7 +5489,282 @@ function switchJournalTab(idx){
   // idx 0=معاملات (محتوای فعلی ژورنال), 1=گالری معاملات, 2=آمار معاملات
   document.querySelectorAll('.journal-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.journal-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+  if(idx===1) renderGallery();
 }
+
+/* ═══════════════ TRADE GALLERY (گالری معاملات) ═══════════════
+   عکس چارت هر معامله + نتیجه/سود/تاریخ دقیق. عکس‌ها سمت مرورگر
+   فشرده می‌شوند (وب‌پی/جی‌پگ، هدف ~۱۸۵KB) و در جدول gallery_trades
+   سوپابیس ذخیره می‌شوند؛ نسخه‌ی محلی هم در localStorage می‌ماند تا
+   آفلاین کار کند و بعداً خودش سینک شود. */
+let galItems=[];          // [{id,symbol,result,pnl,rr,strategy,note,taken_at,img,synced}]
+let galFilter='all', galSymbol='all', galResult='win';
+let galEditId=null, galDelId=null, galPendingImg=null;
+let galLoaded=false, galPulled=false;
+
+function GAL_KEY(){ return CURRENT_USER?('tradeplan_gallery:'+CURRENT_USER.id):'tradeplan_gallery'; }
+function GAL_DEL_KEY(){ return GAL_KEY()+':del'; }
+function galEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function galNum(s){ return String(s||'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); }
+function galUUID(){ return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,10); }
+function galSort(){ galItems.sort((a,b)=>new Date(b.taken_at)-new Date(a.taken_at)); }
+function galLoadLocal(){ try{ galItems=JSON.parse(localStorage.getItem(GAL_KEY())||'[]'); }catch(e){ galItems=[]; } }
+function galSaveLocal(){
+  try{ localStorage.setItem(GAL_KEY(),JSON.stringify(galItems)); }
+  catch(e){ showToast('⚠️ حافظه مرورگر پر است — چند معامله قدیمی گالری را حذف کن'); }
+}
+function galFmtPnl(v){ const a=Math.abs(v); const s=(a%1===0)?a.toFixed(0):a.toFixed(2); return (v<0?'-$':'+$')+s; }
+function galDateChip(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('fa-IR',{day:'numeric',month:'long',year:'numeric'}); }
+function galTimeChip(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}); }
+
+// ---------- فشرده‌سازی هوشمند عکس (کیفیت پله‌ای + کاهش ابعاد) ----------
+function galCompressImage(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      URL.revokeObjectURL(url);
+      try{
+        const BUDGET=Math.round(185*1024*4/3); // طول data-URL ≈ بایت×۴/۳ → هدف ~۱۸۵KB
+        const encode=(w)=>{
+          const cv=document.createElement('canvas');
+          const h=Math.max(1,Math.round(img.naturalHeight*w/img.naturalWidth));
+          cv.width=w; cv.height=h;
+          const cx=cv.getContext('2d');
+          cx.imageSmoothingQuality='high';
+          cx.drawImage(img,0,0,w,h);
+          // وب‌پی اگر مرورگر پشتیبانی کند (حجم کمتر)، وگرنه جی‌پگ
+          const type=cv.toDataURL('image/webp',.8).indexOf('data:image/webp')===0?'image/webp':'image/jpeg';
+          let out='';
+          for(const q of [.8,.68,.55,.42]){
+            out=cv.toDataURL(type,q);
+            if(out.length<=BUDGET) break;
+          }
+          return out;
+        };
+        let w=Math.min(img.naturalWidth||1280,1280);
+        let out=encode(w);
+        if(out.length>BUDGET&&w>900){ w=900; out=encode(w); }
+        if(out.length>BUDGET&&w>640){ out=encode(640); }
+        resolve(out);
+      }catch(e){ reject(e); }
+    };
+    img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error('bad image')); };
+    img.src=url;
+  });
+}
+function galKB(bytes){ return bytes>=1048576?(bytes/1048576).toFixed(1)+'MB':Math.max(1,Math.round(bytes/1024))+'KB'; }
+
+// ---------- سینک ابری (جدول gallery_trades — فایل supabase/gallery.sql) ----------
+async function galCloudFlush(){
+  if(!SB||!CURRENT_USER) return;
+  try{
+    let dels=[]; try{ dels=JSON.parse(localStorage.getItem(GAL_DEL_KEY())||'[]'); }catch(e){}
+    if(dels.length){
+      const {error}=await SB.from('gallery_trades').delete().in('id',dels);
+      if(!error) localStorage.removeItem(GAL_DEL_KEY());
+    }
+    for(const it of galItems.filter(i=>!i.synced)){
+      const {error}=await SB.from('gallery_trades').upsert({
+        id:it.id,user_id:CURRENT_USER.id,symbol:it.symbol,result:it.result,pnl:it.pnl,
+        rr:it.rr,strategy:it.strategy,note:it.note,taken_at:it.taken_at,img:it.img
+      });
+      if(!error) it.synced=true;
+    }
+    galSaveLocal();
+  }catch(e){ /* آفلاین یا جدول هنوز ساخته نشده — دفعه بعد */ }
+}
+async function galCloudPull(){
+  if(!SB||!CURRENT_USER) return;
+  try{
+    await galCloudFlush();
+    const {data:rows,error}=await SB.from('gallery_trades').select('*')
+      .eq('user_id',CURRENT_USER.id).order('taken_at',{ascending:false});
+    if(error||!rows) return;
+    const localOnly=galItems.filter(i=>!i.synced&&!rows.some(r=>r.id===i.id));
+    galItems=rows.map(r=>({id:r.id,symbol:r.symbol||'',result:r.result==='loss'?'loss':'win',
+      pnl:Number(r.pnl)||0,rr:r.rr||'',strategy:r.strategy||'',note:r.note||'',
+      taken_at:r.taken_at,img:r.img||'',synced:true})).concat(localOnly);
+    galSort(); galSaveLocal();
+  }catch(e){ /* آفلاین — نسخه محلی نمایش داده می‌شود */ }
+}
+
+// ---------- رندر ----------
+function renderGallery(){
+  if(!galLoaded){ galLoadLocal(); galSort(); galLoaded=true; }
+  galRenderToolbar(); galRenderGrid();
+  if(!galPulled&&SB&&CURRENT_USER){
+    galPulled=true;
+    galCloudPull().then(()=>{ galRenderToolbar(); galRenderGrid(); });
+  }
+}
+function galRenderToolbar(){
+  ['all','win','loss'].forEach(k=>{
+    const b=document.getElementById('gal-pill-'+k);
+    if(b) b.classList.toggle('active',galFilter===k);
+  });
+  const sel=document.getElementById('gal-symbol-filter');
+  if(sel){
+    const syms=[...new Set(galItems.map(i=>i.symbol))].filter(Boolean).sort();
+    if(galSymbol!=='all'&&!syms.includes(galSymbol)) galSymbol='all';
+    sel.innerHTML='<option value="all">همه نمادها</option>'+
+      syms.map(s=>`<option value="${galEsc(s)}"${s===galSymbol?' selected':''}>${galEsc(s)}</option>`).join('');
+  }
+  const c=document.getElementById('gal-count');
+  if(c){
+    const wins=galItems.filter(i=>i.result==='win').length;
+    c.textContent=galItems.length?`${toFA(galItems.length)} معامله · ${toFA(wins)} سود · ${toFA(galItems.length-wins)} ضرر`:'';
+  }
+}
+function galFiltered(){
+  return galItems.filter(i=>(galFilter==='all'||i.result===galFilter)&&(galSymbol==='all'||i.symbol===galSymbol));
+}
+function galRenderGrid(){
+  const grid=document.getElementById('gal-grid'); if(!grid) return;
+  const items=galFiltered();
+  let html=`<div class="gal-add-card" onclick="openGallerySheet()">
+      <div class="gal-add-plus">＋</div>
+      <div class="gal-add-title">افزودن معامله جدید</div>
+      <div class="gal-add-sub">عکس چارت معامله‌ات را بارگذاری کن</div>
+    </div>`;
+  html+=items.map(it=>`
+    <div class="gal-card ${it.result}">
+      <div class="gal-img-wrap" onclick="galOpenView('${it.id}')">
+        <img class="gal-img" src="${it.img}" loading="lazy" alt="chart">
+        <div class="gal-chip-date">${galDateChip(it.taken_at)}</div>
+        <div class="gal-chip-time">${galTimeChip(it.taken_at)}</div>
+      </div>
+      <div class="gal-body">
+        <div class="gal-row1">
+          <div class="gal-symbol">${galEsc(it.symbol)}</div>
+          <span class="gal-badge ${it.result}">${it.result==='win'?'WIN':'LOSS'}</span>
+          <div class="gal-pnl ${it.pnl<0?'neg':'pos'}">${galFmtPnl(it.pnl)}</div>
+        </div>
+        <div class="gal-row2">
+          ${it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:''}
+          ${it.rr?`<span class="gal-tag rr">RR ${galEsc(it.rr)}</span>`:''}
+          <div class="gal-actions">
+            <button type="button" class="gal-act" onclick="openGallerySheet('${it.id}')" title="ویرایش">✏️</button>
+            <button type="button" class="gal-act del" onclick="galAskDelete('${it.id}')" title="حذف">🗑</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+  if(!items.length&&galItems.length) html+=`<div class="gal-empty">با این فیلتر معامله‌ای پیدا نشد 🔍</div>`;
+  grid.innerHTML=html;
+}
+function galSetFilter(f){ galFilter=f; galRenderToolbar(); galRenderGrid(); }
+function galSetSymbol(s){ galSymbol=s; galRenderGrid(); }
+
+// ---------- شیت افزودن / ویرایش ----------
+function galToLocalInput(d){ const p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes()); }
+function openGallerySheet(id){
+  galEditId=id||null;
+  const it=id?galItems.find(i=>i.id===id):null;
+  galPendingImg=it?it.img:null;
+  document.getElementById('gal-sheet-title').textContent=it?'✏️ ویرایش معامله':'📸 افزودن معامله به گالری';
+  const pv=document.getElementById('gal-preview'), de=document.getElementById('gal-drop-empty'), sb=document.getElementById('gal-size-badge');
+  sb.style.display='none';
+  if(it&&it.img){ pv.src=it.img; pv.style.display='block'; de.style.display='none'; }
+  else{ pv.removeAttribute('src'); pv.style.display='none'; de.style.display='flex'; }
+  document.getElementById('gal-symbol').value=it?it.symbol:'';
+  document.getElementById('gal-pnl').value=it?String(Math.abs(it.pnl)):'';
+  document.getElementById('gal-rr').value=it?it.rr:'';
+  document.getElementById('gal-strategy').value=it?it.strategy:'';
+  document.getElementById('gal-note').value=it?it.note:'';
+  galSetResult(it?it.result:'win');
+  const d=it?new Date(it.taken_at):new Date();
+  document.getElementById('gal-dt').value=galToLocalInput(isNaN(d)?new Date():d);
+  // پیشنهاد نمادها و ستاپ‌های قبلی
+  const syms=[...new Set(galItems.map(i=>i.symbol).concat((data.strategy&&data.strategy.markets)||[]))].filter(Boolean);
+  document.getElementById('gal-symbols-dl').innerHTML=syms.map(s=>`<option value="${galEsc(s)}">`).join('');
+  const strats=[...new Set(galItems.map(i=>i.strategy).concat((data.strategy&&data.strategy.setups)||[]))].filter(Boolean);
+  document.getElementById('gal-strats-dl').innerHTML=strats.map(s=>`<option value="${galEsc(s)}">`).join('');
+  document.getElementById('gallery-modal').classList.add('show');
+}
+function closeGallerySheet(){ document.getElementById('gallery-modal').classList.remove('show'); }
+function galSetResult(r){
+  galResult=r;
+  document.getElementById('gal-res-win').classList.toggle('active',r==='win');
+  document.getElementById('gal-res-loss').classList.toggle('active',r==='loss');
+}
+async function galPickFile(file){
+  if(!file) return;
+  if(!/^image\//.test(file.type)){ showToast('فقط فایل عکس قابل قبول است 🖼'); return; }
+  const sb=document.getElementById('gal-size-badge');
+  sb.style.display='block'; sb.textContent='⏳ …';
+  try{
+    const out=await galCompressImage(file);
+    galPendingImg=out;
+    const pv=document.getElementById('gal-preview');
+    pv.src=out; pv.style.display='block';
+    document.getElementById('gal-drop-empty').style.display='none';
+    sb.textContent=galKB(file.size)+' → '+galKB(Math.round(out.length*3/4));
+  }catch(e){ sb.style.display='none'; showToast('خواندن عکس ممکن نشد — فایل دیگری امتحان کن'); }
+}
+function gallerySave(){
+  if(!galPendingImg){ showToast('اول عکس چارت معامله را بارگذاری کن 📸'); return; }
+  const symbol=document.getElementById('gal-symbol').value.trim().toUpperCase();
+  if(!symbol){ showToast('نماد معامله را بنویس (مثلاً XAU/USD)'); return; }
+  const amt=Math.abs(parseFloat(galNum(document.getElementById('gal-pnl').value))||0);
+  const dtv=document.getElementById('gal-dt').value;
+  let taken=dtv?new Date(dtv):new Date();
+  if(isNaN(taken)) taken=new Date();
+  const wasEdit=!!galEditId;
+  const item={
+    id:galEditId||galUUID(),
+    symbol, result:galResult,
+    pnl:galResult==='loss'?-amt:amt,
+    rr:document.getElementById('gal-rr').value.trim(),
+    strategy:document.getElementById('gal-strategy').value.trim(),
+    note:document.getElementById('gal-note').value.trim(),
+    taken_at:taken.toISOString(),
+    img:galPendingImg, synced:false
+  };
+  if(wasEdit){
+    const i=galItems.findIndex(x=>x.id===galEditId);
+    if(i>-1) galItems[i]=item; else galItems.unshift(item);
+  } else galItems.unshift(item);
+  galEditId=null;
+  galSort(); galSaveLocal(); closeGallerySheet();
+  galRenderToolbar(); galRenderGrid();
+  showToast(wasEdit?'معامله ویرایش شد ✅':'معامله به گالری اضافه شد ✅');
+  galCloudFlush(); // بدون await — اگر آفلاین بود، سر فرصت سینک می‌شود
+}
+
+// ---------- حذف ----------
+function galAskDelete(id){ galDelId=id; document.getElementById('gal-del-modal').classList.add('show'); }
+function galDoDelete(){
+  const id=galDelId; galDelId=null;
+  document.getElementById('gal-del-modal').classList.remove('show');
+  if(!id) return;
+  const it=galItems.find(i=>i.id===id);
+  galItems=galItems.filter(i=>i.id!==id);
+  galSaveLocal(); galRenderToolbar(); galRenderGrid();
+  if(it&&it.synced){
+    let dels=[]; try{ dels=JSON.parse(localStorage.getItem(GAL_DEL_KEY())||'[]'); }catch(e){}
+    dels.push(id); localStorage.setItem(GAL_DEL_KEY(),JSON.stringify(dels));
+  }
+  galCloudFlush();
+  showToast('معامله از گالری حذف شد 🗑');
+}
+
+// ---------- لایت‌باکس ----------
+function galOpenView(id){
+  const it=galItems.find(i=>i.id===id); if(!it) return;
+  document.getElementById('gal-view-img').src=it.img;
+  document.getElementById('gal-view-meta').innerHTML=
+    `<span class="gal-symbol">${galEsc(it.symbol)}</span>`+
+    `<span class="gal-badge ${it.result}">${it.result==='win'?'WIN':'LOSS'}</span>`+
+    `<span class="gal-pnl ${it.pnl<0?'neg':'pos'}">${galFmtPnl(it.pnl)}</span>`+
+    `<span style="opacity:.65;font-weight:700">${galDateChip(it.taken_at)} · ${galTimeChip(it.taken_at)}</span>`+
+    (it.rr?`<span class="gal-tag rr">RR ${galEsc(it.rr)}</span>`:'')+
+    (it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:'');
+  document.getElementById('gal-view-note').textContent=it.note||'';
+  document.getElementById('gal-view').classList.add('show');
+}
+function galCloseView(){ document.getElementById('gal-view').classList.remove('show'); }
 
 // ===== PLAN FIELDS =====
 function bindPlanField(id,key){
@@ -10241,7 +10683,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='77.8';
+const APP_VERSION='77.9';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

@@ -856,6 +856,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .dc-date-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1px}
 .dc-greg{font-size:13px;color:var(--text);font-weight:900;direction:ltr}
 .dc-today-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block;flex-shrink:0;margin-right:2px}
+.dc-note-mark{font-size:8.5px;line-height:1;margin-right:auto;opacity:.9;flex-shrink:0}
 .dc-shamsi{font-size:7.5px;color:var(--text-muted);font-weight:700;display:block;line-height:1.3;margin-bottom:2px;direction:rtl;text-align:right;opacity:.8}
 .dc-date{font-size:9px;color:var(--text-muted);font-weight:600;margin-bottom:2px}
 .dc-pnl{font-size:15px;font-weight:900;line-height:1.1;margin-top:3px;letter-spacing:-0.3px;white-space:nowrap;overflow:hidden;text-overflow:clip;font-variant-numeric:tabular-nums;direction:ltr}
@@ -926,6 +927,9 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
 /* per-trade amount rows in the day modal — compact + scrollable */
 #day-trades-section{margin-top:2px;border-top:1px dashed rgba(255,255,255,.12);padding-top:14px}
+.day-note-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 12px;color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:13px;line-height:1.75;resize:vertical;min-height:62px;box-sizing:border-box;transition:border-color .2s}
+.day-note-input:focus{outline:none;border-color:var(--gold-border)}
+.day-note-input::placeholder{color:var(--text-dim)}
 .dts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
 .dts-sum{font-size:11.5px;font-weight:800;color:var(--gold);direction:ltr}
 #day-trades-rows{max-height:172px;overflow-y:auto;padding:2px 4px 2px 2px;scrollbar-width:thin;scrollbar-color:rgba(232,160,32,.4) transparent}
@@ -5311,6 +5315,12 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
         <button type="button" class="dts-add-btn" onclick="addDayTrade()">➕ افزودن معامله</button>
         <div class="dts-hint">جمع این مبالغ خودکار در «مقدار» بالا می‌نشیند و به صفحه‌ی روانشناسی همین روز هم منتقل می‌شود. مقدار بالا را دستی هم می‌توانی تغییر بدهی.</div>
       </div>
+      <!-- daily notes — یادداشت آزادِ هر روز، جداگانه برای همان تاریخ ذخیره می‌شود -->
+      <div>
+        <div class="modal-label">📝 توضیحات روز</div>
+        <textarea id="day-note-input" class="day-note-input" rows="3" maxlength="1000" placeholder="یادداشت امروز: درس‌ها، شرایط بازار، احساست، دلیل معامله‌ها…" oninput="liveSaveDay()"></textarea>
+        <div class="dts-hint">این توضیحات فقط برای همین روز ذخیره می‌شود و همیشه اینجا می‌ماند.</div>
+      </div>
     </div>
     <div class="modal-btns">
       <button class="modal-btn cancel" onclick="closeDayModal()">بستن</button>
@@ -5436,10 +5446,26 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
 <script>
 // ===== UTILS =====
 function toFA(n){ return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]); }
-function fmtUSD(v){ 
+function fmtUSD(v){
   const abs=Math.abs(v);
   const s=v<0?'-':'';
   return s+'$'+abs.toFixed(1);
+}
+// نمایش مطمئنِ انیمیشنِ «رشد» برای نمودارها (میله/حلقه/نوار).
+// مقدارِ نهایی همیشه به‌صورت سنکرون ست می‌شود؛ پس اگر rAF اجرا نشود (تبِ
+// پس‌زمینه، رندرِ نصفه، بازیابی از bfcache) نمودار «ناپدید» نمی‌شود. سپس با
+// یک ریفلوِ اجباری، ترنزیشنِ CSS از حالتِ مخفی تا نهایی پخش می‌شود.
+// prop: 'height' | 'width' | 'strokeDashoffset' — برای SVG و HTML هر دو کار می‌کند.
+function animateReveal(el, prop, hiddenVal, finalVal, animate){
+  if(!el) return;
+  el.style[prop]=finalVal;              // نهایی — ضدِّ ناپدید‌شدن
+  if(!animate) return;
+  const prevTr=el.style.transition;
+  el.style.transition='none';
+  el.style[prop]=hiddenVal;             // حالت مخفی (شروع انیمیشن)
+  void el.getBoundingClientRect();      // ریفلوِ اجباری تا شروع ثبت شود
+  el.style.transition=prevTr||'';       // بازگرداندن ترنزیشنِ CSS
+  el.style[prop]=finalVal;              // انیمیت تا نهایی
 }
 function showToast(msg){
   const t=document.getElementById('toast');
@@ -8495,7 +8521,7 @@ function renderGoalsProgress(animate){
         <div class="gp-ring">
           <svg viewBox="0 0 60 60">
             <circle cx="30" cy="30" r="26" class="gp-ring-bg"></circle>
-            <circle cx="30" cy="30" r="26" class="gp-ring-fg" data-off="${off.toFixed(1)}" style="stroke:${ringColor(d)};stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${animate?C.toFixed(1):off.toFixed(1)}"></circle>
+            <circle cx="30" cy="30" r="26" class="gp-ring-fg" data-off="${off.toFixed(1)}" style="stroke:${ringColor(d)};stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${off.toFixed(1)}"></circle>
           </svg>
           ${center}
         </div>
@@ -8507,7 +8533,7 @@ function renderGoalsProgress(animate){
     }
   });
   el.innerHTML=`<div class="gp-head">🎯 پیشرفت اهداف</div><div class="gp-grid">${grid}</div>`;
-  if(animate) requestAnimationFrame(()=>{ el.querySelectorAll('.gp-ring-fg[data-off]').forEach(c=>{ c.style.strokeDashoffset=c.dataset.off; }); });
+  el.querySelectorAll('.gp-ring-fg[data-off]').forEach(c=>animateReveal(c,'strokeDashoffset',C.toFixed(1),c.dataset.off,animate));
 }
 
 function renderBestDay(){
@@ -8614,8 +8640,8 @@ function renderYearCumulative(animate){
   for(let i=0;i<12;i++){
     const v=months[i];
     const h=v===0?0:Math.max(4,Math.round(Math.abs(v)/maxAbs*HALF));
-    const topBar=v>0?`<div class="yh-bar pos" data-h="${h}" style="height:${animate?0:h}px"></div>`:'';
-    const botBar=v<0?`<div class="yh-bar neg" data-h="${h}" style="height:${animate?0:h}px"></div>`:'';
+    const topBar=v>0?`<div class="yh-bar pos" data-h="${h}" style="height:${h}px"></div>`:'';
+    const botBar=v<0?`<div class="yh-bar neg" data-h="${h}" style="height:${h}px"></div>`:'';
     cols+=`<div class="yh-col${i===curMonth?' cur':''}" data-i="${i}" onclick="selectYearMonth(${i})">
       <div class="yh-half-top">${topBar}</div>
       <div class="yh-half-bot">${botBar}</div>
@@ -8641,10 +8667,12 @@ function renderYearCumulative(animate){
 
   selectYearMonth(curMonth); // default detail = current month
 
+  // بارها با ارتفاع نهایی رندر شده‌اند (همیشه دیده می‌شوند)؛ در حالت animate
+  // با ریفلوِ اجباری از صفر تا نهایی رشد می‌کنند — بدون وابستگی به rAF.
+  el.querySelectorAll('.yh-bar').forEach(b=>animateReveal(b,'height','0px',(b.dataset.h||0)+'px',animate));
   if(animate){
     const valEl=document.getElementById('yh-value');
     if(valEl) animateValue(valEl,0,totalPnl,900,v=>fmtUSD(v));
-    requestAnimationFrame(()=>{ el.querySelectorAll('.yh-bar').forEach(b=>{ b.style.height=(b.dataset.h||0)+'px'; }); });
   }
 }
 
@@ -8684,9 +8712,9 @@ function renderGoalProgress(monthPnl){
       <span class="msg-title">🎯 هدف ماه: ${fmtUSD(goal)}</span>
       <span class="msg-pct">${toFA(pct)}٪</span>
     </div>
-    <div class="msg-bar"><div class="msg-fill${reached?' reached':''}" style="width:0%"></div></div>
+    <div class="msg-bar"><div class="msg-fill${reached?' reached':''}" style="width:${pct}%"></div></div>
     <div class="msg-foot">${foot}</div>`;
-  requestAnimationFrame(()=>{ const f=el.querySelector('.msg-fill'); if(f) f.style.width=pct+'%'; });
+  animateReveal(el.querySelector('.msg-fill'),'width','0%',pct+'%',true);
 }
 
 // Dopamine count-up for the big monthly number (only on page open / month nav)
@@ -8809,10 +8837,12 @@ function renderJournalMonth(){
           tradesHtml=`<div class="dc-trades">${toFA(entry.trades)} معامله</div>`;
         }
 
+        const noteMark=(entry&&entry.note&&entry.note.trim())?'<span class="dc-note-mark" title="یادداشت این روز">📝</span>':'';
         div.innerHTML=`
           <div class="dc-date-row">
             <span class="dc-greg">${cell.day}</span>
             ${isToday?'<span class="dc-today-dot"></span>':''}
+            ${noteMark}
           </div>
           <span class="dc-shamsi">${shamsiFull}</span>
           ${pnlHtml}
@@ -8884,6 +8914,8 @@ function openDayModal(y,m,d){
 
   document.getElementById('day-pnl-input').value=absVal>0?absVal.toFixed(1):'';
   document.getElementById('day-trades-input').value=entry.trades||'';
+  const noteEl=document.getElementById('day-note-input');
+  if(noteEl) noteEl.value=entry.note||'';
   updatePnlSignUI();
 
   // اگر journal.positions دارد (از MT import)، آن را به psychology sync کن
@@ -8933,11 +8965,22 @@ function liveSaveDay(){
   if(!activeDayKey)return;
   const pnlStr=document.getElementById('day-pnl-input').value;
   const tradesStr=document.getElementById('day-trades-input').value;
+  const noteEl=document.getElementById('day-note-input');
+  const note=noteEl?(noteEl.value||'').trim():'';
   const pnlFilled=pnlStr.trim()!=='';
   const tradesFilled=tradesStr.trim()!=='';
+  const flashDot=()=>{ const dot=document.getElementById('day-save-dot'); if(dot){dot.classList.add('active');setTimeout(()=>dot.classList.remove('active'),900);} };
 
   if(!pnlFilled||!tradesFilled){
-    // incomplete — don't touch saved data, don't show errors while user is still typing
+    // اعداد ناقص‌اند — ولی توضیحات را جدا ذخیره کن تا روزهایی که فقط یادداشت
+    // دارند هم حفظ شوند؛ اگر یادداشت هم خالی شد و روز داده‌ی دیگری ندارد، حذف کن.
+    const prev=data.journal[activeDayKey];
+    if(note){
+      data.journal[activeDayKey]=Object.assign({}, prev||{pnl:0,trades:0}, {note});
+      saveData(); flashDot(); renderJournalMonth();
+    } else if(prev && !(prev.trades>0) && prev.note){
+      delete data.journal[activeDayKey]; saveData(); flashDot(); renderJournalMonth();
+    }
     return;
   }
 
@@ -8945,18 +8988,20 @@ function liveSaveDay(){
   const trades=parseInt(tradesStr)||0;
   const pnl=activePnlSign==='loss'?-rawVal:rawVal;
 
-  if(rawVal===0&&trades===0){
+  if(rawVal===0&&trades===0&&!note){
     delete data.journal[activeDayKey];
   } else {
-    data.journal[activeDayKey]={pnl,trades};
+    // فیلدهای موجود (positions/mtSig/…) حفظ می‌شوند؛ فقط مقادیر روز و توضیحات به‌روز می‌شوند
+    const prev=data.journal[activeDayKey]||{};
+    data.journal[activeDayKey]=Object.assign({}, prev, {pnl,trades});
+    if(note) data.journal[activeDayKey].note=note; else delete data.journal[activeDayKey].note;
     // Auto-sync: make sure the Psychology page has at least this many position
     // slots for the same date. Only ADDS missing slots (never removes), so any
     // psychological data already filled in for existing positions is preserved.
     syncPsychologyPositionsToTradeCount(activeDayKey,trades);
   }
   saveData();
-  const dot=document.getElementById('day-save-dot');
-  if(dot){dot.classList.add('active');setTimeout(()=>dot.classList.remove('active'),900);}
+  flashDot();
   renderJournalMonth();
   if(typeof renderMt5Account==='function') renderMt5Account(); // بالانسِ محاسبه‌شده از ژورنال به‌روز شود
   // Sync the home chart view-state to this exact journal month,
@@ -8980,9 +9025,18 @@ function saveDayEntry(){
   if(!activeDayKey)return;
   const pnlStr=document.getElementById('day-pnl-input').value;
   const tradesStr=document.getElementById('day-trades-input').value;
+  const noteEl=document.getElementById('day-note-input');
+  const note=noteEl?(noteEl.value||'').trim():'';
   const pnlFilled=pnlStr.trim()!=='';
   const tradesFilled=tradesStr.trim()!=='';
 
+  // روزِ فقط‌توضیحات: اگر اعداد خالی‌اند ولی یادداشت نوشته شده، همان را ذخیره و ببند
+  if(!pnlFilled&&!tradesFilled&&note){
+    liveSaveDay();
+    closeDayModal();
+    showToast('✅ توضیحات ثبت شد');
+    return;
+  }
   if(!pnlFilled){
     showToast('⚠️ لطفاً مقدار سود یا ضرر را وارد کنید');
     return;
@@ -9513,7 +9567,7 @@ function renderMonthMistakePattern(){
       <div class="mp-ring-wrap">
         <svg viewBox="0 0 100 100" class="mp-ring">
           <circle cx="50" cy="50" r="42" class="mp-ring-bg"></circle>
-          <circle cx="50" cy="50" r="42" class="mp-ring-fg clean" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)}"></circle>
+          <circle cx="50" cy="50" r="42" class="mp-ring-fg clean" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:0"></circle>
         </svg>
         <div class="mp-ring-center"><span class="mp-check">✓</span></div>
       </div>
@@ -9523,7 +9577,7 @@ function renderMonthMistakePattern(){
         <div class="mp-sub">این ماه هنوز رفتار اشتباهی ثبت نکردی. عالیه — همینو حفظ کن! 👏</div>
         ${strengthHTML}
       </div>`;
-    requestAnimationFrame(()=>{ const fg=el.querySelector('.mp-ring-fg'); if(fg) fg.style.strokeDashoffset='0'; });
+    animateReveal(el.querySelector('.mp-ring-fg'),'strokeDashoffset',C.toFixed(1),'0',true);
     return;
   }
 
@@ -9558,7 +9612,7 @@ function renderMonthMistakePattern(){
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="42" class="mp-ring-bg"></circle>
-        <circle cx="50" cy="50" r="42" class="mp-ring-fg" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)}"></circle>
+        <circle cx="50" cy="50" r="42" class="mp-ring-fg" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${offset.toFixed(1)}"></circle>
       </svg>
       <div class="mp-ring-center"><span class="mp-count">${toFA(topCount)}</span><span class="mp-count-label">بار</span></div>
     </div>
@@ -9570,7 +9624,7 @@ function renderMonthMistakePattern(){
       ${strengthHTML}
       <div class="mp-more">🔥 لمس کن — جزئیات کامل در نقشه حرارتی</div>
     </div>`;
-  requestAnimationFrame(()=>{ const fg=el.querySelector('.mp-ring-fg'); if(fg) fg.style.strokeDashoffset=offset.toFixed(1); });
+  animateReveal(el.querySelector('.mp-ring-fg'),'strokeDashoffset',C.toFixed(1),offset.toFixed(1),true);
 }
 
 // ===== Mistake analytics: counts across ALL recorded positions =====
@@ -10277,7 +10331,9 @@ function drawChart(y,m){
 
   // Responsive sizing
   const cssW=canvas.offsetWidth, cssH=canvas.offsetHeight;
-  if(cssW===0||cssH===0) return;
+  // اگر هنوز چیدمان نشده (عرض/ارتفاع صفر)، به‌جای رها کردنِ نمودارِ خالی،
+  // کمی بعد دوباره تلاش کن تا حتماً کشیده شود.
+  if(cssW===0||cssH===0){ setTimeout(()=>drawChart(y,m),120); return; }
   canvas.width=Math.round(cssW*dpr);
   canvas.height=Math.round(cssH*dpr);
   ctx.scale(dpr,dpr);
@@ -10646,7 +10702,7 @@ function renderStatRings(animate){
           </defs>
           <circle cx="50" cy="50" r="42" class="sr-track"></circle>
           <circle cx="50" cy="50" r="42" class="sr-fill" data-off="${off.toFixed(1)}"
-            style="stroke:url(#srg${i});filter:drop-shadow(0 0 5px ${r.glow});stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${animate?C.toFixed(1):off.toFixed(1)}"></circle>
+            style="stroke:url(#srg${i});filter:drop-shadow(0 0 5px ${r.glow});stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${off.toFixed(1)}"></circle>
         </svg>
         <div class="sr-center">
           <div class="sr-val ${r.valCls}" style="color:${r.c}">${r.val}</div>
@@ -10658,7 +10714,7 @@ function renderStatRings(animate){
   });
 
   el.innerHTML=`<div class="sr-head">📈 آمار کل عملکرد <span class="sr-head-note">از ابتدای فعالیت · همه‌ی معاملات</span></div><div class="sr-grid">${grid}</div>`;
-  if(animate) requestAnimationFrame(()=>{ el.querySelectorAll('.sr-fill[data-off]').forEach(c=>{ c.style.strokeDashoffset=c.dataset.off; }); });
+  el.querySelectorAll('.sr-fill[data-off]').forEach(c=>animateReveal(c,'strokeDashoffset',C.toFixed(1),c.dataset.off,animate));
 }
 
 // ═══════════════ ADVANCED STATS — تحلیل هوشمند عملکرد (زمان / کیفیت / روانشناسی) ═══════════════
@@ -10955,7 +11011,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='79.4';
+const APP_VERSION='79.5';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -11230,9 +11286,20 @@ async function checkAnnouncements(){
     if(_annQueue.length) annShowNext();
   }catch(e){ /* جدول هنوز ساخته نشده یا آفلاین — بی‌صدا رد شو */ }
 }
+function annRecordRead(id){
+  // ثبتِ «خواندم» در سرور تا در پنل مدیریت تعداد دقیقِ خواننده‌ها دیده شود.
+  // upsert با کلید (ann_id,user_id) → هر کاربر فقط یک‌بار شمرده می‌شود.
+  if(!SB||!CURRENT_USER||id==null) return;
+  try{
+    SB.from('ann_reads')
+      .upsert({ann_id:id,user_id:CURRENT_USER.id},{onConflict:'ann_id,user_id',ignoreDuplicates:true})
+      .then(()=>{});
+  }catch(e){ /* جدول هنوز ساخته نشده یا آفلاین — مهم نیست */ }
+}
 function annShowNext(){
   const a=_annQueue[0]; if(!a) return;
   const ov=document.getElementById('ann-overlay'); if(!ov) return;
+  annRecordRead(a.id); // به‌محضِ نمایش ثبت شود (نه فقط هنگام بستن)
   document.getElementById('ann-emoji').textContent=a.emoji||'📢';
   const t=document.getElementById('ann-title');
   t.textContent=a.title; t.style.display=a.title?'block':'none';
@@ -11250,14 +11317,7 @@ function annDismiss(){
     data.seenAnns=data.seenAnns||[];
     if(!data.seenAnns.includes(a.id)) data.seenAnns.push(a.id);
     saveData();
-    // ثبت «خواندم» در سرور تا در پنل مدیریت تعداد خواننده‌ها دیده شود
-    if(SB&&CURRENT_USER){
-      try{
-        SB.from('ann_reads')
-          .upsert({ann_id:a.id,user_id:CURRENT_USER.id},{onConflict:'ann_id,user_id',ignoreDuplicates:true})
-          .then(()=>{});
-      }catch(e){ /* جدول هنوز ساخته نشده یا آفلاین — مهم نیست */ }
-    }
+    annRecordRead(a.id); // ثبت مجددِ «خواندم» (idempotent) هنگام بستن
   }
   if(_annQueue.length){ annShowNext(); return; }
   const ov=document.getElementById('ann-overlay');

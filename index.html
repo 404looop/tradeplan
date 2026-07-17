@@ -4241,7 +4241,6 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   <div class="journal-tabs">
     <button class="journal-tab active" onclick="switchJournalTab(0)">📒 معاملات</button>
     <button class="journal-tab" onclick="switchJournalTab(1)">🖼 گالری معاملات</button>
-    <button class="journal-tab" onclick="switchJournalTab(2)">📈 آمار معاملات</button>
   </div>
 
   <!-- Panel 0: TRADES — کل محتوای فعلی ژورنال -->
@@ -4301,101 +4300,6 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     <div class="ms-goal" id="j-goal-progress" style="display:none"></div>
   </div>
 
-  <!-- MT5 AUTO-CONNECT BANNER (two states: connect CTA / connected) -->
-  <div class="mt5-connect-banner" id="mt5-journal-banner" style="display:none">
-    <div class="mcb-icon">📡</div>
-    <div class="mcb-text">
-      <div class="mcb-title">اتصال خودکار متاتریدر (با نصب اکسپرت یا سرویس در متاتریدر ۵)</div>
-      <div class="mcb-sub">هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.</div>
-    </div>
-    <button type="button" class="mcb-btn" onclick="openMt5Guide()">❓ راهنمای اتصال</button>
-  </div>
-
-  <!-- MT REPORT IMPORT -->
-  <div class="mt-import-section" id="mt-import-section">
-    <div class="mt-import-header" onclick="toggleMtImport()">
-      <div class="mt-ih-left">
-        <div class="mt-ih-icon">📊</div>
-        <div>
-          <div class="mt-ih-title">وارد کردن گزارش MetaTrader (به صورت دستی)</div>
-          <div class="mt-ih-sub">به‌جز اتصال خودکار، می‌توانید فایل گزارش HTML را دستی آپلود کنید — دیتا خودکار وارد خانه‌ها می‌شود</div>
-        </div>
-      </div>
-      <button class="mt-toggle-btn" id="mt-toggle-btn" onclick="event.stopPropagation();toggleMtImport()">
-        <span id="mt-toggle-label">باز کردن</span><span class="mt-arrow">▼</span>
-      </button>
-    </div>
-    <div class="mt-import-body" id="mt-import-body">
-      <div class="mt-import-inner">
-
-        <!-- ── مرحله ۱: انتخاب فایل ── -->
-        <div class="mt-step">
-          <div class="mt-step-label">
-            <span class="mt-step-num">۱</span>
-            فایل گزارش MetaTrader را انتخاب کنید
-          </div>
-          <div class="mt-dropzone" id="mt-dropzone"
-            ondragover="event.preventDefault();this.classList.add('drag-over')"
-            ondragleave="this.classList.remove('drag-over')"
-            ondrop="event.preventDefault();this.classList.remove('drag-over');handleMtFile(event.dataTransfer.files[0])">
-            <input type="file" accept=".html,.htm" onchange="handleMtFile(this.files[0])">
-            <div class="mt-dz-icon">📂</div>
-            <div class="mt-dz-title">فایل HTML گزارش را اینجا بکشید یا کلیک کنید</div>
-            <div class="mt-dz-sub">MT4/MT5 ← Account History ← Save as Report ← HTML</div>
-          </div>
-        </div>
-
-        <!-- Progress -->
-        <div class="mt-import-progress" id="mt-import-progress">⏳ در حال پردازش فایل...</div>
-
-        <!-- ── مرحله ۲: پیش‌نمایش نتایج ── -->
-        <div class="mt-step" style="display:none" id="mt-step2">
-          <div class="mt-step-label">
-            <span class="mt-step-num">۲</span>
-            پیش‌نمایش داده‌های استخراج‌شده
-          </div>
-          <div class="mt-result show" id="mt-result">
-            <div class="mt-result-head">
-              <div class="mt-result-title" id="mt-result-title">نتایج پردازش</div>
-              <div class="mt-result-badge" id="mt-result-badge">۰ روز</div>
-            </div>
-            <div class="mt-day-list" id="mt-day-list" onscroll="mtCheckScroll(this)"></div>
-            <div class="mt-scroll-hint" id="mt-scroll-hint">↓ اسکرول کنید ↓</div>
-          </div>
-          <div class="mt-warn" id="mt-warn">
-            <span>⚠️</span>
-            <span id="mt-warn-text">داده‌های موجود در روزهای تکراری به‌روزرسانی می‌شوند.</span>
-          </div>
-        </div>
-
-        <!-- ── مرحله ۳: دکمه ثبت ── -->
-        <div class="mt-action-section" id="mt-action-row">
-          <div class="mt-action-title">
-            <span>۳</span> آماده ثبت در ژورنال
-          </div>
-          <div class="mt-file-info-row">
-            <span class="mt-file-icon2">📄</span>
-            <span class="mt-file-name2" id="mt-file-name">—</span>
-          </div>
-          <div class="mt-action-buttons">
-            <button class="mt-import-btn" id="mt-import-btn" onclick="applyMtImport()">
-              ✅ ثبت همه روزها در ژورنال
-            </button>
-            <button class="mt-clear-btn" onclick="clearMtImport()">🗑 حذف</button>
-          </div>
-        </div>
-
-        <!-- فایل قبلی ثبت شده -->
-        <div class="mt-file-bar" id="mt-file-bar">
-          <span class="mt-file-icon">📄</span>
-          <span class="mt-file-name" id="mt-file-name-bar">—</span>
-          <button class="mt-file-del" onclick="clearMtImport()">🗑 حذف فایل</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
   <!-- bottom stats -->
   <div class="journal-stats" id="j-stats-bar">
     <div class="jstat"><div class="jstat-val gold" id="js-total">0</div><div class="jstat-label">کل معاملات ماه</div></div>
@@ -4424,11 +4328,6 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <div class="gal-count" id="gal-count"></div>
     </div>
     <div class="gal-grid" id="gal-grid"></div>
-  </div>
-
-  <!-- Panel 2: STATS -->
-  <div class="journal-panel" id="jpanel-stats">
-    <div class="jpanel-empty">📈 آمار معاملات<span>به‌زودی…</span></div>
   </div>
 </div>
 
@@ -4967,6 +4866,17 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   </div>
 
   <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
+
+  <!-- MT5 AUTO-CONNECT BANNER (two states: connect CTA / connected) -->
+  <div class="mt5-connect-banner" id="mt5-journal-banner" style="display:none">
+    <div class="mcb-icon">📡</div>
+    <div class="mcb-text">
+      <div class="mcb-title">اتصال خودکار متاتریدر (با نصب اکسپرت یا سرویس در متاتریدر ۵)</div>
+      <div class="mcb-sub">هر پوزیشنی که می‌بندی، خودکار با تمام جزئیات همین‌جا ثبت می‌شود. بدون ثبت دستی، بدون جا افتادن حتی یک ترید.</div>
+    </div>
+    <button type="button" class="mcb-btn" onclick="openMt5Guide()">❓ راهنمای اتصال</button>
+  </div>
+
   <div class="mt5link-card" id="mt5-token-wrap">
     <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر خالص شامل کمیسیون و سواپ) در ژورنال ثبت می‌شود. با هر بار روشن شدن متاتریدر، کل ۲ ماه اخیر هم دوباره بررسی می‌شود — پوزیشن‌های موبایل و حتی ثبت‌های دستی اشتباه، با ارقام دقیق متاتریدر تصحیح می‌شوند.</div>
     <div class="mt5link-desc">دو روش نصب داری و فقط یکی کافی است: <b>اکسپرت</b> (ساده — روی یک چارت، هر نمادی) یا <b>سرویس بدون چارت</b> — مخصوص کسانی که اکسپرت دیگری مثل مدیریت سرمایه دارند؛ در پس‌زمینه‌ی متاتریدر اجرا می‌شود و با هیچ اکسپرتی تداخل ندارد. آموزش هر دو در راهنمای پایین 👇</div>
@@ -4983,6 +4893,91 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
         <small>آموزش قدم‌به‌قدم هر دو روش: اکسپرت روی چارت، یا سرویس بدون چارت (بدون تداخل با اکسپرت‌های دیگر)</small>
       </span>
     </button>
+  </div>
+
+  <!-- MT REPORT IMPORT (به صورت دستی — انتقال‌یافته از ژورنال) -->
+  <div class="mt-import-section" id="mt-import-section">
+    <div class="mt-import-header" onclick="toggleMtImport()">
+      <div class="mt-ih-left">
+        <div class="mt-ih-icon">📊</div>
+        <div>
+          <div class="mt-ih-title">وارد کردن گزارش MetaTrader (به صورت دستی)</div>
+          <div class="mt-ih-sub">به‌جز اتصال خودکار، می‌توانید فایل گزارش HTML را دستی آپلود کنید — دیتا خودکار وارد خانه‌ها می‌شود</div>
+        </div>
+      </div>
+      <button class="mt-toggle-btn" id="mt-toggle-btn" onclick="event.stopPropagation();toggleMtImport()">
+        <span id="mt-toggle-label">باز کردن</span><span class="mt-arrow">▼</span>
+      </button>
+    </div>
+    <div class="mt-import-body" id="mt-import-body">
+      <div class="mt-import-inner">
+
+        <!-- ── مرحله ۱: انتخاب فایل ── -->
+        <div class="mt-step">
+          <div class="mt-step-label">
+            <span class="mt-step-num">۱</span>
+            فایل گزارش MetaTrader را انتخاب کنید
+          </div>
+          <div class="mt-dropzone" id="mt-dropzone"
+            ondragover="event.preventDefault();this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="event.preventDefault();this.classList.remove('drag-over');handleMtFile(event.dataTransfer.files[0])">
+            <input type="file" accept=".html,.htm" onchange="handleMtFile(this.files[0])">
+            <div class="mt-dz-icon">📂</div>
+            <div class="mt-dz-title">فایل HTML گزارش را اینجا بکشید یا کلیک کنید</div>
+            <div class="mt-dz-sub">MT4/MT5 ← Account History ← Save as Report ← HTML</div>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="mt-import-progress" id="mt-import-progress">⏳ در حال پردازش فایل...</div>
+
+        <!-- ── مرحله ۲: پیش‌نمایش نتایج ── -->
+        <div class="mt-step" style="display:none" id="mt-step2">
+          <div class="mt-step-label">
+            <span class="mt-step-num">۲</span>
+            پیش‌نمایش داده‌های استخراج‌شده
+          </div>
+          <div class="mt-result show" id="mt-result">
+            <div class="mt-result-head">
+              <div class="mt-result-title" id="mt-result-title">نتایج پردازش</div>
+              <div class="mt-result-badge" id="mt-result-badge">۰ روز</div>
+            </div>
+            <div class="mt-day-list" id="mt-day-list" onscroll="mtCheckScroll(this)"></div>
+            <div class="mt-scroll-hint" id="mt-scroll-hint">↓ اسکرول کنید ↓</div>
+          </div>
+          <div class="mt-warn" id="mt-warn">
+            <span>⚠️</span>
+            <span id="mt-warn-text">داده‌های موجود در روزهای تکراری به‌روزرسانی می‌شوند.</span>
+          </div>
+        </div>
+
+        <!-- ── مرحله ۳: دکمه ثبت ── -->
+        <div class="mt-action-section" id="mt-action-row">
+          <div class="mt-action-title">
+            <span>۳</span> آماده ثبت در ژورنال
+          </div>
+          <div class="mt-file-info-row">
+            <span class="mt-file-icon2">📄</span>
+            <span class="mt-file-name2" id="mt-file-name">—</span>
+          </div>
+          <div class="mt-action-buttons">
+            <button class="mt-import-btn" id="mt-import-btn" onclick="applyMtImport()">
+              ✅ ثبت همه روزها در ژورنال
+            </button>
+            <button class="mt-clear-btn" onclick="clearMtImport()">🗑 حذف</button>
+          </div>
+        </div>
+
+        <!-- فایل قبلی ثبت شده -->
+        <div class="mt-file-bar" id="mt-file-bar">
+          <span class="mt-file-icon">📄</span>
+          <span class="mt-file-name" id="mt-file-name-bar">—</span>
+          <button class="mt-file-del" onclick="clearMtImport()">🗑 حذف فایل</button>
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <div class="settings-section"><h2>💬 بازخورد و پیشنهاد</h2></div>
@@ -5512,7 +5507,7 @@ function switchSetupTab(idx){
 
 // ===== JOURNAL TABS =====
 function switchJournalTab(idx){
-  // idx 0=معاملات (محتوای فعلی ژورنال), 1=گالری معاملات, 2=آمار معاملات
+  // idx 0=معاملات (محتوای فعلی ژورنال), 1=گالری معاملات
   document.querySelectorAll('.journal-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.journal-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
   if(idx===1) renderGallery();
@@ -10801,7 +10796,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='79.2';
+const APP_VERSION='79.3';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

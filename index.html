@@ -273,6 +273,11 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .sig-add-plus{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08)}
 .sig-add-title{font-size:13.5px;font-weight:900;color:var(--gold)}
 .sig-add-sub{font-size:11px;color:var(--text-muted)}
+/* سوییچ اعلان سیگنال جدید */
+.sig-alert-row{display:flex;align-items:center;gap:10px;margin:0 14px 2px;padding:11px 13px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sig-alert-row input{width:19px;height:19px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
+.sig-alert-txt b{display:block;font-size:12.5px;font-weight:900;color:var(--text)}
+.sig-alert-txt small{display:block;font-size:10.5px;color:var(--text-muted);margin-top:2px;line-height:1.7}
 /* مودال جزئیات سیگنال */
 #sig-view{position:fixed;inset:0;z-index:99500;background:rgba(3,8,18,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 #sig-view.show{display:flex}
@@ -841,7 +846,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 }
 .credit-link{display:flex;align-items:center;gap:7px;color:var(--gold);font-size:13px;font-weight:700;text-decoration:none;direction:ltr}
 .credit-text{font-size:12px;color:var(--text-warm-dim);font-weight:600;text-align:center}
-.ig-icon{width:19px;height:19px}
+.tg-icon{width:19px;height:19px}
 
 /* TOAST */
 #toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#1a2f4a,#0f1e36);border:1px solid var(--gold-border);color:var(--text);padding:9px 18px;border-radius:24px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:1000;white-space:nowrap;max-width:calc(100vw - 36px)}
@@ -1915,8 +1920,8 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   transition:box-shadow .25s,transform .15s;
 }
 .credit-link:active{transform:scale(.97)}
-.credit-link .ig-icon{filter:drop-shadow(0 0 7px rgba(244,200,106,.55))}
-/* آیدی اینستاگرام — بولد با گرادیان طلایی براقِ متحرک */
+.credit-link .tg-icon{filter:drop-shadow(0 0 7px rgba(244,200,106,.55))}
+/* آیدی کانال تلگرام — بولد با گرادیان طلایی براقِ متحرک */
 .cl-handle{
   font-size:15.5px;font-weight:900;letter-spacing:.6px;
   background:linear-gradient(90deg,#F4C86A,#fff2cf 45%,#F4C86A);
@@ -3143,8 +3148,8 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
 
 /* ===== ANNOUNCEMENT modal — luxe broadcast from admin ===== */
-#ann-overlay,#pm-overlay{position:fixed;inset:0;z-index:98000;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(3,8,18,.82);backdrop-filter:blur(6px)}
-#ann-overlay.show,#pm-overlay.show{display:flex}
+#ann-overlay,#pm-overlay,#signew-overlay{position:fixed;inset:0;z-index:98000;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(3,8,18,.82);backdrop-filter:blur(6px)}
+#ann-overlay.show,#pm-overlay.show,#signew-overlay.show{display:flex}
 .ann-card{position:relative;width:100%;max-width:380px;background:linear-gradient(160deg,#1a2f4e 0%,#0f2238 55%,#0a1830 100%);border:1px solid rgba(244,200,106,.4);border-radius:24px;padding:30px 24px 24px;text-align:center;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(232,160,32,.12);animation:annIn .5s cubic-bezier(.2,.8,.2,1)}
 @keyframes annIn{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
 .ann-card::before{content:'';position:absolute;top:-50px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(244,200,106,.18),transparent 70%);pointer-events:none}
@@ -3316,14 +3321,14 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 /* جعبه‌ی راه‌حل تداخل با اکسپرت دیگر */
 .mg-clash{background:rgba(232,160,32,.06);border:1px solid rgba(232,160,32,.32)}
 .mg-clash .mg-step-head{color:var(--gold)}
-/* بنر آموزش تصویری اینستاگرام — بالای راهنما */
-.mg-insta{display:flex;align-items:center;gap:11px;margin-bottom:13px;padding:12px 13px;border-radius:15px;text-decoration:none;background:linear-gradient(135deg,rgba(188,42,141,.18),rgba(253,89,73,.10) 55%,rgba(255,220,128,.08));border:1px solid rgba(228,64,95,.5);box-shadow:0 6px 20px rgba(238,42,123,.12);-webkit-tap-highlight-color:transparent}
-.mg-insta-ic{width:42px;height:42px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;border-radius:13px;background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7);box-shadow:0 4px 14px rgba(238,42,123,.4)}
+/* بنر آموزش تصویری کانال تلگرام — بالای راهنما */
+.mg-insta{display:flex;align-items:center;gap:11px;margin-bottom:13px;padding:12px 13px;border-radius:15px;text-decoration:none;background:linear-gradient(135deg,rgba(34,158,217,.18),rgba(56,189,248,.10) 55%,rgba(191,232,255,.08));border:1px solid rgba(42,171,238,.5);box-shadow:0 6px 20px rgba(42,171,238,.14);-webkit-tap-highlight-color:transparent}
+.mg-insta-ic{width:42px;height:42px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;border-radius:13px;background:linear-gradient(45deg,#2aabee,#229ed9 55%,#1d8bc0);box-shadow:0 4px 14px rgba(42,171,238,.42)}
 .mg-insta-txt{flex:1;min-width:0}
 .mg-insta-txt b{display:block;font-size:12.5px;font-weight:900;color:#fff;line-height:1.7}
 .mg-insta-txt small{display:block;font-size:11px;color:rgba(255,255,255,.7);margin-top:1px;font-weight:600;line-height:1.8}
-.mg-insta-id{direction:ltr;unicode-bidi:isolate;font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:#ff9db8;font-weight:800}
-.mg-insta-go{font-size:11px;font-weight:900;color:#ff9db8;flex-shrink:0;white-space:nowrap}
+.mg-insta-id{direction:ltr;unicode-bidi:isolate;font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:#7dd3fc;font-weight:800}
+.mg-insta-go{font-size:11px;font-weight:900;color:#7dd3fc;flex-shrink:0;white-space:nowrap}
 /* چیپ واژه‌های انگلیسی/دکمه‌ها — خوانا در موبایل و دسکتاپ */
 .mg-k{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:'Segoe UI',Tahoma,Arial,sans-serif;font-size:11.5px;font-weight:800;color:#ffd98a;background:rgba(0,0,0,.35);border:1px solid rgba(244,200,106,.32);border-radius:7px;padding:1px 8px;margin:0 2px;white-space:nowrap;line-height:1.9;vertical-align:baseline}
 
@@ -3949,9 +3954,9 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
       <button type="button" class="auth-tab" id="auth-tab-signup" onclick="setAuthMode('signup')">ثبت‌نام</button>
     </div>
     <form class="auth-fields" id="auth-form" onsubmit="event.preventDefault();submitAuth();">
-      <label class="auth-label" for="auth-name">اسم</label>
-      <input type="text" id="auth-name" name="username" class="auth-input" placeholder="اسمت رو بنویس" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('auth-pass').focus();}">
-      <div class="auth-pass-note" id="auth-name-note" style="display:none">💡 اسمی انتخاب کن که قبلاً کسی ثبت نکرده باشد و حتماً به خاطر بسپارش — ورودت فقط با همین اسم و رمز است</div>
+      <label class="auth-label" for="auth-name">اسم <span id="auth-name-en" style="display:none;font-weight:800;color:var(--gold)">(فقط انگلیسی)</span></label>
+      <input type="text" id="auth-name" name="username" class="auth-input" placeholder="اسمت رو بنویس" dir="ltr" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('auth-pass').focus();}">
+      <div class="auth-pass-note" id="auth-name-note" style="display:none">💡 اسم را <b>حتماً انگلیسی</b> بنویس (مثل <span dir="ltr">ali_trader</span>) — اسمی که قبلاً کسی ثبت نکرده باشد و حتماً به خاطر بسپارش، چون ورودت فقط با همین اسم و رمز است</div>
       <label class="auth-label" for="auth-pass">رمز</label>
       <div class="auth-pass-wrap">
         <input type="password" id="auth-pass" name="password" class="auth-input" placeholder="رمز عبور" autocomplete="current-password" enterkeyhint="go" onkeydown="if(event.key==='Enter'&&authMode==='signup'){event.preventDefault();document.getElementById('auth-pass2').focus();}">
@@ -3983,11 +3988,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     </div>
     <div class="mg-body">
 
-      <a class="mg-insta" href="https://instagram.com/trade.planfx" target="_blank" rel="noopener">
-        <span class="mg-insta-ic">📸</span>
+      <a class="mg-insta" href="https://t.me/tradeplann" target="_blank" rel="noopener">
+        <span class="mg-insta-ic">✈️</span>
         <span class="mg-insta-txt">
           <b>آموزش تصویری نحوه‌ی اتصال به متاتریدر</b>
-          <small>در بخش هایلایت‌های پیج اینستاگرام <span class="mg-insta-id">trade.planfx</span></small>
+          <small>در کانال تلگرام <span class="mg-insta-id">@tradeplann</span></small>
         </span>
         <span class="mg-insta-go">مشاهده ‹</span>
       </a>
@@ -5212,13 +5217,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
     <div class="cb-shine"></div>
     <div class="credit-title-row"><span class="ct-emoji">📈</span><span class="credit-title">ترید پلن</span></div>
     <div class="credit-text">ابزار حرفه‌ای و هوشمند معامله‌گری</div>
-    <a href="https://instagram.com/trade.planfx" target="_blank" class="credit-link">
-      <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-        <circle cx="12" cy="12" r="4"/>
-        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+    <a href="https://t.me/tradeplann" target="_blank" rel="noopener" class="credit-link">
+      <svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M21.94 4.6l-3.02 14.25c-.23 1.01-.83 1.26-1.68.78l-4.64-3.42-2.24 2.15c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.13 12.6l-4.58-1.43c-1-.31-1.01-1 .21-1.48l17.9-6.9c.83-.3 1.56.2 1.28 1.81z"/>
       </svg>
-      <span class="cl-handle">trade.planfx</span>
+      <span class="cl-handle">@tradeplann</span>
     </a>
     <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 77.5 — اکسپرت متاتریدر: v1.30</div>
   </div>
@@ -5664,6 +5667,19 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   </div>
 </div>
 
+<!-- اعلان سیگنال جدید — وقتی کاربر وارد برنامه می‌شود و سیگنال تازه‌ای هست -->
+<div id="signew-overlay" onclick="if(event.target===this)sigAlertDismiss()">
+  <div class="ann-card">
+    <div class="ann-shine"></div>
+    <div class="ann-emoji">📡</div>
+    <div class="ann-title" id="signew-title">سیگنال جدید داری!</div>
+    <div class="ann-body" id="signew-body"></div>
+    <div class="ann-date" id="signew-date"></div>
+    <button type="button" class="ann-ok" onclick="sigAlertOpen()">مشاهده سیگنال ‹</button>
+    <button type="button" class="ann-ok" style="background:rgba(255,255,255,.06);color:var(--text-muted);box-shadow:none;margin-top:7px" onclick="sigAlertDismiss()">بعداً</button>
+  </div>
+</div>
+
 <!-- پیام خصوصی ادمین به همین کاربر (جدول user_messages) -->
 <div id="pm-overlay" onclick="if(event.target===this)pmDismiss()">
   <div class="ann-card">
@@ -5863,6 +5879,8 @@ async function loadSignals(){
     const {data:rows,error}=await SB.from('signals').select('*').order('id',{ascending:false}).limit(200);
     if(error){ root.innerHTML=sigLockedHTML('سرور سیگنال هنوز آماده نیست (فایل signals.sql باید در Supabase اجرا شود).'); return; }
     _sigItems=rows||[];
+    // کاربر تب سیگنال را باز کرد → همه‌ی سیگنال‌های فعلی «دیده‌شده» حساب می‌شوند
+    if(_sigItems.length) sigSetSeenMax(Math.max(..._sigItems.map(s=>s.id)));
     renderSignals();
   }catch(e){ root.innerHTML='<div class="sig-empty">خطا در بارگذاری سیگنال‌ها 😕</div>'; }
   finally{ _sigBusy=false; }
@@ -5893,6 +5911,14 @@ function renderSignals(){
     <div class="sig-sum-chips">${sumChips}</div>
     ${equity}
   </div>`;
+  // سوییچ اعلان سیگنال جدید — انتخاب خودِ کاربر
+  html+=`<label class="sig-alert-row">
+    <input type="checkbox" id="sig-alert-chk" ${sigAlertOn()?'checked':''} onchange="sigToggleAlert(this.checked)">
+    <span class="sig-alert-txt">
+      <b>🔔 اعلان سیگنال جدید</b>
+      <small>وقتی سیگنال تازه‌ای ثبت شود، به‌محض ورود به برنامه خبردار می‌شوی</small>
+    </span>
+  </label>`;
 
   // شبکه‌ی کارت‌ها — دقیقاً به سبک گالری معاملات: عکس بالا، جزئیات با کلیک
   let grid='';
@@ -6058,6 +6084,58 @@ async function sigCheckPostAccess(){
     }
   }catch(e){ /* آفلاین یا signals-v2.sql اجرا نشده — همان کش می‌ماند */ }
   _sigPostChecked=true;
+}
+
+/* ═══════ اعلان سیگنال جدید ═══════
+   وقتی کاربر وارد برنامه می‌شود، اگر سیگنالی جدیدتر از آخرین چیزی که دیده
+   ثبت شده باشد، یک اعلان روی صفحه می‌آید. خودِ کاربر می‌تواند از همان بخش
+   سیگنال این اعلان را خاموش/روشن کند. RLS تضمین می‌کند فقط سیگنال‌های
+   قابل‌مشاهده‌ی همین کاربر شمرده شوند، پس غیرVIP اعلانی نمی‌گیرد. */
+function SIG_SEEN_KEY(){ return CURRENT_USER?('tradeplan_sigseen:'+CURRENT_USER.id):'tradeplan_sigseen'; }
+function SIG_ALERT_KEY(){ return CURRENT_USER?('tradeplan_sigalert:'+CURRENT_USER.id):'tradeplan_sigalert'; }
+function sigAlertOn(){ return localStorage.getItem(SIG_ALERT_KEY())!=='0'; }   // پیش‌فرض: روشن
+function sigSeenMax(){ return parseInt(localStorage.getItem(SIG_SEEN_KEY())||'0',10)||0; }
+function sigSetSeenMax(id){ if(id>sigSeenMax()) localStorage.setItem(SIG_SEEN_KEY(),String(id)); }
+
+let _sigAlertItems=[];
+async function checkNewSignals(){
+  if(!SB||!CURRENT_USER||!sigAlertOn()) return;
+  try{
+    const {data:rows,error}=await SB.from('signals')
+      .select('id,symbol,direction,author_name,created_at')
+      .order('id',{ascending:false}).limit(10);
+    if(error||!rows||!rows.length) return;
+    const seen=sigSeenMax();
+    // اولین بار (هیچ چیز دیده نشده): فقط علامت‌گذاری کن، اعلانِ انبوه نده
+    if(!seen){ sigSetSeenMax(rows[0].id); return; }
+    const fresh=rows.filter(s=>s.id>seen);
+    if(!fresh.length) return;
+    _sigAlertItems=fresh;
+    const top=fresh[0];
+    document.getElementById('signew-title').textContent =
+      fresh.length>1 ? (toFA(fresh.length)+' سیگنال جدید داری!') : 'سیگنال جدید داری!';
+    document.getElementById('signew-body').textContent =
+      (top.direction==='sell'?'🔻 فروش ':'🔺 خرید ')+(top.symbol||'')+
+      ' · از طرف '+(top.author_name||'ادمین')+
+      (fresh.length>1 ? ' و '+toFA(fresh.length-1)+' سیگنال دیگر' : '');
+    document.getElementById('signew-date').textContent=sigFullWhen(top.created_at);
+    document.getElementById('signew-overlay').classList.add('show');
+  }catch(e){ /* آفلاین یا جدول ساخته نشده — بی‌صدا رد شو */ }
+}
+function sigAlertDismiss(){
+  if(_sigAlertItems.length) sigSetSeenMax(_sigAlertItems[0].id);
+  _sigAlertItems=[];
+  const ov=document.getElementById('signew-overlay'); if(ov) ov.classList.remove('show');
+}
+function sigAlertOpen(){
+  sigAlertDismiss();
+  showPage('journal');
+  switchJournalTab(2);
+}
+// روشن/خاموش کردن اعلان از داخل بخش سیگنال
+function sigToggleAlert(on){
+  localStorage.setItem(SIG_ALERT_KEY(), on?'1':'0');
+  showToast(on?'🔔 اعلان سیگنال جدید روشن شد':'🔕 دیگر اعلان سیگنال نمی‌گیری');
 }
 
 function sigSetDir(d){
@@ -11664,7 +11742,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='80.0';
+const APP_VERSION='80.1';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -12247,18 +12325,23 @@ function setAuthMode(m){
   if(p2row) p2row.style.display = m==='signup' ? 'block' : 'none';
   const nnote=document.getElementById('auth-name-note');
   if(nnote) nnote.style.display = m==='signup' ? 'block' : 'none';
+  // برچسب «فقط انگلیسی» و placeholder نمونه — فقط در ثبت‌نام
+  const nen=document.getElementById('auth-name-en');
+  if(nen) nen.style.display = m==='signup' ? 'inline' : 'none';
+  const nin=document.getElementById('auth-name');
+  if(nin) nin.placeholder = m==='signup' ? 'اسمت رو انگلیسی بنویس (مثلا ali_trader)' : 'اسمت رو بنویس';
   const pnote=document.getElementById('auth-pass-note');
   if(pnote) pnote.style.display = m==='signup' ? 'block' : 'none';
   if(m==='login'){ const p2=document.getElementById('auth-pass2'); if(p2) p2.value=''; }
   authError('');
 }
-// فراموشی رمز: بازیابی خودکار نداریم؛ ریست رمز از راه پشتیبانی اینستاگرام انجام می‌شود
+// فراموشی رمز: بازیابی خودکار نداریم؛ ریست رمز از راه پشتیبانی تلگرام انجام می‌شود
 function authForgot(){
   const el=document.getElementById('auth-err');
   if(!el) return;
   el.classList.remove('ok'); el.classList.add('info');
-  el.innerHTML='برای ریست رمز، به پیج اینستاگرام '+
-    '<a href="https://instagram.com/trade.planfx" target="_blank" rel="noopener">trade.planfx</a>'+
+  el.innerHTML='برای ریست رمز، به کانال تلگرام '+
+    '<a href="https://t.me/tradeplann" target="_blank" rel="noopener">@tradeplann</a>'+
     ' پیام بده — پشتیبان‌های ما ۲۴ ساعته پاسخگو هستند 💬';
 }
 function toggleAuthEye(id,btn){
@@ -12300,6 +12383,13 @@ async function submitAuth(){
   if(name.length<2){ authError('اسم حداقل ۲ حرف باشه'); return; }
   if(pass.length<6){ authError('رمز حداقل ۶ کاراکتر باشه'); return; }
   if(authMode==='signup'){
+    // اسم فقط انگلیسی — کاربران قدیمیِ فارسی‌نام باید بتوانند وارد شوند،
+    // پس این شرط فقط روی ثبت‌نام اعمال می‌شود نه ورود.
+    if(!/^[A-Za-z0-9 ._-]+$/.test(name)){
+      authError('اسم باید فقط انگلیسی باشد ❌ — از حروف a–z، عدد و . _ - استفاده کن');
+      return;
+    }
+    if(!/[A-Za-z]/.test(name)){ authError('اسم باید حداقل یک حرف انگلیسی داشته باشد'); return; }
     const pass2=(document.getElementById('auth-pass2')||{}).value||'';
     if(pass!==pass2){ authError('رمز و تکرارش یکسان نیستن — دوباره چک کن'); return; }
   }
@@ -12362,6 +12452,7 @@ async function enterApp(interactive){
   mt5LoadAccount();      // بالانس و وضعیت حساب برای کارت بالای ژورنال
   checkAnnouncements();  // اطلاعیه‌های جدید ادمین (اگر باشد، نمایش داده می‌شود)
   checkPrivateMessages();// پیام خصوصی ادمین به همین کاربر
+  checkNewSignals();     // اعلان سیگنال جدید (اگر کاربر خاموشش نکرده باشد)
   logVisit();            // ثبت بازدید برای آمار پنل مدیریت
   donateLoad();          // تنظیمات حمایت مالی (از پنل مدیریت)
   // For a brand-new account with no data yet, seed the display name into the app.

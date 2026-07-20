@@ -307,6 +307,43 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
 .pa-btn.on:hover{background:rgba(34,197,94,.12)}
 .pa-btn.off{color:var(--dim);border-color:rgba(255,255,255,.14)}
 .pa-btn.off:hover{background:rgba(255,255,255,.06)}
+
+/* حالت فعلی — کدام دکمه «الان اعمال شده» است */
+.pa-btn.is-active{cursor:default}
+.pa-btn.on.is-active{
+  color:#04220f;background:linear-gradient(135deg,#4ade80,#22c55e);
+  border-color:#4ade80;box-shadow:0 0 0 3px rgba(34,197,94,.18),0 6px 18px rgba(34,197,94,.32);
+  animation:paGlow 2.4s ease-in-out infinite;
+}
+.pa-btn.on.is-active:hover{background:linear-gradient(135deg,#4ade80,#22c55e)}
+.pa-btn.off.is-active{
+  color:#fff;background:linear-gradient(135deg,rgba(239,68,68,.9),rgba(185,28,28,.9));
+  border-color:rgba(248,113,113,.85);
+  box-shadow:0 0 0 3px rgba(239,68,68,.15),0 6px 18px rgba(239,68,68,.28);
+}
+.pa-btn.off.is-active:hover{background:linear-gradient(135deg,rgba(239,68,68,.9),rgba(185,28,28,.9))}
+.pa-btn.is-active::before{content:'✓ ';font-weight:900}
+@keyframes paGlow{
+  0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.18),0 6px 18px rgba(34,197,94,.32)}
+  50%    {box-shadow:0 0 0 5px rgba(34,197,94,.10),0 6px 26px rgba(34,197,94,.55)}
+}
+/* دکمه‌ای که فعال نیست کمی عقب می‌نشیند تا تضاد دیده شود */
+.pa-btn.is-idle{opacity:.5}
+.pa-btn.is-idle:hover{opacity:1}
+
+/* چیپ وضعیت کنار نام هر مجوز */
+.pa-state{
+  display:inline-flex;align-items:center;gap:5px;margin-right:8px;
+  padding:3px 9px;border-radius:20px;font-size:9.5px;font-weight:800;
+  border:1px solid;white-space:nowrap;vertical-align:middle;
+}
+.pa-state.st-on{color:#4ade80;background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35)}
+.pa-state.st-off{color:rgba(255,255,255,.45);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+.pa-state.st-mixed{color:#fbbf24;background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35)}
+.pa-state.st-load{color:var(--dim);background:transparent;border-color:transparent}
+@media(max-width:640px){
+  .pa-state{display:flex;width:fit-content;margin:5px 0 0}
+}
 @media(max-width:640px){
   .perm-all-row{flex-wrap:wrap}
   .pa-name{flex:1 1 auto}
@@ -465,37 +502,45 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
       <!-- مجوزهای همگانی — هر سه مجوز، فعال/غیرفعال برای همه‌ی کاربران -->
       <div class="perm-all">
         <div class="perm-all-title">⚙️ مجوزهای همگانی</div>
-        <div class="perm-all-sub">روی <b>همه‌ی</b> کاربران فعلی اعمال می‌شود. برای هر کاربر جداگانه، از سوییچ‌های ستون «مجوزها» در جدول استفاده کن.<br>وقتی مجوزی <b>غیرفعال</b> است کاربر پیام «ویژه‌ی اعضای VIP» می‌بیند: گالری فقط تا ۳ عکس، سیگنال فقط تازه‌ترین مورد، و اتصال متاتریدر کاملاً قفل.</div>
-        <div class="perm-all-row">
+        <div class="perm-all-sub">روی <b>همه‌ی</b> کاربران فعلی <b>و هر کسی که بعداً ثبت‌نام کند</b> اعمال می‌شود — یعنی یک قانون دائمی، نه فقط یک‌بار. برای هر کاربر جداگانه، از سوییچ‌های ستون «مجوزها» در جدول استفاده کن.<br>وقتی مجوزی <b>غیرفعال</b> است کاربر پیام «ویژه‌ی اعضای VIP» می‌بیند: گالری فقط تا ۳ عکس، سیگنال فقط تازه‌ترین مورد، و اتصال متاتریدر کاملاً قفل.<br>دکمه‌ی <b>سبزِ چشمک‌زن</b> یعنی همان حالت الان اعمال است. «ترکیبی» یعنی بعضی کاربران دستی تغییر کرده‌اند.</div>
+        <div class="perm-all-row" id="pa-row-gal">
           <span class="pa-ico">🖼</span>
-          <span class="pa-name">گالری معاملات — بدون مجوز فقط ۳ عکس</span>
+          <span class="pa-name">گالری معاملات — بدون مجوز فقط ۳ عکس
+            <span class="pa-state" id="pa-state-gal">در حال بارگذاری…</span>
+          </span>
           <div class="pa-btns">
-            <button class="pa-btn on" onclick="permAll('gal',true)">فعال برای همه</button>
-            <button class="pa-btn off" onclick="permAll('gal',false)">غیرفعال برای همه</button>
+            <button class="pa-btn on"  id="pa-btn-gal-on"  onclick="permAll('gal',true)">فعال برای همه</button>
+            <button class="pa-btn off" id="pa-btn-gal-off" onclick="permAll('gal',false)">غیرفعال برای همه</button>
           </div>
         </div>
-        <div class="perm-all-row">
+        <div class="perm-all-row" id="pa-row-vip">
           <span class="pa-ico">📡</span>
-          <span class="pa-name">دیدن سیگنال — بدون مجوز فقط ۱ سیگنال</span>
+          <span class="pa-name">دیدن سیگنال — بدون مجوز فقط ۱ سیگنال
+            <span class="pa-state" id="pa-state-vip">در حال بارگذاری…</span>
+          </span>
           <div class="pa-btns">
-            <button class="pa-btn on" onclick="permAll('vip',true)">فعال برای همه</button>
-            <button class="pa-btn off" onclick="permAll('vip',false)">غیرفعال برای همه</button>
+            <button class="pa-btn on"  id="pa-btn-vip-on"  onclick="permAll('vip',true)">فعال برای همه</button>
+            <button class="pa-btn off" id="pa-btn-vip-off" onclick="permAll('vip',false)">غیرفعال برای همه</button>
           </div>
         </div>
-        <div class="perm-all-row">
+        <div class="perm-all-row" id="pa-row-poster">
           <span class="pa-ico">✍️</span>
-          <span class="pa-name">اجازه سیگنال گذاشتن</span>
+          <span class="pa-name">اجازه سیگنال گذاشتن
+            <span class="pa-state" id="pa-state-poster">در حال بارگذاری…</span>
+          </span>
           <div class="pa-btns">
-            <button class="pa-btn on" onclick="permAll('poster',true)">فعال برای همه</button>
-            <button class="pa-btn off" onclick="permAll('poster',false)">غیرفعال برای همه</button>
+            <button class="pa-btn on"  id="pa-btn-poster-on"  onclick="permAll('poster',true)">فعال برای همه</button>
+            <button class="pa-btn off" id="pa-btn-poster-off" onclick="permAll('poster',false)">غیرفعال برای همه</button>
           </div>
         </div>
-        <div class="perm-all-row">
+        <div class="perm-all-row" id="pa-row-mt5">
           <span class="pa-ico">🤖</span>
-          <span class="pa-name">اتصال خودکار متاتریدر — اکسپرت و سرویس پس‌زمینه</span>
+          <span class="pa-name">اتصال خودکار متاتریدر — اکسپرت و سرویس پس‌زمینه
+            <span class="pa-state" id="pa-state-mt5">در حال بارگذاری…</span>
+          </span>
           <div class="pa-btns">
-            <button class="pa-btn on" onclick="permAll('mt5',true)">فعال برای همه</button>
-            <button class="pa-btn off" onclick="permAll('mt5',false)">غیرفعال برای همه</button>
+            <button class="pa-btn on"  id="pa-btn-mt5-on"  onclick="permAll('mt5',true)">فعال برای همه</button>
+            <button class="pa-btn off" id="pa-btn-mt5-off" onclick="permAll('mt5',false)">غیرفعال برای همه</button>
           </div>
         </div>
       </div>
@@ -735,7 +780,7 @@ function enterPanel(){
   loadAll();
 }
 async function loadAll(){
-  loadStats(); loadStatsExtra(); loadUsers(); chLoad(true); sigAdmLoad(); annLoad(); fbLoad(); donAdmLoad(); lbLoad(); growthLoad(); mntLoad();
+  loadStats(); loadStatsExtra(); loadUsers(); permDefaultsLoad(); chLoad(true); sigAdmLoad(); annLoad(); fbLoad(); donAdmLoad(); lbLoad(); growthLoad(); mntLoad();
   document.getElementById('p-updated').textContent='آخرین به‌روزرسانی: '+new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());
 }
 async function loadStats(){
@@ -1196,18 +1241,72 @@ async function permToggle(el,kind,uid){
   if(r&&r.error==='unauthorized') authFail(); else toast(errMsg);
 }
 /* اعمال یک مجوز روی همه‌ی کاربران */
+const PERM_NAMES={gal:'استفاده از گالری معاملات', vip:'دیدن سیگنال', poster:'گذاشتن سیگنال', mt5:'اتصال خودکار متاتریدر'};
+
 async function permAll(kind,en){
-  const NAME={gal:'استفاده از گالری معاملات', vip:'دیدن سیگنال', poster:'گذاشتن سیگنال', mt5:'اتصال خودکار متاتریدر'};
-  if(!confirm((en?'اجازه‌ی «':'⚠️ اجازه‌ی «')+NAME[kind]+'» برای همه‌ی کاربران '+(en?'فعال':'غیرفعال')+' شود؟'))return;
+  const NAME=PERM_NAMES;
+  if(!confirm((en?'اجازه‌ی «':'⚠️ اجازه‌ی «')+NAME[kind]+'» برای همه‌ی کاربران '+(en?'فعال':'غیرفعال')
+    +' شود؟\n\nاین تنظیم برای کاربرانی که بعداً ثبت‌نام می‌کنند هم اعمال می‌شود.'))return;
   const fn={gal:'admin_set_gallery_all', vip:'admin_set_vip_all', poster:'admin_set_signal_poster_all', mt5:'admin_set_mt5_all'}[kind];
   const sql={gal:'gallery.sql', vip:'signals.sql', poster:'signals-v2.sql', mt5:'access-tiers.sql'}[kind];
   const r=await rpc(fn,{p_token:ADMIN_TOKEN,p_enabled:en});
   if(r&&r.ok){
-    toast((en?'✅ ':'🔒 ')+NAME[kind]+' برای همه '+(en?'فعال':'غیرفعال')+' شد'+(r.count?' ('+faNum(r.count)+' کاربر)':''));
+    toast((en?'✅ ':'🔒 ')+NAME[kind]+' برای همه '+(en?'فعال':'غیرفعال')+' شد'+(r.count?' ('+faNum(r.count)+' کاربر)':'')
+      +' — شامل کاربران جدید');
+    permDefaultsLoad();
     loadUsers();
   }
   else if(r&&r.error==='unauthorized')authFail();
   else toast('❌ خطا — فایل '+sql+' در Supabase اجرا شده؟');
+}
+
+/* وضعیت فعلی مجوزهای همگانی — کدام دکمه «الان اعمال است».
+   منبع حقیقت، جدول access_defaults است (همان چیزی که به کاربران جدید هم
+   می‌رسد)؛ شمارش کاربران فقط برای نمایش «ترکیبی» استفاده می‌شود. */
+const PERM_KINDS=['gal','vip','poster','mt5'];
+
+function permPaintState(kind, def, cnt, total){
+  const chip=document.getElementById('pa-state-'+kind);
+  const bOn =document.getElementById('pa-btn-'+kind+'-on');
+  const bOff=document.getElementById('pa-btn-'+kind+'-off');
+  if(!chip||!bOn||!bOff) return;
+
+  // ترکیبی = پیش‌فرض یک چیز می‌گوید ولی وضعیت کاربران فعلی چیز دیگری
+  // (مثلاً بعضی‌ها دستی عوض شده‌اند). cnt=-1 یعنی جدولش هنوز ساخته نشده.
+  const known = (cnt >= 0 && total > 0);
+  const mixed = known && (def ? cnt < total : cnt > 0);
+
+  chip.className='pa-state '+(mixed?'st-mixed':(def?'st-on':'st-off'));
+  chip.textContent = mixed
+    ? '🟠 ترکیبی — '+faNum(cnt)+' از '+faNum(total)+' کاربر فعال'
+    : (def ? '✅ فعال برای همه' : '🔒 غیرفعال برای همه')
+      + (known ? ' — '+faNum(cnt)+' از '+faNum(total)+' کاربر' : '');
+  chip.title = def
+    ? 'کاربران جدید هم با این مجوز ساخته می‌شوند'
+    : 'کاربران جدید بدون این مجوز ساخته می‌شوند';
+
+  bOn .className='pa-btn on '  + (def ? 'is-active' : 'is-idle');
+  bOff.className='pa-btn off ' + (def ? 'is-idle'   : 'is-active');
+}
+
+async function permDefaultsLoad(){
+  const r=await rpc('admin_access_defaults',{p_token:ADMIN_TOKEN});
+  if(!r||!r.ok){
+    if(r&&r.error==='unauthorized'){ authFail(); return; }
+    // فایل SQL هنوز اجرا نشده — به‌جای «در حال بارگذاری» راهنما نشان بده.
+    // دکمه‌ها هم به حالت خنثی برمی‌گردند تا وضعیتِ قدیمی گمراه‌کننده نباشد.
+    PERM_KINDS.forEach(k=>{
+      const chip=document.getElementById('pa-state-'+k);
+      if(chip){ chip.className='pa-state st-mixed'; chip.textContent='⚠️ access-defaults.sql اجرا نشده'; }
+      const bOn=document.getElementById('pa-btn-'+k+'-on');
+      const bOff=document.getElementById('pa-btn-'+k+'-off');
+      if(bOn) bOn.className='pa-btn on';
+      if(bOff) bOff.className='pa-btn off';
+    });
+    return;
+  }
+  const defs=r.defaults||{}, cnts=r.counts||{}, total=r.total||0;
+  PERM_KINDS.forEach(k=>permPaintState(k, !!defs[k], cnts[k]==null?-1:cnts[k], total));
 }
 
 /* جدول کاربران دقیقاً ۱۰ ردیف نشان می‌دهد، بقیه اسکرول می‌شود.

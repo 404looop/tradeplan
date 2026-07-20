@@ -1235,6 +1235,33 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .sig-locked .sl-title{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:7px}
 .sig-locked .sl-desc{font-size:12.5px;color:var(--text-muted);line-height:2}
 /* upsell — کارت‌های محو «بقیه‌ی سیگنال‌ها» + دعوت به VIP روی آن‌ها */
+/* ===== RECOVERY CODE ===== */
+#rec-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(6,12,22,.88);backdrop-filter:blur(6px)}
+#rec-modal.show{display:flex}
+.rec-card{width:100%;max-width:400px;background:linear-gradient(160deg,#132238,#0d1a2c);border:1px solid var(--gold-border);border-radius:22px;padding:26px 20px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+.rec-ic{font-size:40px;margin-bottom:8px;filter:drop-shadow(0 0 16px rgba(232,160,32,.45))}
+.rec-title{font-size:17px;font-weight:900;color:var(--gold);margin-bottom:8px}
+.rec-sub{font-size:12.5px;color:var(--text-muted);line-height:2;margin-bottom:16px}
+.rec-code{font-family:'Courier New',monospace;font-size:19px;font-weight:800;letter-spacing:1.5px;color:#F4C86A;background:rgba(0,0,0,.34);border:1px dashed rgba(244,200,106,.5);border-radius:14px;padding:15px 10px;margin-bottom:12px;user-select:all;word-break:break-all}
+.rec-btns{display:flex;gap:9px;margin-bottom:14px}
+.rec-btn{flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.rec-btn:active{transform:scale(.97)}
+.rec-warn{font-size:11.5px;color:var(--text-muted);line-height:1.95;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);border-radius:12px;padding:10px 12px;margin-bottom:14px}
+.rec-ack{display:flex;align-items:center;gap:9px;justify-content:center;font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:14px;cursor:pointer}
+.rec-ack input{width:17px;height:17px;accent-color:#e8a020;cursor:pointer}
+.rec-done{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#F4C86A,#e8a020);color:#0b1628;font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:900;cursor:pointer}
+.rec-done:disabled{opacity:.4;cursor:not-allowed}
+.rec-form-head{font-size:14.5px;font-weight:900;color:var(--gold);text-align:center;margin-bottom:6px}
+.rec-in{font-family:'Courier New',monospace;letter-spacing:1.5px;text-transform:uppercase}
+.rec-back{display:block;text-align:center;margin-top:12px;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer}
+/* کارت کد بازیابی در تنظیمات */
+.rec-set-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px}
+.rec-set-row{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.rec-set-badge{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:8px}
+.rec-set-badge.ok{background:rgba(34,197,94,.14);color:#4ade80}
+.rec-set-badge.no{background:rgba(239,68,68,.14);color:#f87171}
+.rec-set-desc{font-size:12px;color:var(--text-muted);line-height:1.95;margin-bottom:12px}
+.rec-set-btn{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(244,200,106,.4);background:rgba(244,200,106,.1);color:#F4C86A;font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer}
 /* MT5 قفل — کارت VIP در تنظیمات؛ کارت توکن در حالت قفل محو و غیرفعال می‌شود */
 .mt5-lock-card{margin:0 0 12px;background:linear-gradient(135deg,rgba(232,160,32,.12),rgba(232,160,32,.03));border:1px solid var(--gold-border);border-radius:18px;padding:22px 18px;text-align:center}
 .mt5-lock-card .mlc-ic{font-size:36px;margin-bottom:9px;filter:drop-shadow(0 0 14px rgba(232,160,32,.4))}
@@ -4059,13 +4086,51 @@ body.mnt-bannered{padding-top:28px}
           <input type="password" id="auth-pass2" name="password2" class="auth-input" placeholder="رمز رو دوباره بنویس" autocomplete="new-password" enterkeyhint="go">
           <button type="button" class="auth-eye" onclick="toggleAuthEye('auth-pass2',this)" tabindex="-1" aria-label="نمایش رمز">👁</button>
         </div>
-        <div class="auth-pass-note">⚠️ رمزت رو جایی یادداشت کن — امکان بازیابی رمز وجود ندارد</div>
+        <div class="auth-pass-note">🔑 بعد از ثبت‌نام یک <b>کد بازیابی</b> می‌گیری که فقط یک بار نشان داده می‌شود — حتماً ذخیره‌اش کن، چون اگر رمزت را فراموش کنی تنها راه برگشت به حسابت همان است</div>
       </div>
       <div class="auth-err" id="auth-err"></div>
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
+    <!-- فرم بازیابی با کد — جای فرم ورود می‌نشیند، نه کنارش -->
+    <form class="auth-fields" id="rec-form" style="display:none" onsubmit="event.preventDefault();recSubmit();">
+      <div class="rec-form-head">🔑 بازیابی رمز با کد</div>
+      <label class="auth-label" for="rec-name">اسم حسابت</label>
+      <input type="text" id="rec-name" class="auth-input" placeholder="همون اسمی که باهاش ثبت‌نام کردی" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <label class="auth-label" for="rec-in-code">کد بازیابی</label>
+      <input type="text" id="rec-in-code" class="auth-input rec-in" placeholder="XXXX-XXXX-XXXX-XXXX" dir="ltr" autocapitalize="characters" autocorrect="off" spellcheck="false">
+      <label class="auth-label" for="rec-new">رمز جدید</label>
+      <div class="auth-pass-wrap">
+        <input type="password" id="rec-new" class="auth-input" placeholder="رمز جدید (حداقل ۶ کاراکتر)" autocomplete="new-password">
+        <button type="button" class="auth-eye" onclick="toggleAuthEye('rec-new',this)" tabindex="-1" aria-label="نمایش رمز">👁</button>
+      </div>
+      <div class="auth-err" id="rec-err"></div>
+      <button type="submit" class="auth-submit" id="rec-submit">تغییر رمز</button>
+      <a class="rec-back" onclick="recFormClose()">‹ برگشت به ورود</a>
+    </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a><br><a class="auth-forgot" onclick="authForgot()">رمزت رو فراموش کردی؟</a></div>
     <div class="auth-ver" id="auth-version">TradePlan v77.5</div>
+  </div>
+</div>
+
+<!-- ===== RECOVERY CODE MODAL (بعد از ثبت‌نام / تعویض کد) ===== -->
+<!-- عمداً بدون دکمه‌ی ✕ و بدون بستن با کلیک بیرون: تنها باری است که کد دیده
+     می‌شود، پس کاربر باید صریحاً تأیید کند که ذخیره‌اش کرده. -->
+<div id="rec-modal">
+  <div class="rec-card">
+    <div class="rec-ic">🔑</div>
+    <div class="rec-title">کد بازیابی رمز</div>
+    <div class="rec-sub">این کد <b>فقط همین یک بار</b> نشان داده می‌شود. اگر رمزت را فراموش کنی، تنها راه بازگشت به حسابت همین کد است.</div>
+    <div class="rec-code" id="rec-code" dir="ltr">····-····-····-····</div>
+    <div class="rec-btns">
+      <button type="button" class="rec-btn" onclick="recCopy()">📋 کپی</button>
+      <button type="button" class="rec-btn" onclick="recDownload()">⬇️ ذخیره فایل</button>
+    </div>
+    <div class="rec-warn">⚠️ ما نسخه‌ای از این کد نداریم — فقط اثر رمزنگاری‌شده‌اش ذخیره می‌شود. اگر گمش کنی، بازیابی حساب فقط از راه پشتیبانی ممکن است.</div>
+    <label class="rec-ack">
+      <input type="checkbox" id="rec-ack-chk" onchange="recAckToggle(this.checked)">
+      <span>کد را در جای امنی ذخیره کردم</span>
+    </label>
+    <button type="button" class="rec-done" id="rec-done" disabled onclick="recClose()">ادامه</button>
   </div>
 </div>
 
@@ -5153,6 +5218,17 @@ body.mnt-bannered{padding-top:28px}
     <div class="gc-hint">📊 میزان پیشرفت هر هدف به‌صورت زنده در صفحه‌ی خانه نمایش داده می‌شود.</div>
   </div>
 
+  <div class="settings-section"><h2>🔑 امنیت حساب</h2></div>
+
+  <div class="rec-set-card">
+    <div class="rec-set-row">
+      <b style="font-size:13px">کد بازیابی رمز</b>
+      <span id="rec-set-status"><span class="rec-set-badge no">…</span></span>
+    </div>
+    <div class="rec-set-desc">ورود تو فقط با اسم و رمز است و ایمیلی در کار نیست، پس اگر رمزت را فراموش کنی تنها راه برگشت به حساب، همین کد بازیابی است. کد را جای امنی نگه دار — ما نسخه‌ای از آن نداریم.</div>
+    <button type="button" class="rec-set-btn" onclick="recRegenerate()">🔄 ساخت کد بازیابی جدید (کد قبلی باطل می‌شود)</button>
+  </div>
+
   <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
 
   <!-- MT5 AUTO-CONNECT BANNER (two states: connect CTA / connected) -->
@@ -5933,7 +6009,7 @@ function showPage(name){
   document.getElementById('nav-'+name).classList.add('active');
   currentPage=name;
   if(name==='home') updateHome();
-  if(name==='settings'){ if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); }
+  if(name==='settings'){ if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); if(typeof recLoadStatus==='function') recLoadStatus(); }
   if(name==='setup') renderStrategy();
   if(name==='journal'){ renderJournal(); animateMonthlyPnl(); if(typeof mt5CheckAccess==='function') mt5CheckAccess(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); if(typeof renderMt5Account==='function'){ renderMt5Account(); mt5LoadAccount(); } }
   if(name==='psychology') renderPsychology();
@@ -12320,7 +12396,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='81.1';
+const APP_VERSION='81.2';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -12968,14 +13044,172 @@ function setAuthMode(m){
   if(m==='login'){ const p2=document.getElementById('auth-pass2'); if(p2) p2.value=''; }
   authError('');
 }
-// فراموشی رمز: بازیابی خودکار نداریم؛ ریست رمز از راه پشتیبانی تلگرام انجام می‌شود
+/* ═══════════ کد بازیابی رمز ═══════════
+   ورود با «اسم + رمز» است و ایمیل واقعی وجود ندارد، پس لینک بازیابی ممکن نیست.
+   به‌جایش موقع ثبت‌نام سرور یک کد یک‌بارمصرف می‌سازد، فقط همان یک بار نشانش
+   می‌دهیم و سمت سرور فقط hash می‌ماند (recovery-code.sql). */
+let _recCode='', justSignedUp=false;
+
+// نمایش کد — تنها فرصت کاربر برای ذخیره‌اش
+function recShow(code){
+  _recCode=code||'';
+  const m=document.getElementById('rec-modal'), c=document.getElementById('rec-code'),
+        k=document.getElementById('rec-ack-chk'), d=document.getElementById('rec-done');
+  if(!m||!c) return;
+  c.textContent=_recCode;
+  if(k) k.checked=false;
+  if(d) d.disabled=true;
+  m.classList.add('show');
+}
+function recAckToggle(on){ const d=document.getElementById('rec-done'); if(d) d.disabled=!on; }
+function recClose(){
+  const m=document.getElementById('rec-modal'); if(m) m.classList.remove('show');
+  _recCode='';   // از حافظه هم پاک می‌شود؛ دیگر هیچ‌جا نگهش نمی‌داریم
+}
+function recCopy(){
+  if(!_recCode) return;
+  const done=()=>showToast('📋 کد بازیابی کپی شد — جای امنی ذخیره‌اش کن');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(_recCode).then(done).catch(()=>{ fallbackCopy(_recCode); done(); });
+  }else{ fallbackCopy(_recCode); done(); }
+}
+function recDownload(){
+  if(!_recCode) return;
+  const name=(CURRENT_USER&&CURRENT_USER.user_metadata&&CURRENT_USER.user_metadata.display_name)||'';
+  const txt='TradePlan — کد بازیابی رمز\r\n\r\n'
+    +(name?('اسم حساب: '+name+'\r\n'):'')
+    +'کد بازیابی: '+_recCode+'\r\n\r\n'
+    +'این کد را جای امنی نگه دار. اگر رمزت را فراموش کردی، در صفحه‌ی ورود\r\n'
+    +'روی «رمزت رو فراموش کردی؟» بزن و با همین کد رمز جدید بساز.\r\n'
+    +'کد یک‌بارمصرف است؛ بعد از استفاده کد تازه‌ای به تو داده می‌شود.\r\n\r\n'
+    +'tradeplan.site — تلگرام @tradeplann\r\n';
+  try{
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));
+    a.download='tradeplan-recovery-code.txt';
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1000);
+    showToast('⬇️ فایل کد بازیابی ذخیره شد');
+  }catch(e){ showToast('❌ ذخیره فایل ممکن نشد — از دکمه‌ی کپی استفاده کن'); }
+}
+
+// ساخت کد برای کاربرِ واردشده (بعد از ثبت‌نام، یا از تنظیمات)
+async function recGenerate(silent){
+  if(!SB||!CURRENT_USER) return false;
+  try{
+    const {data,error}=await SB.rpc('recovery_generate');
+    if(error||!data||!data.ok){
+      if(!silent) showToast('❌ ساخت کد بازیابی ممکن نشد — فایل recovery-code.sql اجرا شده؟',4000);
+      return false;
+    }
+    recShow(data.code);
+    return true;
+  }catch(e){
+    if(!silent) showToast('❌ اتصال برقرار نشد — '+VPN_HINT);
+    return false;
+  }
+}
+
+/* ----- فرم بازیابی در صفحه‌ی ورود ----- */
 function authForgot(){
-  const el=document.getElementById('auth-err');
-  if(!el) return;
-  el.classList.remove('ok'); el.classList.add('info');
-  el.innerHTML='برای ریست رمز، به کانال تلگرام '+
-    '<a href="https://t.me/tradeplann" target="_blank" rel="noopener">@tradeplann</a>'+
-    ' پیام بده — پشتیبان‌های ما ۲۴ ساعته پاسخگو هستند 💬';
+  const f=document.getElementById('auth-form'), r=document.getElementById('rec-form'),
+        h=document.getElementById('auth-hint');
+  if(!f||!r) return;
+  // اسمی که در فرم ورود زده شده را منتقل می‌کنیم تا دوباره تایپ نکند
+  const n=(document.getElementById('auth-name').value||'').trim();
+  const rn=document.getElementById('rec-name'); if(rn&&n) rn.value=n;
+  f.style.display='none'; r.style.display='block';   // .auth-fields بلوک است نه flex
+  if(h) h.style.display='none';
+  recErr('');
+  document.querySelector('.auth-tabs').style.display='none';
+}
+function recFormClose(){
+  const f=document.getElementById('auth-form'), r=document.getElementById('rec-form'),
+        h=document.getElementById('auth-hint');
+  if(f) f.style.display='';        // برگشت به مقدار خودِ استایل‌شیت
+  if(r) r.style.display='none';
+  if(h) h.style.display='';
+  const t=document.querySelector('.auth-tabs'); if(t) t.style.display='';
+}
+function recErr(msg,ok){
+  const el=document.getElementById('rec-err'); if(!el) return;
+  el.textContent=msg||''; el.classList.toggle('ok',!!ok);
+}
+let _recBusy=false;
+async function recSubmit(){
+  if(_recBusy) return;
+  const name=(document.getElementById('rec-name').value||'').trim();
+  const code=(document.getElementById('rec-in-code').value||'').trim();
+  const pass=document.getElementById('rec-new').value||'';
+  if(name.length<2){ recErr('اسم حسابت رو بنویس'); return; }
+  if(code.replace(/[^A-Za-z0-9]/g,'').length!==16){ recErr('کد بازیابی ۱۶ کاراکتره — کاملش رو وارد کن'); return; }
+  if(pass.length<6){ recErr('رمز جدید حداقل ۶ کاراکتر باشه'); return; }
+  if(!SB){ recErr('اتصال به سرور برقرار نشد — '+VPN_HINT); return; }
+
+  _recBusy=true; recErr('در حال بررسی…',true);
+  const btn=document.getElementById('rec-submit'); if(btn) btn.disabled=true;
+  try{
+    const {data,error}=await SB.rpc('recovery_reset_password',{
+      p_email:nameToEmail(name), p_code:code, p_new_pass:pass});
+    if(error) throw error;
+    if(!data||!data.ok){
+      const e=data&&data.error;
+      if(e==='locked'){
+        const m=Math.max(1,Math.ceil((data.retry_after||900)/60));
+        recErr('تلاش‌های ناموفق زیاد بود — '+toFA(m)+' دقیقه صبر کن و دوباره امتحان کن ⏳');
+      }
+      else if(e==='no_code') recErr('این حساب کد بازیابی ندارد — برای ریست رمز به @tradeplann پیام بده');
+      else if(e==='short_password') recErr('رمز جدید حداقل ۶ کاراکتر باشه');
+      else recErr('اسم یا کد بازیابی درست نیست ❌');
+      return;
+    }
+    // موفق: رمز عوض شد. کد تازه را نشان می‌دهیم، بعد کاربر با رمز جدید وارد شود.
+    recFormClose();
+    document.getElementById('auth-name').value=name;
+    document.getElementById('auth-pass').value='';
+    setAuthMode('login');
+    recShow(data.new_code);
+    showToast('✅ رمزت عوض شد — کد بازیابی جدیدت رو ذخیره کن',4500);
+  }catch(e){
+    recErr(isNetErr(e)?('اتصال برقرار نشد — '+VPN_HINT):'خطا در بازیابی — دوباره تلاش کن');
+  }finally{
+    _recBusy=false;
+    const b=document.getElementById('rec-submit'); if(b) b.disabled=false;
+  }
+}
+
+/* کاربرانی که قبل از این قابلیت ثبت‌نام کرده‌اند کد ندارند. یک بار — و فقط یک
+   بار — موقع ورود برایشان کد ساخته و نشان داده می‌شود. پرچمش لوکال است تا اگر
+   کاربر مودال را بست دوباره سرش آوار نشود؛ خودِ کد در سرور محفوظ است و هر وقت
+   بخواهد از تنظیمات کد تازه می‌گیرد. */
+function REC_BF_KEY(){ return CURRENT_USER?('tradeplan_recbf:'+CURRENT_USER.id):'tradeplan_recbf'; }
+async function recBackfill(){
+  if(!SB||!CURRENT_USER) return;
+  if(localStorage.getItem(REC_BF_KEY())==='1') return;
+  try{
+    const {data,error}=await SB.rpc('recovery_status');
+    if(error||!data||!data.ok) return;          // SQL اجرا نشده — بی‌سروصدا رد شو
+    localStorage.setItem(REC_BF_KEY(),'1');
+    if(data.has_code) return;                   // از قبل دارد
+    setTimeout(()=>recGenerate(true),1200);     // کمی مکث تا روی انیمیشن ورود نیفتد
+  }catch(e){ /* آفلاین — دفعه‌ی بعد */ }
+}
+
+/* ----- کارت کد بازیابی در تنظیمات ----- */
+async function recLoadStatus(){
+  const box=document.getElementById('rec-set-status'); if(!box||!SB||!CURRENT_USER) return;
+  try{
+    const {data,error}=await SB.rpc('recovery_status');
+    if(error||!data||!data.ok){ box.innerHTML='<span class="rec-set-badge no">نامشخص</span>'; return; }
+    box.innerHTML=data.has_code
+      ? '<span class="rec-set-badge ok">✅ کد فعال داری</span>'
+      : '<span class="rec-set-badge no">⚠️ کد بازیابی نداری</span>';
+  }catch(e){ box.innerHTML='<span class="rec-set-badge no">نامشخص</span>'; }
+}
+async function recRegenerate(){
+  if(!confirm('کد بازیابی جدید ساخته شود؟\nکد قبلی از کار می‌افتد و فقط کد جدید معتبر خواهد بود.')) return;
+  const ok=await recGenerate();
+  if(ok) recLoadStatus();
 }
 function toggleAuthEye(id,btn){
   const el=document.getElementById(id);
@@ -13040,6 +13274,7 @@ async function submitAuth(){
       }
       if(!res.session){ authError('ثبت‌نام شد ولی «تأیید ایمیل» توی پنل Supabase هنوز روشنه؛ باید خاموشش کنی.'); setAuthBusy(false); return; }
       CURRENT_USER=res.user;
+      justSignedUp=true;   // کد بازیابی بعد از بالا آمدن برنامه ساخته و نشان داده می‌شود
     }else{
       const {data:res,error}=await withTimeout(SB.auth.signInWithPassword({email,password:pass}));
       if(error){
@@ -13050,6 +13285,10 @@ async function submitAuth(){
       CURRENT_USER=res.user;
     }
     await enterApp(true);
+    // بعد از ثبت‌نام: کد بازیابی ساخته و روی برنامه‌ی بالاآمده نشان داده می‌شود.
+    // اگر ساختش شکست بخورد (SQL اجرا نشده / آفلاین) ثبت‌نام را خراب نمی‌کنیم —
+    // کاربر بعداً از تنظیمات یا دفعه‌ی بعدِ ورود کد می‌گیرد.
+    if(justSignedUp){ justSignedUp=false; recGenerate(true); }
   }catch(e){
     if(isNetErr(e)) authError('اتصال برقرار نشد — '+VPN_HINT);
     else authError('خطا: '+(e.message||e));
@@ -13091,6 +13330,7 @@ async function enterApp(interactive){
   mtCloudSync();         // تریدهای ارسالی از متاتریدر را بگیر و در ژورنال ثبت کن
   mt5LoadAccount();      // بالانس و وضعیت حساب برای کارت بالای ژورنال
   mt5CheckAccess();      // مجوز اتصال متاتریدر (VIP) — بنر و کارت تنظیمات را تنظیم می‌کند
+  recBackfill();         // کاربران قدیمی هنوز کد بازیابی ندارند — یک بار برایشان ساخته می‌شود
   checkAnnouncements();  // اطلاعیه‌های جدید ادمین (اگر باشد، نمایش داده می‌شود)
   checkPrivateMessages();// پیام خصوصی ادمین به همین کاربر
   checkNewSignals();     // اعلان سیگنال جدید (اگر کاربر خاموشش نکرده باشد)

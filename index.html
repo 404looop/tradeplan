@@ -2325,33 +2325,6 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .psc-result-inner{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.7}
 .prop-canvas{width:100%;border-radius:10px;margin-top:10px;display:block}
 
-/* Pre-trade checklist */
-.prop-checklist-card{
-  background:linear-gradient(150deg,rgba(16,30,54,.95),rgba(10,24,40,.92));
-  border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:14px;
-}
-.pcc-header{font-size:13px;font-weight:900;color:rgba(255,255,255,.9);margin-bottom:12px}
-.pcc-items{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.pcc-item{display:flex;align-items:flex-start;gap:9px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.pcc-cb{width:18px;height:18px;accent-color:#F4C86A;flex-shrink:0;margin-top:1px;cursor:pointer}
-.pcc-item span{font-size:12px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.5}
-.pcc-item:has(.pcc-cb:checked) span{color:#F4C86A}
-.pcc-progress-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.pcc-bar-wrap{flex:1;height:7px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden}
-.pcc-bar{height:100%;border-radius:5px;background:transparent;overflow:hidden}
-.pcc-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#22c55e,#F4C86A);transition:width .4s}
-.pcc-count{font-size:11px;font-weight:800;color:rgba(255,255,255,.5);flex-shrink:0;direction:ltr}
-.pcc-advice{font-size:11px;font-weight:700;color:rgba(255,215,100,.8);text-align:center;margin-bottom:11px;line-height:1.6}
-.prop-trade-btn{
-  width:100%;padding:13px;border-radius:13px;
-  background:linear-gradient(135deg,#F4C86A,#e8a020);
-  color:#0b1628;font-family:'Vazirmatn',sans-serif;font-size:13.5px;font-weight:900;
-  border:none;cursor:pointer;box-shadow:0 6px 20px rgba(244,200,106,.4);
-  transition:all .25s;
-}
-.prop-trade-btn:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.5)}
-.prop-trade-btn:not(:disabled):active{transform:scale(.98)}
-
 /* Analytics */
 .prop-analytics-card{
   background:linear-gradient(150deg,rgba(16,30,54,.95),rgba(10,24,40,.92));
@@ -2491,6 +2464,98 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .pit-date-chip.chip-danger{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#fca5a5}
 .pit-date-chip.chip-ok{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:#6ee7b7}
 
+
+/* ── Prop Polish: جدول اطلاعات حساب + آنالیز (لوکس) ───────────── */
+.prop-info-table-card .pit-title{
+  color:#F7D488;font-weight:900;letter-spacing:.2px;
+  text-shadow:0 0 16px rgba(244,200,106,.35);
+}
+.pit-table-wrap{
+  box-shadow:0 10px 30px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.prop-form-card .pfh-title{
+  background:linear-gradient(100deg,#F4C86A,#ffe9b0 45%,#e8a020);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  font-weight:900;
+}
+.prop-analytics-card .pac-title{
+  color:#F7D488;font-weight:900;
+  text-shadow:0 0 16px rgba(244,200,106,.35);
+}
+.pit-table thead tr{
+  background:linear-gradient(135deg,rgba(244,200,106,.22),rgba(244,200,106,.05));
+}
+.pit-table th{
+  color:#F7D488;text-shadow:0 0 14px rgba(244,200,106,.35);
+  border-bottom:1px solid rgba(244,200,106,.22);
+}
+/* ستون «معیار» — رنگی، براق، خوانا (ایموجی رنگی می‌ماند، متن گرادیانی) */
+.pit-table tbody tr td.td-metric{
+  position:relative;padding-right:16px;
+  transition:filter .25s;
+}
+.pit-table tbody tr td.td-metric::before{
+  content:'';position:absolute;right:4px;top:50%;transform:translateY(-50%);
+  width:3px;height:16px;border-radius:3px;
+  background:linear-gradient(180deg,#F4C86A,rgba(244,200,106,.15));
+  box-shadow:0 0 8px rgba(244,200,106,.5);
+}
+.tdm-ico{font-size:12.5px;margin-left:5px;filter:drop-shadow(0 0 6px rgba(244,200,106,.35))}
+.tdm-txt{
+  font-size:12.5px;font-weight:900;letter-spacing:.1px;
+  background:linear-gradient(100deg,#ffe4a8,#F4C86A 55%,#e9a83f);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.pit-table tbody tr:hover td.td-metric{filter:brightness(1.18) saturate(1.12)}
+.pit-table td.td-value{
+  font-size:13.5px;font-weight:900;
+  text-shadow:0 0 12px rgba(255,255,255,.18);
+}
+.pit-table td.td-value em{
+  font-size:10px;font-weight:700;color:rgba(255,255,255,.4);
+  text-shadow:none;
+}
+.pit-table tbody tr{transition:background .2s}
+.pit-table tbody tr:hover td{background:rgba(244,200,106,.05)}
+
+/* آنالیز عملکرد — کاشی‌های آماری */
+.pac-stat{
+  position:relative;overflow:hidden;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  transition:transform .22s,border-color .22s,box-shadow .22s;
+}
+.pac-stat::after{
+  content:'';position:absolute;inset:0 0 auto 0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(244,200,106,.5),transparent);
+}
+.pac-stat:hover{
+  transform:translateY(-2px);border-color:rgba(244,200,106,.3);
+  box-shadow:0 8px 22px rgba(0,0,0,.3);
+}
+.pas-val{text-shadow:0 0 16px rgba(244,200,106,.3);letter-spacing:.3px}
+.pas-val.pas-pos{color:#5fe896;text-shadow:0 0 16px rgba(34,197,94,.4)}
+.pas-val.pas-neg{color:#fca5a5;text-shadow:0 0 16px rgba(239,68,68,.35)}
+.pas-label{letter-spacing:.2px}
+/* کاشی هدلاین سود/ضرر خالص — تمام‌عرض */
+.pac-stat-hero{
+  grid-column:1 / -1;padding:13px 10px;
+  background:linear-gradient(150deg,rgba(244,200,106,.10),rgba(255,255,255,.02));
+  border-color:rgba(244,200,106,.24);
+}
+.pac-stat-hero .pas-val{font-size:24px}
+.pac-stat-hero .pas-label{font-size:10px;margin-top:5px}
+
+/* نکات کلیدی */
+.pac-tip{transition:background .2s,border-color .2s,transform .2s}
+.pac-tip:hover{background:rgba(255,255,255,.06);transform:translateX(-2px)}
+.pac-tip-hero{
+  background:linear-gradient(100deg,rgba(244,200,106,.16),rgba(244,200,106,.04));
+  border-right:3px solid #F4C86A;
+  color:#ffe4a8;font-weight:900;font-size:12.5px;
+  box-shadow:0 0 22px rgba(244,200,106,.12);
+}
 
 /* ── Prop Risk Slider Section ── */
 .prop-risk-slider-section{
@@ -5028,29 +5093,6 @@ body.mnt-bannered{padding-top:28px}
 
     </div>
 
-    <!-- ── PRE-TRADE CHECKLIST ── -->
-    <div class="prop-checklist-card">
-      <div class="pcc-header">✅ چک‌لیست ورود به معامله (پراپ)</div>
-      <div class="pcc-items" id="prop-checklist-items">
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>روند کلی بازار را بررسی کردم (HTF)</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>اخبار مهم امروز را چک کردم (NFP, CPI, ...)</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>ستاپ معاملاتی‌ام کامل است (چندین تایم‌فریم)</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>SL منطقی دارم (نه بر اساس احساس)</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>ریسک این معامله در محدوده پیشنهادی است</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>حجم (Lot) را دقیقاً محاسبه کردم</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>Daily Drawdown امروز را چک کردم</span></label>
-        <label class="pcc-item"><input type="checkbox" class="pcc-cb" onchange="propChecklistUpdate()"> <span>احساسم مثبت است — FOMO یا Revenge Trade نیست</span></label>
-      </div>
-      <div class="pcc-progress-row">
-        <div class="pcc-bar-wrap"><div class="pcc-bar"><div class="pcc-fill" id="pcc-fill" style="width:0%"></div></div></div>
-        <span class="pcc-count" id="pcc-count">۰/۸</span>
-      </div>
-      <div class="pcc-advice" id="pcc-advice">همه موارد را تیک بزنید تا مجاز به ورود شوید.</div>
-      <button class="prop-trade-btn" id="prop-trade-btn" onclick="showPage('journal')" disabled>
-        📝 ثبت ترید در ژورنال
-      </button>
-    </div>
-
     <!-- ── PERFORMANCE ANALYTICS ── -->
     <div class="prop-analytics-card">
       <div class="pac-title">📈 آنالیز عملکرد</div>
@@ -5072,8 +5114,12 @@ body.mnt-bannered{padding-top:28px}
           <div class="pas-label">Profit Factor</div>
         </div>
         <div class="pac-stat">
-          <div class="pas-val" id="pas-maxdd">—</div>
-          <div class="pas-label">Max DD</div>
+          <div class="pas-val" id="pas-rr">—</div>
+          <div class="pas-label">ریسک به ریوارد</div>
+        </div>
+        <div class="pac-stat pac-stat-hero">
+          <div class="pas-val" id="pas-net">—</div>
+          <div class="pas-label">سود / ضرر خالص (P&amp;L) در بازه</div>
         </div>
         <div class="pac-stat">
           <div class="pas-val" id="pas-trades">—</div>
@@ -5101,13 +5147,17 @@ body.mnt-bannered{padding-top:28px}
       <!-- Key tips -->
       <div class="pac-tips-title">💡 نکات کلیدی موفقیت در پراپ</div>
       <div class="pac-tips">
-        <div class="pac-tip">🧠 بعد از ۳ ضرر متوالی، روز را تعطیل کن.</div>
-        <div class="pac-tip">📊 هرگز بیشتر از ۵۰٪ Daily DD را در یک معامله ریسک نکن.</div>
+        <div class="pac-tip pac-tip-hero">💠 اگر نتوانی با ۰.۵٪ ریسک سود کنی، با ۵٪ هم نمی‌توانی.</div>
+        <div class="pac-tip">⚠️ هرگز بیشتر از ۲ درصد در یک روز ریسک نکن. شاید آن روز، روز تو نباشد؛ به خودت فرصت جبران بده.</div>
+        <div class="pac-tip">🧠 پاس کردن چالش پراپ، یک آزمون روانشناسی است، نه مهارت.</div>
+        <div class="pac-tip">🛡️ مدیریت ریسک، تنها چیزی است که در اختیار داری.</div>
+        <div class="pac-tip">⚖️ در پراپ، ثبات حرف اول را می‌زند، نه هیجان.</div>
+        <div class="pac-tip">🌱 در پراپ فرم، بقا مهم‌تر از سود است. اول زنده بمان، بعد رشد کن.</div>
+        <div class="pac-tip">🧊 بعد از ۳ ضرر متوالی، روز را تعطیل کن.</div>
         <div class="pac-tip">🎯 هدفت فقط پاس کردن نیست — حفظ سرمایه اول است.</div>
         <div class="pac-tip">⏰ بعد از Payout اول، ریسک را ۱ هفته کاهش بده.</div>
         <div class="pac-tip">📅 حداقل روزهای معاملاتی را در اوایل ماه تکمیل کن.</div>
         <div class="pac-tip">💤 Overtrading بزرگ‌ترین عامل شکست در پراپ است.</div>
-        <div class="pac-tip" id="pac-dynamic-tip">ریسک پیشنهادی را از بالا محاسبه کنید.</div>
       </div>
     </div>
 
@@ -6113,7 +6163,19 @@ async function loadSignals(){
     // و پایینش بنر «بقیه ویژه‌ی VIP» نشان داده می‌شود (نمونه‌ی رایگان).
     // سیگنال‌ها (RLS فقط سیگنالِ گروه‌های معتبرِ کاربر + سیگنال‌های خودش را برمی‌گرداند)
     const {data:rows,error}=await SB.from('signals').select('*').order('id',{ascending:false}).limit(200);
-    if(error){ root.innerHTML=sigLockedHTML('سرور سیگنال هنوز آماده نیست (فایل signals.sql باید در Supabase اجرا شود).'); return; }
+    if(error){
+      // پیام واقعی سرور را نشان بده. قبلاً هر خطایی «signals.sql اجرا نشده»
+      // تفسیر می‌شد و همین یک بار باعث چند ساعت دنبال نخود سیاه گشتن شد.
+      const msg=(error.message||'')+' '+(error.details||'')+' '+(error.hint||'');
+      if(/does not exist|schema cache|relation/i.test(msg))
+        root.innerHTML=sigLockedHTML('جدول سیگنال هنوز ساخته نشده — فایل signals.sql باید در Supabase اجرا شود.');
+      else if(/recursion/i.test(msg))
+        root.innerHTML=sigLockedHTML('خطای سیاست دسترسی سیگنال (recursion) — فایل access-tiers.sql باید دوباره در Supabase اجرا شود.');
+      else
+        root.innerHTML=sigLockedHTML('خطای سرور سیگنال: '+sigEsc(error.message||'نامشخص'));
+      console.error('signals select',error);
+      return;
+    }
     _sigItems=rows||[];
     // کاربر تب سیگنال را باز کرد → همه‌ی سیگنال‌های فعلی «دیده‌شده» حساب می‌شوند
     if(_sigItems.length) sigSetSeenMax(Math.max(..._sigItems.map(s=>s.id)));
@@ -7800,6 +7862,76 @@ const PROP_PRESETS = {
 };
 
 
+// ── propRangeEntries: همه‌ی روزهای ژورنال داخل بازه‌ی تاریخ پراپ ─────────
+// تمام محاسبات پراپ فرم (جدول، آنالیز، نمودار) از همین منبع تغذیه می‌شوند
+// تا دقیقاً محدود به بازه‌ی تعیین‌شده در فرم باشند.
+function propRangeEntries(){
+  const startStr = document.getElementById('prop-start-date')?.value || '';
+  const endStr   = document.getElementById('prop-end-date')?.value   || '';
+  return Object.entries(data.journal||{})
+    .filter(([k,e])=>{
+      if(!e || !(e.trades>0)) return false;
+      if(startStr && k < startStr) return false;
+      if(endStr   && k > endStr  ) return false;
+      return true;
+    })
+    .sort(([a],[b])=>a.localeCompare(b));
+}
+
+// ── propRangeStats: آمار دقیق معامله‌به‌معامله در بازه‌ی پراپ ────────────
+function propRangeStats(){
+  const entries = propRangeEntries();
+  let totalTrades=0, winTrades=0, lossTrades=0;
+  let grossProfit=0, grossLoss=0, totalPnl=0;
+  let equity=0, peak=0, maxDD=0;
+  let streak=0, bestStreak=0;
+
+  entries.forEach(([,e])=>{
+    const dayPnl = e.pnl||0;
+    totalPnl += dayPnl;
+
+    const pos = e.positions||[];
+    if(pos.length > 0){
+      pos.forEach(p=>{
+        totalTrades++;
+        const val = Math.abs(parseFloat(p.pnlValue)||0);
+        if(p.pnlSign === 'loss'){ if(val>0){ lossTrades++; grossLoss += val; } }
+        else { winTrades++; if(val>0) grossProfit += val; }
+      });
+    } else {
+      // fallback: بدون جزئیات معاملات — از pnl روز استفاده کن
+      const cnt = e.trades||1;
+      totalTrades += cnt;
+      if(dayPnl > 0){ winTrades += cnt; grossProfit += dayPnl; }
+      else if(dayPnl < 0){ lossTrades += cnt; grossLoss += Math.abs(dayPnl); }
+      else winTrades += cnt;
+    }
+
+    // منحنی موجودی و Max DD در همین بازه
+    equity += dayPnl;
+    if(equity > peak) peak = equity;
+    if(peak - equity > maxDD) maxDD = peak - equity;
+
+    // بهترین رشته‌ی روزهای سبز
+    if(dayPnl > 0){ streak++; if(streak > bestStreak) bestStreak = streak; }
+    else if(dayPnl < 0) streak = 0;
+  });
+
+  const avgWin  = winTrades  > 0 ? grossProfit / winTrades  : 0;
+  const avgLoss = lossTrades > 0 ? grossLoss   / lossTrades : 0;
+
+  return {
+    entries,
+    activeDays : entries.length,
+    totalTrades, winTrades, lossTrades,
+    grossProfit, grossLoss, totalPnl,
+    maxDD, bestStreak, avgWin, avgLoss,
+    winRate : totalTrades > 0 ? Math.round(winTrades/totalTrades*100) : 0,
+    rr      : avgLoss > 0 ? avgWin/avgLoss : 0,
+    lastDay : entries.length ? entries[entries.length-1][0] : null
+  };
+}
+
 // ── propUpdateTable: جدول ۵ ردیفه اطلاعات حساب ──────────────────────────
 function propUpdateTable(){
   const tbody = document.getElementById('prop-table-body');
@@ -7816,28 +7948,21 @@ function propUpdateTable(){
   const maxInactive= g('prop-max-inactive')  || 30;
   const currentPnl = g('prop-current-pnl');
 
-  // آمار از ژورنال
-  const j = getAllTimeJournalStats();
-  const activeDays = j.activeDays || 0;
+  // آمار — فقط داخل بازه‌ی تاریخ پراپ
+  const st = propRangeStats();
+  const activeDays  = st.activeDays;
+  const maxDDDollar = st.maxDD;
 
-  // DD واقعی
-  const entries = Object.entries(data.journal||{})
-    .filter(([,e])=>e&&e.trades>0)
-    .sort(([a],[b])=>a.localeCompare(b));
-  let cumPnl=0, peakEquity=0, maxDDDollar=0;
-  entries.forEach(([,e])=>{
-    cumPnl += e.pnl||0;
-    if(cumPnl > peakEquity) peakEquity = cumPnl;
-    const dd = peakEquity - cumPnl;
-    if(dd > maxDDDollar) maxDDDollar = dd;
-  });
-
-  // DD امروز
+  // DD امروز (فقط اگر امروز داخل بازه باشد)
+  const startStr = document.getElementById('prop-start-date')?.value || '';
+  const endStr   = document.getElementById('prop-end-date')?.value   || '';
   const todayKey = new Date().toISOString().slice(0,10);
-  const todayPnl = (data.journal[todayKey]?.trades > 0) ? (data.journal[todayKey]?.pnl||0) : 0;
+  const todayInRange = (!startStr || todayKey >= startStr) && (!endStr || todayKey <= endStr);
+  const todayPnl = (todayInRange && data.journal[todayKey]?.trades > 0)
+    ? (data.journal[todayKey]?.pnl||0) : 0;
 
   // محاسبه آخرین روز فعال
-  const lastActive = entries.length > 0 ? entries[entries.length-1][0] : null;
+  const lastActive = st.lastDay;
   let daysSinceActive = null;
   if(lastActive){
     const lastDate = new Date(lastActive + 'T00:00:00');
@@ -7919,12 +8044,18 @@ function propUpdateTable(){
     })(),
   ];
 
-  tbody.innerHTML = rows.map(r => `
+  // ایموجی از متن جدا می‌شود تا رنگ خودش را حفظ کند و متن گرادیان بگیرد
+  tbody.innerHTML = rows.map(r => {
+    const sp   = r.metric.indexOf(' ');
+    const icon = sp > 0 ? r.metric.slice(0, sp)  : '';
+    const text = sp > 0 ? r.metric.slice(sp + 1) : r.metric;
+    return `
     <tr>
-      <td class="td-metric">${r.metric}</td>
+      <td class="td-metric"><span class="tdm-ico">${icon}</span><span class="tdm-txt">${text}</span></td>
       <td class="td-value">${r.value}</td>
       <td>${r.status}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 
   // countdown chips
   propUpdateDateChips();
@@ -8049,14 +8180,6 @@ function propCalc(){
 
   // Alert
   propUpdateAlert(v, riskDollar, currentPnl, targetDollar);
-
-  // Dynamic tip
-  const tipEl = document.getElementById('pac-dynamic-tip');
-  if(tipEl){
-    if(riskPct < 1)      tipEl.textContent = `🔴 Win Rate پایین! ریسک ${riskPct.toFixed(1)}٪ را رعایت کن.`;
-    else if(riskPct < 1.5) tipEl.textContent = `🟡 ریسک پیشنهادی ${riskPct.toFixed(1)}٪ — محافظه‌کارانه بمان.`;
-    else                  tipEl.textContent = `🟢 ریسک ${riskPct.toFixed(1)}٪ مناسب است — سیستم خوب کار می‌کند.`;
-  }
 
   // Draw equity chart
   propDrawEquityChart();
@@ -8189,10 +8312,8 @@ function propDrawEquityChart(){
   canvas.height = 110;
   const H = 110;
 
-  // از ژورنال داده بگیر
-  const entries = Object.entries(data.journal||{})
-    .filter(([k,e])=>e&&e.trades>0)
-    .sort(([a],[b])=>a.localeCompare(b));
+  // از ژورنال داده بگیر — فقط بازه‌ی تاریخ پراپ
+  const entries = propRangeEntries();
 
   if(entries.length < 2){
     const ctx = canvas.getContext('2d');
@@ -8206,7 +8327,7 @@ function propDrawEquityChart(){
 
   let cumPnl = 0;
   const points = [{d:'start', v:0}];
-  entries.forEach(([d,e])=>{ cumPnl+=e.pnl; points.push({d, v:cumPnl}); });
+  entries.forEach(([d,e])=>{ cumPnl+=(e.pnl||0); points.push({d, v:cumPnl}); });
 
   const vals = points.map(p=>p.v);
   const minV = Math.min(...vals) * 1.05;
@@ -8268,30 +8389,44 @@ function propImportFromJournal(){
 }
 
 function propUpdateAnalytics(){
-  const j = getAllTimeJournalStats();
-  const streak = getBestStreak();
+  // همه‌ی آمار دقیقاً در بازه‌ی تاریخ تعیین‌شده‌ی پراپ محاسبه می‌شود
+  const st = propRangeStats();
+  const entries = st.entries;
 
-  // Win/Loss counts
-  let grossProfit=0, grossLoss=0, maxDD=0, runDD=0, peakEquity=0, equity=0;
-  const entries = Object.entries(data.journal||{}).filter(([,e])=>e&&e.trades>0).sort(([a],[b])=>a.localeCompare(b));
+  const pf = st.grossLoss > 0 ? (st.grossProfit/st.grossLoss).toFixed(2)
+           : st.grossProfit > 0 ? '∞' : '—';
 
-  entries.forEach(([,e])=>{
-    const pnl = e.pnl||0;
-    if(pnl>0) grossProfit+=pnl; else grossLoss+=Math.abs(pnl);
-    equity+=pnl;
-    if(equity>peakEquity) peakEquity=equity;
-    runDD = peakEquity - equity;
-    if(runDD>maxDD) maxDD=runDD;
-  });
+  const setText = (id,txt,cls)=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = txt;
+    el.classList.remove('pas-pos','pas-neg');
+    if(cls) el.classList.add(cls);
+  };
 
-  const pf = grossLoss>0?(grossProfit/grossLoss).toFixed(2):'∞';
-  const setText = (id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
-  setText('pas-winrate', j.winRate + '٪');
+  setText('pas-winrate', st.totalTrades ? st.winRate + '٪' : '—');
   setText('pas-pf',      pf);
-  setText('pas-maxdd',   '$' + maxDD.toFixed(0));
-  setText('pas-trades',  toFA(j.totalTrades));
-  setText('pas-days',    toFA(j.activeDays));
-  setText('pas-streak',  toFA(streak) + ' روز');
+
+  // نسبت ریسک به ریوارد = میانگین سود ÷ میانگین ضرر (در همین بازه)
+  const rrTxt = st.rr > 0 ? '1 : ' + st.rr.toFixed(2)
+              : (st.avgWin > 0 && st.lossTrades === 0) ? '∞' : '—';
+  setText('pas-rr', rrTxt, st.rr >= 1 ? 'pas-pos' : st.rr > 0 ? 'pas-neg' : '');
+
+  // سود/ضرر خالص در بازه
+  const net = st.totalPnl;
+  const netTxt = st.totalTrades === 0 ? '—'
+    : (net >= 0 ? '+' : '−') + '$' + Math.abs(net).toFixed(net && Math.abs(net) < 100 ? 1 : 0);
+  setText('pas-net', netTxt, st.totalTrades === 0 ? '' : net >= 0 ? 'pas-pos' : 'pas-neg');
+
+  setText('pas-trades',  toFA(st.totalTrades));
+  setText('pas-days',    toFA(st.activeDays));
+  setText('pas-streak',  toFA(st.bestStreak) + ' روز');
+
+  // ورودی‌های مخفی propCalc را با واقعیت بازه هماهنگ کن
+  const wrEl = document.getElementById('prop-winrate');
+  if(wrEl && st.totalTrades > 0) wrEl.value = st.winRate;
+  const rrEl = document.getElementById('prop-rr');
+  if(rrEl && st.rr > 0) rrEl.value = st.rr.toFixed(2);
 
   // Recent trades table
   const tbody = document.getElementById('prop-trades-body');
@@ -8303,7 +8438,7 @@ function propUpdateAnalytics(){
         <td>${d.slice(5)}</td>
         <td>${toFA(e.trades||0)}</td>
         <td class="${isPos?'td-pos':'td-neg'}">${isPos?'✅ سود':'❌ ضرر'}</td>
-        <td class="${isPos?'td-pos':'td-neg'}" style="direction:ltr">${isPos?'+':''}$${Math.abs(e.pnl||0).toFixed(1)}</td>
+        <td class="${isPos?'td-pos':'td-neg'}" style="direction:ltr">${isPos?'+':'−'}$${Math.abs(e.pnl||0).toFixed(1)}</td>
       </tr>`;
     }).join('');
   }
@@ -8311,34 +8446,6 @@ function propUpdateAnalytics(){
   // Draw equity
   propDrawEquityChart();
 }
-
-function propChecklistUpdate(){
-  const items = document.querySelectorAll('#prop-checklist-items .pcc-cb');
-  const checked = Array.from(items).filter(c=>c.checked).length;
-  const total = items.length;
-  const pct = (checked/total*100).toFixed(0);
-
-  const fill = document.getElementById('pcc-fill');
-  if(fill) fill.style.width = pct + '%';
-
-  const count = document.getElementById('pcc-count');
-  if(count) count.textContent = `${checked}/${total}`;
-
-  const advice = document.getElementById('pcc-advice');
-  const tradeBtn = document.getElementById('prop-trade-btn');
-
-  if(checked === total){
-    if(advice) advice.textContent = '✅ آماده‌ای! می‌توانی وارد معامله شوی.';
-    if(tradeBtn) tradeBtn.disabled = false;
-  } else if(pct >= 70){
-    if(advice) advice.textContent = `${total-checked} مورد باقی‌مانده. تقریباً آماده‌ای.`;
-    if(tradeBtn) tradeBtn.disabled = true;
-  } else {
-    if(advice) advice.textContent = 'همه موارد را تیک بزنید تا مجاز به ورود شوید.';
-    if(tradeBtn) tradeBtn.disabled = true;
-  }
-}
-
 
 function propUpdateDateBadge(){
   const startVal = document.getElementById('prop-start-date')?.value;
@@ -8403,63 +8510,27 @@ function propUpdateRiskSlider(){
 
 // ── propSyncFromJournal: استخراج دیتا ژورنال بر اساس بازه تاریخ پراپ ──
 function propSyncFromJournal(){
-  const startStr = document.getElementById('prop-start-date')?.value;
-  const endStr   = document.getElementById('prop-end-date')?.value;
   const pnlInput = document.getElementById('prop-current-pnl');
   if(!pnlInput) return;
 
-  if(!startStr && !endStr){
-    // بدون بازه تاریخ — از همه ژورنال استفاده کن
-    let totalPnl=0, totalTrades=0, activeDays=0;
-    let winTrades=0;
-    Object.entries(data.journal||{}).forEach(([,e])=>{
-      if(!e||e.trades<=0) return;
-      activeDays++;
-      totalPnl   += (e.pnl||0);
-      const pos   = e.positions||[];
-      if(pos.length>0){
-        pos.forEach(p=>{ totalTrades++; if(p.pnlSign==='profit') winTrades++; });
-      } else {
-        const cnt=e.trades||1;
-        totalTrades+=cnt;
-        if((e.pnl||0)>0) winTrades+=cnt;
-      }
-    });
-    _propJournalSync={totalPnl,totalTrades,activeDays,winTrades};
-  } else {
-    // بازه تاریخ مشخص
-    const start = startStr ? new Date(startStr+'T00:00:00') : null;
-    const end   = endStr   ? new Date(endStr  +'T23:59:59') : null;
-    let totalPnl=0, totalTrades=0, activeDays=0, winTrades=0;
-
-    Object.entries(data.journal||{}).forEach(([k,e])=>{
-      if(!e||e.trades<=0) return;
-      const d = new Date(k+'T00:00:00');
-      if(start && d < start) return;
-      if(end   && d > end  ) return;
-      activeDays++;
-      totalPnl += (e.pnl||0);
-      const pos = e.positions||[];
-      if(pos.length>0){
-        pos.forEach(p=>{ totalTrades++; if(p.pnlSign==='profit') winTrades++; });
-      } else {
-        const cnt=e.trades||1;
-        totalTrades+=cnt;
-        if((e.pnl||0)>0) winTrades+=cnt;
-      }
-    });
-    _propJournalSync={totalPnl,totalTrades,activeDays,winTrades};
-  }
-
-  const js = _propJournalSync;
-  const winRate = js.totalTrades>0 ? Math.round(js.winTrades/js.totalTrades*100) : 0;
+  // منبع واحد: آمار دقیق بازه‌ی تاریخ پراپ (بدون تاریخ = کل ژورنال)
+  const st = propRangeStats();
+  const js = _propJournalSync = {
+    totalPnl    : st.totalPnl,
+    totalTrades : st.totalTrades,
+    activeDays  : st.activeDays,
+    winTrades   : st.winTrades
+  };
+  const winRate = st.winRate;
 
   // آپدیت فیلدهای فرم پراپ
   pnlInput.value = js.totalPnl.toFixed(2);
 
-  // آپدیت win rate و trades در hidden inputs
+  // آپدیت win rate و R:R در hidden inputs
   const wrEl = document.getElementById('prop-winrate');
   if(wrEl && winRate>0) wrEl.value = winRate;
+  const rrEl = document.getElementById('prop-rr');
+  if(rrEl && st.rr>0) rrEl.value = st.rr.toFixed(2);
 
   // نمایش خلاصه sync شده
   _propShowSyncSummary(js, winRate);
@@ -12421,7 +12492,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='81.3';
+const APP_VERSION='81.5';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

@@ -6025,6 +6025,7 @@ function loadData(){
     if(!data.psychology) data.psychology={}; // migration for existing users
     if(!data.strategy) data.strategy={style:'',markets:[],timeframes:[],setups:[],rr:'',name:'',rules:{entry:[],exit:[],manage:[]}}; // migration
     if(!data.goals) data.goals={daily:'',weekly:'',monthly:data.monthlyGoal||'',yearly:''}; // migration
+    if(!data.prop) data.prop={}; // migration — فرم پراپ (اندازه حساب، تارگت، ریسک، تاریخ‌ها ...)
   }
   else{
     data={
@@ -6038,7 +6039,8 @@ function loadData(){
       goldenRules:DEFAULT_GOLDEN.map((t,i)=>({id:'gr_'+i,text:t})),
       mind:{mood:'',confidence:'',riskMood:'',affirmation:'',yesterdayReview:'',lossProtocol:'',profitProtocol:''},
       journal:{}, // key: "YYYY-MM-DD" => {pnl: number (signed), trades: number}
-      psychology:{} // key: "YYYY-MM-DD" => {positions:[...]}
+      psychology:{}, // key: "YYYY-MM-DD" => {positions:[...]}
+      prop:{} // فرم پراپ — key: id فیلد => مقدار (رجوع به PROP_FIELDS)
     };
     saveData();
   }
@@ -8539,6 +8541,10 @@ function propSyncFromJournal(){
   propCalc();
   propUpdateTable();
   propUpdateAnalytics();
+
+  // مقادیری که این‌جا برنامه‌ای ست شدند (سود فعلی، وین‌ریت، R:R) رویداد
+  // input تولید نمی‌کنند، پس صریح ذخیره می‌شوند.
+  propSaveForm();
 }
 var _propJournalSync = null;
 
@@ -8573,7 +8579,62 @@ function _propShowSyncSummary(js, winRate){
     </div>`;
 }
 
+/* ═══════ ماندگاری فرم پراپ ═══════
+   مقادیر فرم پراپ فقط در DOM بودند و با هر بار خروج/رفرش پاک می‌شدند.
+   حالا در data.prop ذخیره می‌شوند (همان مسیر localStorage + سینک ابری). */
+const PROP_FIELDS = [
+  'prop-account-size','prop-phase','prop-start-date','prop-end-date',
+  'prop-risk-slider','prop-profit-target','prop-daily-dd','prop-max-dd',
+  'prop-min-days','prop-max-inactive','prop-current-pnl',
+  'prop-firm','prop-winrate','prop-rr'
+];
+
+// اسنپ‌شات فعلی فرم
+function _propSnapshot(){
+  const s = {};
+  PROP_FIELDS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) s[id] = el.value;
+  });
+  return s;
+}
+
+/* ذخیره — فقط وقتی چیزی واقعاً عوض شده باشد، تا سینک ابری بی‌دلیل
+   با هر بار باز شدن تب یا هر رندر دوباره فراخوانی نشود. */
+function propSaveForm(){
+  if(!document.getElementById('prop-account-size')) return; // پنل هنوز در DOM نیست
+  const snap = _propSnapshot();
+  if(data.prop && JSON.stringify(data.prop) === JSON.stringify(snap)) return;
+  data.prop = snap;
+  saveData();
+}
+
+// بازیابی — قبل از اعمال هر پیش‌فرضی اجرا می‌شود
+function propRestoreForm(){
+  const p = data.prop;
+  if(!p) return;
+  PROP_FIELDS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && p[id] != null && p[id] !== '') el.value = p[id];
+  });
+}
+
+/* یک شنونده‌ی واگذارشده روی کل پنل — همه‌ی فیلدهای فعلی و هر فیلدی که
+   بعداً اضافه شود را پوشش می‌دهد (بدون نیاز به onchange تکی). */
+let _propBound = false;
+function propBindAutosave(){
+  if(_propBound) return;
+  const panel = document.getElementById('panel-prop');
+  if(!panel) return;
+  const onEdit = e => { if(e.target && e.target.id && e.target.id.startsWith('prop-')) propSaveForm(); };
+  panel.addEventListener('input',  onEdit);
+  panel.addEventListener('change', onEdit);
+  _propBound = true;
+}
+
 function initPropPanel(){
+  propRestoreForm();  // اول مقادیر ذخیره‌شده
+
   const setDefault = (id, val) => {
     const el = document.getElementById(id);
     if(el && !el.value) el.value = val;
@@ -8582,9 +8643,13 @@ function initPropPanel(){
   setDefault('prop-max-inactive', 30);
   setDefault('prop-winrate', 55);
   setDefault('prop-rr', 1.5);
-  propLoadPreset();
+  propLoadPreset();   // پیش‌فرض پراپ فقط برای فیلدهای خالی
+
+  propUpdateRiskSlider();  // لیبل درصد/دلار ریسک با مقدار بازیابی‌شده هم‌خوان شود
+  propUpdateDateBadge();   // نوار پیشرفت تاریخ با بازه‌ی ذخیره‌شده
   propUpdateAnalytics();
   propUpdateTable();
+  propBindAutosave();
 }
 
 function renderSkillRadar(){
@@ -12492,7 +12557,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='81.5';
+const APP_VERSION='81.6';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

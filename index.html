@@ -1234,6 +1234,21 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .sig-locked .sl-ic{font-size:40px;display:block;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(232,160,32,.4))}
 .sig-locked .sl-title{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:7px}
 .sig-locked .sl-desc{font-size:12.5px;color:var(--text-muted);line-height:2}
+/* معرفی بخش سیگنال — وزن‌های ۳۰۰ و ۹۰۰ وزیرمتن کنار هم، عنوان با گرادیان طلایی.
+   عمداً فونت جدیدی اضافه نشد: هر فونت خارجی یک درخواست فیلترشونده‌ی دیگر است. */
+.sig-intro{margin:14px 14px 0;padding:18px 17px;border-radius:18px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(232,160,32,.09),rgba(255,255,255,.02) 60%);
+  border:1px solid rgba(244,200,106,.2)}
+.sig-intro::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;
+  background:linear-gradient(180deg,#F4C86A,rgba(244,200,106,0))}
+.sig-intro-tt{font-size:16.5px;font-weight:900;letter-spacing:-.2px;margin-bottom:9px;
+  background:linear-gradient(95deg,#F8DA9B,#E8A020 70%);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:#F4C86A}
+.sig-intro-tx{font-size:12.8px;font-weight:300;line-height:2.25;color:var(--text-muted)}
+.sig-intro-tx b{font-weight:800;color:var(--text)}
+.sig-intro-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.sig-intro-chips .sic{font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:9px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--text-muted);white-space:nowrap}
 /* upsell — کارت‌های محو «بقیه‌ی سیگنال‌ها» + دعوت به VIP روی آن‌ها */
 /* ===== RECOVERY CODE ===== */
 #rec-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(6,12,22,.88);backdrop-filter:blur(6px)}
@@ -6123,6 +6138,16 @@ function renderSignals(){
 
   let html='';
   html+=`<div class="sig-hero"><div class="sig-hero-ic">📡</div><div><div class="sig-hero-tt">سیگنال‌های VIP <span class="sig-live"></span></div><div class="sig-hero-sub">سیگنال‌های دقیق، لحظه‌ای و اختصاصی</div></div></div>`;
+  // معرفی بخش — برای همه (VIP و غیرVIP) دیده می‌شود
+  html+=`<div class="sig-intro">
+    <div class="sig-intro-tt">هر روز، سیگنال و تحلیل بازار</div>
+    <div class="sig-intro-tx">در این بخش <b>بهترین معامله‌گران سودده</b> هر روز سیگنال‌های خود و تحلیل روند بازار را منتشر می‌کنند — با نقطه‌ی ورود، حد ضرر و اهداف مشخص، و نتیجه‌ی هر سیگنال که تا انتها دنبال می‌شود.</div>
+    <div class="sig-intro-chips">
+      <span class="sic">📈 تحلیل روند بازار</span>
+      <span class="sic">🎯 ورود و حد ضرر مشخص</span>
+      <span class="sic">🗓 به‌روزرسانی روزانه</span>
+    </div>
+  </div>`;
   html+=`<div class="sig-stats">
     <div class="sig-stat-row">
       <div class="sig-stat"><div class="sig-stat-val gold">${toFA(items.length)}</div><div class="sig-stat-label">کل سیگنال</div></div>
@@ -12396,7 +12421,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='81.2';
+const APP_VERSION='81.3';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

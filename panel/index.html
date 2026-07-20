@@ -95,6 +95,14 @@ input{font-family:inherit}
 /* ===== users table ===== */
 /* لیست‌های بلند: بعد از ~۵ ردیف، اسکرول داخل خود باکس تا فضای پنل گرفته نشود */
 .tbl-wrap{overflow-x:auto;overflow-y:auto;max-height:338px;-webkit-overflow-scrolling:touch}
+/* نوار اسکرول افقی بالای جدول — div تو خالی که فقط عرضش برابر عرض واقعی جدول
+   تنظیم می‌شود تا مرورگر برایش اسکرول‌بار بسازد؛ با جدول همگام می‌شود. */
+.tbl-scroll-top{overflow-x:auto;overflow-y:hidden;display:none;margin-bottom:2px}
+.tbl-scroll-top>div{height:1px}
+.tbl-scroll-top::-webkit-scrollbar{height:9px}
+.tbl-scroll-top::-webkit-scrollbar-thumb{background:rgba(232,160,32,.45);border-radius:4px}
+.tbl-scroll-top::-webkit-scrollbar-thumb:hover{background:rgba(232,160,32,.7)}
+.tbl-scroll-top::-webkit-scrollbar-track{background:rgba(255,255,255,.05);border-radius:4px}
 table{width:100%;border-collapse:collapse;min-width:820px}
 th{font-size:11px;color:var(--muted);font-weight:800;text-align:right;padding:10px;border-bottom:1px solid rgba(255,255,255,.09);white-space:nowrap;position:sticky;top:0;background:#101d33;z-index:2}
 #ann-list,#fb-list{max-height:420px;overflow-y:auto;padding-left:4px}
@@ -492,6 +500,9 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         </div>
       </div>
     </div>
+    <!-- اسکرول افقی بالای جدول — آینه‌ی اسکرول پایین. جدول کاربران بلند است و
+         رسیدن به نوار پایینی نیاز به اسکرول عمودی تا ته داشت. -->
+    <div class="tbl-scroll-top" id="users-scroll-top"><div></div></div>
     <div class="tbl-wrap" id="users-wrap">
       <table>
         <thead><tr>
@@ -1094,7 +1105,7 @@ function renderUsers(){
   document.getElementById('u-count').textContent=filtered
     ? faNum(list.length)+' از '+faNum(_users.length)+' کاربر'
     : faNum(_users.length)+' کاربر';
-  if(!list.length){ tb.innerHTML='<tr><td colspan="10" class="empty-row">'+(filtered?'کاربری با این شرایط پیدا نشد':'هنوز کاربری ثبت‌نام نکرده')+'</td></tr>'; setUsersTableHeight(); return; }
+  if(!list.length){ tb.innerHTML='<tr><td colspan="10" class="empty-row">'+(filtered?'کاربری با این شرایط پیدا نشد':'هنوز کاربری ثبت‌نام نکرده')+'</td></tr>'; setUsersTableHeight(); syncUsersTopScroll(); return; }
   tb.innerHTML=list.map((u,idx)=>{
     const ea = u.trades>0 ? '<span class="badge ok">✅ وصل — '+faNum(u.trades)+' ترید</span>'
              : u.has_token ? '<span class="badge mid">🔑 توکن ساخته</span>'
@@ -1133,6 +1144,7 @@ function renderUsers(){
       '</td></tr>';
   }).join('');
   setUsersTableHeight();
+  syncUsersTopScroll();
 }
 
 /* ═══════════ مجوزها: سوییچ on/off ═══════════
@@ -1202,6 +1214,37 @@ async function permAll(kind,en){
    ارتفاع ردیف‌ها ثابت نیست (ستون مجوزها بلندتر است)، پس از روی ردیف‌های
    واقعی اندازه گرفته می‌شود نه با یک عدد ثابت. */
 const USERS_PAGE_ROWS=10;
+
+/* همگام‌سازی نوار اسکرول بالا با خودِ جدول.
+   فلگ _stLock جلوی حلقه را می‌گیرد: هر کدام که اسکرول شود دیگری را حرکت
+   می‌دهد و آن حرکت دوباره رویداد scroll می‌سازد. */
+let _stLock=false, _stBound=false;
+function syncUsersTopScroll(){
+  const wrap=document.getElementById('users-wrap');
+  const top=document.getElementById('users-scroll-top');
+  if(!wrap||!top) return;
+  const tbl=wrap.querySelector('table');
+  if(!tbl){ top.style.display='none'; return; }
+
+  const w=tbl.scrollWidth;
+  top.firstElementChild.style.width=w+'px';
+  // فقط وقتی نشان داده شود که واقعاً چیزی برای اسکرول کردن هست
+  top.style.display = (w>wrap.clientWidth+1) ? 'block' : 'none';
+  top.scrollLeft=wrap.scrollLeft;
+
+  if(_stBound) return;
+  _stBound=true;
+  top.addEventListener('scroll',()=>{
+    if(_stLock){ _stLock=false; return; }
+    _stLock=true; wrap.scrollLeft=top.scrollLeft;
+  });
+  wrap.addEventListener('scroll',()=>{
+    if(_stLock){ _stLock=false; return; }
+    _stLock=true; top.scrollLeft=wrap.scrollLeft;
+  });
+  window.addEventListener('resize',syncUsersTopScroll);
+}
+
 function setUsersTableHeight(){
   const wrap=document.getElementById('users-wrap');
   if(!wrap)return;

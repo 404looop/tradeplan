@@ -244,6 +244,19 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .sigc-resbadge{position:absolute;top:6px;left:6px;padding:3px 8px;border-radius:9px;font-size:9.5px;font-weight:900;background:rgba(5,12,24,.78);border:1px solid rgba(255,255,255,.14);color:#fff}
 .sigc-resbadge.win{color:#4ade80;border-color:rgba(34,197,94,.5)}
 .sigc-resbadge.loss{color:#f87171;border-color:rgba(239,68,68,.5)}
+/* بنر نتیجه‌ی بزرگ و خوانا — زیر عکس کارت */
+.sigc.has-res.win{border-color:rgba(52,211,153,.55)}
+.sigc.has-res.loss{border-color:rgba(248,113,113,.55)}
+.sigc.has-res.closed{opacity:1}
+.sigc-bigres{position:relative;overflow:hidden;padding:10px 12px;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:13.5px;font-weight:900;letter-spacing:.2px;color:#fff}
+.sigc-bigres .brt{position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.28)}
+.sigc-bigres .brv{position:relative;z-index:1;font-size:11px;font-weight:800;direction:ltr;padding:2px 8px;border-radius:9px;background:rgba(0,0,0,.22);text-shadow:none}
+.sigc-bigres.win{background:linear-gradient(100deg,#2fbf78,#12a05f);color:#eafff4}
+.sigc-bigres.loss{background:linear-gradient(100deg,#f0685f,#d8382f);color:#fff0ef}
+.sigc-bigres.breakeven{background:linear-gradient(100deg,#64748b,#475569);color:#f1f5f9}
+.sigc-bigres::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:sigShine 3.4s ease-in-out infinite}
+@keyframes sigShine{0%{left:-60%}55%,100%{left:135%}}
+@media (prefers-reduced-motion:reduce){.sigc-bigres::after{animation:none;display:none}}
 .sigc-body{padding:8px 9px 9px;display:flex;flex-direction:column;gap:6px}
 .sigc-row1{display:flex;align-items:center;gap:7px}
 .sigc-sym{font-size:13px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.3px}
@@ -300,6 +313,8 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
   .sigc-chip{font-size:8.5px;padding:2px 6px}
   .sigc-note{font-size:9.5px}
   .sigc-btn{font-size:9px}
+  .sigc-bigres{padding:7px 8px;font-size:11px;gap:5px;flex-wrap:wrap}
+  .sigc-bigres .brv{font-size:9.5px;padding:1px 6px}
   .sig-add-card{min-height:140px}
   .sig-add-plus{width:40px;height:40px;font-size:19px;border-radius:12px}
   .sig-add-title{font-size:11.5px}
@@ -1298,6 +1313,14 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .sig-hero-sub{font-size:10.5px;color:var(--text-dim);font-weight:600;margin-top:1px}
 .sig-live{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399;margin-left:5px;animation:sigPulse 1.8s ease-in-out infinite;vertical-align:middle}
 @keyframes sigPulse{0%,100%{opacity:1}50%{opacity:.35}}
+/* نوار فیلتر سیگنال — همه / امروز / دیروز / سودده / ضررده */
+.sig-filters{display:flex;flex-wrap:wrap;gap:7px;margin:13px 14px 0}
+.sig-filter{flex:1 1 auto;min-width:0;padding:8px 9px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:11.5px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all var(--tr)}
+.sig-filter:hover{color:#fff;border-color:rgba(255,255,255,.22)}
+.sig-filter.active{color:#0b1628;background:linear-gradient(135deg,#F4C86A,#e8a020);border-color:transparent;box-shadow:0 6px 16px rgba(232,160,32,.28)}
+.sig-filter.win.active{background:linear-gradient(135deg,#34d399,#10b981);color:#052015;box-shadow:0 6px 16px rgba(16,185,129,.28)}
+.sig-filter.loss.active{background:linear-gradient(135deg,#f87171,#ef4444);color:#2a0606;box-shadow:0 6px 16px rgba(239,68,68,.28)}
+@media(max-width:420px){.sig-filter{flex:1 1 28%;font-size:10.5px;padding:7px 5px}}
 /* stats box */
 .sig-stats{margin:12px 14px 0;background:var(--navy-card);border:1px solid var(--gold-border);border-radius:16px;padding:13px}
 .sig-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:11px}
@@ -6112,7 +6135,7 @@ function switchJournalTab(idx){
    RLS سمت سرور تضمین می‌کند فقط سیگنالِ گروه‌های معتبرِ همین کاربر برگردد.
    عضویت VIP از user_groups (ردیف خودِ کاربر) چک می‌شود تا «قفل» از «VIP ولی
    بدون سیگنال» تفکیک شود. رندر با هر باز شدن تب تازه می‌شود. */
-let _sigItems=[], _sigVip=false, _sigBusy=false;
+let _sigItems=[], _sigVip=false, _sigBusy=false, _sigFilter='all';
 // مجوز «سیگنال دادن» — ادمین از پنل فعال می‌کند (جدول signal_access)
 let _sigCanPost=false, _sigPostChecked=false;
 function SIG_POST_KEY(){ return CURRENT_USER?('tradeplan_sigpost:'+CURRENT_USER.id):'tradeplan_sigpost'; }
@@ -6145,7 +6168,32 @@ function sigFmtSigned(v,u){
   return u==='percent' ? (s+toFA(body)+'٪') : (s+toFA(body)+(sigUnitLabel(u)?' '+sigUnitLabel(u):''));
 }
 function sigResLabel(r){ return r==='win'?'✅ سود':r==='loss'?'❌ ضرر':r==='breakeven'?'➖ سربه‌سر':''; }
+/* بنر نتیجه‌ی بزرگ روی کارت سیگنال — «نتیجه: سود شد / ضرر شد» با مقدار (در صورت وجود) */
+function sigBigResHTML(s){
+  const r=s.result;
+  const ic=r==='win'?'🎉':r==='loss'?'🔻':'➖';
+  const txt=r==='win'?'نتیجه: سود شد':r==='loss'?'نتیجه: ضرر شد':'نتیجه: سربه‌سر';
+  const val=(r!=='breakeven'&&s.result_value!=null)
+    ? `<span class="brv">${sigFmtSigned((r==='loss'?-Math.abs(s.result_value):Math.abs(s.result_value)),s.result_unit)}</span>` : '';
+  return `<div class="sigc-bigres ${r}"><span class="brt">${ic} ${txt}</span>${val}</div>`;
+}
 function sigDateChip(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'})+' · '+d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}); }
+/* آیا سیگنال مربوط به امروز / دیروز است؟ (بر مبنای تاریخ محلی) */
+function sigSameDay(iso,ref){ const d=new Date(iso); return !isNaN(d)&&d.getFullYear()===ref.getFullYear()&&d.getMonth()===ref.getMonth()&&d.getDate()===ref.getDate(); }
+function sigIsToday(iso){ return sigSameDay(iso,new Date()); }
+function sigIsYesterday(iso){ const y=new Date(); y.setDate(y.getDate()-1); return sigSameDay(iso,y); }
+/* حذف خودکار سیگنال‌های قدیمی‌تر از ۳ روز — هم از دیتابیس (تلاش بهترین‌حالت، طبق RLS
+   فقط سیگنال‌های خودِ کاربر پاک می‌شوند) و هم از نمایش برنامه. */
+const SIG_MAX_AGE_MS=3*24*60*60*1000;
+async function sigPurgeOld(){
+  const cutoff=Date.now()-SIG_MAX_AGE_MS;
+  const isOld=s=>{ const t=new Date(s.created_at).getTime(); return !isNaN(t)&&t<cutoff; };
+  if(!_sigItems.some(isOld)) return;
+  // از نمایش برنامه حذف کن (فوری)
+  _sigItems=_sigItems.filter(s=>!isOld(s));
+  // از دیتابیس هم پاک کن (RLS اجازه‌ی حذف فقط سیگنال‌های خودِ کاربر را می‌دهد)
+  try{ await SB.from('signals').delete().lt('created_at', new Date(cutoff).toISOString()); }catch(e){}
+}
 
 async function loadSignals(){
   const root=document.getElementById('sig-root'); if(!root||_sigBusy) return;
@@ -6179,6 +6227,8 @@ async function loadSignals(){
       return;
     }
     _sigItems=rows||[];
+    // سیگنال‌های قدیمی‌تر از ۳ روز را خودکار حذف کن (برنامه + دیتابیس)
+    await sigPurgeOld();
     // کاربر تب سیگنال را باز کرد → همه‌ی سیگنال‌های فعلی «دیده‌شده» حساب می‌شوند
     if(_sigItems.length) sigSetSeenMax(Math.max(..._sigItems.map(s=>s.id)));
     renderSignals();
@@ -6189,38 +6239,27 @@ async function loadSignals(){
 function renderSignals(){
   const root=document.getElementById('sig-root'); if(!root) return;
   const items=_sigItems;
-  const active=items.filter(s=>s.status!=='closed');
-  const closed=items.filter(s=>s.status==='closed');
 
-  const wins=closed.filter(s=>s.result==='win').length;
-  const losses=closed.filter(s=>s.result==='loss').length;
-  const winRate=(wins+losses)>0?Math.round(wins/(wins+losses)*100):0;
-  const sums={pip:0,percent:0,r:0};
-  closed.forEach(s=>{ if(s.result_unit&&s.result_value!=null){ const v=Math.abs(Number(s.result_value)||0); sums[s.result_unit]+=(s.result==='loss'?-v:s.result==='win'?v:0); } });
-  const sumChips=Object.entries(sums).filter(([,v])=>v!==0).map(([u,v])=>`<span class="sig-sum-chip ${v>0?'pos':'neg'}">${sigFmtSigned(v,u)}</span>`).join('')||'<span class="sig-sum-chip">بدون نتیجه‌ی بسته‌شده</span>';
-  const equity=sigEquity(closed);
+  // فیلترِ فعال — همه / امروز / دیروز / سودده / ضررده
+  const f=['all','today','yesterday','win','loss'].includes(_sigFilter)?_sigFilter:'all';
+  let list=items;
+  if(f==='today')          list=items.filter(s=>sigIsToday(s.created_at));
+  else if(f==='yesterday') list=items.filter(s=>sigIsYesterday(s.created_at));
+  else if(f==='win')       list=items.filter(s=>s.status==='closed'&&s.result==='win');
+  else if(f==='loss')      list=items.filter(s=>s.status==='closed'&&s.result==='loss');
 
   let html='';
   html+=`<div class="sig-hero"><div class="sig-hero-ic">📡</div><div><div class="sig-hero-tt">سیگنال‌های VIP <span class="sig-live"></span></div><div class="sig-hero-sub">سیگنال‌های دقیق، لحظه‌ای و اختصاصی</div></div></div>`;
-  // معرفی بخش — برای همه (VIP و غیرVIP) دیده می‌شود
-  html+=`<div class="sig-intro">
-    <div class="sig-intro-tt">هر روز، سیگنال و تحلیل بازار</div>
-    <div class="sig-intro-tx">در این بخش <b>بهترین معامله‌گران سودده</b> هر روز سیگنال‌های خود و تحلیل روند بازار را منتشر می‌کنند — با نقطه‌ی ورود، حد ضرر و اهداف مشخص، و نتیجه‌ی هر سیگنال که تا انتها دنبال می‌شود.</div>
-    <div class="sig-intro-chips">
-      <span class="sic">📈 تحلیل روند بازار</span>
-      <span class="sic">🎯 ورود و حد ضرر مشخص</span>
-      <span class="sic">🗓 به‌روزرسانی روزانه</span>
-    </div>
+
+  // نوار فیلتر
+  html+=`<div class="sig-filters">
+    <button type="button" class="sig-filter${f==='all'?' active':''}" onclick="sigSetFilter('all')">📋 همه</button>
+    <button type="button" class="sig-filter${f==='today'?' active':''}" onclick="sigSetFilter('today')">🗓 امروز</button>
+    <button type="button" class="sig-filter${f==='yesterday'?' active':''}" onclick="sigSetFilter('yesterday')">📆 دیروز</button>
+    <button type="button" class="sig-filter win${f==='win'?' active':''}" onclick="sigSetFilter('win')">✅ سودده</button>
+    <button type="button" class="sig-filter loss${f==='loss'?' active':''}" onclick="sigSetFilter('loss')">❌ ضررده</button>
   </div>`;
-  html+=`<div class="sig-stats">
-    <div class="sig-stat-row">
-      <div class="sig-stat"><div class="sig-stat-val gold">${toFA(items.length)}</div><div class="sig-stat-label">کل سیگنال</div></div>
-      <div class="sig-stat"><div class="sig-stat-val ${winRate>=50?'pos':winRate>0?'gold':''}">${toFA(winRate)}٪</div><div class="sig-stat-label">نرخ برد</div></div>
-      <div class="sig-stat"><div class="sig-stat-val ${wins>=losses?'pos':'neg'}">${toFA(wins)}/${toFA(losses)}</div><div class="sig-stat-label">برد / باخت</div></div>
-    </div>
-    <div class="sig-sum-chips">${sumChips}</div>
-    ${equity}
-  </div>`;
+
   // سوییچ اعلان سیگنال جدید — انتخاب خودِ کاربر
   html+=`<label class="sig-alert-row">
     <input type="checkbox" id="sig-alert-chk" ${sigAlertOn()?'checked':''} onchange="sigToggleAlert(this.checked)">
@@ -6232,16 +6271,20 @@ function renderSignals(){
 
   // شبکه‌ی کارت‌ها — دقیقاً به سبک گالری معاملات: عکس بالا، جزئیات با کلیک
   let grid='';
-  if(_sigCanPost){
+  // کارت «ثبت سیگنال» فقط در نمای «همه» تا با فیلترها قاطی نشود
+  if(_sigCanPost && f==='all'){
     grid+=`<div class="sig-add-card" onclick="openSignalSheet()">
       <div class="sig-add-plus">＋</div>
       <div class="sig-add-title">ثبت سیگنال جدید</div>
       <div class="sig-add-sub">عکس چارت و جزئیات سیگنالت را وارد کن</div>
     </div>`;
   }
-  grid+=items.map(sigCardHTML).join('');
-  if(!items.length){
-    grid+=`<div class="gal-empty">🕊️ هنوز سیگنالی ثبت نشده.<br>به‌زودی اینجا سیگنال‌های دقیق و اختصاصی می‌بینی.</div>`;
+  grid+=list.map(sigCardHTML).join('');
+  if(!list.length){
+    const emptyMsg = f==='all'
+      ? '🕊️ هنوز سیگنالی ثبت نشده.<br>به‌زودی اینجا سیگنال‌های دقیق و اختصاصی می‌بینی.'
+      : ({today:'🗓 امروز سیگنالی ثبت نشده.',yesterday:'📆 دیروز سیگنالی ثبت نشده.',win:'✅ هنوز سیگنال سوددهی نداریم.',loss:'❌ سیگنال ضرردهی وجود ندارد.'}[f]||'🔍 سیگنالی با این فیلتر پیدا نشد.');
+    grid+=`<div class="gal-empty">${emptyMsg}</div>`;
   }
   html+=`<div class="sig-grid">${grid}</div>`;
   // کاربر رایگان فقط تازه‌ترین سیگنال را می‌بیند (سرور هم بیشتر نمی‌دهد)؛
@@ -6249,6 +6292,7 @@ function renderSignals(){
   if(!_sigVip) html+=sigUpsellHTML(items.length);
   root.innerHTML=html;
 }
+function sigSetFilter(f){ _sigFilter=f; renderSignals(); }
 
 /* تاریخ و ساعت دقیقِ ثبت سیگنال — روی خود کارت دیده می‌شود */
 function sigDateOnly(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'}); }
@@ -6271,19 +6315,20 @@ function sigCardHTML(s){
   const img=s.img||s.image_url||'';
   const res=sigResults(s);
   const mine=sigIsMine(s);
-  const resBadge=s.status==='closed'&&s.result
-    ? `<span class="sigc-resbadge ${s.result}">${sigResLabel(s.result)}</span>` : '';
-  return `<div class="sigc ${dir}${s.status==='closed'?' closed':''}">
+  const closedRes=s.status==='closed'&&(s.result==='win'||s.result==='loss'||s.result==='breakeven');
+  // بنر نتیجه‌ی بزرگ و خوانا — وقتی نتیجه‌ی سیگنال مشخص شد
+  const bigRes=closedRes?sigBigResHTML(s):'';
+  return `<div class="sigc ${dir}${s.status==='closed'?' closed':''}${closedRes?' has-res '+s.result:''}">
     <div class="sigc-img-wrap" onclick="sigOpenView(${s.id})">
       ${img?`<img class="sigc-img" src="${sigEsc(img)}" alt="chart" loading="lazy">`
            :`<div class="sigc-noimg">${dir==='sell'?'🔻':'🔺'}</div>`}
       <span class="sigc-dirbadge ${dir}">${dir==='sell'?'🔻 فروش':'🔺 خرید'}</span>
-      ${resBadge}
       <div class="sigc-when">
         <span class="sigc-chip">${sigDateOnly(s.created_at)}</span>
         <span class="sigc-chip time">🕐 ${sigTimeOnly(s.created_at)}</span>
       </div>
     </div>
+    ${bigRes}
     <div class="sigc-body">
       <div class="sigc-row1">
         <span class="sigc-sym">${sigEsc(s.symbol)}</span>
@@ -12557,7 +12602,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='81.6';
+const APP_VERSION='81.7';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

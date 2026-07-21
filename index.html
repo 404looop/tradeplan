@@ -267,6 +267,21 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .sigc-btn:hover{color:#fff;border-color:rgba(255,255,255,.25)}
 .sigc-btn.gold{color:var(--gold);border-color:rgba(232,160,32,.35);background:rgba(232,160,32,.07)}
 .sigc-btn.del:hover{color:#f87171;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1)}
+/* دکمه‌ی «ثبت نتیجه» روی کارت/مودال */
+.sigc-btn.setres{width:100%;flex:none;color:#052015;font-weight:900;background:linear-gradient(135deg,#34d399,#10b981);border-color:transparent;box-shadow:0 5px 14px rgba(16,185,129,.24)}
+.sigc-btn.setres:hover{filter:brightness(1.06);color:#052015}
+.sigc-btn.setres.edit{color:#0b1628;background:linear-gradient(135deg,#F4C86A,#e8a020);box-shadow:0 5px 14px rgba(232,160,32,.24)}
+/* مودال ثبت نتیجه — دکمه‌های سود/ضرر/سربه‌سر و واحد */
+.sigrk-row{display:flex;gap:7px}
+.sigrk-btn{flex:1;padding:11px 6px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:900;cursor:pointer;transition:all var(--tr)}
+.sigrk-btn.win.active{color:#052015;background:linear-gradient(135deg,#34d399,#10b981);border-color:transparent}
+.sigrk-btn.loss.active{color:#2a0606;background:linear-gradient(135deg,#f87171,#ef4444);border-color:transparent}
+.sigrk-btn.be.active{color:#0b1628;background:linear-gradient(135deg,#cbd5e1,#94a3b8);border-color:transparent}
+.sigrk-urow{display:flex;gap:6px}
+.sigrk-ubtn{flex:1;padding:11px 4px;border-radius:11px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer;direction:ltr;transition:all var(--tr)}
+.sigrk-ubtn.active{color:#0b1628;background:linear-gradient(135deg,#F4C86A,#e8a020);border-color:transparent}
+.sigrk-hint{font-size:11px;color:var(--text-muted);line-height:1.85;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:9px 11px}
+.sigrk-reopen{width:100%;margin-top:9px;padding:9px;border-radius:11px;border:1px solid rgba(239,68,68,.25);background:rgba(239,68,68,.06);color:#fca5a5;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:800;cursor:pointer}
 .sigc-icbtn{width:26px;height:26px;flex:0 0 auto;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px}
 /* نوار عکس‌های نتیجه — اسکرول افقی داخل خود کارت */
 .sigc-results{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
@@ -2542,6 +2557,32 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 }
 .pit-table tbody tr{transition:background .2s}
 .pit-table tbody tr:hover td{background:rgba(244,200,106,.05)}
+/* موبایل — ستون «وضعیت» و کل جدول جمع‌وجور شود تا نریزد بیرون از کادر */
+@media(max-width:560px){
+  .pit-table-wrap{overflow-x:auto}
+  .pit-table{min-width:0;font-size:11px;table-layout:fixed}
+  .pit-table th,.pit-table td{padding:8px 6px}
+  .pit-table th{font-size:9px;letter-spacing:0}
+  .pit-table th:first-child{width:41%}
+  .pit-table th:nth-child(2){width:29%}
+  .pit-table th:last-child{width:30%}
+  .pit-table td.td-metric{padding-right:11px;font-size:10px}
+  .pit-table tbody tr td.td-metric::before{height:13px;width:2.5px;right:3px}
+  .tdm-ico{font-size:10.5px;margin-left:3px}
+  .tdm-txt{font-size:10px;letter-spacing:0}
+  .pit-table td.td-value{font-size:10.5px}
+  .pit-table td.td-value em{font-size:8px;margin-right:2px}
+  .pit-table td:last-child{padding-left:4px;padding-right:4px}
+  /* بج وضعیت: کوچک، بدون شکستن حاشیه، متن در صورت نیاز به خط بعد می‌رود */
+  .pit-badge{padding:3px 7px;font-size:8.5px;gap:3px;white-space:normal;line-height:1.35;
+    border-radius:10px;max-width:100%;justify-content:center;text-align:center}
+  .pit-badge-dot{width:5px;height:5px}
+}
+@media(max-width:380px){
+  .pit-table th{font-size:8px}
+  .tdm-txt,.pit-table td.td-metric{font-size:9px}
+  .pit-badge{font-size:8px;padding:2.5px 5px}
+}
 
 /* آنالیز عملکرد — کاشی‌های آماری */
 .pac-stat{
@@ -3042,6 +3083,12 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .gc-cur{font-size:14px;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
 .gc-inp input{font-size:16.5px;font-weight:900;text-shadow:0 0 14px rgba(244,200,106,.4)}
 .gc-hint{color:rgba(244,200,106,.55);border-color:rgba(244,200,106,.14);background:rgba(244,200,106,.04);font-weight:700}
+/* دکمه‌ی ذخیره‌ی اهداف */
+.gc-save-btn{display:block;width:auto;margin:12px 14px 4px;padding:13px;border-radius:14px;border:none;cursor:pointer;
+  font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:900;color:#0b1628;position:relative;z-index:2;
+  background:linear-gradient(135deg,#F4C86A,#e8a020);box-shadow:0 8px 20px rgba(232,160,32,.28);transition:all .2s}
+.gc-save-btn:active{transform:scale(.985)}
+.gc-save-btn.saved{background:linear-gradient(135deg,#34d399,#10b981);color:#052015;box-shadow:0 8px 20px rgba(16,185,129,.3)}
 
 /* ══════════════════════════════════════════════
    PLAN PAGE — Strategy & Checklist Polish
@@ -4107,6 +4154,13 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .auth-eye{position:absolute;left:7px;top:7px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--text-dim);font-size:17px;cursor:pointer;border-radius:9px;opacity:.65;transition:opacity .2s}
 .auth-eye.on{color:var(--gold);opacity:1}
 .auth-pass-note{font-size:11px;font-weight:700;color:var(--gold);opacity:.85;margin:-6px 2px 12px;line-height:1.7}
+/* هشدارِ پررنگ «نام کاربری‌ات را حفظ کن» — فقط در ثبت‌نام */
+.auth-warn-note{display:flex;gap:9px;align-items:flex-start;margin:-2px 0 13px;padding:11px 12px;border-radius:13px;
+  background:linear-gradient(135deg,rgba(239,68,68,.14),rgba(232,160,32,.08));border:1px solid rgba(248,113,113,.4);
+  box-shadow:0 6px 18px rgba(239,68,68,.14)}
+.auth-warn-note .awn-ic{font-size:17px;line-height:1.2;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(248,113,113,.5))}
+.auth-warn-note .awn-tx{font-size:11.5px;font-weight:700;color:#ffdede;line-height:1.85}
+.auth-warn-note .awn-tx b{color:#fff;font-weight:900}
 @media (max-height:660px){#auth-screen{align-items:flex-start;overflow-y:auto;padding-top:28px;padding-bottom:28px}}
 .auth-input:focus{outline:none;border-color:var(--gold-border);background:rgba(232,160,32,.05)}
 .auth-input::placeholder{color:var(--text-dim)}
@@ -4176,7 +4230,11 @@ body.mnt-bannered{padding-top:28px}
     <form class="auth-fields" id="auth-form" onsubmit="event.preventDefault();submitAuth();">
       <label class="auth-label" for="auth-name">اسم <span id="auth-name-en" style="display:none;font-weight:800;color:var(--gold)">(فقط انگلیسی)</span></label>
       <input type="text" id="auth-name" name="username" class="auth-input" placeholder="اسمت رو بنویس" dir="ltr" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('auth-pass').focus();}">
-      <div class="auth-pass-note" id="auth-name-note" style="display:none">💡 اسم را <b>حتماً انگلیسی</b> بنویس (مثل <span dir="ltr">ali_trader</span>) — اسمی که قبلاً کسی ثبت نکرده باشد و حتماً به خاطر بسپارش، چون ورودت فقط با همین اسم و رمز است</div>
+      <div class="auth-pass-note" id="auth-name-note" style="display:none">💡 اسم را <b>حتماً انگلیسی</b> بنویس (مثل <span dir="ltr">ali_trader</span>) — اسمی که قبلاً کسی ثبت نکرده باشد.</div>
+      <div class="auth-warn-note" id="auth-name-warn" style="display:none">
+        <span class="awn-ic">📝</span>
+        <span class="awn-tx"><b>همین حالا نام کاربری‌ات را یادداشت کن و جای امنی نگه دار.</b> ورود و بازیابی حسابت فقط از راه همین نام کاربری ممکن است؛ اگر آن را فراموش کنی، <b>هیچ راهی برای برگرداندن حسابت نیست</b> و ما هم نسخه‌ای از آن نداریم.</span>
+      </div>
       <label class="auth-label" for="auth-pass">رمز</label>
       <div class="auth-pass-wrap">
         <input type="password" id="auth-pass" name="password" class="auth-input" placeholder="رمز عبور" autocomplete="current-password" enterkeyhint="go" onkeydown="if(event.key==='Enter'&&authMode==='signup'){event.preventDefault();document.getElementById('auth-pass2').focus();}">
@@ -5304,6 +5362,7 @@ body.mnt-bannered{padding-top:28px}
       </div>
     </div>
     <div class="gc-hint">📊 میزان پیشرفت هر هدف به‌صورت زنده در صفحه‌ی خانه نمایش داده می‌شود.</div>
+    <button type="button" class="gc-save-btn" id="gc-save-btn" onclick="saveGoalsExplicit()">💾 ذخیره‌ی اهداف</button>
   </div>
 
   <div class="settings-section"><h2>🔑 امنیت حساب</h2></div>
@@ -5699,6 +5758,44 @@ body.mnt-bannered{padding-top:28px}
       <button class="modal-btn cancel" onclick="closeModal('sigres-modal')">انصراف</button>
       <button class="modal-btn primary" onclick="sigResultSave()">ذخیره نتیجه ✅</button>
     </div>
+  </div>
+</div>
+
+<!-- SIGNAL: ثبت نتیجه‌ی نهایی سود/ضرر (نویسنده + ادمین/معتمدها) -->
+<div class="modal-overlay" id="sigresult-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🎯 ثبت نتیجه‌ی سیگنال</div>
+    <div class="modal-form">
+      <div>
+        <div class="modal-label">نتیجه‌ی نهایی</div>
+        <div class="sigrk-row">
+          <button type="button" class="sigrk-btn win"  id="sigrk-win"  onclick="sigResSetKind('win')">✅ سود شد</button>
+          <button type="button" class="sigrk-btn loss" id="sigrk-loss" onclick="sigResSetKind('loss')">❌ ضرر شد</button>
+          <button type="button" class="sigrk-btn be"   id="sigrk-be"   onclick="sigResSetKind('breakeven')">➖ سربه‌سر</button>
+        </div>
+      </div>
+      <div class="modal-row" id="sigrk-valrow">
+        <div style="flex:1.1">
+          <div class="modal-label">مقدار (اختیاری)</div>
+          <input type="number" id="sigrk-value" dir="ltr" placeholder="45" step="0.1" min="0">
+        </div>
+        <div style="flex:1.4">
+          <div class="modal-label">واحد</div>
+          <div class="sigrk-urow">
+            <button type="button" class="sigrk-ubtn" id="sigrk-u-pip"     onclick="sigResSetUnit('pip')">پیپ</button>
+            <button type="button" class="sigrk-ubtn" id="sigrk-u-percent" onclick="sigResSetUnit('percent')">٪</button>
+            <button type="button" class="sigrk-ubtn" id="sigrk-u-r"       onclick="sigResSetUnit('r')">R</button>
+          </div>
+        </div>
+      </div>
+      <div class="sigrk-hint">نتیجه به‌صورت بزرگ و خوانا روی کارت سیگنال نمایش داده می‌شود و در فیلترِ «سودده/ضررده» می‌آید.</div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeModal('sigresult-modal')">انصراف</button>
+      <button class="modal-btn primary" onclick="sigResultKindSave()">ثبت نتیجه ✅</button>
+    </div>
+    <button type="button" class="sigrk-reopen" onclick="sigReopenResult()">↩️ پاک کردن نتیجه و فعال کردن دوباره‌ی سیگنال</button>
   </div>
 </div>
 
@@ -6308,6 +6405,9 @@ function sigFullWhen(iso){
   return wd+' '+dm+' '+yr+' · ساعت '+tm;
 }
 function sigIsMine(s){ return !!(CURRENT_USER && s.author_id===CURRENT_USER.id); }
+// چه کسانی می‌توانند نتیجه‌ی سیگنال را ثبت کنند: نویسنده‌ی سیگنال + ادمین/معتمدها
+// (کاربرانِ مستثنیِ حالت تعمیر). سرور هم همین را با RPC دوباره چک می‌کند.
+function sigCanSetResult(s){ return sigIsMine(s) || USER_BYPASS; }
 function sigResults(s){ try{ return Array.isArray(s.result_imgs)?s.result_imgs:JSON.parse(s.result_imgs||'[]'); }catch(e){ return []; } }
 
 function sigCardHTML(s){
@@ -6315,6 +6415,7 @@ function sigCardHTML(s){
   const img=s.img||s.image_url||'';
   const res=sigResults(s);
   const mine=sigIsMine(s);
+  const canRes=sigCanSetResult(s);
   const closedRes=s.status==='closed'&&(s.result==='win'||s.result==='loss'||s.result==='breakeven');
   // بنر نتیجه‌ی بزرگ و خوانا — وقتی نتیجه‌ی سیگنال مشخص شد
   const bigRes=closedRes?sigBigResHTML(s):'';
@@ -6335,12 +6436,13 @@ function sigCardHTML(s){
         <span class="sigc-author">✍️ ${sigEsc(s.author_name||'ادمین')}</span>
       </div>
       ${s.note?`<div class="sigc-note">${sigEsc(s.note)}</div>`:''}
-      ${(res.length||mine)?`
+      ${(res.length||canRes)?`
         <div class="sigc-rlabel">🎯 نتیجه‌ها ${res.length?`<span>(${toFA(res.length)})</span>`:''}</div>
         <div class="sigc-results">
-          ${mine?`<button type="button" class="sigc-radd" onclick="sigOpenResult(${s.id})" title="افزودن عکس نتیجه">＋</button>`:''}
+          ${canRes?`<button type="button" class="sigc-radd" onclick="sigOpenResult(${s.id})" title="افزودن عکس نتیجه">＋</button>`:''}
           ${res.map((r,i)=>`<img class="sigc-rthumb" src="${sigEsc(r.img)}" alt="result" loading="lazy" onclick="sigOpenView(${s.id},${i})">`).join('')}
         </div>`:''}
+      ${canRes?`<button type="button" class="sigc-btn setres ${closedRes?'edit':''}" onclick="sigOpenResultKind(${s.id})">${closedRes?'✏️ ویرایش نتیجه':'🎯 ثبت نتیجه (سود/ضرر)'}</button>`:''}
       <div class="sigc-btns">
         <button type="button" class="sigc-btn gold" onclick="sigCopy(${s.id})">📋 کپی عددها</button>
         <button type="button" class="sigc-btn" onclick="sigOpenView(${s.id})">جزئیات</button>
@@ -6386,9 +6488,10 @@ function sigOpenView(id,scrollToRes){
             ${r.at?`<div class="sigc-rlabel" style="opacity:.7">${sigDateOnly(r.at)} · ${sigTimeOnly(r.at)}</div>`:''}
           </div>`).join('')}
         </div>`:''}
+      ${sigCanSetResult(s)?`<button type="button" class="sigc-btn setres ${s.status==='closed'&&s.result?'edit':''}" style="width:100%;margin-top:2px" onclick="sigOpenResultKind(${s.id})">${s.status==='closed'&&s.result?'✏️ ویرایش نتیجه‌ی سود/ضرر':'🎯 ثبت نتیجه‌ی سود/ضرر'}</button>`:''}
       <div class="sigc-btns">
         <button type="button" class="sigc-btn gold" onclick="sigCopy(${s.id})">📋 کپی دیتای سیگنال</button>
-        ${sigIsMine(s)?`<button type="button" class="sigc-btn" onclick="sigOpenResult(${s.id})">🎯 افزودن نتیجه</button>`:''}
+        ${sigCanSetResult(s)?`<button type="button" class="sigc-btn" onclick="sigOpenResult(${s.id})">🖼 افزودن عکس نتیجه</button>`:''}
         ${sigIsMine(s)?`<button type="button" class="sigc-btn" onclick="openSignalSheet(${s.id})">✏️ ویرایش</button>`:''}
       </div>
     </div>`;
@@ -6621,13 +6724,82 @@ async function sigResultSave(){
   }]);
   showToast('⏳ در حال ارسال…');
   try{
-    const {error}=await SB.from('signals').update({result_imgs:list}).eq('id',_sigResId);
-    if(error){ showToast('❌ ثبت نتیجه ناموفق بود'); return; }
+    // نویسنده مستقیم آپدیت می‌کند؛ ادمین/معتمد از راه RPC (که مجوز را چک می‌کند)
+    let error;
+    if(sigIsMine(s)){
+      ({error}=await SB.from('signals').update({result_imgs:list}).eq('id',_sigResId));
+    }else{
+      const {data,error:rpcErr}=await SB.rpc('sig_set_result_imgs',{p_id:_sigResId,p_imgs:list});
+      error = rpcErr || (data&&data.ok?null:{message:(data&&data.error)||'forbidden'});
+    }
+    if(error){ showToast(/forbidden/i.test(error.message||'')?'🔒 اجازه‌ی ثبت نتیجه نداری':'❌ ثبت نتیجه ناموفق بود'); return; }
     showToast('🎯 عکس نتیجه اضافه شد');
     closeModal('sigres-modal');
     _sigPendingResImg=null;
     _sigBusy=false; loadSignals();
   }catch(e){ showToast('❌ خطا در ارتباط با سرور'); }
+}
+
+/* ---------- ثبت نتیجه‌ی نهایی سود/ضرر (نویسنده + ادمین/معتمدها) ---------- */
+let _sigResKindId=null, _sigResKind='win', _sigResUnit='pip';
+function sigOpenResultKind(id){
+  const s=_sigItems.find(x=>x.id===id); if(!s){ return; }
+  if(!sigCanSetResult(s)){ showToast('🔒 اجازه‌ی ثبت نتیجه نداری'); return; }
+  _sigResKindId=id;
+  _sigResKind=(s.status==='closed'&&s.result)?s.result:'win';
+  _sigResUnit=s.result_unit||'pip';
+  document.getElementById('sigrk-value').value=(s.result_value!=null)?Math.abs(Number(s.result_value)):'';
+  sigResSetKind(_sigResKind);
+  sigResSetUnit(_sigResUnit);
+  document.getElementById('sigresult-modal').classList.add('show');
+}
+function sigResSetKind(k){
+  _sigResKind=k;
+  [['win','sigrk-win'],['loss','sigrk-loss'],['breakeven','sigrk-be']].forEach(([v,id])=>{
+    const el=document.getElementById(id); if(el) el.classList.toggle('active',v===k);
+  });
+  // برای «سربه‌سر» فیلد مقدار لازم نیست
+  const vr=document.getElementById('sigrk-valrow'); if(vr) vr.style.display=(k==='breakeven')?'none':'flex';
+}
+function sigResSetUnit(u){
+  _sigResUnit=u;
+  [['pip','sigrk-u-pip'],['percent','sigrk-u-percent'],['r','sigrk-u-r']].forEach(([v,id])=>{
+    const el=document.getElementById(id); if(el) el.classList.toggle('active',v===u);
+  });
+}
+async function sigResultKindSave(){
+  const id=_sigResKindId; if(id==null) return;
+  const kind=_sigResKind||'win';
+  const raw=document.getElementById('sigrk-value').value;
+  const val=(kind==='breakeven'||raw==='')?null:Math.abs(parseFloat(raw)||0);
+  const unit=(kind==='breakeven')?null:_sigResUnit;
+  showToast('⏳ در حال ثبت نتیجه…');
+  try{
+    const {data,error}=await SB.rpc('sig_set_result',{p_id:id,p_result:kind,p_value:val,p_unit:unit});
+    if(error||!(data&&data.ok)){
+      const code=(data&&data.error)||'';
+      showToast(code==='forbidden'?'🔒 اجازه‌ی ثبت نتیجه نداری'
+        : /function|does not exist|schema/i.test(error&&error.message||'')?'⚠️ فایل signal-result-app.sql هنوز در Supabase اجرا نشده'
+        : '❌ ثبت نتیجه ناموفق بود');
+      return;
+    }
+    showToast('🎯 نتیجه‌ی سیگنال ثبت شد');
+    closeModal('sigresult-modal');
+    sigCloseView();
+    _sigBusy=false; loadSignals();
+  }catch(e){ showToast('❌ خطا در ارتباط با سرور'); }
+}
+async function sigReopenResult(){
+  const id=_sigResKindId; if(id==null) return;
+  if(!confirm('نتیجه پاک شود و سیگنال دوباره «فعال» شود؟')) return;
+  showToast('⏳ …');
+  try{
+    const {data,error}=await SB.rpc('sig_set_result',{p_id:id,p_result:null,p_value:null,p_unit:null});
+    if(error||!(data&&data.ok)){ showToast('❌ ناموفق بود'); return; }
+    showToast('↩️ سیگنال دوباره فعال شد');
+    closeModal('sigresult-modal'); sigCloseView();
+    _sigBusy=false; loadSignals();
+  }catch(e){ showToast('❌ خطا'); }
 }
 
 // نمودار equity ساده (SVG، بدون وابستگی به rAF): مجموع تجمعیِ نتیجه‌ها (برد +، باخت −).
@@ -12047,6 +12219,24 @@ function ensureGoals(){ if(!data.goals) data.goals={daily:'',weekly:'',monthly:d
   });
 });
 
+// ذخیره‌ی صریحِ هر ۴ هدف با دکمه — دیتا برای همیشه (localStorage + Supabase) می‌ماند
+function saveGoalsExplicit(){
+  ensureGoals();
+  [['goal-daily','daily'],['goal-weekly','weekly'],['goal-monthly','monthly'],['goal-yearly','yearly']].forEach(([id,key])=>{
+    const el=document.getElementById(id); if(el) data.goals[key]=el.value;
+  });
+  data.monthlyGoal=data.goals.monthly; // همگام با پیشرفت ژورنال
+  saveData();
+  if(currentPage==='journal') renderJournalMonth();
+  if(typeof renderGoalsProgress==='function') renderGoalsProgress();
+  const btn=document.getElementById('gc-save-btn');
+  if(btn){
+    btn.classList.add('saved'); btn.textContent='✅ ذخیره شد';
+    clearTimeout(btn._t); btn._t=setTimeout(()=>{ btn.classList.remove('saved'); btn.textContent='💾 ذخیره‌ی اهداف'; },1900);
+  }
+  showToast('🎯 اهدافت ذخیره شد');
+}
+
 // ===== MODALS =====
 function showResetModal(){document.getElementById('reset-modal').classList.add('show');}
 function showClearAllModal(){document.getElementById('clear-all-modal').classList.add('show');}
@@ -12602,7 +12792,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='81.7';
+const APP_VERSION='81.8';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -13240,6 +13430,8 @@ function setAuthMode(m){
   if(p2row) p2row.style.display = m==='signup' ? 'block' : 'none';
   const nnote=document.getElementById('auth-name-note');
   if(nnote) nnote.style.display = m==='signup' ? 'block' : 'none';
+  const nwarn=document.getElementById('auth-name-warn');
+  if(nwarn) nwarn.style.display = m==='signup' ? 'flex' : 'none';
   // برچسب «فقط انگلیسی» و placeholder نمونه — فقط در ثبت‌نام
   const nen=document.getElementById('auth-name-en');
   if(nen) nen.style.display = m==='signup' ? 'inline' : 'none';
@@ -13518,6 +13710,7 @@ async function enterApp(interactive){
   // چون کاربرِ لاگین‌نکرده وقتی site_status را صدا زد هنوز bypass نداشت.
   if(interactive){
     const st=await mntCheck();
+    USER_BYPASS=!!st.bypass;
     if(st.maintenance && !st.bypass){ mntShow(st); return; }
     if(st.maintenance && st.bypass) mntBanner();
   }
@@ -13568,6 +13761,9 @@ async function enterApp(interactive){
    اگر SQL اجرا نشده یا سرور در دسترس نباشد، عمداً «باز» فرض می‌شود تا یک خطای
    شبکه‌ای کلِ برنامه را برای همه قفل نکند. */
 let MNT_ON=false;
+// آیا کاربرِ فعلی جزو «مستثنی‌های حالت تعمیر» است (ادمین اصلی / معتمدها)؟
+// از site_status() خوانده می‌شود و به سیگنال‌ها اجازه‌ی «ثبت نتیجه» می‌دهد.
+let USER_BYPASS=false;
 async function mntCheck(){
   if(!SB) return {maintenance:false,bypass:false};
   try{
@@ -13604,6 +13800,7 @@ async function bootAuth(){
   try{ session=(await SB.auth.getSession()).data.session; }catch(e){}
   // چک تعمیر بعد از برگشتن نشست انجام می‌شود تا site_status بداند کاربر کیست.
   const st=await mntCheck();
+  USER_BYPASS=!!st.bypass;
   if(st.maintenance && !st.bypass){ mntShow(st); return; }
   if(st.maintenance && st.bypass) mntBanner();
   if(session && session.user){ CURRENT_USER=session.user; await enterApp(false); return; }

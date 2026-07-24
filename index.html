@@ -912,6 +912,26 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .share-cta .sc-main{display:block;font-size:14px;font-weight:900;line-height:1.3}
 .share-cta .sc-sub{display:block;font-size:10.5px;font-weight:700;opacity:.7;margin-top:3px;line-height:1.4}
 .share-cta .sc-arrow{font-size:17px;font-weight:900;opacity:.55;flex-shrink:0;position:relative;z-index:1}
+/* ═══ گواهی عملکرد — دکمه‌ی زیر نمودار عنکبوتی ═══
+   ظاهر «مدال/سند» تا کلیک‌شدنی‌تر از یک دکمه‌ی معمولی باشد. */
+.perf-cta{padding:clamp(12px,3.4vw,16px) clamp(12px,3.6vw,17px);gap:clamp(9px,2.8vw,13px);
+  background:linear-gradient(118deg,#1d3357,#122744 52%,#0d1d36);
+  color:#f6e3bb;border:1px solid rgba(245,198,90,.45);
+  box-shadow:0 12px 34px rgba(0,0,0,.42),inset 0 1px 0 rgba(245,198,90,.16)}
+.perf-cta .pc-glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 88% 0%,rgba(245,198,90,.20),transparent 62%)}
+.perf-cta .pc-seal{font-size:clamp(22px,6.2vw,28px);line-height:1;flex-shrink:0;position:relative;z-index:1;
+  filter:drop-shadow(0 0 12px rgba(245,198,90,.6))}
+.perf-cta .sc-main{font-size:clamp(12.5px,3.5vw,14.5px);color:#ffd98a}
+.perf-cta .sc-sub{font-size:clamp(9.5px,2.6vw,11px);opacity:.72;color:#cddcf2}
+.perf-cta .pc-go{flex-shrink:0;position:relative;z-index:1;white-space:nowrap;
+  padding:clamp(5px,1.7vw,7px) clamp(8px,2.6vw,12px);border-radius:11px;
+  background:linear-gradient(120deg,#f5c65a,#e8a020);color:#0b1628;
+  font-size:clamp(9.5px,2.6vw,11px);font-weight:900;box-shadow:0 4px 14px rgba(232,160,32,.4)}
+@media(max-width:360px){ .perf-cta .pc-go{display:none} }
+/* دکمه‌های مودال کارت: در موبایل سه‌تایی نباید له شوند */
+.sharec-btns{flex-wrap:wrap;gap:8px}
+.sharec-btns .modal-btn{flex:1 1 auto;min-width:104px;font-size:clamp(11px,3vw,13px);padding-inline:10px}
 
 .sharec-sheet{max-width:500px}
 .sharec-nav{display:flex;align-items:center;gap:9px;margin:2px 0 13px;direction:ltr}
@@ -981,17 +1001,17 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 /* Calendar grid */
 .cal-wrap{padding:10px 6px 0;overflow-x:auto}
 .cal-grid{width:100%;border-collapse:collapse;min-width:300px;direction:ltr;table-layout:fixed}
-.cal-grid th{font-size:10px;font-weight:700;color:var(--text-muted);padding:6px 2px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);text-transform:uppercase;letter-spacing:.3px}
+.cal-grid th{font-size:10px;font-weight:900;color:#dbe7f7;text-shadow:0 0 10px rgba(219,231,247,.35);padding:6px 2px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);text-transform:uppercase;letter-spacing:.3px}
 /* week column (rightmost) — wider so the weekly P&L stands out */
-.cal-grid th.week-col{color:var(--gold);font-size:10px;width:15%;text-transform:none}
+.cal-grid th.week-col{color:#FFD277;font-size:10px;width:15%;text-transform:none;text-shadow:0 0 11px rgba(255,210,119,.45)}
 /* Sat & Sun columns — narrower still, freeing more horizontal room for weekday cells */
-.cal-grid th.weekend-th{color:var(--gold);opacity:.8;width:8.5%}
+.cal-grid th.weekend-th{color:#FFD277;opacity:1;text-shadow:0 0 11px rgba(255,210,119,.5);width:8.5%}
 .cal-grid td{padding:2px;vertical-align:top}
 .cal-grid td.week-cell{vertical-align:middle}
 
 /* Day cell */
 /* Calendar cells — deep-blue theme (empty), green (profit), red (loss) */
-.day-cell{min-height:84px;border-radius:9px;border:1px solid rgba(78,168,255,.16);padding:4px 4px;cursor:pointer;transition:all var(--tr);position:relative;background:linear-gradient(180deg,#182845 0%,#101C33 100%);overflow:hidden;box-shadow:inset 0 1px 0 rgba(78,168,255,.05)}
+.day-cell{min-height:clamp(62px,17.5vw,84px);border-radius:9px;border:1px solid rgba(78,168,255,.16);padding:4px 4px;cursor:pointer;transition:all var(--tr);position:relative;background:linear-gradient(180deg,#182845 0%,#101C33 100%);overflow:hidden;box-shadow:inset 0 1px 0 rgba(78,168,255,.05)}
 .day-cell:active{opacity:.8}
 .day-cell.weekend-cell{box-shadow:inset 0 0 0 999px rgba(78,168,255,.05)}
 .day-cell.today{border-color:var(--gold)!important;box-shadow:0 0 0 1px var(--gold-border)!important}
@@ -1006,16 +1026,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .dc-note-mark{font-size:8.5px;line-height:1;margin-right:auto;opacity:.9;flex-shrink:0}
 .dc-shamsi{font-size:7.5px;color:var(--text-muted);font-weight:700;display:block;line-height:1.3;margin-bottom:2px;direction:rtl;text-align:right;opacity:.8}
 .dc-date{font-size:9px;color:var(--text-muted);font-weight:600;margin-bottom:2px}
-.dc-pnl{font-size:15px;font-weight:900;line-height:1.1;margin-top:3px;letter-spacing:-0.3px;white-space:nowrap;overflow:hidden;text-overflow:clip;font-variant-numeric:tabular-nums;direction:ltr}
+.dc-pnl{font-size:clamp(10px,3.5vw,15px);font-weight:900;line-height:1.1;margin-top:3px;letter-spacing:-0.3px;white-space:nowrap;overflow:hidden;text-overflow:clip;font-variant-numeric:tabular-nums;direction:ltr}
 .dc-pnl.pos{color:#5CFFA6;text-shadow:0 0 10px rgba(92,255,166,.4)}
 .dc-pnl.neg{color:#FF7C88;text-shadow:0 0 10px rgba(255,124,136,.4)}
 .dc-pnl.zero{color:var(--text-dim);text-shadow:none}
-.dc-trades{font-size:8.5px;color:var(--text-warm-bright);font-weight:700;margin-top:1px;direction:rtl;text-align:right;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dc-trades{font-size:clamp(6.5px,2.1vw,8.5px);color:var(--text-warm-bright);font-weight:700;margin-top:1px;direction:rtl;text-align:right;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* Week summary cell — larger, price font matches day cells */
 .week-summary-cell{background:rgba(232,160,32,.07);border-radius:9px;border:1px solid var(--gold-border);padding:8px 4px;text-align:center}
 .wsc-label{font-size:8.5px;color:var(--gold);font-weight:700;margin-bottom:3px}
-.wsc-val{font-size:13px;font-weight:900;line-height:1.15;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.wsc-val{font-size:clamp(9px,3vw,13px);font-weight:900;line-height:1.15;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:clip}
 .wsc-val.pos{color:var(--green)} .wsc-val.neg{color:var(--red)} .wsc-val.zero{color:var(--text-dim)}
 .wsc-trades{font-size:9px;color:var(--text-dim);margin-top:2px}
 
@@ -2716,7 +2736,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 @keyframes jhShine{to{background-position:-200% center}}
 .jh-sub{font-size:11px;color:rgba(255,255,255,.58);font-weight:700;margin-top:4px;position:relative;z-index:1;letter-spacing:.3px}
 /* CTA اتصال متاتریدر — سمت چپ هدر */
-.jh-mt5-cta{margin-right:auto;max-width:172px;padding:8px 12px;border-radius:12px;border:1px solid rgba(244,200,106,.42);background:linear-gradient(135deg,rgba(244,200,106,.16),rgba(232,160,32,.05));color:#F4C86A;font-family:'Vazirmatn',sans-serif;font-size:10.5px;font-weight:800;line-height:1.7;cursor:pointer;text-align:center;position:relative;z-index:1;flex-shrink:1;animation:ctaPulse 2.8s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+.jh-mt5-cta{margin-right:auto;max-width:clamp(120px,42vw,164px);padding:clamp(5px,1.6vw,7px) clamp(7px,2.4vw,11px);border-radius:11px;border:1px solid rgba(244,200,106,.42);background:linear-gradient(135deg,rgba(244,200,106,.16),rgba(232,160,32,.05));color:#F4C86A;font-family:'Vazirmatn',sans-serif;font-size:clamp(8.5px,2.3vw,9.8px);font-weight:800;line-height:1.55;cursor:pointer;text-align:center;position:relative;z-index:1;flex-shrink:1;animation:ctaPulse 2.8s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
 @keyframes ctaPulse{0%,100%{box-shadow:0 0 0 rgba(244,200,106,0)}50%{box-shadow:0 0 18px rgba(244,200,106,.3)}}
 .jh-mt5-cta:active{transform:scale(.97)}
 .jh-mt5-cta.connected{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.1);color:#4ade80;animation:none}
@@ -3349,25 +3369,25 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mt5link-token{flex:1;direction:ltr;text-align:left;font-family:monospace;font-size:11px;background:rgba(0,0,0,.3);border:1px dashed var(--gold-border);border-radius:8px;padding:9px 10px;color:var(--gold);overflow-x:auto;white-space:nowrap}
 
 /* JOURNAL — live MT5 account card (balance / deposit / last sync) */
-.acct-card{margin:12px 14px 0;padding:15px 17px 11px;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(150deg,#16304f,#0d1f3c 58%,#0a1830);border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
+.acct-card{margin:10px 14px 0;padding:clamp(9px,2.6vw,12px) clamp(11px,3.4vw,15px);border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(150deg,#16304f,#0d1f3c 58%,#0a1830);border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
 .acct-card::before{content:'';position:absolute;top:-46px;right:-34px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.16),transparent 70%);pointer-events:none}
 .acct-num{font-family:'Segoe UI','SF Pro Display','Helvetica Neue',Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:embed}
-.acct-top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;position:relative}
-.acct-label{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.acct-top{display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(8px,2.5vw,14px);position:relative;flex-wrap:nowrap;min-width:0}
+.acct-label{font-size:clamp(9px,2.4vw,10.5px);font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
 .acct-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:acctPulse 2.2s ease-in-out infinite;flex-shrink:0}
 @keyframes acctPulse{0%,100%{opacity:1}50%{opacity:.3}}
-.acct-balance{font-size:32px;font-weight:800;line-height:1.2;letter-spacing:.4px;white-space:nowrap;background:linear-gradient(180deg,#86efac 0%,#22c55e 55%,#15803d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(34,197,94,.35));animation:acctGlow 3s ease-in-out infinite}
+.acct-balance{font-size:clamp(20px,6.4vw,27px);font-weight:800;line-height:1.2;letter-spacing:.4px;white-space:nowrap;background:linear-gradient(180deg,#86efac 0%,#22c55e 55%,#15803d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(34,197,94,.35));animation:acctGlow 3s ease-in-out infinite}
 @keyframes acctGlow{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,197,94,.28))}50%{filter:drop-shadow(0 3px 22px rgba(34,197,94,.6))}}
 .acct-dep{text-align:left;padding-bottom:3px}
-.acct-dep-label{font-size:9.5px;font-weight:800;color:rgba(255,255,255,.45);letter-spacing:1px;margin-bottom:2px}
-.acct-dep-box{display:flex;align-items:center;gap:5px;direction:ltr;color:rgba(255,255,255,.82);font-size:15.5px;font-weight:700}
-.acct-dep-cur{font-size:14px;font-weight:900;color:#F4C86A;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
+.acct-dep-label{font-size:clamp(8px,2.1vw,9px);font-weight:800;color:rgba(255,255,255,.45);letter-spacing:.6px;margin-bottom:2px;white-space:nowrap}
+.acct-dep-box{display:flex;align-items:center;gap:4px;direction:ltr;color:rgba(255,255,255,.82);font-size:clamp(12px,3.2vw,14px);font-weight:700}
+.acct-dep-cur{font-size:clamp(11px,2.9vw,13px);font-weight:900;color:#F4C86A;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
 .acct-deposit-input{
-  width:74px;max-width:74px;box-sizing:border-box;
+  width:clamp(58px,17vw,72px);max-width:72px;box-sizing:border-box;
   background:linear-gradient(150deg,rgba(244,200,106,.1),rgba(0,0,0,.3));
   border:1px solid rgba(244,200,106,.35);border-radius:10px;
-  outline:none;color:#fff;font-size:14px;font-weight:800;
-  padding:4px 8px;text-align:center;
+  outline:none;color:#fff;font-size:clamp(11.5px,3vw,13px);font-weight:800;
+  padding:3px 6px;text-align:center;
   font-variant-numeric:tabular-nums;
   box-shadow:inset 0 1px 4px rgba(0,0,0,.35);
   animation:depGlow 3.2s ease-in-out infinite;
@@ -3383,7 +3403,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   box-shadow:inset 0 1px 4px rgba(0,0,0,.25),0 0 0 2px rgba(244,200,106,.18),0 0 18px rgba(244,200,106,.35);
 }
 .acct-deposit-input::placeholder{color:rgba(255,255,255,.28)}
-.acct-sync{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(232,160,32,.22);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.55);position:relative}
+.acct-sync{margin-top:7px;padding-top:6px;border-top:1px dashed rgba(232,160,32,.22);font-size:clamp(9px,2.3vw,10px);font-weight:600;color:rgba(255,255,255,.55);position:relative}
 .acct-card.waiting .acct-live{background:#8496ad;box-shadow:none;animation:none}
 .acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
 
@@ -4588,6 +4608,17 @@ body.mnt-bannered{padding-top:28px}
     </button>
   </div>
 
+  <!-- SHARE PERFORMANCE CARD — گواهی عملکرد ماهانه (درست زیر نمودار عنکبوتی) -->
+  <button class="share-cta perf-cta home-rise" onclick="openShareCard()">
+    <span class="pc-glow"></span>
+    <span class="pc-seal">🏅</span>
+    <span class="sc-txt">
+      <span class="sc-main">گواهی عملکرد ماهانه‌ات را بساز</span>
+      <span class="sc-sub">کارت حرفه‌ای با درجه، آمار و نقطه‌ی تمرکز ماه بعد — آماده‌ی استوری</span>
+    </span>
+    <span class="pc-go">ساخت کارت ›</span>
+  </button>
+
   <!-- OVERALL STATS RINGS — کل معاملات / روز فعال / وین‌ریت / سود و ضرر (زیر نمودار عنکبوتی) -->
   <div class="stat-rings home-rise" id="stat-rings"></div>
 
@@ -4711,16 +4742,6 @@ body.mnt-bannered{padding-top:28px}
   <!-- ADVANCED STATS — data-driven analytics (time / quality / psychology). Rendered by renderAdvancedStats() -->
   <div class="adv-stats home-rise" id="adv-stats"></div>
 
-  <!-- SHARE PERFORMANCE CARD — تولید تصویر آمار ماهانه برای استوری -->
-  <button class="share-cta home-rise" onclick="openShareCard()">
-    <span class="sc-ico">📤</span>
-    <span class="sc-txt">
-      <span class="sc-main">اشتراک‌گذاری کارت عملکرد</span>
-      <span class="sc-sub">یک تصویر حرفه‌ای از آمار ماهت بساز و توی استوری بذار</span>
-    </span>
-    <span class="sc-arrow">‹</span>
-  </button>
-
   <!-- MOTIVATIONAL QUOTE (bottom) -->
   <div class="home-quote-box home-rise">
     <span class="hq-mark">&#10077;</span>
@@ -4750,7 +4771,7 @@ body.mnt-bannered{padding-top:28px}
           <div class="jh-sub">ثبت دقیق معاملات · تحلیل روزانه · رشد مستمر</div>
         </div>
       </div>
-      <button type="button" class="jh-mt5-cta" id="jh-mt5-cta" onclick="openMt5Guide()">⚡ اتصال خودکار متاتریدر رو فعال کن</button>
+      <button type="button" class="jh-mt5-cta" id="jh-mt5-cta" onclick="openMt5Guide()">⚡ اتصال خودکار متاتریدر</button>
       <span class="save-dot" id="j-save-dot"></span>
     </div>
   </div>
@@ -4758,7 +4779,7 @@ body.mnt-bannered{padding-top:28px}
   <!-- JOURNAL TABS (مثل تب‌های پلن ترید) -->
   <div class="journal-tabs">
     <button class="journal-tab active" onclick="switchJournalTab(0)">📒 معاملات</button>
-    <button class="journal-tab" onclick="switchJournalTab(1)">🖼 گالری معاملات</button>
+    <button class="journal-tab" onclick="switchJournalTab(1)">🖼 گالری شخصی</button>
     <button class="journal-tab" onclick="switchJournalTab(2)">📡 سیگنال</button>
   </div>
 
@@ -6089,8 +6110,9 @@ body.mnt-bannered{padding-top:28px}
 
     <div class="sharec-hint" id="sharec-hint">تصویر با کیفیت بالا (۱۰۸۰×۱۹۲۰) ساخته می‌شود — مناسب استوری</div>
 
-    <div class="modal-btns">
+    <div class="modal-btns sharec-btns">
       <button class="modal-btn cancel" onclick="closeModal('sharec-modal')">بستن</button>
+      <button class="modal-btn" id="sharec-save-btn" onclick="shareCardDownload()">💾 ذخیره در گالری</button>
       <button class="modal-btn primary" id="sharec-share-btn" onclick="shareCardSend()">اشتراک‌گذاری 📤</button>
     </div>
   </div>
@@ -6206,7 +6228,7 @@ function showPage(name){
   document.getElementById('nav-'+name).classList.add('active');
   currentPage=name;
   if(name==='home') updateHome();
-  if(name==='settings'){ if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); if(typeof recLoadStatus==='function') recLoadStatus(); }
+  if(name==='settings'){ if(typeof renderGoalsInputs==='function') renderGoalsInputs(); if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); if(typeof recLoadStatus==='function') recLoadStatus(); }
   if(name==='setup') renderStrategy();
   if(name==='journal'){ renderJournal(); animateMonthlyPnl(); if(typeof mt5CheckAccess==='function') mt5CheckAccess(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); if(typeof renderMt5Account==='function'){ renderMt5Account(); mt5LoadAccount(); } }
   if(name==='psychology') renderPsychology();
@@ -10323,7 +10345,7 @@ function fitDayPnl(){
     if(!el.textContent || el.textContent==='—') return;
     const max=parseFloat(getComputedStyle(el).fontSize);
     let size=max, guard=0;
-    while(el.scrollWidth>el.clientWidth+0.5 && size>9 && guard<44){
+    while(el.scrollWidth>el.clientWidth+0.5 && size>8 && guard<60){
       size-=0.5; el.style.fontSize=size+'px'; guard++;
     }
   });
@@ -12285,7 +12307,23 @@ const nameInput=document.getElementById('settings-name-input');
 nameInput.addEventListener('input',()=>{data.name=nameInput.value;saveData();updateHome();if(typeof renderStrategyIdentity==='function')renderStrategyIdentity();});
 
 function ensureGoals(){ if(!data.goals) data.goals={daily:'',weekly:'',monthly:data.monthlyGoal||'',yearly:''}; }
-[['goal-daily','daily'],['goal-weekly','weekly'],['goal-monthly','monthly'],['goal-yearly','yearly']].forEach(([id,key])=>{
+const GOAL_FIELDS=[['goal-daily','daily'],['goal-weekly','weekly'],['goal-monthly','monthly'],['goal-yearly','yearly']];
+/* ═══ باگِ «اهدافم بعد از هر ورود ریست می‌شود» ═══
+   این چهار input فقط یک‌بار هنگام پارس‌شدن اسکریپت مقداردهی می‌شدند — یعنی
+   زمانی که هنوز loadData() اجرا نشده و data خالی بود. بعد از لاگین، دیتای
+   ابری در data می‌نشست ولی کادرها خالی می‌ماندند؛ و چون دکمه‌ی «ذخیره»
+   هر چهار کادر را روی data می‌نویسد، همان خالی‌ها روی اهداف واقعی ذخیره
+   می‌شد. حالا renderGoalsInputs() بعد از لود دیتا و هر بار باز کردن
+   تنظیمات، کادرها را از روی data پر می‌کند. */
+function renderGoalsInputs(){
+  ensureGoals();
+  GOAL_FIELDS.forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    // اگر کاربر همان لحظه در حال تایپ است، مقدارش را زیرِ دستش عوض نکن
+    if(el && document.activeElement!==el) el.value=data.goals[key]||'';
+  });
+}
+GOAL_FIELDS.forEach(([id,key])=>{
   const el=document.getElementById(id);
   if(!el)return;
   ensureGoals();
@@ -12302,7 +12340,7 @@ function ensureGoals(){ if(!data.goals) data.goals={daily:'',weekly:'',monthly:d
 // ذخیره‌ی صریحِ هر ۴ هدف با دکمه — دیتا برای همیشه (localStorage + Supabase) می‌ماند
 function saveGoalsExplicit(){
   ensureGoals();
-  [['goal-daily','daily'],['goal-weekly','weekly'],['goal-monthly','monthly'],['goal-yearly','yearly']].forEach(([id,key])=>{
+  GOAL_FIELDS.forEach(([id,key])=>{
     const el=document.getElementById(id); if(el) data.goals[key]=el.value;
   });
   data.monthlyGoal=data.goals.monthly; // همگام با پیشرفت ژورنال
@@ -12432,6 +12470,45 @@ async function scEnsureFonts(){
   }catch(e){/* فونت پیش‌فرض هم قابل قبول است */}
 }
 
+/* درجه‌ی ماه — فقط از دادهٔ خودِ کاربر ساخته می‌شود (هیچ مقایسه‌ای با بقیه
+   انجام نمی‌شود تا عددِ ساختگی نسازیم). چهار ستون: نرخ برد، پروفیت فاکتور،
+   انضباط و سودده بودن ماه. */
+function scGrade(s,radar){
+  let sc=0;
+  sc += Math.min(30, s.winRate*0.30);
+  sc += Math.min(28, (s.profitFactor>=99?3:s.profitFactor)*9.5);
+  sc += Math.min(22, (radar.discipline||0)*0.22);
+  sc += s.totalPnl>0 ? 20 : (s.totalPnl===0?8:0);
+  sc=Math.round(sc);
+  if(sc>=86) return {g:'A+',t:'ماه درخشان',c:'#3ddc84',sc};
+  if(sc>=72) return {g:'A', t:'ماه قوی',    c:'#5fe896',sc};
+  if(sc>=58) return {g:'B', t:'ماه خوب',    c:'#f5c65a',sc};
+  if(sc>=42) return {g:'C', t:'ماه متوسط',  c:'#f0a84a',sc};
+  return               {g:'D', t:'ماه یادگیری',c:'#ff8a80',sc};
+}
+/* نقطه‌ضعف = پایین‌ترین محورِ پروفایل مهارت، همراه با یک کارِ مشخص برای ماه بعد.
+   عمداً با لحن رشد نوشته شده («تمرکز ماه بعد») نه سرزنش — هم صادقانه است هم
+   کارت را قابل‌اشتراک‌گذاری نگه می‌دارد. */
+const SC_WEAK={
+  discipline :{n:'انضباط',  tip:'قبل از هر ورود، چک‌لیست را کامل کن'},
+  risk       :{n:'ریسک',    tip:'حد ضرر و حجم را قبل از ورود قفل کن'},
+  consistency:{n:'ثبات',    tip:'هر روز معاملاتی را در ژورنال ثبت کن'},
+  emotion    :{n:'احساسات', tip:'بعد از دو ضرر پیاپی، معامله را متوقف کن'},
+  profit     :{n:'عملکرد',  tip:'روی ستاپ‌هایی که برایت جواب داده تمرکز کن'}
+};
+function scWeakest(radar){
+  let key=null,val=101;
+  Object.keys(SC_WEAK).forEach(k=>{ const v=radar[k]; if(typeof v==='number'&&v<val){val=v;key=k;} });
+  if(!key) return null;
+  return {key, val:Math.round(val), ...SC_WEAK[key]};
+}
+// شماره‌ی گواهی — پایدار برای هر کاربر/ماه (حس اصالت، بدون تاریخ)
+function scSerial(y,m){
+  const base=(data.name||'TP')+y+'-'+m;
+  let h=0; for(let i=0;i<base.length;i++){ h=(h*31+base.charCodeAt(i))>>>0; }
+  return 'TP-'+y+String(m+1).padStart(2,'0')+'-'+String(h%9000+1000);
+}
+
 // ═══ نقاشیِ کارت ═══
 function scDrawCard(ctx,s){
   const GOLD='#e8a020', GOLDL='#f5c65a', MUTED='#8397b8', DIM='#5b6d8c';
@@ -12485,37 +12562,45 @@ function scDrawCard(ctx,s){
     hx+=logoSize+gap;
   }
   scText(ctx,'TradePlan',hx,134,{size:48,weight:900,color:'#fff',align:'left',rtl:false,glow:18,glowColor:'rgba(232,160,32,.5)'});
-  scText(ctx,'MONTHLY PERFORMANCE CARD',SC_W/2,200,{size:19,weight:700,color:DIM,rtl:false,spacing:5});
+  scText(ctx,'CERTIFICATE OF MONTHLY PERFORMANCE',SC_W/2,196,{size:17,weight:700,color:DIM,rtl:false,spacing:4});
 
   g=ctx.createLinearGradient(SC_W/2-110,0,SC_W/2+110,0);
   g.addColorStop(0,'rgba(232,160,32,0)'); g.addColorStop(.5,'rgba(245,198,90,.9)'); g.addColorStop(1,'rgba(232,160,32,0)');
   ctx.fillStyle=g; ctx.fillRect(SC_W/2-110,236,220,2);
 
+  // ── قابِ داخلیِ گواهی (خط نازک دوم، حسِ سند رسمی) ──
+  ctx.strokeStyle='rgba(245,198,90,.18)'; ctx.lineWidth=1.5;
+  scRoundRect(ctx,48,48,SC_W-96,SC_H-96,44); ctx.stroke();
+
   // ── هویت تریدر ──
-  const xp=computeXP(), lv=levelFromXP(xp);
-  scText(ctx,data.name||'تریدر',SC_W/2,300,{size:54,weight:900,color:'#fff',glow:16,glowColor:'rgba(0,0,0,.6)'});
-  const chip=`${traderAlias()}  ·  Lv.${lv.level}`;
-  const chipW=scMeasure(ctx,chip,24,800,'Vazirmatn')+52;
-  ctx.fillStyle='rgba(255,255,255,.055)'; ctx.strokeStyle='rgba(245,198,90,.3)'; ctx.lineWidth=2;
-  scRoundRect(ctx,(SC_W-chipW)/2,336,chipW,44,22); ctx.fill(); ctx.stroke();
-  scText(ctx,chip,SC_W/2,359,{size:24,weight:800,color:GOLDL});
+  scText(ctx,'این گواهی تعلق دارد به',SC_W/2,266,{size:22,weight:700,color:DIM});
+  // نام بلند نباید از قاب بزند بیرون
+  let nameSize=54;
+  const nameTxt=data.name||'تریدر';
+  while(scMeasure(ctx,nameTxt,nameSize,900,'Vazirmatn')>SC_W-260 && nameSize>26) nameSize-=2;
+  scText(ctx,nameTxt,SC_W/2,318,{size:nameSize,weight:900,color:'#fff',glow:16,glowColor:'rgba(0,0,0,.6)'});
 
   // ── پیل ماه ──
   const mLabel=scMonthLabel(scYear,scMonth);
-  const mW=Math.min(SC_W-160,scMeasure(ctx,mLabel,26,800,'Vazirmatn')+60);
+  let mSize=26;
+  while(scMeasure(ctx,mLabel,mSize,800,'Vazirmatn')>SC_W-220 && mSize>16) mSize-=1;
+  const mW=Math.min(SC_W-140,scMeasure(ctx,mLabel,mSize,800,'Vazirmatn')+60);
   ctx.fillStyle='rgba(232,160,32,.12)'; ctx.strokeStyle='rgba(232,160,32,.4)'; ctx.lineWidth=2;
-  scRoundRect(ctx,(SC_W-mW)/2,414,mW,50,25); ctx.fill(); ctx.stroke();
-  scText(ctx,mLabel,SC_W/2,440,{size:26,weight:800,color:GOLDL});
+  scRoundRect(ctx,(SC_W-mW)/2,366,mW,48,24); ctx.fill(); ctx.stroke();
+  scText(ctx,mLabel,SC_W/2,391,{size:mSize,weight:800,color:GOLDL});
 
   // ── قهرمان: سود خالص ──
-  scText(ctx,'سود خالص این ماه',SC_W/2,524,{size:28,weight:700,color:MUTED});
+  scText(ctx,'سود خالص این ماه',SC_W/2,472,{size:27,weight:700,color:MUTED});
   const heroTxt=(up?'+':'−')+'$'+Math.abs(s.totalPnl).toFixed(1);
-  scText(ctx,heroTxt,SC_W/2,614,{size:112,weight:700,font:'Rajdhani',color:ACC,rtl:false,glow:46,glowColor:up?'rgba(61,220,132,.55)':'rgba(255,95,86,.5)'});
+  scText(ctx,heroTxt,SC_W/2,558,{size:108,weight:700,font:'Rajdhani',color:ACC,rtl:false,glow:46,glowColor:up?'rgba(61,220,132,.55)':'rgba(255,95,86,.5)'});
   // بدون جداکننده‌ی «·» — کنارِ رقم فارسی شبیه یک صفرِ اضافه دیده می‌شد
-  scText(ctx,`${toFA(s.totalTrades)} معامله در ${toFA(s.activeDays)} روز معاملاتی`,SC_W/2,686,{size:25,weight:700,color:MUTED});
+  scText(ctx,`${toFA(s.totalTrades)} معامله در ${toFA(s.activeDays)} روز معاملاتی`,SC_W/2,628,{size:24,weight:700,color:MUTED});
+  if(s.best!==null&&s.best>0){
+    scText(ctx,'بهترین روز ماه  '+fmtUSD(s.best),SC_W/2,668,{size:23,weight:800,color:GOLDL});
+  }
 
   // ── منحنی سرمایه ──
-  const cx0=90, cx1=SC_W-90, cy0=756, cy1=1016;
+  const cx0=90, cx1=SC_W-90, cy0=712, cy1=952;
   ctx.strokeStyle='rgba(255,255,255,.05)'; ctx.lineWidth=2;
   ctx.setLineDash([9,10]);
   ctx.beginPath(); ctx.moveTo(cx0,cy1); ctx.lineTo(cx1,cy1); ctx.stroke();
@@ -12564,18 +12649,18 @@ function scDrawCard(ctx,s){
     {l:'پروفیت فاکتور', v:(s.profitFactor>=99?'∞':toFA(s.profitFactor.toFixed(2))), c: s.profitFactor>=1?'#3ddc84':'#ff5f56'},
     {l:'روزهای سبز', v:toFA(s.greenDays)+'/'+toFA(s.activeDays), c:GOLDL}
   ];
-  const tGap=18, tX=80, tW=(SC_W-160-tGap*2)/3, tY=1068, tH=158;
+  const tGap=18, tX=80, tW=(SC_W-160-tGap*2)/3, tY=996, tH=150;
   tiles.forEach((t,i)=>{
     const x=tX+i*(tW+tGap);
     ctx.fillStyle='rgba(255,255,255,.045)';
     ctx.strokeStyle='rgba(255,255,255,.075)'; ctx.lineWidth=2;
     scRoundRect(ctx,x,tY,tW,tH,26); ctx.fill(); ctx.stroke();
-    scText(ctx,t.v,x+tW/2,tY+62,{size:52,weight:900,color:t.c,glow:16,glowColor:t.c});
-    scText(ctx,t.l,x+tW/2,tY+116,{size:23,weight:700,color:MUTED});
+    scText(ctx,t.v,x+tW/2,tY+60,{size:50,weight:900,color:t.c,glow:16,glowColor:t.c});
+    scText(ctx,t.l,x+tW/2,tY+112,{size:22,weight:700,color:MUTED});
   });
 
   // ── پنل مهارت: حلقه‌ی روانشناسی + پنج نوار ──
-  const pX=80, pY=1268, pW=SC_W-160, pH=292;
+  const pX=80, pY=1176, pW=SC_W-160, pH=284;
   ctx.fillStyle='rgba(255,255,255,.035)';
   ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=2;
   scRoundRect(ctx,pX,pY,pW,pH,30); ctx.fill(); ctx.stroke();
@@ -12605,7 +12690,7 @@ function scDrawCard(ctx,s){
   ];
   const bRight=pX+pW-345, bLeft=pX+40, bW=bRight-bLeft, bH=13;
   bars.forEach((b,i)=>{
-    const by=pY+92+i*34;
+    const by=pY+90+i*33;
     scText(ctx,b.n,bRight+95,by+6,{size:22,weight:800,color:'#cfdbee',align:'right'});
     ctx.fillStyle='rgba(255,255,255,.07)';
     scRoundRect(ctx,bLeft,by,bW,bH,bH/2); ctx.fill();
@@ -12615,20 +12700,54 @@ function scDrawCard(ctx,s){
     ctx.restore();
   });
 
+  // ── ردیف پایین: نقطه‌ی ضعف (چپ) + مهر درجه (راست) ──
+  const wY=1490, wH=176;
+  const sealW=252, wGap=18, weakW=SC_W-160-sealW-wGap;
+  // کادر نقطه‌ی ضعف
+  ctx.fillStyle='rgba(255,255,255,.035)';
+  ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=2;
+  scRoundRect(ctx,80,wY,weakW,wH,28); ctx.fill(); ctx.stroke();
+  const weak=scWeakest(radar);
+  if(weak){
+    scText(ctx,'🎯 تمرکز ماه بعد',80+weakW-30,wY+42,{size:23,weight:800,color:GOLDL,align:'right'});
+    scText(ctx,`${weak.n} — ${toFA(weak.val)} از ۱۰۰`,80+weakW-30,wY+88,{size:29,weight:900,color:'#fff',align:'right'});
+    // جمله‌ی راهکار در صورت لزوم کوچک می‌شود تا هرگز از کادر بیرون نزند
+    let tipSize=21;
+    while(scMeasure(ctx,weak.tip,tipSize,700,'Vazirmatn')>weakW-60 && tipSize>13) tipSize-=1;
+    scText(ctx,weak.tip,80+weakW-30,wY+132,{size:tipSize,weight:700,color:MUTED,align:'right'});
+  }else{
+    scText(ctx,'پروفایل مهارت هنوز کامل نشده',80+weakW/2,wY+wH/2,{size:22,weight:700,color:DIM});
+  }
+  // مهر درجه
+  const grd=scGrade(s,radar);
+  const sX=80+weakW+wGap, sCx=sX+sealW/2, sCy=wY+wH/2;
+  ctx.fillStyle='rgba(255,255,255,.035)';
+  ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=2;
+  scRoundRect(ctx,sX,wY,sealW,wH,28); ctx.fill(); ctx.stroke();
+  ctx.save();
+  ctx.shadowColor=grd.c; ctx.shadowBlur=26;
+  ctx.strokeStyle=grd.c; ctx.lineWidth=5;
+  ctx.beginPath(); ctx.arc(sCx,sCy-14,58,0,Math.PI*2); ctx.stroke();
+  ctx.restore();
+  ctx.strokeStyle='rgba(255,255,255,.16)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(sCx,sCy-14,68,0,Math.PI*2); ctx.stroke();
+  scText(ctx,grd.g,sCx,sCy-12,{size:56,weight:900,color:grd.c,rtl:false,glow:18,glowColor:grd.c});
+  scText(ctx,grd.t,sCx,sCy+68,{size:21,weight:800,color:MUTED});
+
   // ── نوار دعوت به کانال تلگرام ──
-  const cY=1622, cH=152;
+  const cY=1688, cH=136;
   g=ctx.createLinearGradient(80,cY,SC_W-80,cY+cH);
   g.addColorStop(0,'#f5c65a'); g.addColorStop(.5,'#e8a020'); g.addColorStop(1,'#c47f16');
   ctx.save(); ctx.shadowColor='rgba(232,160,32,.4)'; ctx.shadowBlur=40;
   ctx.fillStyle=g; scRoundRect(ctx,80,cY,SC_W-160,cH,32); ctx.fill();
   ctx.restore();
-  scText(ctx,'tradeplan.site',SC_W/2,cY+56,{size:50,weight:900,color:'#0b1628',rtl:false});
+  scText(ctx,'tradeplan.site',SC_W/2,cY+52,{size:48,weight:900,color:'#0b1628',rtl:false});
   // این خط عمداً rtl است (با rtl:false نشانه‌گذاری جابه‌جا می‌شد)، ولی هندل تلگرام
   // با LRM (‎) ایزوله شده تا «@» سمت درست بچسبد نه انتهای کلمه.
-  scText(ctx,'ژورنال، پلن و روانشناسی معامله‌گری  ·  تلگرام ‎@tradeplann‎',SC_W/2,cY+108,{size:22,weight:800,color:'rgba(11,22,40,.72)'});
+  scText(ctx,'ژورنال، پلن و روانشناسی معامله‌گری  ·  تلگرام ‎@tradeplann‎',SC_W/2,cY+102,{size:21,weight:800,color:'rgba(11,22,40,.72)'});
 
-  // ── فوتر ──
-  scText(ctx,'این کارت با اپلیکیشن TradePlan ساخته شده است',SC_W/2,1840,{size:21,weight:700,color:DIM});
+  // ── فوتر: شماره‌ی گواهی (حسِ سندِ اصل) ──
+  scText(ctx,'شماره گواهی ‎'+scSerial(scYear,scMonth)+'‎  ·  صادرشده توسط TradePlan',SC_W/2,1850,{size:19,weight:700,color:DIM});
 }
 
 // رندر پیش‌نمایش داخل مودال
@@ -12703,11 +12822,31 @@ function shareCardNav(dir){
   shareCardRender();
 }
 
+// تصویر کارت به‌صورت Blob — یک جا تا دکمه‌های «ذخیره» و «اشتراک» یکسان عمل کنند
+async function scBlob(){
+  const cv=document.getElementById('sharec-canvas');
+  if(!cv||cv.style.display==='none') return null;
+  return await new Promise(r=>{ try{ cv.toBlob(r,'image/png'); }catch(e){ r(null); } });
+}
+function scFileName(){ return `tradeplan-${scYear}-${String(scMonth+1).padStart(2,'0')}.png`; }
+
+/* ذخیره‌ی مستقیم بدون شیت اشتراک‌گذاری — روی موبایل در گالری/دانلودها می‌نشیند */
+async function shareCardDownload(){
+  const blob=await scBlob();
+  if(!blob){ showToast('ساخت تصویر ناموفق بود'); return; }
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=scFileName();
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),5000);
+  showToast('💾 تصویر ذخیره شد');
+}
+
 async function shareCardSend(){
   const cv=document.getElementById('sharec-canvas');
   if(!cv||cv.style.display==='none') return;
-  const fname=`tradeplan-${scYear}-${String(scMonth+1).padStart(2,'0')}.png`;
-  const blob=await new Promise(r=>{ try{ cv.toBlob(r,'image/png'); }catch(e){ r(null); } });
+  const fname=scFileName();
+  const blob=await scBlob();
   if(!blob){ showToast('ساخت تصویر ناموفق بود'); return; }
 
   const text='کارت عملکرد ماهانه‌ی من در TradePlan 📊\nhttps://tradeplan.site';
@@ -12837,6 +12976,7 @@ function init(){
     });
   }
   nameInput.value=data.name||'';
+  renderGoalsInputs();   // اهداف ذخیره‌شده باید همان ابتدا در کادرها بنشینند
   updateHome();
   showPage('journal'); // صفحه‌ی شروع: ژورنال (رندر کامل تقویم و نمودارها)
 
@@ -12872,7 +13012,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='82.4';
+const APP_VERSION='82.5';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -13048,12 +13188,13 @@ function renderMt5Account(){
         }
       }
       _acctShownBal=bal;
-      if(sy) sy.textContent='🧮 محاسبه‌شده از سرمایه اولیه + سود/زیان ژورنال — با اتصال متاتریدر، بالانس واقعی حساب جایگزین می‌شود';
+      // توضیح بلندِ «محاسبه‌شده از سرمایه اولیه…» حذف شد تا کارت کوتاه بماند
+      if(sy){ sy.textContent=''; sy.style.display='none'; }
     }else{
       card.classList.add('waiting');
       if(b) b.textContent='—';
       _acctShownBal=null;
-      if(sy) sy.textContent='⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد';
+      if(sy){ sy.textContent='⏳ در انتظار داده از متاتریدر'; sy.style.display=''; }
     }
     return;
   }
@@ -13071,10 +13212,12 @@ function renderMt5Account(){
   if(syncEl){
     const d=new Date(a.syncedAt);
     if(!isNaN(d)){
-      const date=d.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      // کوتاه و یک‌خطی: «🔄 ۲ مرداد · ۱۴:۳۰» — کارت باید جمع‌وجور بماند
+      const date=d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'});
       const time=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
-      syncEl.textContent='🔄 آخرین به‌روزرسانی از متاتریدر: '+date+'، ساعت '+time;
-    }else syncEl.textContent='';
+      syncEl.textContent='🔄 '+date+' · '+time;
+      syncEl.style.display='';
+    }else{ syncEl.textContent=''; syncEl.style.display='none'; }
   }
 }
 let _acctBusy=false;
@@ -13462,7 +13605,7 @@ function updateMt5Banner(){
     cta.classList.toggle('connected',connected&&mt5Access);
     cta.textContent=!mt5Access ? '🔒 اتصال متاتریدر — ویژه‌ی VIP'
                    : connected ? '✅ متاتریدر متصله'
-                   : '⚡ اتصال خودکار متاتریدر رو فعال کن';
+                   : '⚡ اتصال خودکار متاتریدر';
   }
   // قفل: بنر می‌ماند (قابلیت را تبلیغ می‌کند) ولی با ظاهر و پیام VIP
   if(!mt5Access){

@@ -357,10 +357,12 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .sig-add-title{font-size:13.5px;font-weight:900;color:var(--gold)}
 .sig-add-sub{font-size:11px;color:var(--text-muted)}
 /* سوییچ اعلان سیگنال جدید */
-.sig-alert-row{display:flex;align-items:center;gap:10px;margin:0 14px 2px;padding:11px 13px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.sig-alert-row input{width:19px;height:19px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
-.sig-alert-txt b{display:block;font-size:12.5px;font-weight:900;color:var(--text)}
-.sig-alert-txt small{display:block;font-size:10.5px;color:var(--text-muted);margin-top:2px;line-height:1.7}
+.sig-alert-row{display:inline-flex;align-items:center;gap:7px;margin:0 14px 2px;padding:6px 11px;border-radius:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);cursor:pointer;-webkit-tap-highlight-color:transparent;max-width:calc(100% - 28px)}
+.sig-alert-row input{width:15px;height:15px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
+.sig-alert-txt{display:flex;align-items:center;gap:6px;min-width:0}
+.sig-alert-txt b{font-size:11px;font-weight:900;color:var(--text);white-space:nowrap}
+.sig-alert-txt small{font-size:9.5px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:520px){ .sig-alert-txt small{display:none} }
 /* مودال جزئیات سیگنال */
 #sig-view{position:fixed;inset:0;z-index:99500;background:rgba(3,8,18,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 #sig-view.show{display:flex}
@@ -1146,6 +1148,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .yh-ml.sel{color:var(--text);font-weight:800}
 
 /* Day input modal extras */
+#day-modal .modal-sheet{position:relative}
+/* دکمه‌ی بستنِ بالای فرم — علاوه بر دکمه‌ی پایین صفحه */
+.day-close{position:absolute;top:13px;left:14px;z-index:3;width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+  color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:900;line-height:1;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:all var(--tr);-webkit-tap-highlight-color:transparent}
+.day-close:hover{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.5);color:#fb7676;transform:rotate(90deg)}
+.day-close:active{transform:rotate(90deg) scale(.9)}
 .pnl-sign-row{display:flex;gap:7px}
 
 /* per-trade amount rows in the day modal — compact + scrollable */
@@ -4279,8 +4291,46 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .auth-warn-note .awn-tx{font-size:11.5px;font-weight:700;color:#ffdede;line-height:1.85}
 .auth-warn-note .awn-tx b{color:#fff;font-weight:900}
 @media (max-height:660px){#auth-screen{align-items:flex-start;overflow-y:auto;padding-top:28px;padding-bottom:28px}}
+/* ── موبایل: کارت ثبت‌نام به‌خاطر متن‌های راهنما بلند می‌شد؛ اینجا خودِ کارت
+   اسکرول می‌شود و متن‌ها جمع‌وجورتر می‌شوند تا از صفحه بیرون نزند ── */
+@media (max-width:520px){
+  #auth-screen{padding:14px 12px;align-items:flex-start;overflow-y:auto}
+  #auth-screen .auth-card{max-width:100%;padding:22px 16px 18px;border-radius:20px;
+    max-height:calc(100dvh - 28px);overflow-y:auto;overscroll-behavior:contain;
+    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+  #auth-screen .auth-card::-webkit-scrollbar{width:4px}
+  #auth-screen .auth-card::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:2px}
+  .auth-logo{font-size:32px;margin-bottom:6px}
+  .auth-title{font-size:21px}
+  .auth-sub{font-size:11.5px;margin-bottom:15px}
+  .auth-tabs{margin-bottom:15px;padding:4px}
+  .auth-tab{padding:9px 0;font-size:13px}
+  .auth-label{font-size:11.5px;margin-bottom:5px}
+  .auth-input{padding:11px 13px;margin-bottom:11px;border-radius:12px}
+  .auth-pass-note{font-size:10.5px;line-height:1.75;margin:-4px 2px 10px}
+  .auth-warn-note{padding:9px 10px;gap:7px;margin:-1px 0 11px;border-radius:11px}
+  .auth-warn-note .awn-ic{font-size:15px}
+  .auth-warn-note .awn-tx{font-size:10.5px;line-height:1.8}
+  .auth-err{font-size:11.5px;margin-bottom:10px}
+  .auth-submit{padding:13px;font-size:15px;border-radius:13px}
+  .auth-hint{margin-top:13px;font-size:11.5px}
+  .auth-ver{margin-top:11px}
+}
+@media (max-width:360px){
+  #auth-screen{padding:10px 8px}
+  #auth-screen .auth-card{padding:18px 13px 15px;max-height:calc(100dvh - 20px)}
+  .auth-title{font-size:19px}
+  .auth-warn-note .awn-tx{font-size:10px}
+  .auth-pass-note{font-size:10px}
+}
 .auth-input:focus{outline:none;border-color:var(--gold-border);background:rgba(232,160,32,.05)}
 .auth-input::placeholder{color:var(--text-dim)}
+/* «مرا به خاطر بسپار» */
+.auth-remember{display:flex;align-items:flex-start;gap:9px;margin:2px 0 10px;padding:10px 11px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .2s,background .2s}
+.auth-remember:has(input:checked){background:rgba(232,160,32,.06);border-color:rgba(232,160,32,.28)}
+.auth-remember input{width:17px;height:17px;margin-top:1px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
+.arm-tx b{display:block;font-size:12px;font-weight:800;color:var(--text)}
+.arm-tx small{display:block;font-size:10px;color:var(--text-dim);margin-top:3px;line-height:1.7}
 .auth-err{min-height:18px;color:var(--red);font-size:12.5px;font-weight:700;margin:2px 2px 12px;text-align:right;line-height:1.55}
 .auth-err.ok{color:var(--green)}
 .auth-err.info{color:#F4C86A;line-height:2}
@@ -4366,6 +4416,10 @@ body.mnt-bannered{padding-top:28px}
         </div>
         <div class="auth-pass-note">🔑 بعد از ثبت‌نام یک <b>کد بازیابی</b> می‌گیری که فقط یک بار نشان داده می‌شود — حتماً ذخیره‌اش کن، چون اگر رمزت را فراموش کنی تنها راه برگشت به حسابت همان است</div>
       </div>
+      <label class="auth-remember" id="auth-remember-row">
+        <input type="checkbox" id="auth-remember" checked onchange="setAuthRemember(this.checked)">
+        <span class="arm-tx"><b>مرا به خاطر بسپار</b><small>دفعه‌ی بعد بدون رمز وارد می‌شوی — اگر روی سیستم مشترک هستی خاموشش کن</small></span>
+      </label>
       <div class="auth-err" id="auth-err"></div>
       <button type="submit" class="auth-submit" id="auth-submit">ورود</button>
     </form>
@@ -4695,15 +4749,15 @@ body.mnt-bannered{padding-top:28px}
     </button>
   </div>
 
-  <!-- SHARE PERFORMANCE CARD — گواهی عملکرد ماهانه (درست زیر نمودار عنکبوتی) -->
+  <!-- SHARE PERFORMANCE CARD — گواهی عملکرد روزانه (درست زیر نمودار عنکبوتی) -->
   <button class="share-cta perf-cta home-rise" onclick="openShareCard()">
     <span class="pc-glow"></span>
     <span class="pc-seal">🏅</span>
     <span class="sc-txt">
-      <span class="sc-main">گواهی عملکرد ماهانه‌ات را بساز</span>
-      <span class="sc-sub">کارت حرفه‌ای با درجه، آمار و نقطه‌ی تمرکز ماه بعد — آماده‌ی استوری</span>
+      <span class="sc-main">گواهی عملکرد امروزت را بساز</span>
+      <span class="sc-sub">درجه، امتیاز اجرا، مسیر معاملات روز و تمرکز فردا — آماده‌ی استوری</span>
     </span>
-    <span class="pc-go">ساخت کارت ›</span>
+    <span class="pc-go">ساخت گواهی ›</span>
   </button>
 
   <!-- OVERALL STATS RINGS — کل معاملات / روز فعال / وین‌ریت / سود و ضرر (زیر نمودار عنکبوتی) -->
@@ -5510,17 +5564,6 @@ body.mnt-bannered{padding-top:28px}
     <button type="button" class="gc-save-btn" id="gc-save-btn" onclick="saveGoalsExplicit()">💾 ذخیره‌ی اهداف</button>
   </div>
 
-  <div class="settings-section"><h2>🔑 امنیت حساب</h2></div>
-
-  <div class="rec-set-card">
-    <div class="rec-set-row">
-      <b style="font-size:13px">کد بازیابی رمز</b>
-      <span id="rec-set-status"><span class="rec-set-badge no">…</span></span>
-    </div>
-    <div class="rec-set-desc">ورود تو فقط با اسم و رمز است و ایمیلی در کار نیست، پس اگر رمزت را فراموش کنی تنها راه برگشت به حساب، همین کد بازیابی است. کد را جای امنی نگه دار — ما نسخه‌ای از آن نداریم.</div>
-    <button type="button" class="rec-set-btn" onclick="recRegenerate()">🔄 ساخت کد بازیابی جدید (کد قبلی باطل می‌شود)</button>
-  </div>
-
   <div class="settings-section"><h2>🤖 اتصال خودکار متاتریدر ۵</h2></div>
 
   <!-- MT5 AUTO-CONNECT BANNER (two states: connect CTA / connected) -->
@@ -5687,6 +5730,18 @@ body.mnt-bannered{padding-top:28px}
     </div>
     <div id="donate-blocks"></div>
     <div class="dn-thanks">هر حمایتی، از هر اندازه، با تمام وجود دیده می‌شود. 🙏</div>
+  </div>
+
+  <!-- امنیت حساب — عمداً پایین‌ترین بخش تنظیمات -->
+  <div class="settings-section"><h2>🔑 امنیت حساب</h2></div>
+
+  <div class="rec-set-card">
+    <div class="rec-set-row">
+      <b style="font-size:13px">کد بازیابی رمز</b>
+      <span id="rec-set-status"><span class="rec-set-badge no">…</span></span>
+    </div>
+    <div class="rec-set-desc">ورود تو فقط با اسم و رمز است و ایمیلی در کار نیست، پس اگر رمزت را فراموش کنی تنها راه برگشت به حساب، همین کد بازیابی است. کد را جای امنی نگه دار — ما نسخه‌ای از آن نداریم.</div>
+    <button type="button" class="rec-set-btn" onclick="recRegenerate()">🔄 ساخت کد بازیابی جدید (کد قبلی باطل می‌شود)</button>
   </div>
 
   <div class="credit-box">
@@ -6057,7 +6112,8 @@ body.mnt-bannered{padding-top:28px}
 <div class="modal-overlay" id="day-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="header-row" style="margin-bottom:2px">
+    <button type="button" class="day-close" onclick="closeDayModal()" aria-label="بستن">✕</button>
+    <div class="header-row" style="margin-bottom:2px;padding-inline-end:40px">
       <div class="modal-title" id="day-modal-title" style="margin-bottom:0">ثبت روز</div>
       <span class="save-dot" id="day-save-dot"></span>
     </div>
@@ -6218,7 +6274,7 @@ body.mnt-bannered{padding-top:28px}
 <div class="modal-overlay" id="sharec-modal">
   <div class="modal-sheet sharec-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title">📤 کارت عملکرد ماهانه</div>
+    <div class="modal-title">📤 گواهی عملکرد روزانه</div>
 
     <div class="sharec-nav">
       <button class="sharec-arw" id="sharec-prev" onclick="shareCardNav(-1)">‹</button>
@@ -6519,7 +6575,7 @@ function renderSignals(){
     <input type="checkbox" id="sig-alert-chk" ${sigAlertOn()?'checked':''} onchange="sigToggleAlert(this.checked)">
     <span class="sig-alert-txt">
       <b>🔔 اعلان سیگنال جدید</b>
-      <small>وقتی سیگنال تازه‌ای ثبت شود، به‌محض ورود به برنامه خبردار می‌شوی</small>
+      <small>· با هر سیگنال تازه خبردار شو</small>
     </span>
   </label>`;
 
@@ -7675,10 +7731,6 @@ function computeSkillRadar(){
   const plan=data.plan||{};
   ensureStrategy(); const strat=data.strategy;
   const clamp=(v,lo=0,hi=100)=>Math.max(lo,Math.min(hi,Math.round(v||0)));
-  // بازه‌ی نمایشی ۲۵–۹۵: بد واقعاً پایین دیده می‌شود، عالی واقعاً بالا
-  const toScore=(raw,lo=25,hi=95)=>clamp(lo+(raw/100)*(hi-lo));
-  // با داده‌ی کم، امتیاز به سمت خنثی (۵۰) می‌رود تا ۲-۳ معامله قضاوت نکند
-  const blend=(raw,w)=>50+(raw-50)*Math.max(0,Math.min(1,w));
   // نگاشت چندنقطه‌ای: بین نقاط [x,y] خطی درون‌یابی می‌کند
   const piece=(x,pts)=>{
     if(!isFinite(x)) return pts[Math.floor(pts.length/2)][1];
@@ -7690,6 +7742,19 @@ function computeSkillRadar(){
   };
   const median=a=>{ if(!a.length) return 0; const s=[...a].sort((x,y)=>x-y); const m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; };
   const EPS=1e-9;
+
+  /* ═══════ منحنی امتیازدهی ═══════
+     ۱) شروعِ سرد: تریدرِ تازه‌ثبت‌نام‌کرده روی ۵ تا ۲۰ درصد می‌ایستد، نه ۵۰،
+        تا رشد واقعی حس شود. هر محور پایه‌ی کمی متفاوت دارد تا پنج‌ضلعیِ
+        اولیه شکل داشته باشد، نه یک نقطه.
+     ۲) منحنی رشد: تا حدود ۷۰٪ سخاوتمند است (هر تلاش زود دیده می‌شود)،
+        از ۷۰٪ به بالا فشرده می‌شود و هر امتیاز گران‌تر تمام می‌شود. */
+  const COLD={discipline:14, risk:11, consistency:8, emotion:16, profit:6};
+  const GROW=[[0,2],[15,20],[30,38],[45,52],[60,63],[70,70],[80,75],[88,80],[94,85],[98,90],[100,94]];
+  const curve=raw=>piece(Math.max(0,Math.min(100,raw||0)),GROW);
+  /* امتیاز نهایی = از پایه‌ی سرد شروع، و به اندازه‌ی «اطمینانِ داده» (w) به
+     سمت امتیاز واقعی حرکت می‌کند. w=0 یعنی هنوز داده‌ای نیست → همان پایه. */
+  const score=(raw,w,cold)=>clamp(cold+(curve(raw)-cold)*Math.max(0,Math.min(1,w)),3,99);
 
   // ── پنجره زمانی ──────────────────────────────────
   const today=new Date(); today.setHours(0,0,0,0);
@@ -7819,12 +7884,12 @@ function computeSkillRadar(){
     const cleanScore=cleanDays/psychDays*100;
     const raw = planScore*0.45 + mistScore*0.15 + cleanScore*0.10
               + overtradeScore*0.15 + redStreakScore*0.15;
-    discipline = toScore(blend(raw, Math.max(wDays, Math.min(1,positions.length/8))));
+    discipline = score(raw, Math.max(wDays, Math.min(1,positions.length/8)), COLD.discipline);
   } else if(activeDays>0){
     // بدون لاگ روانشناسی: فقط رفتار عددی، با احتیاط
-    discipline = toScore(blend(overtradeScore*0.5 + redStreakScore*0.5, wDays*0.7));
+    discipline = score(overtradeScore*0.5 + redStreakScore*0.5, wDays*0.7, COLD.discipline);
   } else {
-    discipline = 55;
+    discipline = COLD.discipline;
   }
 
   // ================================================================
@@ -7872,9 +7937,11 @@ function computeSkillRadar(){
   if(activeDays>0){
     const raw = ddScore*0.30 + dayCapScore*0.25 + tailScore*0.15
               + behaviorScore*0.20 + configScore*0.10;
-    risk = toScore(blend(raw,wDays));
+    risk = score(raw, wDays, COLD.risk);
   } else {
-    risk = toScore(Math.max(50, configScore*0.6+40)*0.5+25); // فقط تنظیمات، محافظه‌کار
+    // هنوز معامله‌ای نیست: فقط کامل‌کردنِ پلن امتیاز می‌دهد — پاداش فوریِ
+    // تنظیمِ سرمایه/سقف ضرر/قوانین خروج، ولی سقفش عمداً پایین است.
+    risk = score(configScore, Math.min(0.45, configScore/100*0.45), COLD.risk);
   }
 
   // ================================================================
@@ -7902,9 +7969,9 @@ function computeSkillRadar(){
     let raw=greenScore*0.35 + dispScore*0.25 + concScore*0.20 + activityScore*0.20;
     // بازه‌ی قرمز با روزهای قرمزِ بیشتر از سبز: ثبات واقعی زیر سؤال است
     if(totalPnl<0 && lossDays>winDays) raw*=0.8;
-    consistency=toScore(blend(raw,wDays));
+    consistency=score(raw, wDays, COLD.consistency);
   } else {
-    consistency=50;
+    consistency=COLD.consistency;
   }
 
   // ================================================================
@@ -7920,11 +7987,11 @@ function computeSkillRadar(){
     const emoScore=Math.max(0, 100 - emoRate*180);
     const noteScore=psychDays>0?(notedDays/psychDays)*100:50;
     const raw=scoreNorm*0.45 + emoScore*0.30 + noteScore*0.10 + tiltScore*0.15;
-    emotion=toScore(blend(raw, Math.max(wDays, Math.min(1,positions.length/8))));
+    emotion=score(raw, Math.max(wDays, Math.min(1,positions.length/8)), COLD.emotion);
   } else if(activeDays>0){
-    emotion=toScore(blend(tiltScore, wDays*0.6));
+    emotion=score(tiltScore, wDays*0.6, COLD.emotion);
   } else {
-    emotion=toScore(50);
+    emotion=COLD.emotion;
   }
 
   // ================================================================
@@ -7949,9 +8016,9 @@ function computeSkillRadar(){
     else if(totalPnl<0)  retScore=Math.max(5,45-Math.log1p(Math.abs(totalPnl))*3);
     else retScore=50;
     const raw=pfScore*0.35 + expScore*0.35 + retScore*0.30;
-    profit=toScore(blend(raw,wTrades));
+    profit=score(raw, wTrades, COLD.profit);
   } else {
-    profit=toScore(50);
+    profit=COLD.profit;
   }
 
   return {
@@ -12706,73 +12773,122 @@ function saveGoalsExplicit(){
 function showResetModal(){document.getElementById('reset-modal').classList.add('show');}
 function showClearAllModal(){document.getElementById('clear-all-modal').classList.add('show');}
 /* ═══════════════════════════════════════════════════════════════════════════
-   SHARE PERFORMANCE CARD — کارت عملکرد ماهانه‌ی قابل اشتراک
+   SHARE PERFORMANCE CARD — گواهی عملکرد روزانه‌ی قابل اشتراک
    یک تصویر ۱۰۸۰×۱۹۲۰ (نسبت استوری) کاملاً روی canvas کشیده می‌شود: بدون
    کتابخانه‌ی بیرونی، پس آفلاین و داخل PWA هم کار می‌کند. همه‌ی اعداد زنده از
-   data.journal و computeSkillRadar() خوانده می‌شوند.
+   data.journal / data.psychology و computeSkillRadar() خوانده می‌شوند.
+
+   فلسفه‌ی کارت: ستون فقراتش «کیفیت اجرا»ست نه مبلغ سود. یک روزِ قرمزِ
+   منضبط می‌تواند درجه‌ی بالاتری از یک روزِ سبزِ شلخته بگیرد — هم صادقانه
+   است، هم تریدر روزهای کم‌سود را هم با افتخار به اشتراک می‌گذارد.
    قرارداد اعداد مثل بقیه‌ی برنامه: مبالغ دلاری با رقم لاتین (fmtUSD) و
    شمارش/درصد با رقم فارسی (toFA).
    ═══════════════════════════════════════════════════════════════════════════ */
 const SC_W=1080, SC_H=1920;
-let scYear=null, scMonth=null, scMonths=[];
+let scDay=null, scDays=[];
 
-// آمار یک ماه در سطح «معامله» (نه روز) + منحنی سرمایه‌ی همان ماه
-function scMonthStats(y,m){
-  const prefix=`${y}-${String(m+1).padStart(2,'0')}-`;
-  let totalPnl=0,totalTrades=0,winTrades=0,lossTrades=0;
-  let activeDays=0,greenDays=0,redDays=0,grossWin=0,grossLoss=0,best=null;
-  const curve=[];
-  Object.keys(data.journal||{}).filter(k=>k.startsWith(prefix)).sort().forEach(k=>{
-    const e=data.journal[k];
-    if(!e||!(e.trades>0)) return;
-    const dayPnl=e.pnl||0;
-    activeDays++; totalPnl+=dayPnl;
-    if(dayPnl>0) greenDays++; else if(dayPnl<0) redDays++;
-    if(best===null||dayPnl>best) best=dayPnl;
-    curve.push(totalPnl);
-    const positions=e.positions||[];
-    if(positions.length>0){
-      // همان قرارداد getAllTimeJournalStats: سودِ صفر هم «برد» حساب می‌شود
-      positions.forEach(p=>{
-        totalTrades++;
-        const val=parseFloat(p.pnlValue)||0;
-        if(p.pnlSign==='loss' && val>0){ lossTrades++; grossLoss+=val; }
-        else { winTrades++; grossWin+=val; }
-      });
-    } else {
-      const cnt=e.trades||1;
-      totalTrades+=cnt;
-      if(dayPnl>0){ winTrades+=cnt; grossWin+=dayPnl; }
-      else if(dayPnl<0){ lossTrades+=cnt; grossLoss+=Math.abs(dayPnl); }
-    }
+// آمار یک روز در سطح «معامله» + منحنی سرمایه‌ی همان روز (معامله به معامله)
+function scDayStats(dayKey){
+  const e=(data.journal||{})[dayKey]||null;
+  const ps=((data.psychology||{})[dayKey]||{}).positions||[];
+  const out={dayKey, dayPnl:0, totalTrades:0, winTrades:0, lossTrades:0, winRate:0,
+    grossWin:0, grossLoss:0, profitFactor:0, best:null, worst:null, curve:[],
+    symbols:[], firstTime:'', lastTime:'', mistakes:0, cleanTrades:0, goodBehaviors:0,
+    noted:false, hasTrades:false, radar:null};
+  if(!e||!(e.trades>0)) return out;
+  out.hasTrades=true;
+  out.dayPnl=e.pnl||0;
+
+  // منبع معامله‌ها: positions اگر باشد، وگرنه از تعداد روز تقریب زده می‌شود
+  const positions=(e.positions&&e.positions.length)?e.positions:[];
+  let run=0;
+  if(positions.length){
+    positions.forEach((p,i)=>{
+      const val=parseFloat(p.pnlValue)||0;
+      const loss=(p.pnlSign==='loss'&&val>0);
+      const signed=loss?-val:val;
+      out.totalTrades++;
+      if(loss){ out.lossTrades++; out.grossLoss+=val; }
+      else{ out.winTrades++; out.grossWin+=val; }
+      if(out.best===null||signed>out.best) out.best=signed;
+      if(out.worst===null||signed<out.worst) out.worst=signed;
+      run+=signed; out.curve.push(run);
+      const sym=(p.mtSymbol||'').toUpperCase();
+      if(sym&&!out.symbols.includes(sym)) out.symbols.push(sym);
+      const t=(typeof dayTradeTime==='function')?dayTradeTime(p):(p.time||'');
+      if(t){ if(!out.firstTime||t<out.firstTime) out.firstTime=t; if(!out.lastTime||t>out.lastTime) out.lastTime=t; }
+    });
+  } else {
+    const cnt=e.trades||1;
+    out.totalTrades=cnt;
+    if(out.dayPnl>0){ out.winTrades=cnt; out.grossWin=out.dayPnl; }
+    else if(out.dayPnl<0){ out.lossTrades=cnt; out.grossLoss=Math.abs(out.dayPnl); }
+    out.best=out.dayPnl>0?out.dayPnl/cnt:null;
+    out.worst=out.dayPnl<0?out.dayPnl/cnt:null;
+    for(let i=1;i<=cnt;i++) out.curve.push(out.dayPnl*i/cnt);
+  }
+  out.winRate=out.totalTrades>0?Math.round(out.winTrades/out.totalTrades*100):0;
+  out.profitFactor=out.grossLoss>0?out.grossWin/out.grossLoss:(out.grossWin>0?99:0);
+
+  // ── کیفیت اجرا از لاگ روانشناسیِ همان روز ──
+  ps.forEach(p=>{
+    const ms=(p.mistakes||[]).filter(m=>m&&m!=='none');
+    out.mistakes+=ms.length;
+    if(ms.length===0) out.cleanTrades++;
+    out.goodBehaviors+=((p.wins||[]).length);
   });
-  const winRate=totalTrades>0?Math.round(winTrades/totalTrades*100):0;
-  const profitFactor=grossLoss>0?grossWin/grossLoss:(grossWin>0?99:0);
-  return {totalPnl,totalTrades,winTrades,lossTrades,winRate,activeDays,
-          greenDays,redDays,grossWin,grossLoss,profitFactor,best,curve};
+  const note=(((data.psychology||{})[dayKey]||{}).note)||(e.note||'');
+  out.noted=!!(note&&note.trim().length>10);
+  out.psychTrades=ps.length;
+  return out;
 }
 
-// برچسب شمسی ماه میلادی — چون یک ماه میلادی معمولاً روی دو ماه شمسی می‌افتد،
-// اگر بازه دو ماه شمسی را پوشش دهد هر دو نمایش داده می‌شود تا گمراه‌کننده نباشد.
-function scMonthLabel(y,m){
-  const first=new Date(y,m,1), last=new Date(y,m+1,0);
-  const fa=(d,o)=>d.toLocaleDateString('fa-IR',o);
-  const m1=fa(first,{month:'long'}), m2=fa(last,{month:'long'});
-  const yr=fa(last,{year:'numeric'});
-  if(m1===m2) return `${m1} ${yr}`;
-  return `${fa(first,{day:'numeric'})} ${m1} تا ${fa(last,{day:'numeric'})} ${m2} ${yr}`;
+/* امتیاز اجرای امروز (۰-۱۰۰) — عمداً مستقل از مبلغ سود.
+   این عددی است که کارت را برای روزهای کم‌سود هم قابل‌افتخار می‌کند: تریدرِ
+   منضبطی که ضرر کوچکی کرده، امتیاز اجرای بالایی می‌گیرد. */
+function scExecScore(s,radar){
+  let sc=0;
+  // ۳۵٪ نبودِ اشتباه ثبت‌شده (اگر لاگ نکرده، نمره‌ی محتاطانه)
+  if(s.psychTrades>0){
+    const cleanRate=s.cleanTrades/s.psychTrades;
+    sc += 35*cleanRate;
+  } else sc += 18;
+  // ۲۰٪ رعایت سقف ضرر روزانه‌ی پلن
+  const DLL=parseFloat((data.plan||{}).dailyLossLimit)||0;
+  if(DLL>0) sc += (s.dayPnl >= -DLL) ? 20 : 4;
+  else      sc += 11;
+  // ۱۵٪ نبودِ بیش‌معامله‌گری
+  const maxT=parseFloat((data.plan||{}).maxTradesPerDay)||0;
+  if(maxT>0) sc += (s.totalTrades<=maxT) ? 15 : 4;
+  else       sc += (s.totalTrades<=6) ? 15 : (s.totalTrades<=10?9:4);
+  // ۱۵٪ انضباط بلندمدت (از پروفایل مهارت)
+  sc += 15*((radar.discipline||0)/100);
+  // ۱۰٪ کنترل ریسک بلندمدت
+  sc += 10*((radar.risk||0)/100);
+  // ۵٪ ثبت یادداشت روز — پاداش خودِ عادتِ ژورنال‌نویسی
+  sc += s.noted ? 5 : 0;
+  return Math.max(0,Math.min(100,Math.round(sc)));
 }
 
-// ماه‌های قابل انتخاب: هر ماهی که معامله‌ای در آن ثبت شده + همیشه ماه جاری
-function scBuildMonths(){
-  const set=new Set();
-  Object.keys(data.journal||{}).forEach(k=>{
-    const e=data.journal[k];
-    if(e&&e.trades>0) set.add(k.slice(0,7));
-  });
-  const now=new Date();
-  set.add(`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`);
-  return [...set].sort().map(s=>({y:+s.slice(0,4), m:+s.slice(5,7)-1}));
+// برچسب کامل شمسی یک روز: «دوشنبه ۵ مرداد ۱۴۰۵»
+function scDayLabel(dayKey){
+  const [y,m,d]=dayKey.split('-').map(Number);
+  const dt=new Date(y,(m||1)-1,d||1);
+  if(isNaN(dt)) return dayKey;
+  return dt.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+function scDayLabelEn(dayKey){
+  const [y,m,d]=dayKey.split('-').map(Number);
+  const dt=new Date(y,(m||1)-1,d||1);
+  if(isNaN(dt)) return dayKey;
+  return dt.toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+// روزهای قابل انتخاب: هر روزی که معامله‌ای در آن ثبت شده (قدیمی → جدید)
+function scBuildDays(){
+  return Object.keys(data.journal||{})
+    .filter(k=>{ const e=data.journal[k]; return e&&e.trades>0; })
+    .sort();
 }
 
 // ── canvas helpers ──
@@ -12817,24 +12933,46 @@ async function scEnsureFonts(){
   }catch(e){/* فونت پیش‌فرض هم قابل قبول است */}
 }
 
-/* درجه‌ی ماه — فقط از دادهٔ خودِ کاربر ساخته می‌شود (هیچ مقایسه‌ای با بقیه
-   انجام نمی‌شود تا عددِ ساختگی نسازیم). چهار ستون: نرخ برد، پروفیت فاکتور،
-   انضباط و سودده بودن ماه. */
+/* درجه‌ی روز — ۷۰٪ کیفیت اجرا، ۳۰٪ نتیجه‌ی مالی. عمداً وزن اجرا سنگین‌تر
+   است: یک ضررِ کوچکِ کنترل‌شده با اجرای تمیز، درجه‌ی خوبی می‌گیرد. هیچ
+   مقایسه‌ای با کاربران دیگر انجام نمی‌شود — همه‌چیز از دادهٔ خودِ تریدر است. */
 function scGrade(s,radar){
-  let sc=0;
-  sc += Math.min(30, s.winRate*0.30);
-  sc += Math.min(28, (s.profitFactor>=99?3:s.profitFactor)*9.5);
-  sc += Math.min(22, (radar.discipline||0)*0.22);
-  sc += s.totalPnl>0 ? 20 : (s.totalPnl===0?8:0);
-  sc=Math.round(sc);
-  if(sc>=86) return {g:'A+',t:'ماه درخشان',c:'#3ddc84',sc};
-  if(sc>=72) return {g:'A', t:'ماه قوی',    c:'#5fe896',sc};
-  if(sc>=58) return {g:'B', t:'ماه خوب',    c:'#f5c65a',sc};
-  if(sc>=42) return {g:'C', t:'ماه متوسط',  c:'#f0a84a',sc};
-  return               {g:'D', t:'ماه یادگیری',c:'#ff8a80',sc};
+  const exec=scExecScore(s,radar);
+  let outcome=0;
+  if(s.dayPnl>0){
+    outcome = 62 + Math.min(38, (s.profitFactor>=99?38:s.profitFactor*13));
+  } else if(s.dayPnl===0){
+    outcome = 55;                                  // سربه‌سر = سرمایه حفظ شد
+  } else {
+    // روز قرمز: هرچه ضرر نسبت به سقف ضرر روزانه کوچک‌تر باشد، کمتر جریمه می‌شود
+    const DLL=parseFloat((data.plan||{}).dailyLossLimit)||0;
+    const ratio = DLL>0 ? Math.min(1,Math.abs(s.dayPnl)/DLL) : Math.min(1,Math.abs(s.dayPnl)/Math.max(1,s.grossWin+Math.abs(s.dayPnl)));
+    outcome = Math.round(46*(1-ratio));
+  }
+  const sc=Math.round(exec*0.70 + outcome*0.30);
+  if(sc>=86) return {g:'A+',t:'اجرای بی‌نقص', c:'#3ddc84',sc,exec};
+  if(sc>=74) return {g:'A', t:'اجرای حرفه‌ای',c:'#5fe896',sc,exec};
+  if(sc>=62) return {g:'B', t:'اجرای منضبط', c:'#f5c65a',sc,exec};
+  if(sc>=46) return {g:'C', t:'روز قابل قبول',c:'#f0a84a',sc,exec};
+  return               {g:'D', t:'روز یادگیری',c:'#ff8a80',sc,exec};
 }
-/* نقطه‌ضعف = پایین‌ترین محورِ پروفایل مهارت، همراه با یک کارِ مشخص برای ماه بعد.
-   عمداً با لحن رشد نوشته شده («تمرکز ماه بعد») نه سرزنش — هم صادقانه است هم
+
+/* جمله‌ی روانشناختیِ کارت — بر اساس ترکیب «نتیجه‌ی مالی × کیفیت اجرا».
+   قرار است تریدر بعد از خواندنش کارت را با افتخار بفرستد، بدون اینکه
+   چیزی خلافِ داده گفته شود. */
+function scHeadline(s,grd){
+  const exec=grd.exec, up=s.dayPnl>0, flat=s.dayPnl===0;
+  if(up&&exec>=75)  return {t:'روزی که پلن دقیقاً کار کرد',      s:'سود، نتیجه‌ی طبیعیِ اجرای درست است — نه شانس'};
+  if(up&&exec>=55)  return {t:'روز سبز، با اجرای منظم',          s:'همین تکرارِ آرام است که حساب را بزرگ می‌کند'};
+  if(up)            return {t:'روز سبز ثبت شد',                  s:'سود گرفتی؛ حالا نوبت تمیزتر کردن اجراست'};
+  if(flat)          return {t:'سرمایه دست‌نخورده ماند',          s:'نگه‌داشتن سرمایه در روزِ بی‌فرصت، خودش یک مهارت است'};
+  if(exec>=75)      return {t:'ضررِ کنترل‌شده، اجرای حرفه‌ای',    s:'ریسک را کوچک نگه داشتی — دقیقاً کاری که حرفه‌ای‌ها می‌کنند'};
+  if(exec>=55)      return {t:'روز قرمز، اما در چهارچوب پلن',    s:'ضرر بخشی از کار است؛ مهم این است که از کنترل خارج نشد'};
+  return                   {t:'امروز بازار درس داد',             s:'هر تریدر بزرگی این روز را پشت سر گذاشته — ثبتش کردی، یعنی جدی هستی'};
+}
+
+/* نقطه‌ضعف = پایین‌ترین محورِ پروفایل مهارت، همراه با یک کارِ مشخص برای فردا.
+   عمداً با لحن رشد نوشته شده («تمرکز فردا») نه سرزنش — هم صادقانه است هم
    کارت را قابل‌اشتراک‌گذاری نگه می‌دارد. */
 const SC_WEAK={
   discipline :{n:'انضباط',  tip:'قبل از هر ورود، چک‌لیست را کامل کن'},
@@ -12849,19 +12987,21 @@ function scWeakest(radar){
   if(!key) return null;
   return {key, val:Math.round(val), ...SC_WEAK[key]};
 }
-// شماره‌ی گواهی — پایدار برای هر کاربر/ماه (حس اصالت، بدون تاریخ)
-function scSerial(y,m){
-  const base=(data.name||'TP')+y+'-'+m;
+// شماره‌ی گواهی — پایدار برای هر کاربر/روز (حس سندِ اصل)
+function scSerial(dayKey){
+  const base=(data.name||'TP')+'|'+dayKey;
   let h=0; for(let i=0;i<base.length;i++){ h=(h*31+base.charCodeAt(i))>>>0; }
-  return 'TP-'+y+String(m+1).padStart(2,'0')+'-'+String(h%9000+1000);
+  return 'TP-'+(dayKey||'').replace(/-/g,'')+'-'+String(h%9000+1000);
 }
 
 // ═══ نقاشیِ کارت ═══
 function scDrawCard(ctx,s){
   const GOLD='#e8a020', GOLDL='#f5c65a', MUTED='#8397b8', DIM='#5b6d8c';
-  const up = s.totalPnl>=0;
+  const up = s.dayPnl>=0;
   const ACC = up?'#3ddc84':'#ff5f56';
   const radar=computeSkillRadar();
+  const grd=scGrade(s,radar);
+  const head=scHeadline(s,grd);
   let g;
 
   // ── پس‌زمینه ──
@@ -12909,7 +13049,7 @@ function scDrawCard(ctx,s){
     hx+=logoSize+gap;
   }
   scText(ctx,'TradePlan',hx,134,{size:48,weight:900,color:'#fff',align:'left',rtl:false,glow:18,glowColor:'rgba(232,160,32,.5)'});
-  scText(ctx,'CERTIFICATE OF MONTHLY PERFORMANCE',SC_W/2,196,{size:17,weight:700,color:DIM,rtl:false,spacing:4});
+  scText(ctx,'CERTIFICATE OF DAILY PERFORMANCE',SC_W/2,196,{size:17,weight:700,color:DIM,rtl:false,spacing:4});
 
   g=ctx.createLinearGradient(SC_W/2-110,0,SC_W/2+110,0);
   g.addColorStop(0,'rgba(232,160,32,0)'); g.addColorStop(.5,'rgba(245,198,90,.9)'); g.addColorStop(1,'rgba(232,160,32,0)');
@@ -12927,8 +13067,8 @@ function scDrawCard(ctx,s){
   while(scMeasure(ctx,nameTxt,nameSize,900,'Vazirmatn')>SC_W-260 && nameSize>26) nameSize-=2;
   scText(ctx,nameTxt,SC_W/2,318,{size:nameSize,weight:900,color:'#fff',glow:16,glowColor:'rgba(0,0,0,.6)'});
 
-  // ── پیل ماه ──
-  const mLabel=scMonthLabel(scYear,scMonth);
+  // ── پیل روز ──
+  const mLabel=scDayLabel(s.dayKey);
   let mSize=26;
   while(scMeasure(ctx,mLabel,mSize,800,'Vazirmatn')>SC_W-220 && mSize>16) mSize-=1;
   const mW=Math.min(SC_W-140,scMeasure(ctx,mLabel,mSize,800,'Vazirmatn')+60);
@@ -12936,18 +13076,35 @@ function scDrawCard(ctx,s){
   scRoundRect(ctx,(SC_W-mW)/2,366,mW,48,24); ctx.fill(); ctx.stroke();
   scText(ctx,mLabel,SC_W/2,391,{size:mSize,weight:800,color:GOLDL});
 
-  // ── قهرمان: سود خالص ──
-  scText(ctx,'سود خالص این ماه',SC_W/2,472,{size:27,weight:700,color:MUTED});
-  const heroTxt=(up?'+':'−')+'$'+Math.abs(s.totalPnl).toFixed(1);
-  scText(ctx,heroTxt,SC_W/2,558,{size:108,weight:700,font:'Rajdhani',color:ACC,rtl:false,glow:46,glowColor:up?'rgba(61,220,132,.55)':'rgba(255,95,86,.5)'});
-  // بدون جداکننده‌ی «·» — کنارِ رقم فارسی شبیه یک صفرِ اضافه دیده می‌شد
-  scText(ctx,`${toFA(s.totalTrades)} معامله در ${toFA(s.activeDays)} روز معاملاتی`,SC_W/2,628,{size:24,weight:700,color:MUTED});
-  if(s.best!==null&&s.best>0){
-    scText(ctx,'بهترین روز ماه  '+fmtUSD(s.best),SC_W/2,668,{size:23,weight:800,color:GOLDL});
-  }
+  // ── قهرمان: سود خالص روز ──
+  scText(ctx,'سود خالص امروز',SC_W/2,456,{size:27,weight:700,color:MUTED});
+  const heroTxt=(up?'+':'−')+'$'+Math.abs(s.dayPnl).toFixed(2);
+  scText(ctx,heroTxt,SC_W/2,534,{size:100,weight:700,font:'Rajdhani',color:ACC,rtl:false,glow:46,glowColor:up?'rgba(61,220,132,.55)':'rgba(255,95,86,.5)'});
+  // خط جزئیات: تعداد معامله + بازه‌ی ساعت + نمادها
+  const bits=[`${toFA(s.totalTrades)} معامله`];
+  if(s.firstTime&&s.lastTime&&s.firstTime!==s.lastTime) bits.push(`${s.firstTime} تا ${s.lastTime}`);
+  else if(s.firstTime) bits.push('ساعت '+s.firstTime);
+  if(s.symbols.length) bits.push(s.symbols.slice(0,3).join(' · '));
+  let detTxt=bits.join('  |  '), detSize=24;
+  while(scMeasure(ctx,detTxt,detSize,700,'Vazirmatn')>SC_W-200 && detSize>15) detSize-=1;
+  scText(ctx,detTxt,SC_W/2,600,{size:detSize,weight:700,color:MUTED});
 
-  // ── منحنی سرمایه ──
-  const cx0=90, cx1=SC_W-90, cy0=712, cy1=952;
+  // ── جمله‌ی روانشناختی روز — قلبِ کارت ──
+  const hY=634, hH=106;
+  g=ctx.createLinearGradient(90,hY,SC_W-90,hY+hH);
+  g.addColorStop(0,'rgba(232,160,32,.13)'); g.addColorStop(1,'rgba(232,160,32,.03)');
+  ctx.fillStyle=g; ctx.strokeStyle='rgba(245,198,90,.32)'; ctx.lineWidth=2;
+  scRoundRect(ctx,90,hY,SC_W-180,hH,26); ctx.fill(); ctx.stroke();
+  let hSize=32;
+  while(scMeasure(ctx,head.t,hSize,900,'Vazirmatn')>SC_W-250 && hSize>20) hSize-=1;
+  scText(ctx,head.t,SC_W/2,hY+40,{size:hSize,weight:900,color:'#fff',glow:12,glowColor:'rgba(245,198,90,.35)'});
+  let hsSize=21;
+  while(scMeasure(ctx,head.s,hsSize,700,'Vazirmatn')>SC_W-240 && hsSize>13) hsSize-=1;
+  scText(ctx,head.s,SC_W/2,hY+78,{size:hsSize,weight:700,color:GOLDL});
+
+  // ── منحنی سرمایه‌ی درون‌روزی (معامله به معامله) ──
+  scText(ctx,'مسیر سود و ضرر امروز — معامله به معامله',SC_W/2,778,{size:21,weight:700,color:DIM});
+  const cx0=90, cx1=SC_W-90, cy0=808, cy1=962;
   ctx.strokeStyle='rgba(255,255,255,.05)'; ctx.lineWidth=2;
   ctx.setLineDash([9,10]);
   ctx.beginPath(); ctx.moveTo(cx0,cy1); ctx.lineTo(cx1,cy1); ctx.stroke();
@@ -12987,34 +13144,56 @@ function scDrawCard(ctx,s){
     ctx.fillStyle=ACC; ctx.beginPath(); ctx.arc(ex,ey,12,0,Math.PI*2); ctx.fill(); ctx.restore();
     ctx.fillStyle='#08111f'; ctx.beginPath(); ctx.arc(ex,ey,5,0,Math.PI*2); ctx.fill();
   } else {
-    scText(ctx,'برای رسم منحنی سرمایه حداقل دو روز معاملاتی لازم است',SC_W/2,(cy0+cy1)/2,{size:23,weight:700,color:DIM});
+    scText(ctx,'برای رسم مسیر روز حداقل دو معامله لازم است',SC_W/2,(cy0+cy1)/2,{size:23,weight:700,color:DIM});
   }
 
-  // ── سه کاشی آمار ──
+  // ── چهار کاشی آمار روز ──
+  const bestTxt = (s.best!==null&&s.best>0)?fmtUSD(s.best):'—';
   const tiles=[
     {l:'نرخ برد',   v:toFA(s.winRate)+'٪', c: s.winRate>=50?'#3ddc84':GOLDL},
+    {l:'سود / ضرر', v:toFA(s.winTrades)+'/'+toFA(s.lossTrades), c:GOLDL},
     {l:'پروفیت فاکتور', v:(s.profitFactor>=99?'∞':toFA(s.profitFactor.toFixed(2))), c: s.profitFactor>=1?'#3ddc84':'#ff5f56'},
-    {l:'روزهای سبز', v:toFA(s.greenDays)+'/'+toFA(s.activeDays), c:GOLDL}
+    {l:'بهترین معامله', v:bestTxt, c:GOLDL, small:true}
   ];
-  const tGap=18, tX=80, tW=(SC_W-160-tGap*2)/3, tY=996, tH=150;
+  const tGap=15, tX=80, tW=(SC_W-160-tGap*3)/4, tY=994, tH=132;
   tiles.forEach((t,i)=>{
     const x=tX+i*(tW+tGap);
     ctx.fillStyle='rgba(255,255,255,.045)';
     ctx.strokeStyle='rgba(255,255,255,.075)'; ctx.lineWidth=2;
-    scRoundRect(ctx,x,tY,tW,tH,26); ctx.fill(); ctx.stroke();
-    scText(ctx,t.v,x+tW/2,tY+60,{size:50,weight:900,color:t.c,glow:16,glowColor:t.c});
-    scText(ctx,t.l,x+tW/2,tY+112,{size:22,weight:700,color:MUTED});
+    scRoundRect(ctx,x,tY,tW,tH,24); ctx.fill(); ctx.stroke();
+    let vs=t.small?34:42;
+    while(scMeasure(ctx,t.v,vs,900,'Vazirmatn')>tW-24 && vs>18) vs-=1;
+    scText(ctx,t.v,x+tW/2,tY+52,{size:vs,weight:900,color:t.c,glow:14,glowColor:t.c});
+    let ls=20;
+    while(scMeasure(ctx,t.l,ls,700,'Vazirmatn')>tW-16 && ls>13) ls-=1;
+    scText(ctx,t.l,x+tW/2,tY+99,{size:ls,weight:700,color:MUTED});
   });
 
+  // ── نوار «امتیاز اجرای امروز» — مستقل از مبلغ سود ──
+  const eY=1146, eH=96;
+  const execC = grd.exec>=75?'#3ddc84' : grd.exec>=55?GOLDL : '#ff8a80';
+  ctx.fillStyle='rgba(255,255,255,.04)';
+  ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=2;
+  scRoundRect(ctx,80,eY,SC_W-160,eH,26); ctx.fill(); ctx.stroke();
+  scText(ctx,'امتیاز اجرای امروز',SC_W-118,eY+32,{size:23,weight:800,color:MUTED,align:'right'});
+  scText(ctx,toFA(grd.exec)+'٪',118,eY+34,{size:38,weight:900,color:execC,align:'left',glow:16,glowColor:execC});
+  // نوار پیشرفت
+  const ebL=118, ebR=SC_W-118, ebW=ebR-ebL, ebY=eY+60, ebH=12;
+  ctx.fillStyle='rgba(255,255,255,.07)';
+  scRoundRect(ctx,ebL,ebY,ebW,ebH,ebH/2); ctx.fill();
+  const efw=Math.max(ebH,ebW*(grd.exec/100));
+  ctx.save(); ctx.shadowColor=execC; ctx.shadowBlur=14; ctx.fillStyle=execC;
+  scRoundRect(ctx,ebR-efw,ebY,efw,ebH,ebH/2); ctx.fill(); ctx.restore();
+
   // ── پنل مهارت: حلقه‌ی روانشناسی + پنج نوار ──
-  const pX=80, pY=1176, pW=SC_W-160, pH=284;
+  const pX=80, pY=1264, pW=SC_W-160, pH=252;
   ctx.fillStyle='rgba(255,255,255,.035)';
   ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=2;
   scRoundRect(ctx,pX,pY,pW,pH,30); ctx.fill(); ctx.stroke();
-  scText(ctx,'پروفایل مهارت',pX+pW-30,pY+40,{size:24,weight:800,color:MUTED,align:'right'});
+  scText(ctx,'پروفایل مهارت — ۳۰ روز اخیر',pX+pW-30,pY+38,{size:23,weight:800,color:MUTED,align:'right'});
 
   // حلقه‌ی امتیاز روانی
-  const rcx=pX+pW-135, rcy=pY+172, rr=80;
+  const rcx=pX+pW-135, rcy=pY+164, rr=76;
   const emo=radar.emotion;
   const ringC = emo>=70?'#3ddc84' : emo>=45?GOLDL : '#ff5f56';
   ctx.strokeStyle='rgba(255,255,255,.09)'; ctx.lineWidth=17;
@@ -13037,7 +13216,7 @@ function scDrawCard(ctx,s){
   ];
   const bRight=pX+pW-345, bLeft=pX+40, bW=bRight-bLeft, bH=13;
   bars.forEach((b,i)=>{
-    const by=pY+90+i*33;
+    const by=pY+84+i*32;
     scText(ctx,b.n,bRight+95,by+6,{size:22,weight:800,color:'#cfdbee',align:'right'});
     ctx.fillStyle='rgba(255,255,255,.07)';
     scRoundRect(ctx,bLeft,by,bW,bH,bH/2); ctx.fill();
@@ -13048,7 +13227,7 @@ function scDrawCard(ctx,s){
   });
 
   // ── ردیف پایین: نقطه‌ی ضعف (چپ) + مهر درجه (راست) ──
-  const wY=1490, wH=176;
+  const wY=1536, wH=158;
   const sealW=252, wGap=18, weakW=SC_W-160-sealW-wGap;
   // کادر نقطه‌ی ضعف
   ctx.fillStyle='rgba(255,255,255,.035)';
@@ -13056,17 +13235,16 @@ function scDrawCard(ctx,s){
   scRoundRect(ctx,80,wY,weakW,wH,28); ctx.fill(); ctx.stroke();
   const weak=scWeakest(radar);
   if(weak){
-    scText(ctx,'🎯 تمرکز ماه بعد',80+weakW-30,wY+42,{size:23,weight:800,color:GOLDL,align:'right'});
-    scText(ctx,`${weak.n} — ${toFA(weak.val)} از ۱۰۰`,80+weakW-30,wY+88,{size:29,weight:900,color:'#fff',align:'right'});
+    scText(ctx,'🎯 تمرکز فردا',80+weakW-30,wY+40,{size:23,weight:800,color:GOLDL,align:'right'});
+    scText(ctx,`${weak.n} — ${toFA(weak.val)} از ۱۰۰`,80+weakW-30,wY+86,{size:29,weight:900,color:'#fff',align:'right'});
     // جمله‌ی راهکار در صورت لزوم کوچک می‌شود تا هرگز از کادر بیرون نزند
     let tipSize=21;
     while(scMeasure(ctx,weak.tip,tipSize,700,'Vazirmatn')>weakW-60 && tipSize>13) tipSize-=1;
-    scText(ctx,weak.tip,80+weakW-30,wY+132,{size:tipSize,weight:700,color:MUTED,align:'right'});
+    scText(ctx,weak.tip,80+weakW-30,wY+130,{size:tipSize,weight:700,color:MUTED,align:'right'});
   }else{
     scText(ctx,'پروفایل مهارت هنوز کامل نشده',80+weakW/2,wY+wH/2,{size:22,weight:700,color:DIM});
   }
   // مهر درجه
-  const grd=scGrade(s,radar);
   const sX=80+weakW+wGap, sCx=sX+sealW/2, sCy=wY+wH/2;
   ctx.fillStyle='rgba(255,255,255,.035)';
   ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=2;
@@ -13082,19 +13260,19 @@ function scDrawCard(ctx,s){
   scText(ctx,grd.t,sCx,sCy+68,{size:21,weight:800,color:MUTED});
 
   // ── نوار دعوت به کانال تلگرام ──
-  const cY=1688, cH=136;
+  const cY=1712, cH=110;
   g=ctx.createLinearGradient(80,cY,SC_W-80,cY+cH);
   g.addColorStop(0,'#f5c65a'); g.addColorStop(.5,'#e8a020'); g.addColorStop(1,'#c47f16');
   ctx.save(); ctx.shadowColor='rgba(232,160,32,.4)'; ctx.shadowBlur=40;
   ctx.fillStyle=g; scRoundRect(ctx,80,cY,SC_W-160,cH,32); ctx.fill();
   ctx.restore();
-  scText(ctx,'tradeplan.site',SC_W/2,cY+52,{size:48,weight:900,color:'#0b1628',rtl:false});
+  scText(ctx,'tradeplan.site',SC_W/2,cY+42,{size:44,weight:900,color:'#0b1628',rtl:false});
   // این خط عمداً rtl است (با rtl:false نشانه‌گذاری جابه‌جا می‌شد)، ولی هندل تلگرام
   // با LRM (‎) ایزوله شده تا «@» سمت درست بچسبد نه انتهای کلمه.
-  scText(ctx,'ژورنال، پلن و روانشناسی معامله‌گری  ·  تلگرام ‎@tradeplann‎',SC_W/2,cY+102,{size:21,weight:800,color:'rgba(11,22,40,.72)'});
+  scText(ctx,'ژورنال، پلن و روانشناسی معامله‌گری  ·  تلگرام ‎@tradeplann‎',SC_W/2,cY+84,{size:20,weight:800,color:'rgba(11,22,40,.72)'});
 
   // ── فوتر: شماره‌ی گواهی (حسِ سندِ اصل) ──
-  scText(ctx,'شماره گواهی ‎'+scSerial(scYear,scMonth)+'‎  ·  صادرشده توسط TradePlan',SC_W/2,1850,{size:19,weight:700,color:DIM});
+  scText(ctx,scSerial(s.dayKey)+'  ·  '+scDayLabelEn(s.dayKey),SC_W/2,1852,{size:18,weight:700,color:DIM,rtl:false});
 }
 
 // رندر پیش‌نمایش داخل مودال
@@ -13105,16 +13283,16 @@ async function shareCardRender(){
   const hint=document.getElementById('sharec-hint');
   if(!cv||!stage) return;
 
-  const s=scMonthStats(scYear,scMonth);
-  setText('sharec-month',scMonthLabel(scYear,scMonth));
+  const s=scDay?scDayStats(scDay):{hasTrades:false};
+  setText('sharec-month',scDay?scDayLabel(scDay):'—');
 
-  // پیمایش: فقط بین ماه‌هایی که در فهرست هستند
-  const idx=scMonths.findIndex(x=>x.y===scYear&&x.m===scMonth);
+  // پیمایش: فقط بین روزهایی که معامله دارند
+  const idx=scDays.indexOf(scDay);
   const prev=document.getElementById('sharec-prev'), next=document.getElementById('sharec-next');
   if(prev) prev.disabled = idx<=0;
-  if(next) next.disabled = idx<0 || idx>=scMonths.length-1;
+  if(next) next.disabled = idx<0 || idx>=scDays.length-1;
 
-  if(s.activeDays===0){
+  if(!s.hasTrades){
     cv.style.display='none';
     let empty=document.getElementById('sharec-empty');
     if(!empty){
@@ -13122,10 +13300,10 @@ async function shareCardRender(){
       empty.id='sharec-empty'; empty.className='sharec-empty';
       stage.appendChild(empty);
     }
-    empty.textContent='برای این ماه هنوز معامله‌ای ثبت نشده.\nاول ژورنال این ماه را پر کن.';
+    empty.textContent='هنوز هیچ روزی با معامله ثبت نشده.\nاول یک روز را در ژورنال پر کن، بعد گواهی‌اش را بساز.';
     empty.style.display='block';
     if(btn){ btn.disabled=true; btn.style.opacity='.4'; }
-    if(hint) hint.textContent='ماه دیگری را انتخاب کن یا معاملات این ماه را ثبت کن';
+    if(hint) hint.textContent='معاملات یک روز را در ژورنال ثبت کن';
     return;
   }
 
@@ -13142,30 +13320,27 @@ async function shareCardRender(){
   scDrawCard(ctx,s);
 }
 
-function openShareCard(){
-  scMonths=scBuildMonths();
+/* dayKey اختیاری: از ژورنال می‌شود مستقیم گواهیِ یک روزِ مشخص را باز کرد.
+   پیش‌فرض: امروز اگر معامله دارد، وگرنه آخرین روزِ معاملاتی. */
+function openShareCard(dayKey){
+  scDays=scBuildDays();
   const now=new Date();
-  // پیش‌فرض: ماه جاری اگر داده دارد، وگرنه آخرین ماهِ دارای معامله
-  const cur=scMonths.find(x=>x.y===now.getFullYear()&&x.m===now.getMonth());
-  const curHasData=scMonthStats(now.getFullYear(),now.getMonth()).activeDays>0;
-  let pick = (cur&&curHasData) ? cur : null;
-  if(!pick){
-    for(let i=scMonths.length-1;i>=0;i--){
-      if(scMonthStats(scMonths[i].y,scMonths[i].m).activeDays>0){ pick=scMonths[i]; break; }
-    }
-  }
-  if(!pick) pick = cur || scMonths[scMonths.length-1];
-  scYear=pick.y; scMonth=pick.m;
+  const todayK=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  let pick=null;
+  if(dayKey&&scDays.includes(dayKey)) pick=dayKey;
+  else if(scDays.includes(todayK))    pick=todayK;
+  else if(scDays.length)              pick=scDays[scDays.length-1];
+  scDay=pick;
   document.getElementById('sharec-modal').classList.add('show');
   shareCardRender();
 }
 
-// همان قرارداد month-nav خود برنامه: «‹» ماه قبل، «›» ماه بعد (کانتینر ltr)
+// همان قرارداد month-nav خود برنامه: «‹» روز قبل، «›» روز بعد (کانتینر ltr)
 function shareCardNav(dir){
-  const idx=scMonths.findIndex(x=>x.y===scYear&&x.m===scMonth);
+  const idx=scDays.indexOf(scDay);
   const n=idx+dir;
-  if(idx<0||n<0||n>=scMonths.length) return;
-  scYear=scMonths[n].y; scMonth=scMonths[n].m;
+  if(idx<0||n<0||n>=scDays.length) return;
+  scDay=scDays[n];
   shareCardRender();
 }
 
@@ -13175,7 +13350,7 @@ async function scBlob(){
   if(!cv||cv.style.display==='none') return null;
   return await new Promise(r=>{ try{ cv.toBlob(r,'image/png'); }catch(e){ r(null); } });
 }
-function scFileName(){ return `tradeplan-${scYear}-${String(scMonth+1).padStart(2,'0')}.png`; }
+function scFileName(){ return `tradeplan-${scDay||'day'}.png`; }
 
 /* ذخیره‌ی مستقیم بدون شیت اشتراک‌گذاری — روی موبایل در گالری/دانلودها می‌نشیند */
 async function shareCardDownload(){
@@ -13196,7 +13371,7 @@ async function shareCardSend(){
   const blob=await scBlob();
   if(!blob){ showToast('ساخت تصویر ناموفق بود'); return; }
 
-  const text='کارت عملکرد ماهانه‌ی من در TradePlan 📊\nhttps://tradeplan.site';
+  const text='گواهی عملکرد روزانه‌ی من در TradePlan 📊\nhttps://tradeplan.site';
   try{
     const file=new File([blob],fname,{type:'image/png'});
     if(navigator.canShare && navigator.canShare({files:[file]})){
@@ -13359,7 +13534,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='82.6';
+const APP_VERSION='82.7';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){
@@ -13381,9 +13556,32 @@ const MT5_SVC_VERSION='1.30';
 
 let SB=null, CURRENT_USER=null, remoteTimer=null, appStarted=false, authBusy=false;
 
+/* ═══════ «مرا به خاطر بسپار» — نشستِ ماندگار ═══════
+   نشست همیشه ذخیره و خودکار تازه می‌شود (persistSession + autoRefreshToken)،
+   پس کاربر دفعه‌ی بعد بدون رمز وارد می‌شود. این آداپتور فقط تعیین می‌کند
+   توکن کجا بنشیند:
+     • تیک روشن (پیش‌فرض) → localStorage: بعد از بستن مرورگر هم می‌ماند.
+     • تیک خاموش → sessionStorage: با بسته شدن تب پاک می‌شود (سیستم مشترک).
+   خواندن همیشه هر دو را چک می‌کند تا تغییر حالت، کاربرِ واردشده را بیرون نیندازد. */
+const REMEMBER_KEY='tradeplan_remember';
+function authRemember(){ try{ return localStorage.getItem(REMEMBER_KEY)!=='0'; }catch(e){ return true; } }
+function setAuthRemember(on){ try{ localStorage.setItem(REMEMBER_KEY,on?'1':'0'); }catch(e){} }
+const AUTH_STORAGE={
+  getItem(k){ try{ return sessionStorage.getItem(k) ?? localStorage.getItem(k); }catch(e){ return null; } },
+  setItem(k,v){
+    try{
+      if(authRemember()){ localStorage.setItem(k,v); sessionStorage.removeItem(k); }
+      else{ sessionStorage.setItem(k,v); localStorage.removeItem(k); }
+    }catch(e){}
+  },
+  removeItem(k){ try{ sessionStorage.removeItem(k); localStorage.removeItem(k); }catch(e){} }
+};
 try{
   if(window.supabase && window.supabase.createClient){
-    SB=window.supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'tradeplan_auth'}});
+    SB=window.supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{
+      persistSession:true, autoRefreshToken:true,
+      storageKey:'tradeplan_auth', storage:AUTH_STORAGE
+    }});
   }
 }catch(e){ console.error('Supabase init failed',e); }
 
@@ -13988,6 +14186,9 @@ const authScreenEl=document.getElementById('auth-screen');
 let authMode='login';
 function setAuthMode(m){
   authMode=m;
+  // تیک «مرا به خاطر بسپار» با انتخاب قبلیِ همین مرورگر هماهنگ می‌شود
+  const rem=document.getElementById('auth-remember');
+  if(rem) rem.checked=authRemember();
   document.getElementById('auth-tab-login').classList.toggle('active',m==='login');
   document.getElementById('auth-tab-signup').classList.toggle('active',m==='signup');
   document.getElementById('auth-submit').textContent = m==='login'?'ورود':'ثبت‌نام';

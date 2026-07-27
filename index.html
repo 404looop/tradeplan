@@ -118,87 +118,130 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .jpanel-empty span{font-size:12px;font-weight:600;color:var(--text-muted)}
 
 /* ═══════ TRADE GALLERY (گالری معاملات) ═══════ */
-.gal-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 15px 2px}
-.gal-pills{display:flex;gap:6px}
-.gal-pill{padding:7px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all var(--tr);white-space:nowrap}
-.gal-pill.active{background:var(--gold);border-color:var(--gold);color:#0b1628}
-.gal-select{padding:7px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:700;outline:none;cursor:pointer;max-width:160px}
+/* نوار فیلتر جمع‌وجور: یک دکمه‌ی کشویی که همه‌ی فیلترها داخلش است تا فضای
+   بالای گالری تقریباً صفر بماند و همه‌ی ارتفاع صفحه به خود عکس‌ها برسد. */
+.gal-toolbar{position:relative;display:flex;align-items:center;gap:7px;padding:11px 15px 3px}
+.galf-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all var(--tr);white-space:nowrap;max-width:100%}
+.galf-btn:hover{border-color:rgba(255,255,255,.24)}
+.galf-btn.on{background:rgba(232,160,32,.12);border-color:var(--gold);color:var(--gold)}
+.galf-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px}
+.galf-caret{font-size:9px;opacity:.7;transition:transform var(--tr)}
+.galf-btn.open .galf-caret{transform:rotate(180deg)}
+.galf-badge{min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--gold);color:#0b1628;font-size:9.5px;font-weight:900;display:none;align-items:center;justify-content:center}
+.galf-badge.show{display:inline-flex}
+.galf-clear{display:none;align-items:center;gap:4px;padding:7px 10px;border-radius:20px;border:1px solid rgba(239,68,68,.28);background:rgba(239,68,68,.08);color:#fb7676;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+.galf-clear.show{display:inline-flex}
+.gal-count{font-size:11px;font-weight:700;color:var(--text-muted);margin-inline-start:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* منوی کشویی فیلترها */
+.galf-menu{position:absolute;top:calc(100% + 4px);inset-inline-start:15px;z-index:900;width:min(320px,calc(100vw - 30px));background:linear-gradient(165deg,#14294a,#0b1a30);border:1px solid rgba(255,255,255,.13);border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.62);padding:12px;display:none;flex-direction:column;gap:12px;max-height:min(70vh,460px);overflow-y:auto}
+.galf-menu.show{display:flex;animation:galfIn .16s ease}
+@keyframes galfIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.galf-sec-t{font-size:10.5px;font-weight:900;color:var(--text-muted);margin-bottom:7px;letter-spacing:.2px}
+.galf-opts{display:flex;flex-wrap:wrap;gap:5px}
+.galf-opt{padding:7px 11px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:11.5px;font-weight:800;cursor:pointer;transition:all var(--tr);white-space:nowrap}
+.galf-opt:hover{border-color:rgba(255,255,255,.24);color:var(--text)}
+.galf-opt.active{background:var(--gold);border-color:var(--gold);color:#0b1628}
+.galf-opt.star.active{background:linear-gradient(135deg,#f5c84f,#e8a020);border-color:#f5c84f;color:#3a2500}
+.gal-select{width:100%;padding:8px 11px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:700;outline:none;cursor:pointer}
 .gal-select option{background:#0f2238;color:#fff}
-.gal-count{font-size:11.5px;font-weight:700;color:var(--text-muted);margin-inline-start:auto;white-space:nowrap}
-/* فیلتر بازه زمانی */
-.gal-range{display:flex;align-items:center;gap:5px}
+/* بازه‌ی دلخواه — فقط وقتی «دلخواه» انتخاب شود باز می‌شود */
+.gal-range{display:none;align-items:center;gap:5px;margin-top:8px}
+.gal-range.show{display:flex}
 .gr-lbl{font-size:11px;font-weight:800;color:var(--text-muted)}
-.gal-date-inp{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 10px;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:700;color:var(--text);outline:none;color-scheme:dark;max-width:130px}
+.gal-date-inp{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px 9px;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:700;color:var(--text);outline:none;color-scheme:dark}
 .gal-date-inp:focus{border-color:var(--gold)}
-.gal-range-clear{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text-muted);font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center}
-.gal-range-clear.show{display:inline-flex}
-.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:12px;padding:12px 15px 30px}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,168px),1fr));gap:10px;padding:11px 15px 30px}
+@media (min-width:1500px){.gal-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,178px),1fr));gap:11px}}
 /* add card */
-.gal-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:16px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr)}
+.gal-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:14px;min-height:150px;padding:10px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr)}
 .gal-add-card.locked{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.02)}
 .gal-add-card.locked .gal-add-plus{color:var(--text-muted);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);box-shadow:none}
 .gal-add-card.locked .gal-add-title{color:var(--text-muted)}
 .gal-add-card:hover{background:rgba(232,160,32,.07);border-color:var(--gold)}
 .gal-add-card:active{transform:scale(.98)}
-.gal-add-plus{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08);box-shadow:0 6px 18px rgba(232,160,32,.15)}
-.gal-add-title{font-size:14px;font-weight:900;color:var(--gold)}
-.gal-add-sub{font-size:11.5px;color:var(--text-muted)}
+.gal-add-plus{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08);box-shadow:0 6px 18px rgba(232,160,32,.15)}
+.gal-add-title{font-size:12px;font-weight:900;color:var(--gold);line-height:1.5}
+.gal-add-sub{font-size:9.5px;color:var(--text-muted);line-height:1.65}
 /* trade card */
-.gal-card{border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#122540,#0a1830);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform var(--tr),box-shadow var(--tr);position:relative}
+.gal-card{border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#122540,#0a1830);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 20px rgba(0,0,0,.4);transition:transform var(--tr),box-shadow var(--tr);position:relative}
+.gal-card.star{border-color:rgba(245,200,79,.45);box-shadow:0 8px 20px rgba(0,0,0,.4),0 0 0 1px rgba(245,200,79,.14)}
 .gal-card.win{border-color:rgba(34,197,94,.3)}
 .gal-card.loss{border-color:rgba(239,68,68,.3)}
 .gal-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(0,0,0,.5)}
 .gal-img-wrap{position:relative;aspect-ratio:16/9;background:#0a1424;cursor:zoom-in;overflow:hidden}
 .gal-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
 .gal-card:hover .gal-img{transform:scale(1.04)}
-.gal-chip-date,.gal-chip-time{position:absolute;top:7px;padding:3px 8px;border-radius:12px;font-size:9.5px;font-weight:800;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff}
-.gal-chip-date{right:7px}
-.gal-chip-time{left:7px;direction:ltr;font-variant-numeric:tabular-nums}
-.gal-body{padding:9px 10px 10px;display:flex;flex-direction:column;gap:7px}
+.gal-chip-date,.gal-chip-time{position:absolute;top:6px;padding:2px 7px;border-radius:10px;font-size:8.5px;font-weight:800;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff}
+.gal-chip-date{right:6px}
+.gal-chip-time{left:6px;direction:ltr;font-variant-numeric:tabular-nums}
+/* نشان ستاره — معامله‌ی «ستاره‌دار و مهم» */
+.gal-chip-star{position:absolute;bottom:6px;right:6px;width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(245,200,79,.55);color:#f5c84f}
+.gal-body{padding:7px 8px 8px;display:flex;flex-direction:column;gap:6px}
 /* نوار افقی نتیجه — WIN/LOSS پهن و واضح + مبلغ جدا در سمت چپ */
-.gal-strip{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:11px;border:1px solid}
+.gal-strip{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:9px;border:1px solid}
 .gal-strip.win{background:linear-gradient(to left,rgba(34,197,94,.24),rgba(34,197,94,.05));border-color:rgba(34,197,94,.5)}
 .gal-strip.loss{background:linear-gradient(to left,rgba(239,68,68,.24),rgba(239,68,68,.05));border-color:rgba(239,68,68,.5)}
-.gs-label{font-size:11.5px;font-weight:900;letter-spacing:.4px;white-space:nowrap}
+.gs-label{font-size:10px;font-weight:900;letter-spacing:.2px;white-space:nowrap}
 .gal-strip.win .gs-label{color:#4ade80}
 .gal-strip.loss .gs-label{color:#f87171}
-.gs-pnl{margin-inline-start:auto;direction:ltr;font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}
+.gs-pnl{margin-inline-start:auto;direction:ltr;font-size:14px;font-weight:900;font-variant-numeric:tabular-nums}
 .gal-strip.win .gs-pnl{color:#4ade80;text-shadow:0 1px 10px rgba(34,197,94,.35)}
 .gal-strip.loss .gs-pnl{color:#f87171;text-shadow:0 1px 10px rgba(239,68,68,.35)}
 .gal-row1{display:flex;align-items:center;gap:8px}
-.gal-symbol{font-size:13.5px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.3px}
+.gal-symbol{font-size:11.5px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .gal-badge{font-size:10px;font-weight:900;letter-spacing:.6px;padding:3px 9px;border-radius:7px;direction:ltr}
 .gal-badge.win{background:rgba(34,197,94,.16);color:#4ade80;border:1px solid rgba(34,197,94,.4)}
 .gal-badge.loss{background:rgba(239,68,68,.16);color:#f87171;border:1px solid rgba(239,68,68,.4)}
 .gal-pnl{margin-inline-start:auto;font-size:19px;font-weight:900;direction:ltr;font-variant-numeric:tabular-nums}
 .gal-pnl.pos{color:#4ade80;text-shadow:0 1px 10px rgba(34,197,94,.3)}
 .gal-pnl.neg{color:#f87171;text-shadow:0 1px 10px rgba(239,68,68,.3)}
-.gal-row2{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-height:28px}
-.gal-tag{font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:12px;background:rgba(59,130,246,.14);color:#93c5fd;border:1px solid rgba(59,130,246,.35)}
+.gal-row2{display:flex;align-items:center;gap:6px;min-height:23px}
+.gal-row2 .gal-symbol{flex:1;min-width:0}
+.gal-tags{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.gal-tag{font-size:8.5px;font-weight:800;padding:2px 7px;border-radius:10px;background:rgba(59,130,246,.14);color:#93c5fd;border:1px solid rgba(59,130,246,.35);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .gal-tag.rr{background:rgba(255,255,255,.05);color:var(--text-muted);border-color:rgba(255,255,255,.12);direction:ltr}
-.gal-actions{margin-inline-start:auto;display:flex;gap:4px}
-.gal-act{width:27px;height:27px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.gal-actions{margin-inline-start:auto;display:flex;gap:3px}
+.gal-act{width:23px;height:23px;border-radius:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:10.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
 .gal-act:hover{color:#fff;border-color:rgba(255,255,255,.25)}
 .gal-act.del:hover{color:#f87171;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1)}
 .gal-empty{grid-column:1/-1;text-align:center;padding:30px 10px;color:var(--text-muted);font-size:13px;font-weight:700}
-/* موبایل: دو ستون جمع‌وجور */
+/* تبلت: چهار ستون جمع‌وجور */
+@media (max-width:900px) and (min-width:701px){
+  .gal-grid{grid-template-columns:repeat(4,1fr);gap:9px;padding:10px 14px 28px}
+}
+/* موبایل: سه ستون — کارت‌ها کوچک‌تر، عکس بیشتری در یک نگاه */
 @media (max-width:700px){
-  .gal-grid{grid-template-columns:repeat(2,1fr);gap:9px;padding:10px 12px 26px}
-  .gal-body{padding:7px 8px 8px;gap:6px}
-  .gal-strip{padding:6px 8px;gap:5px;border-radius:9px}
-  .gs-label{font-size:9.5px;letter-spacing:.2px}
-  .gs-pnl{font-size:14px}
-  .gal-symbol{font-size:11.5px}
-  .gal-chip-date,.gal-chip-time{font-size:8.5px;padding:2px 6px;top:5px}
-  .gal-chip-date{right:5px}
-  .gal-chip-time{left:5px}
-  .gal-tag{font-size:8.5px;padding:2px 6px}
-  .gal-act{width:24px;height:24px;font-size:10.5px}
-  .gal-add-card{min-height:140px;gap:6px}
-  .gal-add-plus{width:40px;height:40px;font-size:19px;border-radius:12px}
-  .gal-add-title{font-size:11.5px}
-  .gal-add-sub{font-size:9.5px;padding:0 8px;text-align:center}
-  .gal-date-inp{max-width:118px;font-size:10px}
+  .gal-toolbar{padding:9px 12px 2px;gap:6px}
+  .galf-menu{inset-inline-start:12px;width:calc(100vw - 24px)}
+  .galf-lbl{max-width:120px}
+  .gal-grid{grid-template-columns:repeat(3,1fr);gap:7px;padding:9px 12px 26px}
+  .gal-card{border-radius:12px}
+  .gal-body{padding:5px 6px 6px;gap:4px}
+  .gal-strip{padding:4px 6px;gap:3px;border-radius:7px}
+  .gs-label{font-size:8px;letter-spacing:0}
+  .gs-pnl{font-size:11.5px}
+  .gal-symbol{font-size:9.5px}
+  .gal-chip-date,.gal-chip-time{font-size:7px;padding:1.5px 5px;top:4px;border-radius:8px}
+  .gal-chip-date{right:4px}
+  .gal-chip-time{left:4px}
+  .gal-chip-star{width:17px;height:17px;font-size:9px;bottom:4px;right:4px}
+  .gal-tag{font-size:7.5px;padding:1.5px 5px;border-radius:8px}
+  .gal-row2{gap:4px;min-height:20px}
+  .gal-tags{gap:3px}
+  .gal-act{width:20px;height:20px;font-size:9px;border-radius:6px}
+  .gal-add-card{min-height:118px;gap:5px;border-radius:12px;padding:7px}
+  .gal-add-plus{width:31px;height:31px;font-size:15px;border-radius:10px}
+  .gal-add-title{font-size:9.5px}
+  .gal-add-sub{font-size:7.5px;line-height:1.6}
+}
+/* گوشی‌های خیلی باریک: دو ستون تا کارت‌ها خوانا بمانند */
+@media (max-width:359px){
+  .gal-grid{grid-template-columns:repeat(2,1fr)}
+  .gs-label{font-size:9px}
+  .gs-pnl{font-size:13px}
+  .gal-symbol{font-size:11px}
+  .gal-add-title{font-size:11px}
+  .gal-add-sub{font-size:9px}
 }
 /* add/edit sheet */
 .gal-sheet{max-height:92vh;overflow-y:auto}
@@ -214,6 +257,19 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .gal-res-btn{flex:1;padding:11px 0;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:900;cursor:pointer;letter-spacing:.4px;transition:all var(--tr)}
 .gal-res-btn.win.active{background:rgba(34,197,94,.18);border-color:#22c55e;color:#4ade80}
 .gal-res-btn.loss.active{background:rgba(239,68,68,.18);border-color:#ef4444;color:#f87171}
+/* کلید «ستاره‌دار و مهم» — هنگام ثبت معامله در گالری */
+.gal-star-btn{width:100%;display:flex;align-items:center;gap:10px;text-align:start;padding:11px 13px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);cursor:pointer;transition:all var(--tr);font-family:'Vazirmatn',sans-serif}
+.gal-star-btn:hover{border-color:rgba(245,200,79,.4)}
+.gal-star-btn.active{background:linear-gradient(to left,rgba(245,200,79,.16),rgba(245,200,79,.04));border-color:rgba(245,200,79,.6)}
+.gsb-ic{font-size:19px;color:var(--text-muted);flex-shrink:0;transition:all var(--tr)}
+.gal-star-btn.active .gsb-ic{color:#f5c84f;text-shadow:0 0 14px rgba(245,200,79,.5)}
+.gsb-t{font-size:12.5px;font-weight:900;color:var(--text)}
+.gal-star-btn.active .gsb-t{color:#f5c84f}
+.gsb-s{font-size:10px;font-weight:600;color:var(--text-dim);margin-top:2px;line-height:1.6}
+.gsb-sw{margin-inline-start:auto;width:34px;height:19px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);position:relative;flex-shrink:0;transition:all var(--tr)}
+.gsb-sw::after{content:'';position:absolute;top:2px;inset-inline-start:2px;width:13px;height:13px;border-radius:50%;background:var(--text-muted);transition:all var(--tr)}
+.gal-star-btn.active .gsb-sw{background:rgba(245,200,79,.28);border-color:#f5c84f}
+.gal-star-btn.active .gsb-sw::after{inset-inline-start:17px;background:#f5c84f}
 input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:11px 13px;font-family:'Vazirmatn',sans-serif;font-size:13.5px;color:var(--text);outline:none;color-scheme:dark}
 /* lightbox */
 #gal-view{position:fixed;inset:0;z-index:99500;background:rgba(3,8,18,.93);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:18px}
@@ -1099,10 +1155,41 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .day-note-input::placeholder{color:var(--text-dim)}
 .dts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
 .dts-sum{font-size:11.5px;font-weight:800;color:var(--gold);direction:ltr}
-#day-trades-rows{max-height:172px;overflow-y:auto;padding:2px 4px 2px 2px;scrollbar-width:thin;scrollbar-color:rgba(232,160,32,.4) transparent}
+#day-trades-rows{max-height:290px;overflow-y:auto;padding:2px 4px 2px 2px;scrollbar-width:thin;scrollbar-color:rgba(232,160,32,.4) transparent}
 #day-trades-rows::-webkit-scrollbar{width:5px}
 #day-trades-rows::-webkit-scrollbar-thumb{background:rgba(232,160,32,.35);border-radius:3px}
-.dts-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+/* هر معامله یک کارت کوچک: خط اول مبلغ/نتیجه، خط دوم ساعت و دکمه‌ی گالری */
+.dts-item{background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.075);border-radius:11px;padding:7px;margin-bottom:7px}
+.dts-item.mt{border-color:rgba(59,130,246,.22);background:rgba(59,130,246,.045)}
+.dts-row{display:flex;align-items:center;gap:6px}
+.dts-row2{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(255,255,255,.09)}
+/* نشان اطلاعات متاتریدر (نوع و نماد پوزیشن) */
+.dts-mt-badge{display:flex;align-items:center;gap:4px;flex-shrink:0;padding:5px 8px;border-radius:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.28);max-width:44%;overflow:hidden}
+.dts-type-icon{font-size:9px;line-height:1}
+.dts-type-lbl{font-size:9px;font-weight:900;color:#93c5fd;direction:ltr;letter-spacing:.3px}
+.dts-sym{font-size:10px;font-weight:800;color:var(--text);direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dts-net-badge{font-size:10.5px;font-weight:900;direction:ltr;flex-shrink:0;font-variant-numeric:tabular-nums}
+.dts-net-badge.pos{color:#4ade80}
+.dts-net-badge.neg{color:#f87171}
+/* ساعت و دقیقه‌ی هر پوزیشن */
+.dts-time-box{display:flex;align-items:center;gap:5px;flex:1;min-width:0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:0 8px;transition:border-color var(--tr)}
+.dts-time-box:focus-within{border-color:var(--gold-border)}
+.dts-time-box.auto{border-color:rgba(59,130,246,.32);background:rgba(59,130,246,.07)}
+.dts-time-ic{font-size:9.5px;font-weight:800;color:var(--text-muted);flex-shrink:0}
+.dts-time{flex:1;min-width:0;width:100%;background:none;border:none;outline:none;font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:800;color:var(--text);padding:6px 0;direction:ltr;text-align:left;color-scheme:dark;font-variant-numeric:tabular-nums}
+.dts-time::-webkit-calendar-picker-indicator{filter:invert(.75);cursor:pointer;opacity:.7;margin:0}
+.dts-time-tag{font-size:8.5px;font-weight:800;color:#93c5fd;flex-shrink:0;opacity:.9}
+/* دکمه‌ی «ثبت در گالری» هر پوزیشن */
+.dts-gal-btn{display:flex;align-items:center;gap:5px;flex-shrink:0;padding:7px 11px;border-radius:8px;border:1px solid rgba(232,160,32,.42);background:linear-gradient(to left,rgba(232,160,32,.16),rgba(232,160,32,.05));color:var(--gold);font-family:'Vazirmatn',sans-serif;font-size:10.5px;font-weight:900;cursor:pointer;transition:all var(--tr);white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.dts-gal-btn:hover{background:rgba(232,160,32,.24);border-color:var(--gold)}
+.dts-gal-btn:active{transform:scale(.96)}
+.dts-gal-btn.done{border-color:rgba(34,197,94,.45);background:linear-gradient(to left,rgba(34,197,94,.16),rgba(34,197,94,.04));color:#4ade80}
+.dts-gal-ic{font-size:12px;line-height:1}
+@media (max-width:420px){
+  .dts-gal-btn{padding:7px 9px;font-size:9.5px;gap:4px}
+  .dts-time{font-size:11.5px}
+  .dts-mt-badge{padding:5px 6px;gap:3px}
+}
 .dts-num{width:19px;height:19px;border-radius:6px;background:rgba(232,160,32,.12);border:1px solid var(--gold-border);color:var(--gold);font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dts-signs{display:flex;gap:3px;flex-shrink:0}
 .dts-sign{width:26px;height:28px;border-radius:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr);opacity:.45;-webkit-tap-highlight-color:transparent}
@@ -4851,21 +4938,48 @@ body.mnt-bannered{padding-top:28px}
 
   <!-- Panel 1: GALLERY — گالری عکس چارت معاملات -->
   <div class="journal-panel" id="jpanel-gallery">
+    <!-- نوار فیلتر: همه‌چیز داخل یک منوی کشویی جمع شده تا فضای کمی بگیرد -->
     <div class="gal-toolbar">
-      <div class="gal-pills">
-        <button type="button" class="gal-pill active" id="gal-pill-all" onclick="galSetFilter('all')">همه معاملات</button>
-        <button type="button" class="gal-pill" id="gal-pill-win" onclick="galSetFilter('win')">🟢 سودها</button>
-        <button type="button" class="gal-pill" id="gal-pill-loss" onclick="galSetFilter('loss')">🔴 ضررها</button>
-      </div>
-      <select class="gal-select" id="gal-symbol-filter" onchange="galSetSymbol(this.value)">
-        <option value="all">همه نمادها</option>
-      </select>
-      <div class="gal-range">
-        <span class="gr-lbl">از</span><input type="date" class="gal-date-inp" id="gal-from" onchange="galSetRange()">
-        <span class="gr-lbl">تا</span><input type="date" class="gal-date-inp" id="gal-to" onchange="galSetRange()">
-        <button type="button" class="gal-range-clear" id="gal-range-clear" onclick="galClearRange()" title="حذف فیلتر تاریخ">✕</button>
-      </div>
+      <button type="button" class="galf-btn" id="galf-btn" onclick="galToggleMenu(event)">
+        <span>🔍</span>
+        <span class="galf-lbl" id="galf-lbl">همه معاملات</span>
+        <span class="galf-badge" id="galf-badge">۰</span>
+        <span class="galf-caret">▼</span>
+      </button>
+      <button type="button" class="galf-clear" id="galf-clear" onclick="galResetFilters()">✕ حذف فیلترها</button>
       <div class="gal-count" id="gal-count"></div>
+
+      <div class="galf-menu" id="galf-menu" onclick="event.stopPropagation()">
+        <div>
+          <div class="galf-sec-t">نتیجه معامله</div>
+          <div class="galf-opts" id="galf-res">
+            <button type="button" class="galf-opt active" onclick="galSetFilter('all')">همه</button>
+            <button type="button" class="galf-opt" onclick="galSetFilter('win')">🟢 فقط سودده</button>
+            <button type="button" class="galf-opt" onclick="galSetFilter('loss')">🔴 فقط ضررده</button>
+            <button type="button" class="galf-opt star" onclick="galSetFilter('star')">⭐ ستاره‌دار و مهم</button>
+          </div>
+        </div>
+        <div>
+          <div class="galf-sec-t">بازه زمانی</div>
+          <div class="galf-opts" id="galf-time">
+            <button type="button" class="galf-opt active" onclick="galSetQuick('all')">همه</button>
+            <button type="button" class="galf-opt" onclick="galSetQuick('today')">امروز</button>
+            <button type="button" class="galf-opt" onclick="galSetQuick('week')">این هفته</button>
+            <button type="button" class="galf-opt" onclick="galSetQuick('month')">این ماه</button>
+            <button type="button" class="galf-opt" onclick="galSetQuick('custom')">📅 دلخواه</button>
+          </div>
+          <div class="gal-range" id="gal-range">
+            <span class="gr-lbl">از</span><input type="date" class="gal-date-inp" id="gal-from" onchange="galSetRange()">
+            <span class="gr-lbl">تا</span><input type="date" class="gal-date-inp" id="gal-to" onchange="galSetRange()">
+          </div>
+        </div>
+        <div>
+          <div class="galf-sec-t">نماد</div>
+          <select class="gal-select" id="gal-symbol-filter" onchange="galSetSymbol(this.value)">
+            <option value="all">همه نمادها</option>
+          </select>
+        </div>
+      </div>
     </div>
     <div class="gal-grid" id="gal-grid"></div>
   </div>
@@ -5660,6 +5774,14 @@ body.mnt-bannered{padding-top:28px}
           <button type="button" class="gal-res-btn loss" id="gal-res-loss" onclick="galSetResult('loss')">🔴 LOSS · ضرر</button>
         </div>
       </div>
+      <button type="button" class="gal-star-btn" id="gal-star-btn" onclick="galToggleStar()">
+        <span class="gsb-ic" id="gal-star-ic">☆</span>
+        <span>
+          <span class="gsb-t">ستاره‌دار و مهم</span>
+          <span class="gsb-s">معامله‌های کلیدی‌ات را ستاره بزن تا با یک فیلتر همه را کنار هم ببینی</span>
+        </span>
+        <span class="gsb-sw"></span>
+      </button>
       <div class="modal-row">
         <div style="flex:1.3">
           <div class="modal-label">⏰ تاریخ و ساعت دقیق معامله</div>
@@ -5959,12 +6081,12 @@ body.mnt-bannered{padding-top:28px}
       <!-- per-trade amounts — auto-synced to the Psychology page for this date -->
       <div id="day-trades-section">
         <div class="dts-header">
-          <span class="modal-label" style="margin:0">💵 مبلغ هر معامله</span>
+          <span class="modal-label" style="margin:0">💵 جزئیات هر معامله</span>
           <span class="dts-sum" id="dts-sum">جمع: $0.0</span>
         </div>
         <div id="day-trades-rows"></div>
         <button type="button" class="dts-add-btn" onclick="addDayTrade()">➕ افزودن معامله</button>
-        <div class="dts-hint">جمع این مبالغ خودکار در «مقدار» بالا می‌نشیند و به صفحه‌ی روانشناسی همین روز هم منتقل می‌شود. مقدار بالا را دستی هم می‌توانی تغییر بدهی.</div>
+        <div class="dts-hint">جمع این مبالغ خودکار در «مقدار» بالا می‌نشیند و به صفحه‌ی روانشناسی همین روز هم منتقل می‌شود. مقدار بالا را دستی هم می‌توانی تغییر بدهی.<br>🕐 ساعت هر پوزیشن اگر از متاتریدر آمده باشد خودکار پر می‌شود، وگرنه خودت وارد کن. با دکمه‌ی <b>🖼 ثبت در گالری</b> فرم گالری با همان سود/ضرر و ساعت باز می‌شود و فقط کافی است عکس چارت را بگذاری.</div>
       </div>
       <!-- daily notes — یادداشت آزادِ هر روز، جداگانه برای همان تاریخ ذخیره می‌شود -->
       <div>
@@ -6935,10 +7057,13 @@ function sigEquity(closed){
    فشرده می‌شوند (وب‌پی/جی‌پگ، هدف ~۱۸۵KB) و در جدول gallery_trades
    سوپابیس ذخیره می‌شوند؛ نسخه‌ی محلی هم در localStorage می‌ماند تا
    آفلاین کار کند و بعداً خودش سینک شود. */
-let galItems=[];          // [{id,symbol,result,pnl,rr,strategy,note,taken_at,img,synced}]
+let galItems=[];          // [{id,symbol,result,pnl,rr,strategy,note,starred,taken_at,img,synced}]
 let galFilter='all', galSymbol='all', galResult='win';
+let galQuick='all';                       // بازه‌ی سریع: all | today | week | month | custom
+let galStarInput=false;                   // وضعیت کلید «ستاره‌دار» در فرم ثبت
 let galFrom='', galTo='';                 // فیلتر بازه زمانی (YYYY-MM-DD)
 let galEditId=null, galDelId=null, galPendingImg=null;
+let galStarCol=true;                      // آیا ستون starred در سوپابیس ساخته شده؟ (اگر نه، بدون آن سینک می‌کنیم)
 let galLoaded=false, galPulled=false;
 let galAccess=false, galAccChecked=false; // مجوز کامل (VIP) — فقط ادمین از پنل فعال می‌کند
 // بدون مجوز، گالری قفل نیست: کاربر رایگان تا این تعداد عکس می‌تواند بگذارد و
@@ -7026,10 +7151,19 @@ async function galCloudFlush(){
       if(!error) localStorage.removeItem(GAL_DEL_KEY());
     }
     for(const it of galItems.filter(i=>!i.synced)){
-      const {error}=await SB.from('gallery_trades').upsert({
+      const base={
         id:it.id,user_id:CURRENT_USER.id,symbol:it.symbol,result:it.result,pnl:it.pnl,
         rr:it.rr,strategy:it.strategy,note:it.note,taken_at:it.taken_at,img:it.img
-      });
+      };
+      // ستون starred با فایل gallery-star.sql اضافه می‌شود. تا وقتی ادمین آن را
+      // اجرا نکرده، upsert با این ستون خطا می‌دهد؛ پس یک بار بدون آن دوباره
+      // تلاش می‌کنیم تا بقیه‌ی گالری همچنان سینک شود (ستاره محلی باقی می‌ماند).
+      let {error}=await SB.from('gallery_trades')
+        .upsert(galStarCol?Object.assign({starred:!!it.starred},base):base);
+      if(error&&galStarCol&&/starred/i.test(error.message||'')){
+        galStarCol=false;
+        ({error}=await SB.from('gallery_trades').upsert(base));
+      }
       if(!error) it.synced=true;
     }
     galSaveLocal();
@@ -7043,8 +7177,11 @@ async function galCloudPull(){
       .eq('user_id',CURRENT_USER.id).order('taken_at',{ascending:false});
     if(error||!rows) return;
     const localOnly=galItems.filter(i=>!i.synced&&!rows.some(r=>r.id===i.id));
+    // اگر ستون starred هنوز در سوپابیس نیست، ستاره‌ی نسخه‌ی محلی حفظ می‌شود
+    const prevStar={}; galItems.forEach(i=>{ if(i.starred) prevStar[i.id]=true; });
     galItems=rows.map(r=>({id:r.id,symbol:r.symbol||'',result:r.result==='loss'?'loss':'win',
       pnl:Number(r.pnl)||0,rr:r.rr||'',strategy:r.strategy||'',note:r.note||'',
+      starred:('starred' in r)?!!r.starred:!!prevStar[r.id],
       taken_at:r.taken_at,img:r.img||'',synced:true})).concat(localOnly);
     galSort(); galSaveLocal();
   }catch(e){ /* آفلاین — نسخه محلی نمایش داده می‌شود */ }
@@ -7064,11 +7201,48 @@ function renderGallery(){
     galCloudPull().then(()=>{ galRenderToolbar(); galRenderGrid(); });
   }
 }
+/* ---------- نوار فیلترِ کشویی ----------
+   همه‌ی فیلترها (نتیجه/ستاره، بازه‌ی زمانی، نماد) داخل یک منوی جمع‌وجور
+   هستند تا بالای گالری تقریباً هیچ فضایی اشغال نشود. چیدمانِ خودِ شبکه
+   همیشه بر اساس زمان است (تازه‌ترین بالا) و فیلترها آن را عوض نمی‌کنند. */
+const GAL_RES_LBL={all:'همه معاملات',win:'🟢 فقط سودده',loss:'🔴 فقط ضررده',star:'⭐ ستاره‌دار و مهم'};
+const GAL_TIME_LBL={all:'',today:'امروز',week:'این هفته',month:'این ماه',custom:'بازه‌ی دلخواه'};
+function galToggleMenu(e){
+  if(e) e.stopPropagation();
+  const m=document.getElementById('galf-menu'), b=document.getElementById('galf-btn');
+  if(!m) return;
+  const open=!m.classList.contains('show');
+  m.classList.toggle('show',open);
+  if(b) b.classList.toggle('open',open);
+}
+function galCloseMenu(){
+  const m=document.getElementById('galf-menu'), b=document.getElementById('galf-btn');
+  if(m) m.classList.remove('show');
+  if(b) b.classList.remove('open');
+}
+// بستن منو با کلیک بیرون یا کلید Esc
+document.addEventListener('click',e=>{
+  const m=document.getElementById('galf-menu');
+  if(m&&m.classList.contains('show')&&!e.target.closest('#galf-btn')) galCloseMenu();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') galCloseMenu(); });
+
+function galActiveCount(){
+  return (galFilter!=='all'?1:0)+(galQuick!=='all'?1:0)+(galSymbol!=='all'?1:0);
+}
 function galRenderToolbar(){
-  ['all','win','loss'].forEach(k=>{
-    const b=document.getElementById('gal-pill-'+k);
-    if(b) b.classList.toggle('active',galFilter===k);
+  // دکمه‌های داخل منو
+  const resBox=document.getElementById('galf-res');
+  if(resBox) ['all','win','loss','star'].forEach((k,i)=>{
+    const b=resBox.children[i]; if(b) b.classList.toggle('active',galFilter===k);
   });
+  const timeBox=document.getElementById('galf-time');
+  if(timeBox) ['all','today','week','month','custom'].forEach((k,i)=>{
+    const b=timeBox.children[i]; if(b) b.classList.toggle('active',galQuick===k);
+  });
+  const rng=document.getElementById('gal-range');
+  if(rng) rng.classList.toggle('show',galQuick==='custom');
+
   const sel=document.getElementById('gal-symbol-filter');
   if(sel){
     const syms=[...new Set(galItems.map(i=>i.symbol))].filter(Boolean).sort();
@@ -7076,36 +7250,79 @@ function galRenderToolbar(){
     sel.innerHTML='<option value="all">همه نمادها</option>'+
       syms.map(s=>`<option value="${galEsc(s)}"${s===galSymbol?' selected':''}>${galEsc(s)}</option>`).join('');
   }
+
+  // برچسبِ خلاصه روی دکمه‌ی فیلتر
+  const n=galActiveCount();
+  const parts=[];
+  parts.push(GAL_RES_LBL[galFilter]||'همه معاملات');
+  if(galQuick!=='all') parts.push(GAL_TIME_LBL[galQuick]);
+  if(galSymbol!=='all') parts.push(galSymbol);
+  const lbl=document.getElementById('galf-lbl');
+  if(lbl) lbl.textContent=parts.filter(Boolean).join(' · ');
+  const badge=document.getElementById('galf-badge');
+  if(badge){ badge.textContent=toFA(n); badge.classList.toggle('show',n>0); }
+  const btn=document.getElementById('galf-btn');
+  if(btn) btn.classList.toggle('on',n>0);
+  const clr=document.getElementById('galf-clear');
+  if(clr) clr.classList.toggle('show',n>0);
+
   const c=document.getElementById('gal-count');
   if(c){
-    const wins=galItems.filter(i=>i.result==='win').length;
-    c.textContent=galItems.length?`${toFA(galItems.length)} معامله · ${toFA(wins)} سود · ${toFA(galItems.length-wins)} ضرر`:'';
+    const shown=galFiltered().length;
+    const stars=galItems.filter(i=>i.starred).length;
+    if(!galItems.length) c.textContent='';
+    else if(n>0) c.textContent=`${toFA(shown)} از ${toFA(galItems.length)} معامله`;
+    else{
+      const wins=galItems.filter(i=>i.result==='win').length;
+      c.textContent=`${toFA(galItems.length)} معامله · ${toFA(wins)} سود · ${toFA(galItems.length-wins)} ضرر`+
+        (stars?` · ${toFA(stars)} ⭐`:'');
+    }
   }
 }
 function galDayKey(iso){
   const d=new Date(iso); if(isNaN(d)) return '';
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
+// شروع بازه‌های سریع — هفته به سبک ایرانی از شنبه شروع می‌شود
+function galQuickFrom(){
+  const n=new Date(); n.setHours(0,0,0,0);
+  if(galQuick==='today') return galDayKey(n);
+  if(galQuick==='week'){ const d=new Date(n); d.setDate(d.getDate()-((n.getDay()+1)%7)); return galDayKey(d); }
+  if(galQuick==='month'){ const d=new Date(n.getFullYear(),n.getMonth(),1); return galDayKey(d); }
+  return '';
+}
 function galFiltered(){
-  return galItems.filter(i=>
-    (galFilter==='all'||i.result===galFilter)&&
-    (galSymbol==='all'||i.symbol===galSymbol)&&
-    (!galFrom||galDayKey(i.taken_at)>=galFrom)&&
-    (!galTo||galDayKey(i.taken_at)<=galTo)
-  );
+  const qFrom=galQuick==='custom'?galFrom:galQuickFrom();
+  const qTo  =galQuick==='custom'?galTo  :'';
+  return galItems.filter(i=>{
+    const k=galDayKey(i.taken_at);
+    if(galFilter==='star'){ if(!i.starred) return false; }
+    else if(galFilter!=='all'&&i.result!==galFilter) return false;
+    if(galSymbol!=='all'&&i.symbol!==galSymbol) return false;
+    if(qFrom&&k<qFrom) return false;
+    if(qTo&&k>qTo) return false;
+    return true;
+  });
+}
+function galSetQuick(q){
+  galQuick=q;
+  if(q!=='custom'){ galFrom=''; galTo='';
+    const f=document.getElementById('gal-from'), t=document.getElementById('gal-to');
+    if(f) f.value=''; if(t) t.value='';
+  }
+  galRenderToolbar(); galRenderGrid();
 }
 function galSetRange(){
   galFrom=document.getElementById('gal-from').value;
   galTo=document.getElementById('gal-to').value;
-  document.getElementById('gal-range-clear').classList.toggle('show',!!(galFrom||galTo));
-  galRenderGrid();
+  galQuick='custom';
+  galRenderToolbar(); galRenderGrid();
 }
-function galClearRange(){
-  galFrom=''; galTo='';
-  document.getElementById('gal-from').value='';
-  document.getElementById('gal-to').value='';
-  document.getElementById('gal-range-clear').classList.remove('show');
-  galRenderGrid();
+function galResetFilters(){
+  galFilter='all'; galQuick='all'; galSymbol='all'; galFrom=''; galTo='';
+  const f=document.getElementById('gal-from'), t=document.getElementById('gal-to');
+  if(f) f.value=''; if(t) t.value='';
+  galRenderToolbar(); galRenderGrid(); galCloseMenu();
 }
 function galRenderGrid(){
   const grid=document.getElementById('gal-grid'); if(!grid) return;
@@ -7132,11 +7349,12 @@ function galRenderGrid(){
       </div>`;
   }
   html+=items.map(it=>`
-    <div class="gal-card ${it.result}">
+    <div class="gal-card ${it.result}${it.starred?' star':''}">
       <div class="gal-img-wrap" onclick="galOpenView('${it.id}')">
         <img class="gal-img" src="${it.img}" loading="lazy" alt="chart">
         <div class="gal-chip-date">${galDateChip(it.taken_at)}</div>
         <div class="gal-chip-time">🕐 ${galTimeChip(it.taken_at)}</div>
+        ${it.starred?'<div class="gal-chip-star" title="ستاره‌دار و مهم">★</div>':''}
       </div>
       <div class="gal-body">
         <div class="gal-strip ${it.result}">
@@ -7145,43 +7363,55 @@ function galRenderGrid(){
         </div>
         <div class="gal-row2">
           <div class="gal-symbol">${galEsc(it.symbol)}</div>
-          ${it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:''}
-          ${it.rr?`<span class="gal-tag rr">RR ${galEsc(it.rr)}</span>`:''}
           <div class="gal-actions">
             <button type="button" class="gal-act" onclick="openGallerySheet('${it.id}')" title="ویرایش">✏️</button>
             <button type="button" class="gal-act del" onclick="galAskDelete('${it.id}')" title="حذف">🗑</button>
           </div>
         </div>
+        ${(it.strategy||it.rr)?`<div class="gal-tags">
+          ${it.rr?`<span class="gal-tag rr">RR ${galEsc(it.rr)}</span>`:''}
+          ${it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:''}
+        </div>`:''}
       </div>
     </div>`).join('');
-  if(!items.length&&galItems.length) html+=`<div class="gal-empty">با این فیلتر معامله‌ای پیدا نشد 🔍</div>`;
+  if(!items.length&&galItems.length){
+    const msg=galFilter==='star'
+      ? 'هنوز معامله‌ی ستاره‌داری نداری ⭐ — موقع ثبت معامله، کلید «ستاره‌دار و مهم» را روشن کن'
+      : 'با این فیلتر معامله‌ای پیدا نشد 🔍';
+    html+=`<div class="gal-empty">${msg}</div>`;
+  }
   grid.innerHTML=html;
 }
 function galSetFilter(f){ galFilter=f; galRenderToolbar(); galRenderGrid(); }
-function galSetSymbol(s){ galSymbol=s; galRenderGrid(); }
+function galSetSymbol(s){ galSymbol=s; galRenderToolbar(); galRenderGrid(); }
 
 // ---------- شیت افزودن / ویرایش ----------
 function galToLocalInput(d){ const p=n=>String(n).padStart(2,'0');
   return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes()); }
-function openGallerySheet(id){
+/* prefill (اختیاری) از دکمه‌ی «ثبت در گالری» هر پوزیشن در ژورنال می‌آید:
+   {symbol,result,pnl,taken} — کاربر فقط عکس را می‌گذارد و ذخیره می‌کند. */
+function openGallerySheet(id,prefill){
   // ویرایش همیشه آزاد است (کاربر رایگان هم باید همان ۳ عکس خودش را اصلاح کند)؛
   // فقط «افزودنِ تازه» به سقف رایگان محدود می‌شود.
   if(!id && !galCanAdd()){ galLockedMsg(); return; }
   galEditId=id||null;
   const it=id?galItems.find(i=>i.id===id):null;
   galPendingImg=it?it.img:null;
-  document.getElementById('gal-sheet-title').textContent=it?'✏️ ویرایش معامله':'📸 افزودن معامله به گالری';
+  document.getElementById('gal-sheet-title').textContent=
+    it?'✏️ ویرایش معامله':(prefill?'📸 ثبت این پوزیشن در گالری':'📸 افزودن معامله به گالری');
   const pv=document.getElementById('gal-preview'), de=document.getElementById('gal-drop-empty'), sb=document.getElementById('gal-size-badge');
   sb.style.display='none';
   if(it&&it.img){ pv.src=it.img; pv.style.display='block'; de.style.display='none'; }
   else{ pv.removeAttribute('src'); pv.style.display='none'; de.style.display='flex'; }
-  document.getElementById('gal-symbol').value=it?it.symbol:'';
-  document.getElementById('gal-pnl').value=it?String(Math.abs(it.pnl)):'';
+  const p=prefill||{};
+  document.getElementById('gal-symbol').value=it?it.symbol:(p.symbol||'');
+  document.getElementById('gal-pnl').value=it?String(Math.abs(it.pnl)):(p.pnl!=null?String(p.pnl):'');
   document.getElementById('gal-rr').value=it?it.rr:'';
   document.getElementById('gal-strategy').value=it?it.strategy:'';
   document.getElementById('gal-note').value=it?it.note:'';
-  galSetResult(it?it.result:'win');
-  const d=it?new Date(it.taken_at):new Date();
+  galSetResult(it?it.result:(p.result||'win'));
+  galSetStar(it?!!it.starred:false);
+  const d=it?new Date(it.taken_at):(p.taken?new Date(p.taken):new Date());
   document.getElementById('gal-dt').value=galToLocalInput(isNaN(d)?new Date():d);
   // پیشنهاد نمادها و ستاپ‌های قبلی
   const syms=[...new Set(galItems.map(i=>i.symbol).concat((data.strategy&&data.strategy.markets)||[]))].filter(Boolean);
@@ -7190,12 +7420,22 @@ function openGallerySheet(id){
   document.getElementById('gal-strats-dl').innerHTML=strats.map(s=>`<option value="${galEsc(s)}">`).join('');
   document.getElementById('gallery-modal').classList.add('show');
 }
-function closeGallerySheet(){ document.getElementById('gallery-modal').classList.remove('show'); }
+function closeGallerySheet(){
+  document.getElementById('gallery-modal').classList.remove('show');
+  if(typeof galPrefillSrc!=='undefined') galPrefillSrc=null; // انصراف = بدون اتصال به پوزیشن
+}
 function galSetResult(r){
   galResult=r;
   document.getElementById('gal-res-win').classList.toggle('active',r==='win');
   document.getElementById('gal-res-loss').classList.toggle('active',r==='loss');
 }
+function galSetStar(on){
+  galStarInput=!!on;
+  const b=document.getElementById('gal-star-btn'), ic=document.getElementById('gal-star-ic');
+  if(b) b.classList.toggle('active',galStarInput);
+  if(ic) ic.textContent=galStarInput?'★':'☆';
+}
+function galToggleStar(){ galSetStar(!galStarInput); }
 async function galPickFile(file){
   if(!file) return;
   if(!/^image\//.test(file.type)){ showToast('فقط فایل عکس قابل قبول است 🖼'); return; }
@@ -7229,6 +7469,7 @@ function gallerySave(){
     rr:document.getElementById('gal-rr').value.trim(),
     strategy:document.getElementById('gal-strategy').value.trim(),
     note:document.getElementById('gal-note').value.trim(),
+    starred:galStarInput,
     taken_at:taken.toISOString(),
     img:galPendingImg, synced:false
   };
@@ -7237,7 +7478,10 @@ function gallerySave(){
     if(i>-1) galItems[i]=item; else galItems.unshift(item);
   } else galItems.unshift(item);
   galEditId=null;
+  // اگر این عکس از دکمه‌ی «ثبت در گالری» یک پوزیشن آمده، به همان پوزیشن وصلش کن
+  const linkSrc=(typeof galPrefillSrc!=='undefined')?galPrefillSrc:null;
   galSort(); galSaveLocal(); closeGallerySheet();
+  if(!wasEdit&&linkSrc&&typeof galLinkToPosition==='function') galLinkToPosition(linkSrc,item.id);
   galRenderToolbar(); galRenderGrid();
   showToast(wasEdit?'معامله ویرایش شد ✅':'معامله به گالری اضافه شد ✅');
   galCloudFlush(); // بدون await — اگر آفلاین بود، سر فرصت سینک می‌شود
@@ -7251,6 +7495,14 @@ function galDoDelete(){
   if(!id) return;
   const it=galItems.find(i=>i.id===id);
   galItems=galItems.filter(i=>i.id!==id);
+  // اتصالِ این عکس به پوزیشن‌های ژورنال هم برداشته شود تا دکمه‌ی «ثبت در گالری» برگردد
+  let unlinked=false;
+  [data.psychology,data.journal].forEach(store=>{
+    Object.values(store||{}).forEach(day=>{
+      (day&&day.positions||[]).forEach(p=>{ if(p.galId===id){ delete p.galId; unlinked=true; } });
+    });
+  });
+  if(unlinked) saveData();
   galSaveLocal(); galRenderToolbar(); galRenderGrid();
   if(it&&it.synced){
     let dels=[]; try{ dels=JSON.parse(localStorage.getItem(GAL_DEL_KEY())||'[]'); }catch(e){}
@@ -7265,6 +7517,7 @@ function galOpenView(id){
   const it=galItems.find(i=>i.id===id); if(!it) return;
   document.getElementById('gal-view-img').src=it.img;
   document.getElementById('gal-view-meta').innerHTML=
+    (it.starred?`<span class="gal-tag" style="background:rgba(245,200,79,.16);color:#f5c84f;border-color:rgba(245,200,79,.45)">★ مهم</span>`:'')+
     `<span class="gal-symbol">${galEsc(it.symbol)}</span>`+
     `<span class="gal-badge ${it.result}">${it.result==='win'?'WIN':'LOSS'}</span>`+
     `<span class="gal-pnl ${it.pnl<0?'neg':'pos'}">${galFmtPnl(it.pnl)}</span>`+
@@ -8066,6 +8319,9 @@ function mtMergeDays(daily){
         score       : oldP.score    || 0,
         mistakes    : oldP.mistakes || [],
         note        : oldP.note     || '',
+        // ساعت دستی و عکس گالریِ همان پوزیشن هم باید از سینک متاتریدر جان سالم ببرند
+        time        : oldP.time     || '',
+        galId       : oldP.galId    || '',
         // اطلاعات MT
         mtType      : t.type,
         mtSymbol    : t.symbol,
@@ -8092,7 +8348,12 @@ function mtMergeDays(daily){
     const needsSync = data.psychology[k].positions.length !== numTrades ||
                       data.psychology[k].positions.some(p=>!p.pnlValue);
     if(needsSync){
-      data.psychology[k].positions = newPositions.map(p=>Object.assign({},p));
+      // ساعت دستی و اتصال گالریِ سمت روانشناسی هم نگه داشته می‌شوند
+      const oldPsych = data.psychology[k].positions;
+      data.psychology[k].positions = newPositions.map((p,i)=>{
+        const o=oldPsych[i]||{};
+        return Object.assign({},p,{ time:p.time||o.time||'', galId:p.galId||o.galId||'' });
+      });
     } else {
       // فقط مقادیر مالی را به‌روز کن، روانشناسی را نگه‌دار
       newPositions.forEach((np,i)=>{
@@ -10390,6 +10651,9 @@ function openDayModal(y,m,d){
       if(jp.mtSymbol) psych.positions[i].mtSymbol = jp.mtSymbol;
       if(jp.mtOpenTime)  psych.positions[i].mtOpenTime  = jp.mtOpenTime;
       if(jp.mtCloseTime) psych.positions[i].mtCloseTime = jp.mtCloseTime;
+      // ساعت دستی و عکس گالری فقط وقتی از ژورنال می‌آیند که سمت روانشناسی خالی باشند
+      if(jp.time  && !psych.positions[i].time ) psych.positions[i].time  = jp.time;
+      if(jp.galId && !psych.positions[i].galId) psych.positions[i].galId = jp.galId;
     });
     // اگر psychology بیشتر دارد، اضافی‌ها حذف می‌شوند
     if(psych.positions.length > entry.positions.length)
@@ -10553,28 +10817,109 @@ function renderDayTradeRows(){
     const netSign   = pos.pnlSign==='loss' ? '-' : '+';
     const netVal    = parseFloat(val)||0;
     const netFmt    = netVal>0 ? `${netSign}$${Math.abs(netVal).toFixed(2)}` : '$0.00';
+    // ساعت و دقیقه‌ی پوزیشن: اگر از متاتریدر آمده خودکار پر می‌شود،
+    // وگرنه کاربر خودش وارد می‌کند. ویرایش دستی همیشه آزاد است.
+    const tm   = dayTradeTime(pos);
+    const auto = !pos.time && !!mtTimeOf(pos);
 
-    const row=document.createElement('div');
-    row.className='dts-row'+(hasMt?' dts-mt-row':'');
-    row.innerHTML=`
-      <div class="dts-num">${toFA(i+1)}</div>
-      ${hasMt ? `<div class="dts-mt-badge">
-        <span class="dts-type-icon">${typeIcon}</span>
-        <span class="dts-type-lbl">${typeLabel}</span>
-        <span class="dts-sym">${symLabel}</span>
-      </div>` : `<div class="dts-signs">
-        <button type="button" class="dts-sign profit ${pos.pnlSign!=='loss'?'active':''}" onclick="setDayTradeSign(${i},'profit')">✅</button>
-        <button type="button" class="dts-sign loss ${pos.pnlSign==='loss'?'active':''}" onclick="setDayTradeSign(${i},'loss')">❌</button>
-      </div>`}
-      <div class="dts-amount-box">
-        <span class="dts-cur">$</span>
-        <input type="number" class="dts-amount" min="0" step="0.01" placeholder="0.00" value="${val}" oninput="updateDayTradeAmount(${i},this.value)">
+    const item=document.createElement('div');
+    item.className='dts-item'+(hasMt?' mt':'');
+    item.innerHTML=`
+      <div class="dts-row">
+        <div class="dts-num">${toFA(i+1)}</div>
+        ${hasMt ? `<div class="dts-mt-badge">
+          <span class="dts-type-icon">${typeIcon}</span>
+          <span class="dts-type-lbl">${typeLabel}</span>
+          <span class="dts-sym">${symLabel}</span>
+        </div>` : `<div class="dts-signs">
+          <button type="button" class="dts-sign profit ${pos.pnlSign!=='loss'?'active':''}" onclick="setDayTradeSign(${i},'profit')">✅</button>
+          <button type="button" class="dts-sign loss ${pos.pnlSign==='loss'?'active':''}" onclick="setDayTradeSign(${i},'loss')">❌</button>
+        </div>`}
+        <div class="dts-amount-box">
+          <span class="dts-cur">$</span>
+          <input type="number" class="dts-amount" min="0" step="0.01" placeholder="0.00" value="${val}" oninput="updateDayTradeAmount(${i},this.value)">
+        </div>
+        ${hasMt ? `<span class="dts-net-badge ${pos.pnlSign==='loss'?'neg':'pos'}">${netFmt}</span>` : ''}
+        <button type="button" class="dts-del" onclick="deleteDayTrade(${i})">✕</button>
       </div>
-      ${hasMt ? `<span class="dts-net-badge ${pos.pnlSign==='loss'?'neg':'pos'}">${netFmt}</span>` : ''}
-      <button type="button" class="dts-del" onclick="deleteDayTrade(${i})">✕</button>`;
-    container.appendChild(row);
+      <div class="dts-row2">
+        <label class="dts-time-box${auto?' auto':''}" title="ساعت و دقیقه‌ی این پوزیشن">
+          <span class="dts-time-ic">ساعت</span>
+          <input type="time" class="dts-time" value="${tm}" onchange="setDayTradeTime(${i},this.value)">
+          ${auto?'<span class="dts-time-tag">خودکار</span>':''}
+        </label>
+        <button type="button" class="dts-gal-btn${pos.galId?' done':''}" onclick="openGalleryFromPosition(${i})" title="ثبت عکس چارت این پوزیشن در گالری شخصی">
+          <span class="dts-gal-ic">${pos.galId?'✅':'🖼'}</span><span>${pos.galId?'در گالری ثبت شد':'ثبت در گالری'}</span>
+        </button>
+      </div>`;
+    container.appendChild(item);
   });
   updateDayTradeSum();
+}
+
+/* ---------- ساعت و دقیقه‌ی هر پوزیشن ----------
+   منبع خودکار: mtOpenTime متاتریدر با قالب «YYYY.MM.DD HH:MM:SS».
+   اگر کاربر دستی وارد کند، pos.time نوشته می‌شود و بر مقدار خودکار اولویت دارد. */
+function mtTimeOf(pos){
+  const ot=pos&&pos.mtOpenTime;
+  const m=ot&&String(ot).match(/(\d{2}):(\d{2})/);
+  return m?(m[1]+':'+m[2]):'';
+}
+function dayTradeTime(pos){
+  if(pos&&pos.time&&/^\d{2}:\d{2}$/.test(pos.time)) return pos.time;
+  return mtTimeOf(pos);
+}
+function setDayTradeTime(i,val){
+  const positions=getDayPositions();
+  if(!positions[i])return;
+  positions[i].time=val||'';
+  // همان ساعت را در ژورنالِ همین روز هم نگه می‌داریم تا با سینک متاتریدر گم نشود
+  const j=data.journal[activeDayKey];
+  if(j&&j.positions&&j.positions[i]) j.positions[i].time=val||'';
+  saveData();
+  renderDayTradeRows();
+}
+
+/* ---------- «ثبت در گالری» از روی یک پوزیشن ----------
+   روز و ساعت پوزیشن، نماد، نتیجه و مبلغ خودکار در فرم گالری می‌نشیند؛
+   کاربر فقط عکس چارت را می‌گذارد و ذخیره می‌کند. */
+let galPrefillSrc=null;   // {day,idx} — برای وصل کردن عکس ذخیره‌شده به همان پوزیشن
+function openGalleryFromPosition(i){
+  const dayK=activeDayKey;
+  const positions=getDayPositions();
+  const pos=positions[i];
+  if(!dayK||!pos) return;
+
+  const amt=Math.abs(parseFloat(pos.pnlValue)||0);
+  const tm=dayTradeTime(pos)||'00:00';
+  const [Y,M,D]=dayK.split('-').map(Number);
+  const [hh,mm]=tm.split(':').map(Number);
+  const taken=new Date(Y,(M||1)-1,D||1,hh||0,mm||0);
+  const prefill={
+    symbol:(pos.mtSymbol||'').toUpperCase(),
+    result:pos.pnlSign==='loss'?'loss':'win',
+    pnl:amt>0?amt:'',
+    taken
+  };
+  galPrefillSrc={day:dayK,idx:i};
+
+  closeDayModal();
+  if(currentPage!=='journal') showPage('journal');
+  switchJournalTab(1);              // تب گالری شخصی — گالری هم همین‌جا لود می‌شود
+  // یک فریم صبر می‌کنیم تا تب و شبکه رندر شوند، بعد فرم بالا بیاید
+  setTimeout(()=>{
+    openGallerySheet(null,prefill);
+    if(!document.getElementById('gallery-modal').classList.contains('show')) galPrefillSrc=null;
+  },60);
+}
+// وقتی عکسِ آمده از یک پوزیشن ذخیره شد، شناسه‌اش را روی همان پوزیشن می‌نویسیم
+function galLinkToPosition(src,galId){
+  if(!src||!galId) return;
+  const p=data.psychology[src.day];
+  if(p&&p.positions&&p.positions[src.idx]) p.positions[src.idx].galId=galId;
+  const j=data.journal[src.day];
+  if(j&&j.positions&&j.positions[src.idx]) j.positions[src.idx].galId=galId;
+  saveData();
 }
 
 function updateDayTradeSum(){
@@ -10764,6 +11109,8 @@ function syncPsychologyPositionsToTradeCount(dKey,tradesCount){
         pnlSign : jp.pnlSign  ||'profit',
         pnlValue: jp.pnlValue ||'',
         score:0, mistakes:[], wins:[], mood:'', plan:'', note:'',
+        time        : jp.time||'',
+        galId       : jp.galId||'',
         mtType      : jp.mtType||'',
         mtSymbol    : jp.mtSymbol||'',
         mtOpenTime  : jp.mtOpenTime||'',
@@ -13012,7 +13359,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='82.5';
+const APP_VERSION='82.6';
 const MT5_EA_VERSION='1.30';
 const MT5_SVC_VERSION='1.30';
 (function(){

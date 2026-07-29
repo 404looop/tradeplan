@@ -21,12 +21,12 @@
 //+------------------------------------------------------------------+
 #property service
 #property copyright "TradePlan"
-#property version   "1.30"
+#property version   "1.40"
 #property description "Auto-sync closed positions + account balance to the TradePlan journal (chart-free background service)"
 
 input string InpToken     = "";   // توکن اتصال (فقط بار اول لازم است؛ ذخیره می‌شود)
-input int    InpFirstDays = 60;   // در اولین اجرا چند روزِ گذشته ارسال شود
-input int    InpDeepDays  = 60;   // با هر شروع سرویس، این چند روزِ اخیر دوباره ارسال و تصحیح شود
+input int    InpFirstDays = 90;   // در اولین نصب، کل ۳ ماه گذشته‌ی هیستوری ارسال می‌شود
+input int    InpDeepDays  = 90;   // با هر شروع سرویس، این چند روزِ اخیر دوباره ارسال و تصحیح شود
 input int    InpTimerSec  = 30;   // بازه‌ی بررسی (ثانیه)
 
 const string TP_HOST   = "https://lrcsbamzdoldopjklnqh.supabase.co";

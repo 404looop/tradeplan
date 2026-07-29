@@ -1061,15 +1061,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .cal-grid{width:100%;border-collapse:collapse;min-width:300px;direction:ltr;table-layout:fixed}
 .cal-grid th{font-size:10px;font-weight:900;color:#dbe7f7;text-shadow:0 0 10px rgba(219,231,247,.35);padding:6px 2px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);text-transform:uppercase;letter-spacing:.3px}
 /* week column (rightmost) — wider so the weekly P&L stands out */
-.cal-grid th.week-col{color:#FFD277;font-size:10px;width:15%;text-transform:none;text-shadow:0 0 11px rgba(255,210,119,.45)}
+.cal-grid th.week-col{color:#FFD277;font-size:10px;width:13%;text-transform:none;text-shadow:0 0 11px rgba(255,210,119,.45)}
 /* Sat & Sun columns — narrower still, freeing more horizontal room for weekday cells */
-.cal-grid th.weekend-th{color:#FFD277;opacity:1;text-shadow:0 0 11px rgba(255,210,119,.5);width:8.5%}
+/* ستون‌های آخر هفته کمی باریک‌ترند ولی نه آن‌قدر که نماد و تعداد معامله جا نشوند */
+.cal-grid th.weekend-th{color:#FFD277;opacity:1;text-shadow:0 0 11px rgba(255,210,119,.5);width:11.5%}
 .cal-grid td{padding:2px;vertical-align:top}
 .cal-grid td.week-cell{vertical-align:middle}
 
 /* Day cell */
 /* Calendar cells — deep-blue theme (empty), green (profit), red (loss) */
-.day-cell{min-height:clamp(62px,17.5vw,84px);border-radius:9px;border:1px solid rgba(78,168,255,.16);padding:4px 4px;cursor:pointer;transition:all var(--tr);position:relative;background:linear-gradient(180deg,#182845 0%,#101C33 100%);overflow:hidden;box-shadow:inset 0 1px 0 rgba(78,168,255,.05)}
+.day-cell{min-height:clamp(78px,21.5vw,104px);border-radius:9px;border:1px solid rgba(78,168,255,.16);padding:4px 4px;cursor:pointer;transition:all var(--tr);position:relative;background:linear-gradient(180deg,#182845 0%,#101C33 100%);overflow:hidden;box-shadow:inset 0 1px 0 rgba(78,168,255,.05);display:flex;flex-direction:column}
 .day-cell:active{opacity:.8}
 .day-cell.weekend-cell{box-shadow:inset 0 0 0 999px rgba(78,168,255,.05)}
 .day-cell.today{border-color:var(--gold)!important;box-shadow:0 0 0 1px var(--gold-border)!important}
@@ -1088,7 +1089,15 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .dc-pnl.pos{color:#5CFFA6;text-shadow:0 0 10px rgba(92,255,166,.4)}
 .dc-pnl.neg{color:#FF7C88;text-shadow:0 0 10px rgba(255,124,136,.4)}
 .dc-pnl.zero{color:var(--text-dim);text-shadow:none}
-.dc-trades{font-size:clamp(6.5px,2.1vw,8.5px);color:var(--text-warm-bright);font-weight:700;margin-top:1px;direction:rtl;text-align:right;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dc-trades{font-size:clamp(6.5px,2.1vw,8.5px);color:var(--text-warm-bright);font-weight:700;margin-top:1px;direction:rtl;text-align:right;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:clip}
+/* پرمعامله‌ترین نمادِ روز — نوار باریکِ پایین خانه، همیشه چسبیده به کف.
+   اندازه‌ی فونتِ خودِ نوار توسط fitDayPnl کوچک می‌شود تا در ستون‌های باریکِ
+   آخر هفته هم کامل و خوانا جا شود؛ بچه‌ها با em از همان تبعیت می‌کنند. */
+.dc-sym{margin-top:auto;padding-top:2px;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:clip;font-size:clamp(7px,2.3vw,9.5px)}
+.dc-sym-name{font-size:1em;font-weight:900;letter-spacing:-.1px;color:#FFD277;text-shadow:0 0 8px rgba(255,210,119,.28)}
+.dc-sym-x{font-size:.82em;font-weight:800;color:var(--text-muted);opacity:.85;margin-left:3px;font-variant-numeric:tabular-nums}
+.day-cell.has-profit .dc-sym-name,.day-cell.has-loss .dc-sym-name{color:#FFE7B0;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.day-cell.has-profit .dc-sym-x,.day-cell.has-loss .dc-sym-x{color:rgba(255,255,255,.68)}
 
 /* Week summary cell — larger, price font matches day cells */
 .week-summary-cell{background:rgba(232,160,32,.07);border-radius:9px;border:1px solid var(--gold-border);padding:8px 4px;text-align:center}
@@ -1186,6 +1195,14 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .day-note-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 12px;color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:13px;line-height:1.75;resize:vertical;min-height:62px;box-sizing:border-box;transition:border-color .2s}
 .day-note-input:focus{outline:none;border-color:var(--gold-border)}
 .day-note-input::placeholder{color:var(--text-dim)}
+/* نوارِ «این روز دستی ویرایش شده» در فرم روز */
+.day-manual-chip{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:13px;padding:9px 11px;border-radius:12px;
+  background:rgba(244,200,106,.08);border:1px solid rgba(244,200,106,.32)}
+.dmc-ic{font-size:14px;line-height:1;flex-shrink:0}
+.dmc-txt{flex:1;min-width:140px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.85}
+.dmc-btn{flex-shrink:0;padding:6px 11px;border-radius:9px;border:1px solid rgba(244,200,106,.45);background:rgba(244,200,106,.12);
+  color:#F4C86A;font-family:'Vazirmatn',sans-serif;font-size:10px;font-weight:900;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.dmc-btn:active{transform:scale(.97)}
 .dts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
 .dts-sum{font-size:11.5px;font-weight:800;color:var(--gold);direction:ltr}
 #day-trades-rows{max-height:290px;overflow-y:auto;padding:2px 4px 2px 2px;scrollbar-width:thin;scrollbar-color:rgba(232,160,32,.4) transparent}
@@ -1195,7 +1212,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .dts-item{background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.075);border-radius:11px;padding:7px;margin-bottom:7px}
 .dts-item.mt{border-color:rgba(59,130,246,.22);background:rgba(59,130,246,.045)}
 .dts-row{display:flex;align-items:center;gap:6px}
-.dts-row2{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(255,255,255,.09)}
+.dts-row2{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(255,255,255,.09)}
 /* نشان اطلاعات متاتریدر (نوع و نماد پوزیشن) */
 .dts-mt-badge{display:flex;align-items:center;gap:4px;flex-shrink:0;padding:5px 8px;border-radius:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.28);max-width:44%;overflow:hidden}
 .dts-type-icon{font-size:9px;line-height:1}
@@ -1212,17 +1229,36 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .dts-time{flex:1;min-width:0;width:100%;background:none;border:none;outline:none;font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:800;color:var(--text);padding:6px 0;direction:ltr;text-align:left;color-scheme:dark;font-variant-numeric:tabular-nums}
 .dts-time::-webkit-calendar-picker-indicator{filter:invert(.75);cursor:pointer;opacity:.7;margin:0}
 .dts-time-tag{font-size:8.5px;font-weight:800;color:#93c5fd;flex-shrink:0;opacity:.9}
+/* نماد هر پوزیشن — دستی با پیشنهاد خودکار، یا ثابت وقتی از متاتریدر آمده */
+.dts-sym-box{display:flex;align-items:center;gap:5px;flex:1 1 104px;min-width:0;background:rgba(244,200,106,.06);border:1px solid rgba(244,200,106,.22);border-radius:8px;padding:0 8px;transition:border-color var(--tr),background var(--tr)}
+.dts-sym-box:focus-within{border-color:var(--gold);background:rgba(244,200,106,.12)}
+.dts-sym-box.auto{border-color:rgba(59,130,246,.32);background:rgba(59,130,246,.07)}
+.dts-sym-ic{font-size:9.5px;font-weight:800;color:var(--text-muted);flex-shrink:0}
+.dts-sym-inp{flex:1;min-width:0;width:100%;background:none;border:none;outline:none;font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:900;color:#F4C86A;padding:6px 0;direction:ltr;text-align:left;text-transform:uppercase;letter-spacing:.3px}
+.dts-sym-inp::placeholder{color:rgba(255,255,255,.24);font-weight:700;letter-spacing:0}
+.dts-sym-fixed{flex:1;min-width:0;font-size:12.5px;font-weight:900;color:#cfe1ff;direction:ltr;text-align:left;padding:6px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.3px}
 /* دکمه‌ی «ثبت در گالری» هر پوزیشن */
 .dts-gal-btn{display:flex;align-items:center;gap:5px;flex-shrink:0;padding:7px 11px;border-radius:8px;border:1px solid rgba(232,160,32,.42);background:linear-gradient(to left,rgba(232,160,32,.16),rgba(232,160,32,.05));color:var(--gold);font-family:'Vazirmatn',sans-serif;font-size:10.5px;font-weight:900;cursor:pointer;transition:all var(--tr);white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .dts-gal-btn:hover{background:rgba(232,160,32,.24);border-color:var(--gold)}
 .dts-gal-btn:active{transform:scale(.96)}
 .dts-gal-btn.done{border-color:rgba(34,197,94,.45);background:linear-gradient(to left,rgba(34,197,94,.16),rgba(34,197,94,.04));color:#4ade80}
 .dts-gal-ic{font-size:12px;line-height:1}
+@media (max-width:520px){
+  /* موبایل: خط دوم دو ستون می‌شود (نماد | ساعت) و دکمه‌ی گالری تمام‌عرض زیرشان */
+  .dts-sym-box,.dts-time-box{flex:1 1 calc(50% - 3px)}
+  .dts-gal-btn{flex:1 1 100%;justify-content:center}
+}
 @media (max-width:420px){
   .dts-gal-btn{padding:7px 9px;font-size:9.5px;gap:4px}
   .dts-time{font-size:11.5px}
+  .dts-sym-inp,.dts-sym-fixed{font-size:11.5px}
   .dts-mt-badge{padding:5px 6px;gap:3px}
 }
+/* خط جزئیاتِ متاتریدر (حجم و قیمت ورود/خروج) زیر هر پوزیشنِ خودکار */
+.dts-mtinfo{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(59,130,246,.16);font-size:10px;font-weight:700}
+.dtsi-k{color:rgba(255,255,255,.42)}
+.dtsi-v{color:#cfe1ff;direction:ltr;font-variant-numeric:tabular-nums;letter-spacing:.2px}
+.dtsi-sep{color:rgba(255,255,255,.2);margin:0 3px}
 .dts-num{width:19px;height:19px;border-radius:6px;background:rgba(232,160,32,.12);border:1px solid var(--gold-border);color:var(--gold);font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dts-signs{display:flex;gap:3px;flex-shrink:0}
 .dts-sign{width:26px;height:28px;border-radius:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr);opacity:.45;-webkit-tap-highlight-color:transparent}
@@ -3492,18 +3528,55 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .acct-card{margin:10px 14px 0;padding:clamp(9px,2.6vw,12px) clamp(11px,3.4vw,15px);border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(150deg,#16304f,#0d1f3c 58%,#0a1830);border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
 .acct-card::before{content:'';position:absolute;top:-46px;right:-34px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.16),transparent 70%);pointer-events:none}
 .acct-num{font-family:'Segoe UI','SF Pro Display','Helvetica Neue',Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:embed}
-.acct-top{display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(8px,2.5vw,14px);position:relative;flex-wrap:nowrap;min-width:0}
+/* ── سر کارت (همیشه دیده می‌شود و کل کارت را باز/بسته می‌کند) ── */
+.acct-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,2.5vw,14px);
+  background:none;border:none;padding:0;margin:0;cursor:pointer;text-align:right;font-family:'Vazirmatn',sans-serif;
+  position:relative;z-index:1;min-width:0;-webkit-tap-highlight-color:transparent}
+.acct-head:active{opacity:.85}
+.acct-head-main{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.acct-head-side{display:flex;align-items:center;gap:clamp(6px,1.8vw,9px);flex-shrink:0}
+.acct-chip{font-size:clamp(8.5px,2.2vw,10px);font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6)}
+.acct-chip.live{background:rgba(34,197,94,.13);border-color:rgba(34,197,94,.4);color:#6ee7a8}
+.acct-chip.off{background:rgba(244,200,106,.12);border-color:rgba(244,200,106,.42);color:#F4C86A}
+.acct-caret{font-size:16px;line-height:1;color:var(--gold);opacity:.75;transition:transform .38s cubic-bezier(.4,0,.2,1);flex-shrink:0}
+.acct-card.open .acct-caret{transform:rotate(180deg)}
+/* ── بدنه‌ی کشویی ── */
+.acct-body{max-height:0;overflow:hidden;opacity:0;position:relative;z-index:1;
+  transition:max-height .42s cubic-bezier(.4,0,.2,1),opacity .3s ease}
+.acct-card.open .acct-body{max-height:560px;opacity:1}
+.acct-body-in{padding-top:clamp(9px,2.4vw,12px);margin-top:clamp(8px,2.2vw,11px);border-top:1px dashed rgba(232,160,32,.24)}
+.acct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:clamp(7px,2vw,10px)}
+.acct-cell{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:8px 10px;min-width:0}
+.acct-mini{font-size:clamp(12px,3.2vw,14.5px);font-weight:800;color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acct-mini.pos{color:#6ee7a8}
+.acct-mini.neg{color:#f78b96}
+/* ── کلید ثبت خودکار ── */
+.acct-auto{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:clamp(8px,2.2vw,11px);
+  padding:clamp(9px,2.4vw,12px);border-radius:13px;background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.24);transition:background .25s,border-color .25s}
+.acct-card.autooff .acct-auto{background:rgba(244,200,106,.07);border-color:rgba(244,200,106,.3)}
+.aa-txt{min-width:0;flex:1}
+.aa-title{font-size:clamp(10.5px,2.7vw,12px);font-weight:900;color:var(--text);margin-bottom:3px}
+.aa-sub{font-size:clamp(9px,2.3vw,10.5px);font-weight:600;color:rgba(255,255,255,.55);line-height:1.75}
+.aa-switch{display:flex;align-items:center;gap:7px;flex-shrink:0;background:none;border:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.aa-track{width:46px;height:26px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+  position:relative;display:block;transition:background .3s,border-color .3s;flex-shrink:0}
+.aa-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#8496ad;
+  box-shadow:0 2px 6px rgba(0,0,0,.45);transition:transform .3s cubic-bezier(.4,0,.2,1),background .3s}
+.aa-switch[aria-checked="true"] .aa-track{background:rgba(34,197,94,.28);border-color:rgba(34,197,94,.55)}
+.aa-switch[aria-checked="true"] .aa-knob{transform:translateX(20px);background:#34d399;box-shadow:0 2px 10px rgba(52,211,153,.6)}
+.aa-state{font-size:10px;font-weight:900;letter-spacing:.6px;color:rgba(255,255,255,.45);direction:ltr;width:26px;text-align:left}
+.aa-switch[aria-checked="true"] .aa-state{color:#34d399}
 .acct-label{font-size:clamp(9px,2.4vw,10.5px);font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
 .acct-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:acctPulse 2.2s ease-in-out infinite;flex-shrink:0}
 @keyframes acctPulse{0%,100%{opacity:1}50%{opacity:.3}}
 .acct-balance{font-size:clamp(20px,6.4vw,27px);font-weight:800;line-height:1.2;letter-spacing:.4px;white-space:nowrap;background:linear-gradient(180deg,#86efac 0%,#22c55e 55%,#15803d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(34,197,94,.35));animation:acctGlow 3s ease-in-out infinite}
 @keyframes acctGlow{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,197,94,.28))}50%{filter:drop-shadow(0 3px 22px rgba(34,197,94,.6))}}
-.acct-dep{text-align:left;padding-bottom:3px}
-.acct-dep-label{font-size:clamp(8px,2.1vw,9px);font-weight:800;color:rgba(255,255,255,.45);letter-spacing:.6px;margin-bottom:2px;white-space:nowrap}
+.acct-dep-label{font-size:clamp(8px,2.1vw,9px);font-weight:800;color:rgba(255,255,255,.45);letter-spacing:.4px;margin-bottom:4px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acct-dep-box{display:flex;align-items:center;gap:4px;direction:ltr;color:rgba(255,255,255,.82);font-size:clamp(12px,3.2vw,14px);font-weight:700}
 .acct-dep-cur{font-size:clamp(11px,2.9vw,13px);font-weight:900;color:#F4C86A;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
 .acct-deposit-input{
-  width:clamp(58px,17vw,72px);max-width:72px;box-sizing:border-box;
+  width:100%;min-width:0;box-sizing:border-box;
   background:linear-gradient(150deg,rgba(244,200,106,.1),rgba(0,0,0,.3));
   border:1px solid rgba(244,200,106,.35);border-radius:10px;
   outline:none;color:#fff;font-size:clamp(11.5px,3vw,13px);font-weight:800;
@@ -3523,7 +3596,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   box-shadow:inset 0 1px 4px rgba(0,0,0,.25),0 0 0 2px rgba(244,200,106,.18),0 0 18px rgba(244,200,106,.35);
 }
 .acct-deposit-input::placeholder{color:rgba(255,255,255,.28)}
-.acct-sync{margin-top:7px;padding-top:6px;border-top:1px dashed rgba(232,160,32,.22);font-size:clamp(9px,2.3vw,10px);font-weight:600;color:rgba(255,255,255,.55);position:relative}
+.acct-sync{margin-top:9px;padding-top:8px;border-top:1px dashed rgba(232,160,32,.22);font-size:clamp(9px,2.3vw,10px);font-weight:600;color:rgba(255,255,255,.55);position:relative;line-height:1.8}
 .acct-card.waiting .acct-live{background:#8496ad;box-shadow:none;animation:none}
 .acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
 
@@ -3855,6 +3928,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .pq-chip:active{transform:scale(.94)}
 .pq-chip.on{background:rgba(244,200,106,.2);border-style:solid;border-color:var(--gold);color:#fff2cf;box-shadow:0 3px 12px rgba(244,200,106,.25)}
 .pq-mt5{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:800;color:#93c5fd;background:rgba(99,179,255,.1);border:1px solid rgba(99,179,255,.3);border-radius:8px;padding:3px 7px;direction:ltr}
+.pq-mt5.manual{color:#F4C86A;background:rgba(244,200,106,.1);border-color:rgba(244,200,106,.32)}
 .position-pnl-input-box.locked{opacity:.75}
 .position-pnl-input-box.locked input{pointer-events:none}
 
@@ -4258,12 +4332,16 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
      بقیه‌ی بخش‌ها زیرش با اسکرول عادی */
   #page-journal{padding:0 12px 30px}
   #page-journal .cal-wrap{padding:12px 8px 0}
-  #page-journal .day-cell{min-height:134px;padding:9px 10px;border-radius:12px}
+  #page-journal .day-cell{min-height:158px;padding:9px 10px;border-radius:12px}
   #page-journal .dc-greg{font-size:19px}
   #page-journal .dc-shamsi{font-size:11px}
   /* سود/ضرر روز: بزرگ و پرکننده‌ی خانه؛ اگر عدد خیلی بلند شد به‌جای سرریز، کمی جمع می‌شود */
   #page-journal .dc-pnl{font-size:clamp(20px,2.1vw,30px);margin-top:6px}
   #page-journal .dc-trades{font-size:12.5px}
+  /* نماد روز در دسکتاپ: کارتِ کوچکِ خوانا در کف خانه */
+  #page-journal .dc-sym{padding-top:6px;gap:5px}
+  #page-journal .dc-sym-name{font-size:clamp(12px,1.15vw,15px);letter-spacing:.2px}
+  #page-journal .dc-sym-x{font-size:11px}
   #page-journal .week-summary-cell{padding:16px 6px}
   #page-journal .wsc-label{font-size:12px}
   #page-journal .wsc-val{font-size:clamp(18px,1.9vw,27px)}
@@ -4461,7 +4539,7 @@ body.mnt-bannered{padding-top:28px}
       <a class="rec-back" onclick="recFormClose()">‹ برگشت به ورود</a>
     </form>
     <div class="auth-hint" id="auth-hint">حساب نداری؟ <a onclick="setAuthMode('signup')">ثبت‌نام کن</a><br><a class="auth-forgot" onclick="authForgot()">رمزت رو فراموش کردی؟</a></div>
-    <div class="auth-ver" id="auth-version">TradePlan v77.5</div>
+    <div class="auth-ver" id="auth-version">TradePlan v83.0</div>
   </div>
 </div>
 
@@ -4526,7 +4604,7 @@ body.mnt-bannered{padding-top:28px}
       <div class="mg-step">
         <div class="mg-step-head"><span class="mg-num">۱</span>دانلود اکسپرت</div>
         <div class="mg-step-body">
-          <a class="mg-dl" id="mt5-ea-dl" href="TradePlanSync.mq5" download="TradePlanSync-v1.30.mq5">⬇️ دانلود اکسپرت TradePlanSync v1.30</a>
+          <a class="mg-dl" id="mt5-ea-dl" href="TradePlanSync.mq5" download="TradePlanSync-v1.40.mq5">⬇️ دانلود اکسپرت TradePlanSync v1.40</a>
           <div class="mg-note">⚠️ این قدم‌ها را روی همان کامپیوترِ متاتریدر انجام بده.</div>
         </div>
       </div>
@@ -4587,6 +4665,7 @@ body.mnt-bannered{padding-top:28px}
           <div class="mg-li">بالای چارت: <span class="mg-k">TradePlanSync</span> با کلاه آبی 🎩 (خاکستری = Algo Trading خاموش)</div>
           <div class="mg-li">تب <span class="mg-k">Experts</span> پایین متاتریدر: پیام <span class="mg-k">started for account</span></div>
           <div class="mg-li">یک معامله ببند — پیام <span class="mg-k">batch sent OK</span> می‌آید و در ژورنال ثبت می‌شود 🎉</div>
+          <div class="mg-note">🗂 در همان اولین اجرا، <b>۳ ماه گذشته‌ی هیستوری حسابت</b> خودکار خوانده می‌شود و همه‌ی پوزیشن‌ها با نماد، تاریخ، ساعت، حجم و سود خالص در فرم روزهای ژورنال می‌نشینند. اگر خواستی ژورنال را دستی بنویسی، کلید <b>«ثبت خودکار معاملات»</b> در کارت بالای صفحه‌ی ژورنال را خاموش کن.</div>
         </div>
       </div>
 
@@ -4609,7 +4688,7 @@ body.mnt-bannered{padding-top:28px}
       <div class="mg-step mg-svc">
         <div class="mg-step-head"><span class="mg-num mg-num-svc">۱</span>دانلود فایل سرویس</div>
         <div class="mg-step-body">
-          <a class="mg-dl mg-dl-svc" id="mt5-svc-dl" href="TradePlanSyncService.mq5" download="TradePlanSyncService-v1.30.mq5">⬇️ دانلود سرویس TradePlanSyncService v1.30</a>
+          <a class="mg-dl mg-dl-svc" id="mt5-svc-dl" href="TradePlanSyncService.mq5" download="TradePlanSyncService-v1.40.mq5">⬇️ دانلود سرویس TradePlanSyncService v1.40</a>
           <div class="mg-note">⚠️ این قدم‌ها را روی همان کامپیوترِ متاتریدر انجام بده.</div>
         </div>
       </div>
@@ -4948,19 +5027,52 @@ body.mnt-bannered{padding-top:28px}
   <!-- Panel 0: TRADES — کل محتوای فعلی ژورنال -->
   <div class="journal-panel active" id="jpanel-trades">
 
-  <!-- MT5 ACCOUNT — live balance / deposit / last sync (from MetaTrader) -->
+  <!-- MT5 ACCOUNT — کارت کشویی: سر کارت همیشه بالانس را نشان می‌دهد،
+       بدنه با یک کلیک باز می‌شود (سرمایه اولیه، سود ژورنال، کلید ثبت خودکار، آخرین سینک) -->
   <div class="acct-card waiting" id="acct-card">
-    <div class="acct-top">
-      <div>
-        <div class="acct-label"><span class="acct-live"></span>بالانس حساب</div>
-        <div class="acct-balance acct-num" id="acct-balance">—</div>
-      </div>
-      <div class="acct-dep">
-        <div class="acct-dep-label">DEPOSIT · سرمایه اولیه ✏️</div>
-        <div class="acct-dep-box acct-num"><span class="acct-dep-cur">$</span><input class="acct-deposit-input" id="acct-deposit-input" type="text" inputmode="decimal" placeholder="0.00" dir="ltr" onblur="acctDepositBlur(this)"></div>
+    <button type="button" class="acct-head" id="acct-head" onclick="toggleAcctCard()" aria-expanded="false" aria-controls="acct-body">
+      <span class="acct-head-main">
+        <span class="acct-label"><span class="acct-live"></span>بالانس حساب</span>
+        <span class="acct-balance acct-num" id="acct-balance">—</span>
+      </span>
+      <span class="acct-head-side">
+        <span class="acct-chip" id="acct-chip">…</span>
+        <span class="acct-caret" aria-hidden="true">⌄</span>
+      </span>
+    </button>
+
+    <div class="acct-body" id="acct-body">
+      <div class="acct-body-in">
+        <div class="acct-grid">
+          <div class="acct-cell">
+            <div class="acct-dep-label">💰 سرمایه اولیه ✏️</div>
+            <div class="acct-dep-box acct-num"><span class="acct-dep-cur">$</span><input class="acct-deposit-input" id="acct-deposit-input" type="text" inputmode="decimal" placeholder="0.00" dir="ltr" onblur="acctDepositBlur(this)"></div>
+          </div>
+          <div class="acct-cell">
+            <div class="acct-dep-label">سود/زیان ثبت‌شده</div>
+            <div class="acct-mini acct-num" id="acct-pnl">—</div>
+          </div>
+          <div class="acct-cell">
+            <div class="acct-dep-label">شماره حساب</div>
+            <div class="acct-mini acct-num" id="acct-login">—</div>
+          </div>
+        </div>
+
+        <!-- کلید روشن/خاموشِ ثبت خودکار معاملات از اکسپرت -->
+        <div class="acct-auto" id="acct-auto">
+          <div class="aa-txt">
+            <div class="aa-title">🤖 ثبت خودکار معاملات از متاتریدر</div>
+            <div class="aa-sub" id="acct-auto-sub">روشن است — هر پوزیشنی که در متاتریدر ببندی خودکار در ژورنال ثبت می‌شود.</div>
+          </div>
+          <button type="button" class="aa-switch" id="acct-auto-sw" role="switch" aria-checked="true" onclick="toggleMtAutoSync()">
+            <span class="aa-track"><span class="aa-knob"></span></span>
+            <span class="aa-state" id="acct-auto-state">ON</span>
+          </button>
+        </div>
+
+        <div class="acct-sync" id="acct-sync">⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد</div>
       </div>
     </div>
-    <div class="acct-sync" id="acct-sync">⏳ در انتظار اولین داده از متاتریدر — اکسپرت یا سرویس TradePlanSync باید در متاتریدر روشن باشد</div>
   </div>
 
   <!-- month nav -->
@@ -5775,7 +5887,7 @@ body.mnt-bannered{padding-top:28px}
       </svg>
       <span class="cl-handle">@tradeplann</span>
     </a>
-    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 77.5 — اکسپرت متاتریدر: v1.30</div>
+    <div class="credit-text" id="app-version-line" style="font-size:10px;color:var(--text-dim);margin-top:3px">نسخه برنامه: 83.0 — اکسپرت متاتریدر: v1.40</div>
   </div>
   </div><!-- /set-cols -->
 </div>
@@ -5924,7 +6036,7 @@ body.mnt-bannered{padding-top:28px}
       <div class="modal-row">
         <div style="flex:1">
           <div class="modal-label">نماد</div>
-          <input type="text" id="sigf-symbol" dir="ltr" placeholder="XAUUSD" maxlength="40">
+          <input type="text" id="sigf-symbol" dir="ltr" placeholder="XAUUSD" maxlength="40" list="sym-dl">
         </div>
         <div style="flex:1">
           <div class="modal-label">جهت معامله</div>
@@ -6143,6 +6255,12 @@ body.mnt-bannered{padding-top:28px}
       <span class="save-dot" id="day-save-dot"></span>
     </div>
     <div id="day-modal-subtitle" style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:14px;direction:ltr;text-align:right"></div>
+    <!-- قفلِ ویرایش دستی: این روز را اکسپرت بازنویسی نمی‌کند -->
+    <div class="day-manual-chip" id="day-manual-chip" style="display:none">
+      <span class="dmc-ic">✏️</span>
+      <span class="dmc-txt">این روز را دستی ویرایش کرده‌ای، پس اکسپرت دیگر عددهایش را عوض نمی‌کند.</span>
+      <button type="button" class="dmc-btn" onclick="unlockDayFromMt()">🔄 همگام‌سازی دوباره</button>
+    </div>
     <div class="modal-form">
       <div>
         <div class="modal-label">نوع نتیجه</div>
@@ -6185,6 +6303,9 @@ body.mnt-bannered{padding-top:28px}
     </div>
   </div>
 </div>
+
+<!-- فهرست مشترک نمادها: هر کادر نمادی در برنامه با list="sym-dl" از همین تغذیه می‌شود -->
+<datalist id="sym-dl"></datalist>
 
 <!-- Position psychology detail modal -->
 <div class="modal-overlay" id="position-modal">
@@ -6393,8 +6514,9 @@ function loadData(){
       postChecklist:DEFAULT_POST.map((t,i)=>({id:'post_'+i,text:t,checked:false})),
       goldenRules:DEFAULT_GOLDEN.map((t,i)=>({id:'gr_'+i,text:t})),
       mind:{mood:'',confidence:'',riskMood:'',affirmation:'',yesterdayReview:'',lossProtocol:'',profitProtocol:''},
-      journal:{}, // key: "YYYY-MM-DD" => {pnl: number (signed), trades: number}
+      journal:{}, // key: "YYYY-MM-DD" => {pnl: number (signed), trades: number, manual?: true}
       psychology:{}, // key: "YYYY-MM-DD" => {positions:[...]}
+      symbols:[], // نمادهای معامله‌شده‌ی کاربر — برای پیشنهاد خودکار در همه‌ی کادرهای نماد
       prop:{} // فرم پراپ — key: id فیلد => مقدار (رجوع به PROP_FIELDS)
     };
     saveData();
@@ -6957,6 +7079,7 @@ async function signalSave(){
   if(!SB||!CURRENT_USER){ showToast('برای ثبت سیگنال باید آنلاین باشی'); return; }
   const symbol=document.getElementById('sigf-symbol').value.trim();
   if(!symbol){ showToast('نماد سیگنال را وارد کن'); return; }
+  symLearn(symbol);   // نماد برای دفعات بعد پیشنهاد داده می‌شود
   const payload={
     symbol:symbol.slice(0,40), direction:_sigFormDir,
     entry:document.getElementById('sigf-entry').value.trim().slice(0,60),
@@ -7494,9 +7617,8 @@ function openGallerySheet(id,prefill){
   galSetStar(it?!!it.starred:false);
   const d=it?new Date(it.taken_at):(p.taken?new Date(p.taken):new Date());
   document.getElementById('gal-dt').value=galToLocalInput(isNaN(d)?new Date():d);
-  // پیشنهاد نمادها و ستاپ‌های قبلی
-  const syms=[...new Set(galItems.map(i=>i.symbol).concat((data.strategy&&data.strategy.markets)||[]))].filter(Boolean);
-  document.getElementById('gal-symbols-dl').innerHTML=syms.map(s=>`<option value="${galEsc(s)}">`).join('');
+  // پیشنهاد نمادها — از حافظه‌ی مشترک نمادهای برنامه (ثبت‌شده‌ها + معروف‌ها)
+  symFillDatalists();
   const strats=[...new Set(galItems.map(i=>i.strategy).concat((data.strategy&&data.strategy.setups)||[]))].filter(Boolean);
   document.getElementById('gal-strats-dl').innerHTML=strats.map(s=>`<option value="${galEsc(s)}">`).join('');
   document.getElementById('gallery-modal').classList.add('show');
@@ -7538,6 +7660,7 @@ function gallerySave(){
   if(!galEditId && !galCanAdd()){ closeGallerySheet(); galLockedMsg(); return; }
   const symbol=document.getElementById('gal-symbol').value.trim().toUpperCase();
   if(!symbol){ showToast('نماد معامله را بنویس (مثلاً XAU/USD)'); return; }
+  symLearn(symbol);   // نماد برای دفعات بعد پیشنهاد داده می‌شود
   const amt=Math.abs(parseFloat(galNum(document.getElementById('gal-pnl').value))||0);
   const dtv=document.getElementById('gal-dt').value;
   let taken=dtv?new Date(dtv):new Date();
@@ -8420,13 +8543,20 @@ function renderMtPreview(parsed){
 
 // ادغام تریدهای متاتریدر در ژورنال — مسیر مشترک ایمپورت فایل و سینک ابری (اکسپرت).
 // daily: {"YYYY-MM-DD": [{openTime,closeTime,type,symbol,volume,openPrice,closePrice,profit,ticket?}]}
-function mtMergeDays(daily){
+// opts.force = true  → قفلِ «ویرایش دستی» را هم نادیده بگیر (فقط ایمپورت دستی فایل
+//                      و دکمه‌ی «همگام‌سازی دوباره‌ی این روز» این کار را می‌کنند)
+function mtMergeDays(daily, opts){
   const dates   = Object.keys(daily).sort();
-  let imported  = 0, updated = 0, skipped = 0;
+  const force   = !!(opts && opts.force);
+  let imported  = 0, updated = 0, skipped = 0, locked = 0;
 
   dates.forEach(k => {
     const trades  = daily[k];
     const existed = data.journal[k] && data.journal[k].trades > 0;
+
+    // روزی که کاربر دستی ویرایش کرده قفل است: اکسپرت دیگر عددهایش را عوض نمی‌کند
+    // (در فرم همان روز، دکمه‌ی «همگام‌سازی دوباره با متاتریدر» قفل را باز می‌کند)
+    if(!force && data.journal[k] && data.journal[k].manual){ locked++; skipped++; return; }
 
     // محاسبه جمع profit روز (فقط ستون Profit از MT)
     const dayPnl   = Math.round(trades.reduce((s,t)=>s+t.profit,0)*100)/100;
@@ -8463,8 +8593,9 @@ function mtMergeDays(daily){
         score       : oldP.score    || 0,
         mistakes    : oldP.mistakes || [],
         note        : oldP.note     || '',
-        // ساعت دستی و عکس گالریِ همان پوزیشن هم باید از سینک متاتریدر جان سالم ببرند
+        // ساعت دستی، نماد دستی و عکس گالریِ همان پوزیشن هم باید از سینک متاتریدر جان سالم ببرند
         time        : oldP.time     || '',
+        symbol      : oldP.symbol   || '',
         galId       : oldP.galId    || '',
         // اطلاعات MT
         mtType      : t.type,
@@ -8523,16 +8654,20 @@ function mtMergeDays(daily){
       }
     }
 
+    // نمادهای متاتریدر هم وارد حافظه‌ی نمادها می‌شوند تا در ثبت دستی پیشنهاد شوند
+    trades.forEach(t => { if(t.symbol) symLearn(t.symbol); });
+
     if(existed) updated++; else imported++;
   });
 
-  return {imported:imported, updated:updated, skipped:skipped, dates:dates};
+  return {imported:imported, updated:updated, skipped:skipped, locked:locked, dates:dates};
 }
 
 function applyMtImport(){
   if(!_mtParsedData){ showToast('❌ ابتدا فایل را انتخاب کنید'); return; }
 
-  const res     = mtMergeDays(_mtParsedData);
+  // ایمپورت دستیِ فایل خواستِ صریح کاربر است، پس قفلِ روزهای دستی را هم باز می‌نویسد
+  const res     = mtMergeDays(_mtParsedData,{force:true});
   const dates   = res.dates;
   const imported= res.imported, updated = res.updated;
 
@@ -10559,6 +10694,7 @@ function getShamsiMonthName(y,m){
 function renderJournal(){
   const now=new Date();
   if(jYear===undefined){jYear=now.getFullYear();jMonth=now.getMonth();}
+  symFillDatalists();   // پیشنهاد نمادها برای همه‌ی کادرهای این صفحه آماده باشد
   renderJournalMonth();
   drawChart(jYear,jMonth);
 }
@@ -10700,22 +10836,32 @@ function renderJournalMonth(){
 
         let pnlHtml='<div class="dc-pnl zero">—</div>';
         let tradesHtml='<div class="dc-trades"></div>';
+        let symHtml='';
         if(entry&&entry.trades>0){
           const cls2=entry.pnl>0?'pos':entry.pnl<0?'neg':'zero';
           pnlHtml=`<div class="dc-pnl ${cls2}">${fmtUSD(entry.pnl)}</div>`;
           tradesHtml=`<div class="dc-trades">${toFA(entry.trades)} معامله</div>`;
+          // پرمعامله‌ترین نمادِ همان روز — خوانا، و اگر چند نماد بود تعدادش کنارش
+          const ts=dayTopSymbol(k,entry);
+          if(ts){
+            const more=ts.kinds>1?`<span class="dc-sym-x">×${toFA(ts.count)}</span>`:'';
+            const tip=ts.kinds>1?`${ts.sym} — ${ts.count} از ${ts.total} معامله‌ی این روز`:`${ts.sym}`;
+            symHtml=`<div class="dc-sym" title="${escapeHtml(tip)}"><span class="dc-sym-name">${escapeHtml(ts.sym)}</span>${more}</div>`;
+          }
         }
 
         const noteMark=(entry&&entry.note&&entry.note.trim())?'<span class="dc-note-mark" title="یادداشت این روز">📝</span>':'';
+        const manMark=(entry&&entry.manual&&entry.mtSig)?'<span class="dc-note-mark" title="ویرایش دستی — اکسپرت این روز را تغییر نمی‌دهد">✏️</span>':'';
         div.innerHTML=`
           <div class="dc-date-row">
             <span class="dc-greg">${cell.day}</span>
             ${isToday?'<span class="dc-today-dot"></span>':''}
-            ${noteMark}
+            ${noteMark}${manMark}
           </div>
           <span class="dc-shamsi">${shamsiFull}</span>
           ${pnlHtml}
           ${tradesHtml}
+          ${symHtml}
         `;
         td.appendChild(div);
       }
@@ -10754,14 +10900,34 @@ function renderJournalMonth(){
 // Shrink any day P&L (or week-total) number that's wider than its cell, in small
 // steps, so large values still fit while normal values stay at full big size.
 function fitDayPnl(){
-  document.querySelectorAll('#j-cal-body .dc-pnl, #j-cal-body .wsc-val').forEach(el=>{
+  const shrink=(sel,min)=>{
+    document.querySelectorAll(sel).forEach(el=>{
+      el.style.fontSize='';
+      if(!el.textContent || el.textContent==='—') return;
+      let size=parseFloat(getComputedStyle(el).fontSize), guard=0;
+      while(el.scrollWidth>el.clientWidth+0.5 && size>min && guard<80){
+        size-=0.5; el.style.fontSize=size+'px'; guard++;
+      }
+    });
+  };
+  shrink('#j-cal-body .dc-pnl, #j-cal-body .wsc-val', 8);
+  shrink('#j-cal-body .dc-trades, #j-cal-body .wsc-trades', 5.5);
+
+  // نماد روز: اول با کوچک کردن فونت جا داده می‌شود؛ اگر باز هم جا نشد (ستون‌های
+  // باریکِ آخر هفته)، به‌جای ریزتر و ناخوانا شدن، شمارنده‌ی «×N» حذف می‌شود تا
+  // خود نامِ نماد بزرگ و خوانا بماند.
+  document.querySelectorAll('#j-cal-body .dc-sym').forEach(el=>{
+    const x=el.querySelector('.dc-sym-x');
+    if(x) x.style.display='';
     el.style.fontSize='';
-    if(!el.textContent || el.textContent==='—') return;
-    const max=parseFloat(getComputedStyle(el).fontSize);
-    let size=max, guard=0;
-    while(el.scrollWidth>el.clientWidth+0.5 && size>8 && guard<60){
-      size-=0.5; el.style.fontSize=size+'px'; guard++;
-    }
+    const fit=min=>{
+      let size=parseFloat(getComputedStyle(el).fontSize),guard=0;
+      while(el.scrollWidth>el.clientWidth+0.5 && size>min && guard<80){
+        size-=0.5; el.style.fontSize=size+'px'; guard++;
+      }
+      return el.scrollWidth<=el.clientWidth+0.5;
+    };
+    if(!fit(6.5) && x){ x.style.display='none'; el.style.fontSize=''; fit(5.5); }
   });
 }
 
@@ -10807,9 +10973,10 @@ function openDayModal(y,m,d){
       if(jp.mtSymbol) psych.positions[i].mtSymbol = jp.mtSymbol;
       if(jp.mtOpenTime)  psych.positions[i].mtOpenTime  = jp.mtOpenTime;
       if(jp.mtCloseTime) psych.positions[i].mtCloseTime = jp.mtCloseTime;
-      // ساعت دستی و عکس گالری فقط وقتی از ژورنال می‌آیند که سمت روانشناسی خالی باشند
-      if(jp.time  && !psych.positions[i].time ) psych.positions[i].time  = jp.time;
-      if(jp.galId && !psych.positions[i].galId) psych.positions[i].galId = jp.galId;
+      // ساعت دستی، نماد دستی و عکس گالری فقط وقتی از ژورنال می‌آیند که سمت روانشناسی خالی باشند
+      if(jp.time   && !psych.positions[i].time  ) psych.positions[i].time   = jp.time;
+      if(jp.symbol && !psych.positions[i].symbol) psych.positions[i].symbol = jp.symbol;
+      if(jp.galId  && !psych.positions[i].galId ) psych.positions[i].galId  = jp.galId;
     });
     // اگر psychology بیشتر دارد، اضافی‌ها حذف می‌شوند
     if(psych.positions.length > entry.positions.length)
@@ -10817,7 +10984,9 @@ function openDayModal(y,m,d){
   } else if(entry.trades>0){
     syncPsychologyPositionsToTradeCount(activeDayKey,entry.trades);
   }
+  symFillDatalists();     // پیشنهاد نمادها برای کادرهای این فرم آماده باشد
   renderDayTradeRows();
+  renderDayManualChip();  // اگر این روز دستی ویرایش شده، قفلش را نشان بده
   document.getElementById('day-modal').classList.add('show');
 }
 
@@ -10868,7 +11037,12 @@ function liveSaveDay(){
   } else {
     // فیلدهای موجود (positions/mtSig/…) حفظ می‌شوند؛ فقط مقادیر روز و توضیحات به‌روز می‌شوند
     const prev=data.journal[activeDayKey]||{};
+    // اگر عددهای روز با چیزی که ثبت شده فرق کرد یعنی کاربر دستی دست برده —
+    // از این لحظه روز «قفل دستی» می‌شود و سینک اکسپرت آن را بازنویسی نمی‌کند.
+    // (نوشتن یادداشتِ تنها قفل نمی‌سازد؛ فقط تغییرِ عدد یا تعداد معامله.)
+    const numsChanged = Math.abs((parseFloat(prev.pnl)||0)-pnl)>0.005 || (prev.trades||0)!==trades;
     data.journal[activeDayKey]=Object.assign({}, prev, {pnl,trades});
+    if(numsChanged) data.journal[activeDayKey].manual=true;
     if(note) data.journal[activeDayKey].note=note; else delete data.journal[activeDayKey].note;
     // Auto-sync: make sure the Psychology page has at least this many position
     // slots for the same date. Only ADDS missing slots (never removes), so any
@@ -10878,6 +11052,7 @@ function liveSaveDay(){
   saveData();
   flashDot();
   renderJournalMonth();
+  renderDayManualChip();
   if(typeof renderMt5Account==='function') renderMt5Account(); // بالانسِ محاسبه‌شده از ژورنال به‌روز شود
   // Sync the home chart view-state to this exact journal month,
   // then redraw — so saving a day's PnL immediately appears on the chart
@@ -10948,6 +11123,67 @@ function deleteDayEntry(){
   showToast('🗑️ حذف شد');
 }
 
+/* ═══════════════════ SYMBOL REGISTRY — حافظه‌ی نمادهای معاملاتی ═══════════════════
+   هر نمادی که یک بار در هر جای برنامه ثبت شود (دستی در فرم روز، از متاتریدر،
+   در گالری یا در سیگنال) اینجا یاد گرفته می‌شود و از آن به بعد در همه‌ی
+   کادرهای نماد به‌صورت پیشنهاد ظاهر می‌شود؛ کاربر فقط انتخاب می‌کند.
+   نمادهای معروف از همان روز اول در فهرست هستند حتی اگر هنوز ثبت نشده باشند. */
+const SYM_DEFAULTS=['XAUUSD','EURUSD','DOW30','GBPUSD','USDJPY','NAS100','BTCUSD','XAGUSD','US30','SP500','AUDUSD','USDCAD','GBPJPY','ETHUSD','USOIL'];
+const SYM_MAX=60;   // حداکثر نمادِ یادگرفته‌شده که نگه داشته می‌شود
+
+// نرمال‌سازی: همیشه لاتینِ بزرگ و بدون فاصله — تا XAUUSD و xau usd یکی شمرده شوند
+function symNorm(s){
+  return String(s==null?'':s).trim().toUpperCase().replace(/\s+/g,'').slice(0,20);
+}
+// نماد یک پوزیشن: اول متاتریدر، بعد نمادی که کاربر دستی نوشته
+function posSymbolOf(p){ return p?symNorm(p.mtSymbol||p.symbol||''):''; }
+
+// فهرست کاملِ پیشنهادها: یادگرفته‌ها (تازه‌ترین اول) + گالری + واچ‌لیست پلن + معروف‌ها
+function symAll(){
+  const out=[],seen={};
+  const push=s=>{ const v=symNorm(s); if(v&&!seen[v]){ seen[v]=1; out.push(v); } };
+  ((data&&data.symbols)||[]).forEach(push);
+  (typeof galItems!=='undefined'&&galItems?galItems:[]).forEach(i=>push(i&&i.symbol));
+  (((data&&data.strategy)||{}).markets||[]).forEach(push);
+  SYM_DEFAULTS.forEach(push);
+  return out;
+}
+// ثبت نماد در حافظه (بدون تکرار، تازه‌ترین اول). مقدار نرمال‌شده را برمی‌گرداند.
+function symLearn(s){
+  const v=symNorm(s); if(!v||!data) return '';
+  if(!Array.isArray(data.symbols)) data.symbols=[];
+  const i=data.symbols.indexOf(v);
+  if(i===0) return v;                       // همین حالا هم اول فهرست است
+  if(i>0) data.symbols.splice(i,1);
+  data.symbols.unshift(v);
+  if(data.symbols.length>SYM_MAX) data.symbols.length=SYM_MAX;
+  symFillDatalists();
+  return v;
+}
+// همه‌ی کادرهای نماد در برنامه از یک منبع مشترک تغذیه می‌شوند
+function symFillDatalists(){
+  const html=symAll().map(s=>`<option value="${escapeHtml(s)}">`).join('');
+  ['sym-dl','gal-symbols-dl'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=html; });
+}
+
+// پرتکرارترین نمادِ یک روز — همانی که در خانه‌ی تقویم نشان داده می‌شود
+function dayTopSymbol(key,entry){
+  const e=entry||(data.journal||{})[key];
+  const jp=(e&&e.positions)||[];
+  const ps=(((data.psychology||{})[key])||{}).positions||[];
+  const n=Math.max(jp.length,ps.length);
+  const count={};
+  let withSym=0;
+  for(let i=0;i<n;i++){
+    const s=posSymbolOf(jp[i])||posSymbolOf(ps[i]);
+    if(!s) continue;
+    count[s]=(count[s]||0)+1; withSym++;
+  }
+  let sym=null,best=0;
+  Object.keys(count).forEach(s=>{ if(count[s]>best){ best=count[s]; sym=s; } });
+  return sym?{sym,count:best,total:withSym,kinds:Object.keys(count).length}:null;
+}
+
 // ===== Per-trade amounts inside the day modal (shared with Psychology positions) =====
 function getDayPositions(){
   if(!activeDayKey) return [];
@@ -10985,10 +11221,9 @@ function renderDayTradeRows(){
     item.innerHTML=`
       <div class="dts-row">
         <div class="dts-num">${toFA(i+1)}</div>
-        ${hasMt ? `<div class="dts-mt-badge">
+        ${hasMt ? `<div class="dts-mt-badge" title="از متاتریدر — ${symLabel}">
           <span class="dts-type-icon">${typeIcon}</span>
-          <span class="dts-type-lbl">${typeLabel}</span>
-          <span class="dts-sym">${symLabel}</span>
+          <span class="dts-type-lbl">${typeLabel||'MT5'}</span>
         </div>` : `<div class="dts-signs">
           <button type="button" class="dts-sign profit ${pos.pnlSign!=='loss'?'active':''}" onclick="setDayTradeSign(${i},'profit')">✅</button>
           <button type="button" class="dts-sign loss ${pos.pnlSign==='loss'?'active':''}" onclick="setDayTradeSign(${i},'loss')">❌</button>
@@ -11001,6 +11236,16 @@ function renderDayTradeRows(){
         <button type="button" class="dts-del" onclick="deleteDayTrade(${i})">✕</button>
       </div>
       <div class="dts-row2">
+        <label class="dts-sym-box${pos.mtSymbol?' auto':''}" title="نماد این معامله (مثلاً XAUUSD)">
+          <span class="dts-sym-ic">نماد</span>
+          ${pos.mtSymbol
+            ? `<span class="dts-sym-fixed">${escapeHtml(pos.mtSymbol)}</span><span class="dts-time-tag">خودکار</span>`
+            : `<input type="text" class="dts-sym-inp" list="sym-dl" dir="ltr" maxlength="20" placeholder="XAUUSD"
+                 value="${escapeHtml(pos.symbol||'')}"
+                 oninput="setDayTradeSymbol(${i},this.value)"
+                 onchange="commitDayTradeSymbol(${i},this.value)"
+                 onblur="commitDayTradeSymbol(${i},this.value)">`}
+        </label>
         <label class="dts-time-box${auto?' auto':''}" title="ساعت و دقیقه‌ی این پوزیشن">
           <span class="dts-time-ic">ساعت</span>
           <input type="time" class="dts-time" value="${tm}" onchange="setDayTradeTime(${i},this.value)">
@@ -11009,10 +11254,28 @@ function renderDayTradeRows(){
         <button type="button" class="dts-gal-btn${pos.galId?' done':''}" onclick="openGalleryFromPosition(${i})" title="ثبت عکس چارت این پوزیشن در گالری شخصی">
           <span class="dts-gal-ic">${pos.galId?'✅':'🖼'}</span><span>${pos.galId?'در گالری ثبت شد':'ثبت در گالری'}</span>
         </button>
-      </div>`;
+      </div>
+      ${mtDetail(pos)}`;
     container.appendChild(item);
   });
   updateDayTradeSum();
+}
+
+/* جزئیات دقیقِ پوزیشن‌های آمده از متاتریدر: حجم (لات) و قیمت ورود ← خروج.
+   اکسپرت این‌ها را از هیستوری می‌خواند و اینجا فقط برای دیدن نشان داده می‌شوند. */
+function mtDetail(pos){
+  if(!pos||(!pos.mtVolume&&!pos.mtOpenPrice)) return '';
+  const parts=[];
+  const vol=parseFloat(pos.mtVolume);
+  if(!isNaN(vol)&&vol>0) parts.push(`<span class="dtsi-k">⚖️ حجم</span><span class="dtsi-v">${vol.toFixed(2)}</span>`);
+  const op=parseFloat(pos.mtOpenPrice), cp=parseFloat(pos.mtClosePrice);
+  if(!isNaN(op)&&op>0){
+    const trim=n=>String(n).replace(/(\.\d*?[1-9])0+$/,'$1').replace(/\.0+$/,'');
+    const px=trim(op)+(!isNaN(cp)&&cp>0?' → '+trim(cp):'');
+    parts.push(`<span class="dtsi-k">قیمت</span><span class="dtsi-v">${escapeHtml(px)}</span>`);
+  }
+  if(!parts.length) return '';
+  return `<div class="dts-mtinfo">${parts.join('<span class="dtsi-sep">·</span>')}</div>`;
 }
 
 /* ---------- ساعت و دقیقه‌ی هر پوزیشن ----------
@@ -11038,6 +11301,30 @@ function setDayTradeTime(i,val){
   renderDayTradeRows();
 }
 
+/* ---------- نماد هر پوزیشن ----------
+   پوزیشن‌های متاتریدر نمادشان خودکار پر است (mtSymbol) و قابل تایپ نیست؛
+   پوزیشن‌های دستی کادر نماد دارند که با فهرست پیشنهاد (sym-dl) کامل می‌شود.
+   هنگام تایپ فقط ذخیره می‌شود (بدون رندر دوباره تا فوکوس نپرد) و در پایانِ
+   تایپ، نماد در حافظه‌ی برنامه یاد گرفته و تقویم به‌روز می‌شود. */
+function setDayTradeSymbol(i,val){
+  const positions=getDayPositions();
+  if(!positions[i])return;
+  const v=symNorm(val);
+  positions[i].symbol=v;
+  const j=data.journal[activeDayKey];
+  if(j&&j.positions&&j.positions[i]) j.positions[i].symbol=v;
+  saveData();
+}
+function commitDayTradeSymbol(i,val){
+  setDayTradeSymbol(i,val);
+  const v=symNorm(val);
+  if(v) symLearn(v);
+  // نماد هم بخشی از «ویرایش دستی» است — سینک متاتریدر نباید آن را پاک کند
+  if(v) markDayManual(activeDayKey);
+  saveData();
+  renderJournalMonth();   // نماد پرتکرارِ خانه‌ی تقویم همان لحظه به‌روز شود
+}
+
 /* ---------- «ثبت در گالری» از روی یک پوزیشن ----------
    روز و ساعت پوزیشن، نماد، نتیجه و مبلغ خودکار در فرم گالری می‌نشیند؛
    کاربر فقط عکس چارت را می‌گذارد و ذخیره می‌کند. */
@@ -11054,7 +11341,7 @@ function openGalleryFromPosition(i){
   const [hh,mm]=tm.split(':').map(Number);
   const taken=new Date(Y,(M||1)-1,D||1,hh||0,mm||0);
   const prefill={
-    symbol:(pos.mtSymbol||'').toUpperCase(),
+    symbol:posSymbolOf(pos),
     result:pos.pnlSign==='loss'?'loss':'win',
     pnl:amt>0?amt:'',
     taken
@@ -11948,7 +12235,9 @@ function renderPositionsList(positions){
     card.innerHTML=`
       <div class="position-top-row">
         <div class="position-num-badge">${toFA(idx+1)}</div>
-        ${isMt5?`<span class="pq-mt5" title="از متاتریدر — عدد قابل ویرایش نیست">🔒 ${escapeHtml(pos.mtSymbol||'MT5')}</span>`:''}
+        ${isMt5
+          ? `<span class="pq-mt5" title="از متاتریدر — عدد قابل ویرایش نیست">🔒 ${escapeHtml(pos.mtSymbol||'MT5')}</span>`
+          : (pos.symbol?`<span class="pq-mt5 manual" title="نماد این معامله">🏷 ${escapeHtml(symNorm(pos.symbol))}</span>`:'')}
         <div class="position-pnl-wrap">
           ${isMt5?'':`<div class="position-sign-toggle">
             <button class="position-sign-btn profit ${pos.pnlSign!=='loss'?'active':''}" onclick="event.stopPropagation();setPositionSign(${idx},'profit')">✅</button>
@@ -12689,9 +12978,10 @@ function renderAdvancedStats(){
     return Date.parse(s.slice(0,10).replace(/\./g,'/')+' '+((s.slice(11)||'00:00:00').trim()||'00:00:00'));
   };
 
-  // ── جمع‌آوری معاملات (کیفیت + زمان) ──
+  // ── جمع‌آوری معاملات (کیفیت + زمان + نماد) ──
   let winC=0, lossC=0, grossWin=0, grossLoss=0;
   const hourPnl={}, dowPnl={}, monPnl={};
+  const symPnl={}, symCount={}, symWin={};   // تحلیل نماد: سود، تعداد و برد هر نماد
   let holdSum=0, holdN=0;
 
   Object.entries(data.journal||{}).forEach(([k,e])=>{
@@ -12703,6 +12993,9 @@ function renderAdvancedStats(){
         const loss=(p.pnlSign==='loss');
         const pnl=loss?-v:v;
         if(v>0){ if(loss){lossC++;grossLoss+=v;} else {winC++;grossWin+=v;} }
+        // نماد این معامله (از متاتریدر یا نوشته‌ی دستی) وارد تحلیل نمادها می‌شود
+        const sy=(typeof posSymbolOf==='function')?posSymbolOf(p):'';
+        if(sy){ bump(symPnl,sy,pnl); symCount[sy]=(symCount[sy]||0)+1; if(!loss&&v>0) symWin[sy]=(symWin[sy]||0)+1; }
         const ot=p.mtOpenTime; let d=null;
         if(ot&&/^\d{4}\.\d{2}\.\d{2}/.test(ot)){
           const hh=parseInt(ot.substr(11,2),10);
@@ -12800,9 +13093,24 @@ function renderAdvancedStats(){
     tile('بیشترین دلیل ضرر', topLoss?mkLabel(topLoss[0]):'—', 'neg', topLoss?toFA(topLoss[1])+' بار در ضررها':'ضرری ثبت نشده')+
     tile('اشتباه تکرارشونده', topAll?mkLabel(topAll[0]):'—', 'gold', topAll?toFA(topAll[1])+' بار':'اشتباهی ثبت نشده');
 
+  // ── تحلیل نماد ── کدام نماد بیشترین معامله، بیشترین سود و بیشترین ضرر را داده
+  const symKeys=Object.keys(symCount);
+  let symHTML='';
+  if(symKeys.length){
+    const mostTraded=maxOf(symCount);
+    const bestSym=maxOf(symPnl), worstSym=minOf(symPnl);
+    const wrOf=s=>{ const c=symCount[s]||0; return c?toFA(Math.round((symWin[s]||0)/c*100))+'٪ برد':''; };
+    symHTML=
+      tile('پرمعامله‌ترین', mostTraded[0], 'gold', toFA(mostTraded[1])+' معامله')+
+      tile('پرسودترین نماد', bestSym[1]>0?bestSym[0]:'—', 'pos', bestSym[1]>0?fmtUSD(bestSym[1])+' · '+wrOf(bestSym[0]):'هنوز نمادِ سوددهی نیست')+
+      tile('پرضررترین نماد', worstSym[1]<0?worstSym[0]:'—', 'neg', worstSym[1]<0?fmtUSD(worstSym[1])+' · '+wrOf(worstSym[0]):'ضرری ثبت نشده')+
+      tile('تنوع نمادها', toFA(symKeys.length), 'dim', 'نماد معامله‌شده');
+  }
+
   el.innerHTML=
     `<div class="as-head">📊 تحلیل هوشمند عملکرد <span class="as-note">همه‌ی معاملات · زنده</span></div>`+
     `<div class="as-group"><div class="as-group-title">⏱ تحلیل زمان معامله</div><div class="as-grid">${timeHTML}</div></div>`+
+    (symHTML?`<div class="as-group"><div class="as-group-title">🏷 تحلیل نمادها</div><div class="as-grid">${symHTML}</div></div>`:'')+
     `<div class="as-group"><div class="as-group-title">🎯 تحلیل کیفیت معاملات</div><div class="as-grid">${qualHTML}</div></div>`+
     `<div class="as-group"><div class="as-group-title">🧠 تحلیل روانشناسی</div><div class="as-grid">${psyHTML}</div></div>`;
 }
@@ -12933,8 +13241,8 @@ function scDayStats(dayKey){
       if(out.best===null||signed>out.best) out.best=signed;
       if(out.worst===null||signed<out.worst) out.worst=signed;
       run+=signed; out.curve.push(run);
-      // نماد از ژورنال، و اگر آنجا نبود از همان پوزیشن در صفحه‌ی روانشناسی
-      const sym=((p.mtSymbol||(ps[i]&&ps[i].mtSymbol)||'')+'').toUpperCase();
+      // نماد از ژورنال (متاتریدر یا دستی)، و اگر آنجا نبود از همان پوزیشن در صفحه‌ی روانشناسی
+      const sym=posSymbolOf(p)||posSymbolOf(ps[i]);
       if(sym){
         if(!out.symbols.includes(sym)) out.symbols.push(sym);
         out.symbolPnl[sym]=(out.symbolPnl[sym]||0)+signed;   // سود/ضرر تجمعی هر نماد در همین روز
@@ -13777,9 +14085,9 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='82.8';
-const MT5_EA_VERSION='1.30';
-const MT5_SVC_VERSION='1.30';
+const APP_VERSION='83.0';
+const MT5_EA_VERSION='1.40';
+const MT5_SVC_VERSION='1.40';
 (function(){
   const av=document.getElementById('auth-version');
   if(av) av.textContent='TradePlan v'+APP_VERSION;
@@ -13878,17 +14186,21 @@ async function logVisit(){
 let _mtCloudBusy=false;
 async function mtCloudSync(){
   if(!SB||!CURRENT_USER||_mtCloudBusy||!appStarted||_wiping||typeof mtMergeDays!=='function') return;
+  // کلید «ثبت خودکار» خاموش است: هیچ داده‌ای از اکسپرت روی ژورنال نوشته نمی‌شود
+  // تا هر چیزی که تریدر دستی وارد کرده دست‌نخورده بماند.
+  if(!mtAutoOn()) return;
   _mtCloudBusy=true;
   try{
-    // فقط ~۲ ماه اخیر بررسی و تصحیح می‌شود (open_time متنی «YYYY.MM.DD …» است؛
-    // مقایسه‌ی رشته‌ای درست کار می‌کند). روزهای قدیمی‌تر ژورنال دست‌نخورده می‌مانند.
-    const cd=new Date(Date.now()-62*86400000);
+    // ~۳ ماه اخیر بررسی و تصحیح می‌شود — همان بازه‌ای که اکسپرت در اولین اجرا
+    // از هیستوری متاتریدر می‌فرستد (open_time متنی «YYYY.MM.DD …» است؛ مقایسه‌ی
+    // رشته‌ای درست کار می‌کند). روزهای قدیمی‌تر ژورنال دست‌نخورده می‌مانند.
+    const cd=new Date(Date.now()-95*86400000);
     const cutoff=cd.getFullYear()+'.'+String(cd.getMonth()+1).padStart(2,'0')+'.'+String(cd.getDate()).padStart(2,'0');
     const {data:rows,error}=await SB.from('mt5_trades')
       .select('ticket,symbol,type,volume,open_price,close_price,profit,commission,swap,open_time,close_time')
       .gte('open_time',cutoff)
       .order('open_time',{ascending:false})
-      .limit(2000);
+      .limit(3000);
     if(error||!rows||!rows.length) return;
     rows.reverse();
 
@@ -13922,7 +14234,8 @@ async function mtCloudSync(){
     if(changed) saveData();
     updateMt5Banner();
     if(res.imported+res.updated>0){
-      showToast('📥 '+toFA(res.imported+res.updated)+' روز از متاتریدر همگام شد',3500);
+      showToast('📥 '+toFA(res.imported+res.updated)+' روز از متاتریدر همگام شد'+
+                (res.locked>0?' · '+toFA(res.locked)+' روزِ دستی دست‌نخورده ماند':''),3500);
       if(currentPage==='journal'){ renderJournal(); }
       if(currentPage==='home') updateHome();
       if(currentPage==='psychology') renderPsychology();
@@ -13957,6 +14270,114 @@ function acctDepositBlur(inp){
   renderAcctDeposit();
   renderMt5Account(); // در حالت دستی، بالانس = سرمایه اولیه + سود/زیان ژورنال
 }
+
+/* ── کارت کشویی: سر کارت همیشه بالانس را نشان می‌دهد، بقیه با یک کلیک باز می‌شود.
+      وضعیت باز/بسته در حساب کاربر ذخیره می‌شود تا در همه‌ی دستگاه‌ها یکی باشد. ── */
+function acctCardOpen(){ return !!(data&&data.acctOpen); }
+function applyAcctOpenState(){
+  const card=document.getElementById('acct-card'), head=document.getElementById('acct-head');
+  if(!card) return;
+  const open=acctCardOpen();
+  card.classList.toggle('open',open);
+  if(head) head.setAttribute('aria-expanded',open?'true':'false');
+}
+function toggleAcctCard(){
+  data.acctOpen=!acctCardOpen();
+  saveData();
+  applyAcctOpenState();
+}
+
+/* ── کلید «ثبت خودکار معاملات از متاتریدر» ──
+   خاموش که باشد، هیچ داده‌ای از اکسپرت روی ژورنال نوشته نمی‌شود؛ یعنی هر عدد و
+   مشخصاتی که تریدر دستی وارد کرده دست‌نخورده می‌ماند. (بالانس حساب مستقل است.) */
+function mtAutoOn(){ return !(data && data.mtAutoSync===false); }
+function renderAcctAuto(){
+  const sw=document.getElementById('acct-auto-sw');
+  const card=document.getElementById('acct-card');
+  const on=mtAutoOn();
+  if(card) card.classList.toggle('autooff',!on);
+  if(sw) sw.setAttribute('aria-checked',on?'true':'false');
+  const st=document.getElementById('acct-auto-state');
+  if(st) st.textContent=on?'ON':'OFF';
+  const sub=document.getElementById('acct-auto-sub');
+  if(sub) sub.textContent=on
+    ? 'روشن — هر پوزیشنی که در متاتریدر می‌بندی، خودکار با جزئیات کامل (نماد، ساعت، سود خالص) ثبت می‌شود.'
+    : 'خاموش — اکسپرت هیچ عددی را در ژورنال تغییر نمی‌دهد؛ ثبت و ویرایش کاملاً دستی است.';
+}
+function toggleMtAutoSync(){
+  data.mtAutoSync=!mtAutoOn();
+  saveData();
+  renderAcctAuto();
+  renderMt5Account();
+  if(typeof updateMt5Banner==='function') updateMt5Banner();
+  if(data.mtAutoSync===false){
+    showToast('✋ ثبت خودکار خاموش شد — ژورنال کاملاً دستی است',3600);
+  }else{
+    showToast('🤖 ثبت خودکار روشن شد — معاملات متاتریدر دوباره ثبت می‌شوند',3200);
+    if(typeof mtCloudSync==='function') mtCloudSync();
+  }
+}
+
+/* یک روز را «دستی» علامت می‌زند: از این به بعد سینک اکسپرت آن روز را بازنویسی
+   نمی‌کند تا عددهایی که تریدر خودش وارد/اصلاح کرده پاک نشوند. */
+function markDayManual(key){
+  if(!key) return;
+  const j=data.journal&&data.journal[key];
+  if(j) j.manual=true;
+}
+// نمایش قفلِ دستی در فرم روز + دکمه‌ی باز کردن قفل
+function renderDayManualChip(){
+  const el=document.getElementById('day-manual-chip');
+  if(!el) return;
+  const j=activeDayKey?(data.journal||{})[activeDayKey]:null;
+  el.style.display=(j&&j.manual&&j.mtSig)?'flex':'none';
+}
+function unlockDayFromMt(){
+  const key=activeDayKey;
+  if(!key) return;
+  const j=data.journal[key];
+  if(!j) return;
+  delete j.manual;
+  delete j.mtSig;                 // امضا پاک شود تا سینک بعدی حتماً روز را بازنویسی کند
+  saveData();
+  renderDayManualChip();
+  if(!mtAutoOn()){ showToast('ℹ️ قفل برداشته شد، ولی ثبت خودکار خاموش است — کلیدش را در کارت بالای ژورنال روشن کن',4200); return; }
+  showToast('🔄 در حال گرفتن دوباره‌ی این روز از متاتریدر…');
+  Promise.resolve(typeof mtCloudSync==='function'?mtCloudSync():null).then(()=>{
+    const p=key.split('-').map(Number);
+    if(document.getElementById('day-modal').classList.contains('show')) openDayModal(p[0],p[1]-1,p[2]);
+  });
+}
+
+// جمع سود/زیانِ ثبت‌شده در کل ژورنال (پایه‌ی بالانسِ حالت دستی)
+function acctJournalPnl(){
+  let pnl=0,has=false;
+  Object.values((data&&data.journal)||{}).forEach(e=>{
+    if(e&&e.trades>0){ pnl+=parseFloat(e.pnl)||0; has=true; }
+  });
+  return {pnl:Math.round(pnl*100)/100,has};
+}
+// خانه‌های داخل کارت + نشانِ وضعیت روی سر کارت
+function renderAcctExtras(){
+  const a=data&&data.mt5Account;
+  const jp=acctJournalPnl();
+  const pEl=document.getElementById('acct-pnl');
+  if(pEl){
+    pEl.textContent=jp.has?fmtSigned(jp.pnl):'—';
+    pEl.className='acct-mini acct-num'+(jp.pnl>0?' pos':jp.pnl<0?' neg':'');
+  }
+  const lEl=document.getElementById('acct-login');
+  if(lEl) lEl.textContent=(a&&a.account)?String(a.account):'ثبت دستی';
+  const chip=document.getElementById('acct-chip');
+  if(chip){
+    const connected=!!(a&&a.syncedAt);
+    const on=mtAutoOn();
+    chip.className='acct-chip'+(connected&&on?' live':(!on?' off':''));
+    chip.textContent=!on?'✋ ثبت دستی':(connected?'🤖 اکسپرت فعال':'✏️ ثبت دستی');
+  }
+  renderAcctAuto();
+}
+
 let _acctShownBal=null;
 function renderMt5Account(){
   const card=document.getElementById('acct-card');
@@ -13964,6 +14385,8 @@ function renderMt5Account(){
   const a=data&&data.mt5Account;
   // هنوز داده‌ای از متاتریدر نرسیده => حالت «در انتظار اتصال»
   renderAcctDeposit(); // سرمایه اولیه دستی است و ربطی به داده‌ی متاتریدر ندارد
+  renderAcctExtras();
+  applyAcctOpenState();
   if(!a||!a.syncedAt){
     // بدون اتصال متاتریدر: بالانس از «سرمایه اولیه + جمع سود/زیان ثبت‌شده در ژورنال»
     // محاسبه می‌شود تا کاربرانِ ثبتِ دستی هم بالانس فعلی‌شان را ببینند.
@@ -14012,7 +14435,8 @@ function renderMt5Account(){
       // کوتاه و یک‌خطی: «🔄 ۲ مرداد · ۱۴:۳۰» — کارت باید جمع‌وجور بماند
       const date=d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'});
       const time=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
-      syncEl.textContent='🔄 '+date+' · '+time;
+      syncEl.textContent='🔄 آخرین دریافت از متاتریدر: '+date+' · '+time+
+        (mtAutoOn()?'':'  —  ثبت خودکار خاموش است؛ فقط بالانس به‌روز می‌شود');
       syncEl.style.display='';
     }else{ syncEl.textContent=''; syncEl.style.display='none'; }
   }
@@ -14420,10 +14844,16 @@ function updateMt5Banner(){
   b.classList.toggle('connected',connected);
   const ic=b.querySelector('.mcb-icon'), t=b.querySelector('.mcb-title'),
         s=b.querySelector('.mcb-sub'), btn=b.querySelector('.mcb-btn');
-  if(connected){
+  if(connected&&typeof mtAutoOn==='function'&&!mtAutoOn()){
+    // متصل است ولی کاربر کلید ثبت خودکار را خاموش کرده — ژورنال کاملاً دستی می‌ماند
+    if(ic) ic.textContent='✋';
+    if(t)  t.textContent='ثبت خودکار متاتریدر خاموش است';
+    if(s)  s.textContent='اکسپرت وصل است ولی هیچ عددی را در ژورنال تغییر نمی‌دهد؛ هر چه دستی وارد کنی دست‌نخورده می‌ماند. کلید روشن/خاموش در کارت بالای همین صفحه است.';
+    if(btn) btn.textContent='❓ راهنما';
+  }else if(connected){
     if(ic) ic.textContent='✅';
     if(t)  t.textContent='اتصال خودکار متاتریدر فعاله';
-    if(s)  s.textContent='هر پوزیشنی که ببندی، خودکار با سود خالص دقیق (شامل کمیسیون و سواپ) ثبت می‌شود؛ با هر روشن شدن متاتریدر، ۲ ماه اخیر هم بررسی و تصحیح می‌شود.';
+    if(s)  s.textContent='هر پوزیشنی که ببندی، خودکار با سود خالص دقیق (شامل کمیسیون و سواپ) و نماد و ساعتش ثبت می‌شود؛ در اولین نصب هم ۳ ماه گذشته‌ی حسابت کامل وارد ژورنال می‌شود.';
     if(btn) btn.textContent='❓ راهنما';
   }else{
     if(ic) ic.textContent='📡';

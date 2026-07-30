@@ -12550,22 +12550,51 @@ function chartChangeMonth(dir){
 }
 
 
-// ── Catmull-Rom spline helper ──────────────────────────────
-function catmullRomPath(ctx, pts, tension=0.4){
-  if(pts.length<2) return;
-  ctx.moveTo(pts[0].x, pts[0].y);
-  if(pts.length===2){ ctx.lineTo(pts[1].x,pts[1].y); return; }
-  for(let i=0;i<pts.length-1;i++){
-    const p0=pts[Math.max(0,i-1)];
-    const p1=pts[i];
-    const p2=pts[i+1];
-    const p3=pts[Math.min(pts.length-1,i+2)];
-    const cp1x=p1.x+(p2.x-p0.x)*tension;
-    const cp1y=p1.y+(p2.y-p0.y)*tension;
-    const cp2x=p2.x-(p3.x-p1.x)*tension;
-    const cp2y=p2.y-(p3.y-p1.y)*tension;
-    ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,p2.x,p2.y);
+// ── Rounded polyline ───────────────────────────────────────
+// خطِ روز‌به‌روز: هر نقطه دقیقاً به نقطه‌ی بعدی وصل می‌شود (شیبِ واقعی حفظ
+// می‌شود، نه منحنیِ نرم‌شده)، فقط گوشه‌ها با شعاعِ کوچک کمی ملایم می‌شوند تا
+// نوکِ تیز نداشته باشد. شکستگیِ طبیعی نمودار سرِجایش می‌ماند.
+// continuePath=true یعنی مسیر از قبل شروع شده (برای فیلِ زیرِ نمودار) و نباید
+// moveTo بزنیم، وگرنه ساب‌پثِ جدا می‌سازد و فیل کج و معوج می‌شود.
+function roundedPolyPath(ctx, pts, radius, continuePath){
+  if(!pts.length) return;
+  if(continuePath) ctx.lineTo(pts[0].x, pts[0].y);
+  else ctx.moveTo(pts[0].x, pts[0].y);
+  if(pts.length<3){
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+    return;
   }
+  for(let i=1;i<pts.length-1;i++){
+    const p0=pts[i-1], p1=pts[i], p2=pts[i+1];
+    const v1x=p0.x-p1.x, v1y=p0.y-p1.y;
+    const v2x=p2.x-p1.x, v2y=p2.y-p1.y;
+    const l1=Math.hypot(v1x,v1y), l2=Math.hypot(v2x,v2y);
+    if(l1<0.01||l2<0.01){ ctx.lineTo(p1.x,p1.y); continue; }
+    const cosA=(v1x*v2x+v1y*v2y)/(l1*l2);
+    const r=Math.min(radius, l1/2, l2/2);
+    // گوشه‌ی تقریباً صاف یا خیلی کوچک → همان خط مستقیم
+    if(r<0.6||cosA<-0.9995){ ctx.lineTo(p1.x,p1.y); continue; }
+    ctx.lineTo(p1.x+v1x/l1*r, p1.y+v1y/l1*r);
+    ctx.quadraticCurveTo(p1.x,p1.y, p1.x+v2x/l2*r, p1.y+v2y/l2*r);
+  }
+  ctx.lineTo(pts[pts.length-1].x, pts[pts.length-1].y);
+}
+
+// ── برچسب‌های روزِ محور X ────────────────────────────────────
+// ۵‌تا‌۵‌تا، ولی اگر روزِ آخرِ ماه به برچسبِ قبلی بچسبد (مثل ۳۰ و ۳۱) حذفش کن.
+// روی نمایشگرِ باریک، فاصله‌ی برچسب‌ها خودکار زیاد می‌شود.
+function chartDayLabels(daysInMonth, chartW, minGapPx){
+  const pxPerDay=chartW/Math.max(1,daysInMonth-1);
+  const gap=minGapPx||26;
+  let stepD=5;
+  while(stepD*pxPerDay<gap && stepD<15) stepD+=5;
+  const labels=[1];
+  for(let d=stepD;d<daysInMonth;d+=stepD) labels.push(d);
+  const last=labels[labels.length-1];
+  // روزِ آخر فقط وقتی نوشته می‌شود که هم فاصله‌ی پیکسلی کافی باشد و هم دستِ‌کم
+  // ۲ روز با برچسبِ قبلی فاصله داشته باشد — یعنی «۳۱» کنارِ «۳۰» نوشته نمی‌شود.
+  if(daysInMonth-last>=2 && (daysInMonth-last)*pxPerDay>=gap) labels.push(daysInMonth);
+  return labels;
 }
 
 function drawChart(y,m){
@@ -12599,14 +12628,16 @@ function drawChart(y,m){
     dailyPnl.push((e&&e.pnl!==undefined)?e.pnl:null);
   }
 
-  // Build cumulative series (only steps on days that have data)
-  let cum=0;
+  // Build cumulative series — یک نقطه برای هر روز (از اولین روزِ داده‌دار تا
+  // آخرین روزِ داده‌دار). روزهای بدون معامله مقدار قبلی را نگه می‌دارند، پس
+  // شیبِ روزهای معامله واقعی و تیزتر دیده می‌شود، نه پخش‌شده روی چند روز.
+  let lastDataDay=0;
+  for(let d=daysInMonth;d>=1;d--){ if(dailyPnl[d-1]!==null){ lastDataDay=d; break; } }
+  let cum=0, started=false;
   const cumLine=[];
-  for(let d=1;d<=daysInMonth;d++){
-    if(dailyPnl[d-1]!==null){
-      cum+=dailyPnl[d-1];
-      cumLine.push({day:d,val:cum});
-    }
+  for(let d=1;d<=lastDataDay;d++){
+    if(dailyPnl[d-1]!==null){ cum+=dailyPnl[d-1]; started=true; }
+    if(started) cumLine.push({day:d,val:cum});
   }
   const totalPnl=cum;
   const hasData=cumLine.length>0;
@@ -12621,8 +12652,10 @@ function drawChart(y,m){
     totalLabelEl.classList.add(totalPnl>0?'pos':totalPnl<0?'neg':'zero');
   }
 
-  // Padding
-  const pad={t:18,r:14,b:28,l:54};
+  // Padding — روی عرضِ کم (موبایلِ باریک یا ستون‌بندیِ دسکتاپ) جمع‌وجورتر
+  const compact=W<340;
+  const axisFont=(compact?'700 9px ':'700 10px ')+'Vazirmatn,sans-serif';
+  const pad={t:18,r:compact?10:14,b:compact?24:28,l:compact?42:54};
   const chartW=W-pad.l-pad.r;
   const chartH=H-pad.t-pad.b;
 
@@ -12668,16 +12701,16 @@ function drawChart(y,m){
     ctx.beginPath();ctx.moveTo(pad.l,pad.t-2);ctx.lineTo(pad.l,pad.t+chartH+2);ctx.stroke();
     // Y labels
     ctx.fillStyle='rgba(232,175,80,0.6)';
-    ctx.font='700 10px Vazirmatn,sans-serif';
+    ctx.font=axisFont;
     ctx.textAlign='right';
     [-100,-50,0,50,100].forEach(v=>{
       ctx.fillText((v>=0?'$':'-$')+Math.abs(v),pad.l-5,emptyYPos(v)+3.5);
     });
     // X labels
     ctx.fillStyle='rgba(232,175,80,0.6)';
-    ctx.font='700 10px Vazirmatn,sans-serif';
+    ctx.font=axisFont;
     ctx.textAlign='center';
-    [1,5,10,15,20,25,daysInMonth].filter((v,i,a)=>a.indexOf(v)===i).forEach(d=>{
+    chartDayLabels(daysInMonth,chartW,compact?22:26).forEach(d=>{
       ctx.fillText(d,emptyXPos(d),H-8);
     });
     // "no data yet" text
@@ -12744,7 +12777,7 @@ function drawChart(y,m){
 
   // Y-axis labels — gold, bold, readable, auto-formatted
   ctx.fillStyle='rgba(232,175,80,0.92)';
-  ctx.font='700 10px Vazirmatn,sans-serif';
+  ctx.font=axisFont;
   ctx.textAlign='right';
   gridLines.forEach(v=>{
     const gy=yPos(v);
@@ -12756,19 +12789,19 @@ function drawChart(y,m){
     ctx.fillText(label,pad.l-5,gy+3.5);
   });
 
-  // X-axis day labels — gold, bold, every 5th day + last day
+  // X-axis day labels — gold, bold, every 5th day (+ آخرین روز فقط اگر جا باشد)
   ctx.fillStyle='rgba(232,175,80,0.92)';
-  ctx.font='700 10px Vazirmatn,sans-serif';
+  ctx.font=axisFont;
   ctx.textAlign='center';
-  const xLabels=[1];
-  for(let d=5;d<daysInMonth;d+=5) xLabels.push(d);
-  xLabels.push(daysInMonth);
-  xLabels.forEach(d=>{
+  chartDayLabels(daysInMonth,chartW,compact?22:26).forEach(d=>{
     ctx.fillText(d,xPos(d),H-8);
   });
 
   // Build path points
   const pts=cumLine.map(p=>({x:xPos(p.day),y:yPos(p.val),val:p.val,day:p.day}));
+  // شعاعِ ملایمِ گوشه‌ها — بر اساس فاصله‌ی روزها، تا هیچ‌وقت خط را نبلعد
+  const dayGapPx=chartW/Math.max(1,daysInMonth-1);
+  const cornerR=Math.max(1.5,Math.min(5,dayGapPx*0.4));
   const isPos=totalPnl>=0;
   const lineColor     = isPos ? '#34d399' : '#f87171';
   const lineColorDark = isPos ? '#059669' : '#dc2626';
@@ -12788,7 +12821,7 @@ function drawChart(y,m){
   ctx.save();
   ctx.beginPath();
   ctx.moveTo(pts[0].x, Math.min(zeroY, pad.t+chartH));
-  catmullRomPath(ctx, pts, 0.35);
+  roundedPolyPath(ctx, pts, cornerR, true);
   ctx.lineTo(pts[pts.length-1].x, Math.min(zeroY, pad.t+chartH));
   ctx.closePath();
   ctx.fillStyle = areaGrad;
@@ -12800,7 +12833,7 @@ function drawChart(y,m){
   ctx.shadowColor = glowColor;
   ctx.shadowBlur  = 7;
   ctx.beginPath();
-  catmullRomPath(ctx, pts, 0.35);
+  roundedPolyPath(ctx, pts, cornerR);
   ctx.strokeStyle = lineColor;
   ctx.lineWidth   = 2.2;
   ctx.lineJoin    = 'round';
@@ -12812,7 +12845,7 @@ function drawChart(y,m){
   // خط یکپارچه و باریک، بدون نقطه/گره روی روزها — تمیز و خوانا
   ctx.save();
   ctx.beginPath();
-  catmullRomPath(ctx, pts, 0.35);
+  roundedPolyPath(ctx, pts, cornerR);
   const lineGrad = ctx.createLinearGradient(pad.l, 0, pad.l+chartW, 0);
   lineGrad.addColorStop(0,   lineColorDark);
   lineGrad.addColorStop(0.5, lineColor);
@@ -14085,7 +14118,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.0';
+const APP_VERSION='83.1';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){

@@ -714,16 +714,6 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .ol-arrow{flex-shrink:0;font-size:20px;color:var(--gold);font-weight:900}
 .open-loops.done .ol-arrow{display:none}
 
-/* HOME — best day record card */.best-day{margin:14px 14px 0;padding:0;border-radius:18px;position:relative;overflow:hidden;border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
-.bd-inner{display:flex;align-items:center;gap:14px;padding:16px;position:relative;z-index:1;background:linear-gradient(135deg,rgba(232,160,32,.16),rgba(13,27,48,.6) 55%,rgba(34,197,94,.1))}
-.bd-trophy{width:52px;height:52px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:radial-gradient(circle at 35% 30%,rgba(255,217,122,.3),rgba(232,160,32,.1));border:1px solid var(--gold-border);animation:trophyGlow 2.4s ease-in-out infinite}
-@keyframes trophyGlow{0%,100%{box-shadow:0 0 8px rgba(232,160,32,.3)}50%{box-shadow:0 0 20px rgba(232,160,32,.7)}}
-.bd-body{flex:1;min-width:0}
-.bd-tag{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.3px;margin-bottom:3px}
-.bd-val{font-size:25px;font-weight:900;direction:ltr;background:linear-gradient(135deg,#7dffb0,#16a34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;filter:drop-shadow(0 2px 10px rgba(34,197,94,.3))}
-.bd-date{font-size:10.5px;font-weight:600;color:var(--text-muted);margin-top:3px;direction:ltr}
-.bd-shine{position:absolute;top:0;left:-65%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.09),transparent);transform:skewX(-18deg);animation:msShine 5.5s ease-in-out infinite;pointer-events:none;z-index:2}
-.bd-empty{padding:15px;text-align:center;font-size:11px;color:var(--text-dim);line-height:1.8;background:var(--navy-card)}
 
 /* risk tools */
 .rk-label{font-size:12px;font-weight:800;color:var(--text-warm);margin-bottom:9px}
@@ -1061,12 +1051,12 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .cal-grid{width:100%;border-collapse:collapse;min-width:300px;direction:ltr;table-layout:fixed}
 .cal-grid th{font-size:10px;font-weight:900;color:#dbe7f7;text-shadow:0 0 10px rgba(219,231,247,.35);padding:6px 2px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);text-transform:uppercase;letter-spacing:.3px}
 /* week column (rightmost) — wider so the weekly P&L stands out */
-.cal-grid th.week-col{color:#FFD277;font-size:10px;width:13%;text-transform:none;text-shadow:0 0 11px rgba(255,210,119,.45)}
+.cal-grid th.week-col{color:#FFD277;font-size:10px;width:12.5%;text-transform:none;text-shadow:0 0 11px rgba(255,210,119,.45)}
 /* Sat & Sun columns — narrower still, freeing more horizontal room for weekday cells */
 /* ستون‌های آخر هفته کمی باریک‌ترند ولی نه آن‌قدر که نماد و تعداد معامله جا نشوند */
 .cal-grid th.weekend-th{color:#FFD277;opacity:1;text-shadow:0 0 11px rgba(255,210,119,.5);width:11.5%}
 .cal-grid td{padding:2px;vertical-align:top}
-.cal-grid td.week-cell{vertical-align:middle}
+.cal-grid td.week-cell{vertical-align:top}
 
 /* Day cell */
 /* Calendar cells — deep-blue theme (empty), green (profit), red (loss) */
@@ -1093,18 +1083,20 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 /* پرمعامله‌ترین نمادِ روز — نوار باریکِ پایین خانه، همیشه چسبیده به کف.
    اندازه‌ی فونتِ خودِ نوار توسط fitDayPnl کوچک می‌شود تا در ستون‌های باریکِ
    آخر هفته هم کامل و خوانا جا شود؛ بچه‌ها با em از همان تبعیت می‌کنند. */
-.dc-sym{margin-top:auto;padding-top:2px;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:clip;font-size:clamp(7px,2.3vw,9.5px)}
+.dc-sym{margin-top:auto;padding-top:2px;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:clip;font-size:clamp(5.5px,1.75vw,7.5px)}
 .dc-sym-name{font-size:1em;font-weight:900;letter-spacing:-.1px;color:#FFD277;text-shadow:0 0 8px rgba(255,210,119,.28)}
 .dc-sym-x{font-size:.82em;font-weight:800;color:var(--text-muted);opacity:.85;margin-left:3px;font-variant-numeric:tabular-nums}
 .day-cell.has-profit .dc-sym-name,.day-cell.has-loss .dc-sym-name{color:#FFE7B0;text-shadow:0 1px 6px rgba(0,0,0,.5)}
 .day-cell.has-profit .dc-sym-x,.day-cell.has-loss .dc-sym-x{color:rgba(255,255,255,.68)}
 
 /* Week summary cell — larger, price font matches day cells */
-.week-summary-cell{background:rgba(232,160,32,.07);border-radius:9px;border:1px solid var(--gold-border);padding:8px 4px;text-align:center}
-.wsc-label{font-size:8.5px;color:var(--gold);font-weight:700;margin-bottom:3px}
+/* هم‌اندازه‌ی خانه‌های روز: همان min-height و همان padding/شعاع، محتوا وسط‌چین */
+.week-summary-cell{background:rgba(232,160,32,.07);border-radius:9px;border:1px solid var(--gold-border);padding:4px 4px;text-align:center;
+  min-height:clamp(78px,21.5vw,104px);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.wsc-label{font-size:8.5px;color:var(--gold);font-weight:700;margin-bottom:3px;white-space:nowrap}
 .wsc-val{font-size:clamp(9px,3vw,13px);font-weight:900;line-height:1.15;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:clip}
 .wsc-val.pos{color:var(--green)} .wsc-val.neg{color:var(--red)} .wsc-val.zero{color:var(--text-dim)}
-.wsc-trades{font-size:9px;color:var(--text-dim);margin-top:2px}
+.wsc-trades{font-size:9px;color:var(--text-dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:clip;max-width:100%}
 
 /* Bottom stats bar */
 .journal-stats{display:flex;gap:8px;padding:10px 14px 0}
@@ -1442,6 +1434,50 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .as-tile.span2{grid-column:span 2}
 .as-wr-bar{height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px}
 .as-wr-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#22c55e,#6ee7b7);box-shadow:0 0 8px rgba(52,211,153,.45);transition:width .9s cubic-bezier(.4,0,.2,1)}
+
+/* ── نمودار ساعتیِ عملکرد ── */
+.as-hchart{background:linear-gradient(160deg,rgba(19,42,74,.75),rgba(10,24,48,.75));border:1px solid rgba(244,200,106,.16);border-radius:13px;padding:9px 8px 8px;margin-bottom:8px}
+.as-hchart svg{display:block;width:100%;height:auto}
+.as-hc-legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:5px}
+.ashc-i{display:inline-flex;align-items:center;gap:4px;font-size:8.5px;font-weight:700;color:var(--text-dim)}
+.ashc-dot{width:7px;height:7px;border-radius:2px;display:inline-block}
+.ashc-dot.pos{background:linear-gradient(180deg,#5fe896,#16a34a)}
+.ashc-dot.neg{background:linear-gradient(180deg,#dc2626,#fb8a8a)}
+.ashc-dot.cnt{background:rgba(244,200,106,.6)}
+.as-hc-note{margin-top:6px;font-size:9.5px;line-height:1.9;color:var(--text-muted);text-align:center}
+.as-hc-note b{color:var(--gold);font-weight:900}
+.as-hc-empty{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12);border-radius:12px;padding:12px 10px;font-size:10px;line-height:1.9;color:var(--text-dim);text-align:center;margin-bottom:8px}
+
+/* ── جهت معامله (Buy / Sell) ── */
+.as-dir{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.asd-row{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:11px;padding:8px 9px;min-width:0}
+.asd-top{display:flex;align-items:center;gap:5px;min-width:0}
+.asd-ic{font-size:11px;flex-shrink:0}
+.asd-name{font-size:9px;font-weight:800;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.asd-val{margin-right:auto;font-size:13.5px;font-weight:900;direction:ltr;white-space:nowrap}
+.asd-val.pos{color:#34d399}.asd-val.neg{color:#f87171}.asd-val.zero{color:var(--text-dim)}
+.asd-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden;margin:6px 0 5px}
+.asd-fill{height:100%;border-radius:3px}
+.asd-fill.pos{background:linear-gradient(90deg,#16a34a,#5fe896);box-shadow:0 0 7px rgba(52,211,153,.4)}
+.asd-fill.neg{background:linear-gradient(90deg,#dc2626,#fb8a8a);box-shadow:0 0 7px rgba(248,113,113,.4)}
+.asd-fill.zero{background:rgba(255,255,255,.18)}
+.asd-meta{font-size:8.5px;font-weight:600;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.as-dir-note{margin-top:7px;font-size:9.5px;line-height:1.9;color:var(--text-muted);text-align:center}
+.as-dir-note b{color:var(--gold);font-weight:900}
+
+/* ── رتبه‌بندی نمادها بر اساس Net P/L ── */
+.as-rank{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.asr-row{display:flex;align-items:center;gap:6px;min-width:0}
+.asr-rk{width:14px;flex-shrink:0;font-size:9px;font-weight:900;color:var(--gold);opacity:.8;text-align:center}
+.asr-sym{flex-shrink:0;max-width:78px;font-size:10px;font-weight:800;color:var(--text-warm-bright);direction:ltr;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.asr-bar{flex:1;min-width:24px;height:6px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden}
+.asr-fill{height:100%;border-radius:3px}
+.asr-fill.pos{background:linear-gradient(90deg,#16a34a,#5fe896)}
+.asr-fill.neg{background:linear-gradient(90deg,#fb8a8a,#dc2626)}
+.asr-fill.zero{background:rgba(255,255,255,.18)}
+.asr-val{flex-shrink:0;font-size:10px;font-weight:900;direction:ltr;white-space:nowrap}
+.asr-val.pos{color:#34d399}.asr-val.neg{color:#f87171}.asr-val.zero{color:var(--text-dim)}
+.asr-meta{flex-shrink:0;font-size:8px;font-weight:600;color:var(--text-dim);white-space:nowrap}
 
 /* ===== SIGNALS TAB (سیگنال) ===== */
 #jpanel-signals{padding-bottom:8px}
@@ -4340,9 +4376,10 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   #page-journal .dc-trades{font-size:12.5px}
   /* نماد روز در دسکتاپ: کارتِ کوچکِ خوانا در کف خانه */
   #page-journal .dc-sym{padding-top:6px;gap:5px}
-  #page-journal .dc-sym-name{font-size:clamp(12px,1.15vw,15px);letter-spacing:.2px}
-  #page-journal .dc-sym-x{font-size:11px}
-  #page-journal .week-summary-cell{padding:16px 6px}
+  #page-journal .dc-sym-name{font-size:clamp(9px,.85vw,11px);letter-spacing:.2px}
+  #page-journal .dc-sym-x{font-size:8.5px}
+  /* کارتِ هفته دقیقاً هم‌اندازه‌ی خانه‌های روز */
+  #page-journal .week-summary-cell{padding:9px 10px;min-height:158px;border-radius:12px}
   #page-journal .wsc-label{font-size:12px}
   #page-journal .wsc-val{font-size:clamp(18px,1.9vw,27px)}
   #page-journal .wsc-trades{font-size:12px}
@@ -4968,8 +5005,6 @@ body.mnt-bannered{padding-top:28px}
   <!-- OPEN LOOPS (Zeigarnik) — unfinished psychology logging nudges -->
   <div class="open-loops home-rise" id="open-loops" onclick="showPage('psychology')"></div>
 
-  <!-- BEST DAY — personal record -->
-  <div class="best-day home-rise" id="best-day"></div>
 
   <!-- INSIGHT CARD — smart, data-driven -->
   <div class="home-insight home-rise" id="home-insight">
@@ -7871,23 +7906,22 @@ function renderStrategyIdentity(){
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   پروفایل مهارت — امتیازدهیِ سخت‌گیر و روزبه‌روز (بازه: سه ماه اخیر)
+   پروفایل مهارت — امتیازدهیِ روزبه‌روز روی «دو ماه اخیر»
    ─────────────────────────────────────────────────────────────────────────
-   سه اصلِ این نسخه:
-     ۱) بازه ۹۰ روز است، نه ۳۰ — نمره‌ی کلی و نمره‌ی هر بخش روی سه ماه
-        عملکرد واقعی حساب می‌شود، پس یک هفته‌ی خوب یا بد کل پروفایل را
-        جابه‌جا نمی‌کند.
-     ۲) امتیاز هر محور از میانگینِ «امتیاز روزانه»ی همان محور می‌آید. اگر
-        فاکتور یک محور در یک روز صفر باشد (مثلاً آن روز سقف ضرر روزانه
-        شکسته یا همه‌ی معامله‌ها تخلف از پلن بوده‌اند)، همان روز واقعاً صفر
-        می‌گیرد و میانگین را پایین می‌کشد — نه اینکه در یک فرمولِ کلی گم شود.
-     ۳) هیچ امتیاز مجانی داده نمی‌شود: پایه‌ی شروعِ سرد بسیار پایین است،
-        منحنی رشد سخت‌گیر شده (۵۰ خام ≈ ۳۷، ۷۰ خام ≈ ۵۶) و «پوشش داده»
-        (چند روز از ۹۰ روز واقعاً ثبت شده) امتیاز را مقیاس می‌کند. روزی که
-        ثبت نشده یا لاگ روانشناسی ندارد، سقف امتیازش پایین است.
+   اصول این نسخه:
+     ۱) بازه ۶۰ روز (دو ماه) است — نه یک هفته که با یک روز بد بهم بریزد و نه
+        سه ماه که عملکرد امروزت را زیر گذشته دفن کند.
+     ۲) هر شش محور از «امتیاز روزانه» ساخته می‌شوند: هر روزِ معاملاتی برای
+        انضباط، ریسک، ثبات، احساسات، رعایت پلن و عملکرد یک نمره‌ی مستقل
+        می‌گیرد و امتیاز محور، میانگینِ وزنیِ همان روزهاست (روزهای نزدیک‌تر
+        وزن بیشتری دارند). روز خوب امتیاز را بالا می‌برد، روز بد پایین.
+     ۳) شروع از ۷۰: تریدرِ تازه یا کسی که هنوز داده‌ی کافی ندارد، از ۷۰ شروع
+        می‌کند و هر محور به اندازه‌ی «اطمینانِ داده» از ۷۰ به سمت عملکرد
+        واقعی حرکت می‌کند — نه تنبیهِ بی‌دلیل، نه امتیازِ مجانی.
    ═══════════════════════════════════════════════════════════════════════════ */
-const RADAR_WINDOW_DAYS=90;        // سه ماه اخیر
-const RADAR_EXPECTED_ACTIVE=36;    // انتظارِ فعالیت در ۹۰ روز (~۳ روز در هفته)
+const RADAR_WINDOW_DAYS=60;        // دو ماه اخیر
+const RADAR_EXPECTED_ACTIVE=24;    // انتظارِ فعالیت در ۶۰ روز (~۳ روز در هفته)
+const RADAR_BASE=70;               // نمره‌ی شروع (تریدر تازه / داده‌ی کم)
 function computeSkillRadar(){
   const plan=data.plan||{};
   ensureStrategy(); const strat=data.strategy;
@@ -7905,16 +7939,34 @@ function computeSkillRadar(){
   const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
   const EPS=1e-9;
 
-  /* ═══════ منحنی امتیازدهی (سخت‌گیر) ═══════
-     پایه‌ی سرد پایین است تا هیچ‌کس بدون داده امتیاز نگیرد، و منحنی رشد در
-     میانه‌ها هم سخاوتمند نیست: خامِ ۵۰ ⇒ ۳۷، خامِ ۷۰ ⇒ ۵۶، خامِ ۸۵ ⇒ ۷۱.
-     بالای ۹۰ عملاً فقط با عملکرد تمیزِ چندماهه به دست می‌آید. */
-  const COLD={discipline:5, risk:4, consistency:3, emotion:6, profit:2, planAdh:4};
-  const GROW=[[0,0],[10,6],[20,13],[30,20],[40,28],[50,37],[60,46],[70,56],[80,66],[88,75],[94,83],[98,90],[100,95]];
+  /* ═══════ منحنی امتیازدهی ═══════
+     منحنی تقریباً خطی است تا نمره‌ای که می‌بینی همان چیزی باشد که کار کرده‌ای؛
+     فقط بالای ۸۸ سخت‌تر می‌شود (۹۵+ باید واقعاً استثنایی باشد).
+     خامِ ۵۰ ⇒ ۴۷، خامِ ۷۰ ⇒ ۶۷، خامِ ۸۵ ⇒ ۸۲. */
+  const COLD={discipline:RADAR_BASE, risk:RADAR_BASE, consistency:RADAR_BASE,
+              emotion:RADAR_BASE, profit:RADAR_BASE, planAdh:RADAR_BASE};
+  const GROW=[[0,2],[10,9],[20,18],[30,27],[40,37],[50,47],[60,57],[70,67],[80,77],[88,85],[94,91],[98,96],[100,99]];
   const curve=raw=>piece(Math.max(0,Math.min(100,raw||0)),GROW);
-  /* امتیاز نهایی = از پایه‌ی سرد شروع، و به اندازه‌ی «اطمینانِ داده» (w) به
-     سمت امتیاز واقعی حرکت می‌کند. w=0 یعنی هنوز داده‌ای نیست → همان پایه. */
+  /* امتیاز نهایی = از پایه‌ی ۷۰ شروع، و به اندازه‌ی «اطمینانِ داده» (w) به
+     سمت امتیاز واقعی حرکت می‌کند. w=0 یعنی هنوز داده‌ای نیست → همان ۷۰. */
   const score=(raw,w,cold)=>clamp(cold+(curve(raw)-cold)*Math.max(0,Math.min(1,w)),2,99);
+  /* میانگینِ وزنی با تأکید بر روزهای نزدیک‌تر: قدیمی‌ترین روزِ بازه وزن ۰٫۶ و
+     امروز وزن ۱٫۴ می‌گیرد؛ یعنی تغییر رفتارِ اخیر سریع‌تر در نمره دیده می‌شود. */
+  const wmean=a=>{
+    if(!a.length) return null;
+    if(a.length===1) return a[0];
+    let s=0,w=0;
+    a.forEach((v,i)=>{ const k=0.6+0.8*(i/(a.length-1)); s+=v*k; w+=k; });
+    return s/w;
+  };
+  /* ترکیبِ مؤلفه‌ها با وزنِ خودکار: مؤلفه‌ای که داده‌اش وجود ندارد (مثلاً هنوز
+     پلن پر نشده یا لاگ روانشناسی ندارد) حذف می‌شود و وزنش بین بقیه پخش
+     می‌شود — نبودِ داده نباید مثل «عملکردِ بد» نمره را پایین بکشد. */
+  const mix=parts=>{
+    let s=0,w=0;
+    parts.forEach(([v,k])=>{ if(v===null||v===undefined||!isFinite(v)) return; s+=v*k; w+=k; });
+    return w>0?s/w:0;
+  };
 
   // ── پنجره زمانی ──────────────────────────────────
   const today=new Date(); today.setHours(0,0,0,0);
@@ -8017,12 +8069,20 @@ function computeSkillRadar(){
   const avgScore=scoredPositions.length>0
     ?scoredPositions.reduce((s,p)=>s+(parseFloat(p.score)||0),0)/scoredPositions.length:0;
 
-  /* ═══════ امتیازِ روزانه‌ی هر محور ═══════
-     هر روزِ معاملاتی برای چهار محورِ رفتاری یک نمره‌ی مستقل می‌گیرد. روزی که
-     سقف ضرر روزانه را شکسته یا همه‌ی معامله‌هایش تخلف از پلن بوده، همان‌جا
-     صفر (یا نزدیک صفر) می‌گیرد. روزی که اصلاً لاگ روانشناسی ندارد هم سقف
-     پایینی دارد — «ثبت نکردن» دلیلِ امتیاز گرفتن نیست. */
-  const dayDis=[], dayRsk=[], dayEmo=[], dayPln=[];
+  /* ═══════ امتیازِ روزانه‌ی هر شش محور ═══════
+     هر روزِ معاملاتی برای هر شش محور یک نمره‌ی مستقل می‌گیرد و امتیاز محور،
+     میانگینِ وزنیِ همان روزهاست. روزی که سقف ضرر روزانه را شکسته یا همه‌ی
+     معامله‌هایش تخلف از پلن بوده، همان‌جا نزدیک صفر می‌گیرد و میانگین را
+     واقعاً پایین می‌کشد. روزی که لاگ روانشناسی ندارد، به‌جای تنبیه، از همان
+     پایه‌ی ۷۰ شروع می‌کند و بقیه‌ی نمره‌اش را خودِ اعدادِ روز تعیین می‌کند. */
+  const NEUTRAL=RADAR_BASE;               // نمره‌ی روزی که هنوز داده‌ی رفتاری ندارد
+  const medAbsDay=median(dailyPnls.map(v=>Math.abs(v)))||avgAbsDay;
+  // مقیاسِ مرجعِ یک روزِ خوب: هدف روزانه‌ی کاربر ← تارگت پلن ← اندازه‌ی معمولِ روزهای خودش
+  const dailyTarget = parseFloat(enDigits((data.goals&&data.goals.daily)||''))
+                   || parseFloat(enDigits(plan.dailyProfitTarget||'')) || 0;
+  const refDay = dailyTarget>0 ? dailyTarget : (medAbsDay>0 ? medAbsDay : (cap>0?cap*0.005:0));
+
+  const dayDis=[], dayRsk=[], dayEmo=[], dayPln=[], dayCon=[], dayPrf=[];
   jEntries.forEach(([k,e],idx)=>{
     const dayRec=psychByDay[k]||{};
     const ps=dayRec.positions||[];
@@ -8047,38 +8107,71 @@ function computeSkillRadar(){
     const rate=x=>logged?x/n:0;
     const noteOk=!!((dayRec.note&&dayRec.note.trim().length>10)||((e.note||'').trim().length>10));
 
+    // برد/باختِ خودِ معامله‌های همان روز (از ژورنال) — برای نمره‌ی عملکردِ روز
+    const jpos=e.positions||[];
+    let dWins=0, dTot=0;
+    jpos.forEach(p=>{ dTot++; if((p.pnlSign||'profit')!=='loss') dWins++; });
+
     // ۱) انضباط روز — تخلف از پلن و اشتباه، بعد جریمه‌ی ضربیِ بیش‌معامله‌گری و شکستن سقف ضرر
-    let dis = logged ? Math.max(0,100-rate(viol)*150-rate(mist)*60) : 42;
+    let dis = logged ? Math.max(0,100-rate(viol)*150-rate(mist)*60) : NEUTRAL;
     if(overtrade) dis*=0.45;
     if(dllBreach) dis*=0.35;
     if(bigBreach) dis=Math.min(dis,6);
+    if(logged && mist===0 && !overtrade && !dllBreach) dis=Math.min(100,dis+4); // روزِ کاملاً تمیز
     dayDis.push(clamp(dis));
 
     // ۲) ریسک روز — حجم زیاد/جابه‌جایی SL، شکستن سقف ضرر، و بزرگیِ ضرر نسبت به سرمایه
-    let rsk = logged ? Math.max(0,100-rate(oversize)*220-rate(slMove)*180) : 52;
+    let rsk = logged ? Math.max(0,100-rate(oversize)*220-rate(slMove)*180) : NEUTRAL+4;
     if(dllBreach) rsk=Math.min(rsk,20);
     if(bigBreach) rsk=0;
-    if(!DLL && cap>0 && pnl<0)
-      rsk=Math.min(rsk, piece(Math.abs(pnl)/cap*100,[[0,100],[1,88],[2,70],[3,45],[5,15],[8,0]]));
+    if(cap>0 && pnl<0)
+      rsk=Math.min(rsk, piece(Math.abs(pnl)/cap*100,[[0,100],[1,92],[2,78],[3,55],[5,20],[8,0]]));
+    // ضررِ روز چند برابرِ ضررِ معمولِ خودت بوده؟ (بدون نیاز به سرمایه)
+    if(!cap && pnl<0 && medAbsDay>0)
+      rsk=Math.min(rsk, piece(Math.abs(pnl)/medAbsDay,[[0,100],[1,92],[2,74],[3,52],[5,22],[8,0]]));
     dayRsk.push(clamp(rsk));
 
     // ۳) احساسات روز — اشتباهات احساسی، تیلتِ همان روز، و نوشتن یا ننوشتن یادداشت
-    let emoS = logged ? Math.max(0,100-rate(emo)*220) : 42;
+    let emoS = logged ? Math.max(0,100-rate(emo)*220) : NEUTRAL;
     if(tiltFlags[idx]) emoS*=0.45;
-    if(!noteOk) emoS-=8;
+    if(noteOk) emoS=Math.min(100,emoS+6);
     dayEmo.push(clamp(emoS));
 
     // ۴) رعایت پلن روز — فقط تخلف‌های واقعیِ پلن، با جریمه‌ی سقف ضرر و بیش‌معامله‌گری
-    let pln = logged ? Math.max(0,100-rate(viol)*190) : 38;
+    let pln = logged ? Math.max(0,100-rate(viol)*190) : NEUTRAL;
     if(overtrade) pln*=0.5;
     if(dllBreach) pln*=0.4;
     if(bigBreach) pln=Math.min(pln,6);
+    if(logged && viol===0 && !overtrade) pln=Math.min(100,pln+4);
     dayPln.push(clamp(pln));
+
+    // ۵) ثباتِ روز — روزی که اندازه‌اش شبیه روزهای معمولِ خودت است نمره‌ی بالا
+    //    می‌گیرد؛ انفجارِ ضرر و لاتاریِ سود، هر دو، ثبات را پایین می‌آورند.
+    let con;
+    if(medAbsDay>0) con=piece(Math.abs(pnl)/medAbsDay,[[0,84],[0.4,94],[0.8,100],[1.3,96],[2,82],[3,60],[4.5,36],[7,14],[10,4]]);
+    else con=NEUTRAL;
+    if(pnl<0) con*=0.80;
+    if(overtrade) con*=0.85;
+    if(medTrades>0 && trades>medTrades*2.2) con*=0.9;
+    if(logged) con=Math.min(100,con+4);
+    dayCon.push(clamp(con));
+
+    // ۶) عملکردِ روز — سود/ضررِ روز نسبت به «یک روزِ خوب» (هدف روزانه یا اندازه‌ی
+    //    معمولِ خودت) + کیفیتِ خودِ معامله‌های آن روز
+    let prf;
+    if(refDay>0) prf=piece(pnl/refDay,[[-3,0],[-2,7],[-1,18],[-0.5,30],[-0.15,42],[0,52],[0.25,63],[0.5,72],[1,85],[1.75,93],[3,100]]);
+    else prf = pnl>0?78:pnl<0?32:55;
+    if(dTot>0){
+      const wr=dWins/dTot*100;
+      prf = prf*0.75 + piece(wr,[[0,10],[25,32],[40,50],[50,62],[60,75],[75,88],[100,100]])*0.25;
+    }
+    if(dllBreach) prf*=0.7;
+    dayPrf.push(clamp(prf));
   });
 
   /* ═══════ پوشش داده و وزنِ اطمینان ═══════
-     covRatio = چند روز از سه ماه واقعاً ثبت شده. کسی که در ۹۰ روز فقط ۳ روز
-     ثبت کرده، حق ندارد نمره‌ی یک تریدرِ سه‌ماهه‌ی منظم را بگیرد. */
+     covRatio = چند روز از دو ماه واقعاً ثبت شده. کسی که در ۶۰ روز فقط ۳ روز
+     ثبت کرده، هنوز نزدیکِ پایه‌ی ۷۰ می‌ماند: نه تنبیه، نه نمره‌ی یک تریدرِ منظمِ دوماهه. */
   const covRatio=Math.min(1,activeDays/RADAR_EXPECTED_ACTIVE);
   const covMul  =0.55+0.45*covRatio;
   const wDays   =Math.min(1,activeDays/12);
@@ -8098,7 +8191,7 @@ function computeSkillRadar(){
   // ================================================================
   let discipline;
   if(activeDays>0){
-    const raw=(mean(dayDis)||0)*0.65 + overtradeScore*0.15 + redStreakScore*0.20;
+    const raw=(wmean(dayDis)||0)*0.65 + overtradeScore*0.15 + redStreakScore*0.20;
     discipline=score(raw, wBehav, COLD.discipline);
   } else discipline=COLD.discipline;
 
@@ -8128,7 +8221,7 @@ function computeSkillRadar(){
   riskFactors.push(hasExit?'قوانین خروج ✓':'قانون خروج نداری ✗');
   let risk;
   if(activeDays>0){
-    const raw=(mean(dayRsk)||0)*0.45 + ddScore*0.25 + tailScore*0.15 + configScore*0.15;
+    const raw=mix([[wmean(dayRsk),0.45],[ddScore,0.25],[tailScore,0.15],[configScore>0?configScore:null,0.15]]);
     risk=score(raw, Math.max(wBehav, wDays*covMul*0.9), COLD.risk);
   } else {
     // هنوز معامله‌ای نیست: فقط کامل‌کردنِ پلن امتیازِ ناچیزی می‌دهد
@@ -8136,8 +8229,8 @@ function computeSkillRadar(){
   }
 
   // ================================================================
-  // ۳) ثبات — ۳۰٪ روز سبز | ۲۰٪ پراکندگی | ۱۵٪ عدم وابستگی به یک روز |
-  //           ۲۰٪ فعالیت در سه ماه | ۱۵٪ پیوستگیِ ثبت
+  // ۳) ثبات — ۴۰٪ میانگین نمره‌ی ثباتِ روزانه | ۱۸٪ روز سبز | ۱۲٪ پراکندگی |
+  //           ۸٪ عدم وابستگی به یک روز | ۱۴٪ فعالیت در دو ماه | ۸٪ پیوستگیِ ثبت
   // ================================================================
   let consistency;
   if(activeDays>0){
@@ -8153,10 +8246,12 @@ function computeSkillRadar(){
     if(totalPnl<0) dispScore=Math.min(dispScore,35);
     const grossGreen=dailyPnls.filter(p=>p>0).reduce((a,b)=>a+b,0);
     const concScore=(winDays>=2&&grossGreen>0)?piece(bestDayPnl/grossGreen,[[0.2,95],[0.3,78],[0.45,55],[0.7,25],[1,5]]):25;
-    const activityScore=piece(activeDays,[[0,0],[3,12],[8,28],[15,48],[24,66],[36,84],[50,95],[65,100]]);
-    const habitScore=piece(logRate,[[0,10],[0.3,35],[0.6,62],[0.85,85],[1,100]]);
-    let raw=greenScore*0.30 + dispScore*0.20 + concScore*0.15 + activityScore*0.20 + habitScore*0.15;
-    if(totalPnl<0 && lossDays>winDays) raw*=0.75;
+    // فعالیت نسبت به انتظارِ دو ماه (۲۴ روز فعال ≈ ۳ روز در هفته)
+    const activityScore=piece(activeDays,[[0,0],[2,14],[5,32],[10,52],[16,70],[24,88],[34,96],[45,100]]);
+    const habitScore=psychDays>0?piece(logRate,[[0,10],[0.3,35],[0.6,62],[0.85,85],[1,100]]):null;
+    let raw=mix([[wmean(dayCon),0.40],[greenScore,0.18],[dispScore,0.12],[concScore,0.08],
+                 [activityScore,0.14],[habitScore,0.08]]);
+    if(totalPnl<0 && lossDays>winDays) raw*=0.85;
     consistency=score(raw, Math.max(wDays*covMul, 0.35*covRatio), COLD.consistency);
   } else consistency=COLD.consistency;
 
@@ -8165,7 +8260,7 @@ function computeSkillRadar(){
   // ================================================================
   let emotion;
   if(activeDays>0){
-    const raw=(mean(dayEmo)||0)*0.70 + tiltScore*0.15 + noteScore*0.15;
+    const raw=mix([[wmean(dayEmo),0.70],[tiltScore,0.15],[psychDays>0?noteScore:null,0.15]]);
     emotion=score(raw, wBehav, COLD.emotion);
   } else emotion=COLD.emotion;
 
@@ -8184,14 +8279,16 @@ function computeSkillRadar(){
   planStructure=Math.min(100,planStructure);
   let planAdh;
   if(activeDays>0){
-    const raw=(mean(dayPln)||0)*0.60 + planStructure*0.20 + piece(logRate,[[0,0],[0.3,30],[0.6,60],[0.85,85],[1,100]])*0.20;
+    const logComp = psychDays>0 ? piece(logRate,[[0,0],[0.3,30],[0.6,60],[0.85,85],[1,100]]) : null;
+    const raw=mix([[wmean(dayPln),0.60],[planStructure>0?planStructure:null,0.20],[logComp,0.20]]);
     planAdh=score(raw, wBehav, COLD.planAdh);
   } else {
     planAdh=score(planStructure, Math.min(0.3, planStructure/100*0.3), COLD.planAdh);
   }
 
   // ================================================================
-  // ۶) عملکرد — ۳۵٪ Profit Factor | ۳۵٪ اکسپکتنسی | ۳۰٪ بازده خالص
+  // ۶) عملکرد — ۴۰٪ میانگین نمره‌ی روزانه | ۲۵٪ Profit Factor |
+  //             ۲۰٪ اکسپکتنسی | ۱۵٪ بازده خالص
   // ================================================================
   let profit;
   if(totalTrades>0){
@@ -8207,8 +8304,8 @@ function computeSkillRadar(){
     } else if(totalPnl>0) retScore=Math.min(85,42+Math.log1p(totalPnl)*4);
     else if(totalPnl<0)   retScore=Math.max(0,35-Math.log1p(Math.abs(totalPnl))*4);
     else retScore=35;
-    const raw=pfScore*0.35 + expScore*0.35 + retScore*0.30;
-    profit=score(raw, wTrades*covMul, COLD.profit);
+    const raw=(wmean(dayPrf)||0)*0.40 + pfScore*0.25 + expScore*0.20 + retScore*0.15;
+    profit=score(raw, Math.max(wTrades, wDays*0.8)*covMul, COLD.profit);
   } else profit=COLD.profit;
 
   return {
@@ -8226,14 +8323,23 @@ function computeSkillRadar(){
       // شفافیتِ نسخه‌ی سخت‌گیر — برای پنل راهنما
       coverage:Math.round(covRatio*100), expectedDays:RADAR_EXPECTED_ACTIVE,
       logRate:Math.round(logRate*100), planStructure:Math.round(planStructure),
+      base:RADAR_BASE,
       dayAvg:{
-        dis:Math.round(mean(dayDis)||0), rsk:Math.round(mean(dayRsk)||0),
-        emo:Math.round(mean(dayEmo)||0), pln:Math.round(mean(dayPln)||0)
+        dis:Math.round(wmean(dayDis)||0), rsk:Math.round(wmean(dayRsk)||0),
+        emo:Math.round(wmean(dayEmo)||0), pln:Math.round(wmean(dayPln)||0),
+        con:Math.round(wmean(dayCon)||0), prf:Math.round(wmean(dayPrf)||0)
+      },
+      goodDays:{
+        dis:dayDis.filter(v=>v>=80).length, rsk:dayRsk.filter(v=>v>=80).length,
+        emo:dayEmo.filter(v=>v>=80).length, pln:dayPln.filter(v=>v>=80).length,
+        con:dayCon.filter(v=>v>=80).length, prf:dayPrf.filter(v=>v>=80).length
       },
       zeroDays:{
         dis:dayDis.filter(v=>v<=10).length, rsk:dayRsk.filter(v=>v<=10).length,
-        emo:dayEmo.filter(v=>v<=10).length, pln:dayPln.filter(v=>v<=10).length
-      }
+        emo:dayEmo.filter(v=>v<=10).length, pln:dayPln.filter(v=>v<=10).length,
+        con:dayCon.filter(v=>v<=10).length, prf:dayPrf.filter(v=>v<=10).length
+      },
+      refDay:Math.round(refDay*100)/100, dailyTarget
     }
   };
 }
@@ -9713,28 +9819,28 @@ function closeRadarHelp(){ const e=document.getElementById('radar-help'); if(e) 
 function renderRadarHelp(){
   const el=document.getElementById('radar-help-body'); if(!el)return;
   const s=computeSkillRadar(); const d=s.detail;
-  const da=d.dayAvg||{}, zd=d.zeroDays||{};
+  const da=d.dayAvg||{}, zd=d.zeroDays||{}, gd=d.goodDays||{};
   const metrics=[
     {name:'انضباط',color:'#ff6b6b',score:s.discipline,
-      desc:'هر روزِ معاملاتی جداگانه نمره می‌گیرد (تخلف از پلن، اشتباهات، بیش‌معامله‌گری و شکستن سقف ضرر روزانه) و امتیاز محور، میانگینِ همان روزهاست — پس یک روزِ بد واقعاً پایین می‌آورد. به‌علاوه‌ی زنجیره‌ی روزهای قرمز.',
-      stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.dis||0)}</b> · روزهای صفر: <b>${toFA(zd.dis||0)}</b> از <b>${toFA(d.activeDays)}</b> · روزهای بی‌اشتباه: <b>${toFA(d.cleanDays)}</b> از <b>${toFA(d.psychDays)}</b> · روز بیش‌معامله‌گری: <b>${toFA(d.overtradeDays)}</b> · بلندترین زنجیره‌ی قرمز: <b>${toFA(d.maxRedStreak)}</b> روز`},
+      desc:'هر روزِ معاملاتی جداگانه نمره می‌گیرد (تخلف از پلن، اشتباهات، بیش‌معامله‌گری و شکستن سقف ضرر روزانه) و امتیاز محور، میانگینِ وزنیِ همان روزهاست — روزهای اخیر وزن بیشتری دارند، پس اصلاحِ رفتار سریع خودش را نشان می‌دهد. به‌علاوه‌ی زنجیره‌ی روزهای قرمز.',
+      stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.dis||0)}</b> · روزهای عالی: <b>${toFA(gd.dis||0)}</b> · روزهای صفر: <b>${toFA(zd.dis||0)}</b> از <b>${toFA(d.activeDays)}</b> · روزهای بی‌اشتباه: <b>${toFA(d.cleanDays)}</b> از <b>${toFA(d.psychDays)}</b> · روز بیش‌معامله‌گری: <b>${toFA(d.overtradeDays)}</b> · بلندترین زنجیره‌ی قرمز: <b>${toFA(d.maxRedStreak)}</b> روز`},
     {name:'رعایت پلن',color:'#7dd3fc',score:(typeof s.planAdh==='number'?s.planAdh:0),
       desc:'فقط تخلف‌های واقعیِ پلن در هر روز (جابه‌جایی حد ضرر، ورود بدون ستاپ، حجم بیش از حد، خروج زودهنگام، FOMO و انتقام) + کامل بودن خودِ پلن + این‌که چند درصد روزهای معاملاتی‌ات را واقعاً ثبت کرده‌ای.',
       stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.pln||0)}</b> · روزهای صفر: <b>${toFA(zd.pln||0)}</b> · تخلف ثبت‌شده: <b>${toFA(d.planViolations)}</b> در <b>${toFA(d.positions)}</b> معامله · کامل بودن پلن: <b>${toFA(d.planStructure||0)}٪</b> · پوشش ثبت: <b>${toFA(d.logRate||0)}٪</b> روزها`},
     {name:'ریسک',color:'#f5c84f',score:s.risk,
-      desc:'مستقیم از اعداد سود/ضرر: نمره‌ی ریسکِ هر روز (شکستن سقف ضرر، حجم زیاد، جابه‌جایی SL، بزرگیِ ضرر نسبت به سرمایه) + حداکثر افت سرمایه‌ی سه ماه + اندازه‌ی بزرگ‌ترین ضرر نسبت به میانگین سود + کامل‌بودن تنظیمات پلن.',
+      desc:'مستقیم از اعداد سود/ضرر: نمره‌ی ریسکِ هر روز (شکستن سقف ضرر، حجم زیاد، جابه‌جایی SL، بزرگیِ ضرر نسبت به سرمایه) + حداکثر افت سرمایه‌ی دو ماه + اندازه‌ی بزرگ‌ترین ضرر نسبت به میانگین سود + کامل‌بودن تنظیمات پلن.',
       stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.rsk||0)}</b> · روزهای صفر: <b>${toFA(zd.rsk||0)}</b><br>`+d.riskFactors.map(f=>'• '+f).join('<br>')},
     {name:'ثبات',color:'#4da3ff',score:s.consistency,
-      desc:'نرخ روزهای سبز + یکنواختی نتایج روزانه + این‌که سودت به یک روز خوش‌شانس وابسته نباشد + مقدار فعالیت در سه ماه + پیوستگیِ ثبت. کم‌کاری در بازه، امتیاز را واقعاً پایین می‌آورد.',
-      stats:`روز سبز: <b>${toFA(d.winDays)}</b> · روز قرمز: <b>${toFA(d.lossDays)}</b> · روز فعال: <b>${toFA(d.activeDays)}</b> از انتظارِ <b>${toFA(d.expectedDays||0)}</b> روز · وین‌ریت: <b>${toFA(d.winRate)}٪</b>`},
+      desc:'هر روز یک «نمره‌ی ثبات» می‌گیرد: روزی که اندازه‌اش شبیه روزهای معمولِ خودت است نمره‌ی بالا می‌گیرد و انفجارِ ضرر یا لاتاریِ سود هر دو پایین می‌آورند. کنارش: نرخ روزهای سبز، پراکندگی نتایج، وابسته‌نبودن سود به یک روز، و مقدار فعالیت در دو ماه.',
+      stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.con||0)}</b> · روزهای عالی: <b>${toFA(gd.con||0)}</b> · روز سبز: <b>${toFA(d.winDays)}</b> · روز قرمز: <b>${toFA(d.lossDays)}</b> · روز فعال: <b>${toFA(d.activeDays)}</b> از انتظارِ <b>${toFA(d.expectedDays||0)}</b> روز · وین‌ریت: <b>${toFA(d.winRate)}٪</b>`},
     {name:'احساسات',color:'#c77dff',score:s.emotion,
       desc:'نمره‌ی احساسیِ هر روز از اشتباهات احساسی ثبت‌شده (ترس، طمع، انتقام، FOMO…) و تیلتِ همان روز ساخته می‌شود؛ روزی که تیلت داشته‌ای نمره‌اش نصف می‌شود. یادداشت‌نویسیِ روزانه هم بخشی از امتیاز است.',
       stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.emo||0)}</b> · روزهای صفر: <b>${toFA(zd.emo||0)}</b> · اشتباه احساسی: <b>${toFA(d.emoMistakes)}</b> از <b>${toFA(d.positions)}</b> معامله · روز تیلت: <b>${toFA(d.tiltDays)}</b> · روز یادداشت‌دار: <b>${toFA(d.notedDays||0)}</b>`},
     {name:'عملکرد',color:'#5fe896',score:s.profit,
-      desc:'سه سنجه‌ی حرفه‌ای: Profit Factor (سود ناخالص ÷ ضرر ناخالص)، اکسپکتنسی (امید ریاضی هر معامله بر حسب R) و بازده خالص'+(d.cap>0?' نسبت به سرمایه':'')+'. سقف امتیاز فقط با PF بالای ۲ و بازده واقعی به دست می‌آید.',
-      stats:`سود خالص بازه: <b>${fmtUSD(d.totalPnl)}</b>${d.retPct!==null?` (<b>${toFA(d.retPct)}٪</b> سرمایه)`:''} · PF: <b>${toFA(d.profitFactor)}</b> · وین‌ریت: <b>${toFA(d.winRate)}٪</b> · R/R: <b>${toFA(d.rr)}</b>`}
+      desc:'نمره‌ی هر روز از سود/ضررِ همان روز نسبت به «یک روزِ خوب» (هدف روزانه‌ات، وگرنه اندازه‌ی معمولِ روزهای خودت) و کیفیت معامله‌های همان روز ساخته می‌شود؛ کنارش سه سنجه‌ی حرفه‌ای: Profit Factor، اکسپکتنسی و بازده خالص'+(d.cap>0?' نسبت به سرمایه':'')+'.',
+      stats:`میانگین نمره‌ی روزانه: <b>${toFA(da.prf||0)}</b> · روزهای عالی: <b>${toFA(gd.prf||0)}</b>${d.refDay?` · مقیاسِ روزِ خوب: <b>${fmtUSD(d.refDay)}</b>`:''}<br>سود خالص بازه: <b>${fmtUSD(d.totalPnl)}</b>${d.retPct!==null?` (<b>${toFA(d.retPct)}٪</b> سرمایه)`:''} · PF: <b>${toFA(d.profitFactor)}</b> · وین‌ریت: <b>${toFA(d.winRate)}٪</b> · R/R: <b>${toFA(d.rr)}</b>`}
   ];
-  el.innerHTML=`<div class="rh-window">📅 محاسبه بر اساس <b>${toFA(d.windowDays)} روز اخیر (۳ ماه)</b> — ${toFA(d.totalTrades)} معامله در ${toFA(d.activeDays)} روز فعال · پوشش داده: <b>${toFA(d.coverage||0)}٪</b><br><small style="opacity:.75">امتیازها سخت‌گیرانه‌اند: هر محور میانگینِ نمره‌ی روزبه‌روزِ خودت است و روزی که فاکتورش صفر شده، صفر حساب می‌شود. هرچه بخش بیشتری از این سه ماه را ثبت کنی، امتیازها به عملکرد واقعی‌ات نزدیک‌تر می‌شوند.</small></div>`+
+  el.innerHTML=`<div class="rh-window">📅 محاسبه بر اساس <b>${toFA(d.windowDays)} روز اخیر (۲ ماه)</b> — ${toFA(d.totalTrades)} معامله در ${toFA(d.activeDays)} روز فعال · پوشش داده: <b>${toFA(d.coverage||0)}٪</b><br><small style="opacity:.75">شروع همه از <b>${toFA(d.base||70)}</b> است: تا وقتی داده‌ی کافی نداری، هر شش محور نزدیکِ ${toFA(d.base||70)} می‌مانند. با ثبتِ هر روز، نمره‌ی همان روز برای هر شش محور حساب می‌شود و امتیاز به سمت عملکرد واقعی‌ات حرکت می‌کند — روزِ خوب بالا می‌برد، روزِ بد پایین. روزهای نزدیک‌تر وزن بیشتری دارند.</small></div>`+
     metrics.map(m=>`<div class="rh-metric" style="--mc:${m.color}">
       <div class="rh-m-head"><span class="rh-m-dot"></span><span class="rh-m-name">${m.name}</span><span class="rh-m-score">${toFA(m.score)}<small>/۱۰۰</small></span></div>
       <div class="rh-m-desc">${m.desc}</div>
@@ -10296,7 +10402,6 @@ function updateHome(){
   renderAdvancedStats();
   renderGoalsProgress(true);
   renderOpenLoops();
-  renderBestDay();
   renderStrategyIdentity();
   idCardPeek();
   if(typeof maybeShowDonateNudge==='function') maybeShowDonateNudge();
@@ -10540,25 +10645,8 @@ function renderGoalsProgress(animate){
   el.querySelectorAll('.gp-ring-fg[data-off]').forEach(c=>animateReveal(c,'strokeDashoffset',C.toFixed(1),c.dataset.off,animate));
 }
 
-function renderBestDay(){
-  const el=document.getElementById('best-day'); if(!el)return;
-  const best=getBestDay();
-  if(!best){
-    el.innerHTML=`<div class="bd-empty">🏆 هنوز رکوردی نداری — اولین روز سودده‌ات همین‌جا ثبت می‌شه!</div>`;
-    return;
-  }
-  const d=new Date(best.key+'T00:00:00');
-  const greg=d.toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
-  const shamsi=d.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long'});
-  el.innerHTML=`<div class="bd-shine"></div><div class="bd-inner">
-    <div class="bd-trophy">🏆</div>
-    <div class="bd-body">
-      <div class="bd-tag">بهترین روزت تا حالا</div>
-      <div class="bd-val">${fmtUSD(best.pnl)}</div>
-      <div class="bd-date">${shamsi} · ${greg}</div>
-    </div>
-  </div>`;
-}
+// کارت «بهترین روزت تا حالا» از داشبورد حذف شد (۱۴۰۵/۰۵) — رکوردِ بهترین روز
+// همچنان در کارت هویتِ تریدر (renderStrategyIdentity) از getBestDay خوانده می‌شود.
 
 // Zeigarnik effect — surface today's unfinished psychology logging
 function renderOpenLoops(){
@@ -13006,16 +13094,27 @@ function renderAdvancedStats(){
   const el=document.getElementById('adv-stats'); if(!el) return;
 
   const bump=(o,k,v)=>{ o[k]=(o[k]||0)+v; };
-  const parseMt=s=>{ // "YYYY.MM.DD HH:MM:SS" → ms (اسلش + فاصله برای پارس مطمئن در مرورگر)
-    if(!s||s.length<10) return NaN;
-    return Date.parse(s.slice(0,10).replace(/\./g,'/')+' '+((s.slice(11)||'00:00:00').trim()||'00:00:00'));
+
+  // ساعتِ هر معامله: اول ساعتی که خودِ کاربر نوشته، وگرنه ساعتِ بازشدنِ متاتریدر
+  const hourOfPos=p=>{
+    if(p&&p.time&&/^\d{1,2}:\d{2}$/.test(p.time)){
+      const h=parseInt(p.time.split(':')[0],10);
+      if(h>=0&&h<=23) return h;
+    }
+    const ot=p&&p.mtOpenTime;
+    if(ot&&/^\d{4}\.\d{2}\.\d{2}/.test(ot)){
+      const h=parseInt(String(ot).substr(11,2),10);
+      if(h>=0&&h<=23) return h;
+    }
+    return null;
   };
 
-  // ── جمع‌آوری معاملات (کیفیت + زمان + نماد) ──
+  // ── جمع‌آوری معاملات (کیفیت + زمان + نماد + جهت) ──
   let winC=0, lossC=0, grossWin=0, grossLoss=0;
-  const hourPnl={}, dowPnl={}, monPnl={};
+  const hourPnl={}, hourCnt={}, hourWin={}, dowPnl={}, monPnl={};
   const symPnl={}, symCount={}, symWin={};   // تحلیل نماد: سود، تعداد و برد هر نماد
-  let holdSum=0, holdN=0;
+  // جهت معامله (خرید/فروش) — از mtType متاتریدر
+  const dirS={buy:{pnl:0,n:0,w:0,gw:0,gl:0}, sell:{pnl:0,n:0,w:0,gw:0,gl:0}};
 
   Object.entries(data.journal||{}).forEach(([k,e])=>{
     if(!e||!(e.trades>0)) return;
@@ -13029,14 +13128,23 @@ function renderAdvancedStats(){
         // نماد این معامله (از متاتریدر یا نوشته‌ی دستی) وارد تحلیل نمادها می‌شود
         const sy=(typeof posSymbolOf==='function')?posSymbolOf(p):'';
         if(sy){ bump(symPnl,sy,pnl); symCount[sy]=(symCount[sy]||0)+1; if(!loss&&v>0) symWin[sy]=(symWin[sy]||0)+1; }
+        // جهت: Buy یا Sell
+        const ty=String(p.mtType||'').toLowerCase();
+        if(ty==='buy'||ty==='sell'){
+          const D=dirS[ty];
+          D.pnl+=pnl; D.n++;
+          if(v>0){ if(loss) D.gl+=v; else { D.w++; D.gw+=v; } }
+        }
+        // ساعت معامله
+        const hh=hourOfPos(p);
+        if(hh!==null){
+          bump(hourPnl,hh,pnl);
+          hourCnt[hh]=(hourCnt[hh]||0)+1;
+          if(v>0&&!loss) hourWin[hh]=(hourWin[hh]||0)+1;
+        }
         const ot=p.mtOpenTime; let d=null;
-        if(ot&&/^\d{4}\.\d{2}\.\d{2}/.test(ot)){
-          const hh=parseInt(ot.substr(11,2),10);
-          if(hh>=0&&hh<=23) bump(hourPnl,hh,pnl);
-          d=new Date(ot.slice(0,10).replace(/\./g,'-')+'T00:00:00');
-          const o=parseMt(p.mtOpenTime), c=parseMt(p.mtCloseTime);
-          if(isFinite(o)&&isFinite(c)&&c>o){ const m=(c-o)/60000; if(m<60*24*45){ holdSum+=m; holdN++; } }
-        } else { d=new Date(k+'T00:00:00'); }
+        if(ot&&/^\d{4}\.\d{2}\.\d{2}/.test(ot)) d=new Date(ot.slice(0,10).replace(/\./g,'-')+'T00:00:00');
+        else d=new Date(k+'T00:00:00');
         if(d&&!isNaN(d)){
           bump(dowPnl,d.toLocaleDateString('fa-IR',{weekday:'long'}),pnl);
           bump(monPnl,d.toLocaleDateString('fa-IR',{month:'long'}),pnl);
@@ -13076,13 +13184,7 @@ function renderAdvancedStats(){
   const bestHour=maxOf(hourPnl), worstHour=minOf(hourPnl);
   const bestDow=maxOf(dowPnl), bestMon=maxOf(monPnl);
   const fmtHour=h=>h===null?'—':toFA(String(h[0]).padStart(2,'0'))+':۰۰';
-  const avgHold=holdN?holdSum/holdN:0;
-  const fmtDur=m=>{
-    if(!m) return '—';
-    if(m<60) return toFA(Math.round(m))+' دقیقه';
-    const h=Math.floor(m/60), mm=Math.round(m%60);
-    return toFA(h)+' ساعت'+(mm?' '+toFA(mm)+'د':'');
-  };
+  const hourLbl=h=>toFA(String(h).padStart(2,'0'))+':۰۰';
 
   // ── روانشناسی ──
   const mkAll={}, mkLoss={};
@@ -13111,8 +13213,98 @@ function renderAdvancedStats(){
     tile('بهترین ساعت', fmtHour(bestHour), 'pos', bestHour?fmtUSD(bestHour[1]):'')+
     tile('بدترین ساعت', fmtHour(worstHour), 'neg', worstHour?fmtUSD(worstHour[1]):'')+
     tile('بهترین روز هفته', bestDow?bestDow[0]:'—', 'gold', bestDow?fmtUSD(bestDow[1]):'')+
-    tile('بهترین ماه', bestMon?bestMon[0]:'—', 'gold', bestMon?fmtUSD(bestMon[1]):'')+
-    tile('میانگین نگهداری', fmtDur(avgHold), 'dim', holdN?toFA(holdN)+' معامله':'بدون زمان');
+    tile('بهترین ماه', bestMon?bestMon[0]:'—', 'gold', bestMon?fmtUSD(bestMon[1]):'');
+
+  /* ── نمودار ساعتیِ عملکرد ────────────────────────────────────────────
+     ۲۴ ستونِ ساعتِ شبانه‌روز: بالای خط صفر سبز (سود) و پایینش قرمز (ضرر)،
+     ارتفاع = Net P/L همان ساعت. بهترین ساعت با هاله‌ی طلایی مشخص می‌شود و
+     نوارِ باریکِ زیرِ نمودار، تعدادِ معامله‌ی هر ساعت را نشان می‌دهد. */
+  const hoursWithData=Object.keys(hourCnt).length;
+  let hourChartHTML='';
+  if(hoursWithData){
+    const HRS=Array.from({length:24},(_,i)=>i);
+    const vals=HRS.map(h=>hourPnl[h]||0);
+    const top=Math.max(0,...vals), bot=Math.min(0,...vals);
+    const span=(top-bot)||1;
+    const W=344, H=126, padT=8, padB=26, padL=4, padR=4;
+    const plotH=H-padT-padB;
+    const zeroY=padT+(top/span)*plotH;
+    const slot=(W-padL-padR)/24;
+    const bw=Math.max(6,slot-3.4);
+    const bestH=bestHour?parseInt(bestHour[0],10):null;
+    const maxCnt=Math.max(...HRS.map(h=>hourCnt[h]||0),1);
+
+    let bars='', ticks='', counts='';
+    HRS.forEach(h=>{
+      const x=padL+h*slot+(slot-bw)/2;
+      const v=hourPnl[h]||0, c=hourCnt[h]||0;
+      if(c>0){
+        const hgt=Math.max(2.2,Math.abs(v)/span*plotH);
+        const y=v>=0?zeroY-hgt:zeroY;
+        const pos=v>=0;
+        const fill=pos?'url(#asHgPos)':'url(#asHgNeg)';
+        const wr=c?Math.round((hourWin[h]||0)/c*100):0;
+        const tip=`${hourLbl(h)} · ${fmtUSD(v)} · ${toFA(c)} معامله · ${toFA(wr)}٪ برد`;
+        bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${hgt.toFixed(1)}" rx="${Math.min(3,bw/2.6).toFixed(1)}" fill="${fill}"`+
+              (h===bestH?' stroke="rgba(244,200,106,.95)" stroke-width="1.1"':'')+`><title>${tip}</title></rect>`;
+        // نوارِ تعداد معامله زیر محور
+        const ch=Math.max(1.6,(c/maxCnt)*6);
+        counts+=`<rect x="${x.toFixed(1)}" y="${(padT+plotH+4).toFixed(1)}" width="${bw.toFixed(1)}" height="${ch.toFixed(1)}" rx="1" fill="rgba(244,200,106,${(0.25+0.5*c/maxCnt).toFixed(2)})"/>`;
+      } else {
+        bars+=`<rect x="${x.toFixed(1)}" y="${(zeroY-1.1).toFixed(1)}" width="${bw.toFixed(1)}" height="2.2" rx="1" fill="rgba(255,255,255,.07)"/>`;
+      }
+      if(h%3===0) ticks+=`<text x="${(padL+h*slot+slot/2).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(232,175,80,.75)">${toFA(h)}</text>`;
+    });
+
+    const wrBest=bestH!==null&&hourCnt[bestH]?Math.round((hourWin[bestH]||0)/hourCnt[bestH]*100):null;
+    hourChartHTML=
+      `<div class="as-hchart">
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="عملکرد بر اساس ساعت">
+          <defs>
+            <linearGradient id="asHgPos" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5fe896"/><stop offset="100%" stop-color="#16a34a"/>
+            </linearGradient>
+            <linearGradient id="asHgNeg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#dc2626"/><stop offset="100%" stop-color="#fb8a8a"/>
+            </linearGradient>
+          </defs>
+          <line x1="${padL}" y1="${zeroY.toFixed(1)}" x2="${W-padR}" y2="${zeroY.toFixed(1)}" stroke="rgba(255,255,255,.22)" stroke-width="1" stroke-dasharray="4 4"/>
+          ${bars}${counts}${ticks}
+        </svg>
+        <div class="as-hc-legend">
+          <span class="ashc-i"><i class="ashc-dot pos"></i>ساعت سودده</span>
+          <span class="ashc-i"><i class="ashc-dot neg"></i>ساعت ضررده</span>
+          <span class="ashc-i"><i class="ashc-dot cnt"></i>تعداد معامله</span>
+        </div>
+        ${bestHour?`<div class="as-hc-note">🏅 بهترین پنجره‌ی معاملاتی‌ات <b>${hourLbl(bestH)}</b> است — ${fmtUSD(bestHour[1])}${wrBest!==null?` با ${toFA(wrBest)}٪ برد`:''}${worstHour&&worstHour[1]<0?` · ضعیف‌ترین ساعت <b>${hourLbl(parseInt(worstHour[0],10))}</b> (${fmtUSD(worstHour[1])})`:''}</div>`:''}
+      </div>`;
+  } else {
+    hourChartHTML=`<div class="as-hc-empty">⏰ برای نمودار ساعتی، ساعتِ معامله لازم است — با اتصال متاتریدر خودکار ثبت می‌شود یا در کارت هر معامله دستی بنویس.</div>`;
+  }
+
+  /* ── عملکرد بر اساس جهت معامله (Buy / Sell) ─────────────────────── */
+  const dirTotal=dirS.buy.n+dirS.sell.n;
+  let dirHTML='';
+  if(dirTotal>0){
+    const mx=Math.max(Math.abs(dirS.buy.pnl),Math.abs(dirS.sell.pnl),1);
+    const row=(key,icon,name)=>{
+      const D=dirS[key];
+      const wr=D.n?Math.round(D.w/D.n*100):0;
+      const pf=D.gl>0?(D.gw/D.gl):(D.gw>0?null:0);
+      const cls=D.pnl>0?'pos':D.pnl<0?'neg':'zero';
+      const w=Math.max(3,Math.abs(D.pnl)/mx*100);
+      return `<div class="asd-row">
+        <div class="asd-top"><span class="asd-ic">${icon}</span><span class="asd-name">${name}</span>
+          <span class="asd-val ${cls}">${fmtUSD(D.pnl)}</span></div>
+        <div class="asd-bar"><div class="asd-fill ${cls}" style="width:${w.toFixed(1)}%"></div></div>
+        <div class="asd-meta">${toFA(D.n)} معامله · ${toFA(wr)}٪ برد · PF ${pf===null?'∞':toFA(pf.toFixed(2))}</div>
+      </div>`;
+    };
+    const diff=dirS.buy.pnl-dirS.sell.pnl;
+    const better=Math.abs(diff)<1e-9?null:(diff>0?'خرید':'فروش');
+    dirHTML=`<div class="as-dir">${row('buy','🟢','BUY — خرید')}${row('sell','🔴','SELL — فروش')}</div>`+
+      (better?`<div class="as-dir-note">📌 در معاملات <b>${better}</b> بهتر عمل کرده‌ای — اختلاف خالص <b>${fmtUSD(Math.abs(diff))}</b>.</div>`:'');
+  }
 
   const qualHTML=
     `<div class="as-tile span2"><div class="as-t-label">Win Rate — نرخ برد</div><div class="as-t-val ${wrCls}">${toFA(winRate)}٪</div><div class="as-wr-bar"><div class="as-wr-fill" style="width:${Math.max(0,Math.min(100,winRate))}%"></div></div></div>`+
@@ -13128,7 +13320,7 @@ function renderAdvancedStats(){
 
   // ── تحلیل نماد ── کدام نماد بیشترین معامله، بیشترین سود و بیشترین ضرر را داده
   const symKeys=Object.keys(symCount);
-  let symHTML='';
+  let symHTML='', symRankHTML='';
   if(symKeys.length){
     const mostTraded=maxOf(symCount);
     const bestSym=maxOf(symPnl), worstSym=minOf(symPnl);
@@ -13138,12 +13330,29 @@ function renderAdvancedStats(){
       tile('پرسودترین نماد', bestSym[1]>0?bestSym[0]:'—', 'pos', bestSym[1]>0?fmtUSD(bestSym[1])+' · '+wrOf(bestSym[0]):'هنوز نمادِ سوددهی نیست')+
       tile('پرضررترین نماد', worstSym[1]<0?worstSym[0]:'—', 'neg', worstSym[1]<0?fmtUSD(worstSym[1])+' · '+wrOf(worstSym[0]):'ضرری ثبت نشده')+
       tile('تنوع نمادها', toFA(symKeys.length), 'dim', 'نماد معامله‌شده');
+
+    // رتبه‌بندیِ نمادها بر اساس Net P/L — از پرسودترین تا پرضررترین
+    const ranked=symKeys.map(s=>({s,pnl:symPnl[s]||0,n:symCount[s]||0,w:symWin[s]||0}))
+                        .sort((a,b)=>b.pnl-a.pnl).slice(0,6);
+    const mxAbs=Math.max(...ranked.map(r=>Math.abs(r.pnl)),1);
+    symRankHTML=`<div class="as-rank">`+ranked.map((r,i)=>{
+      const cls=r.pnl>0?'pos':r.pnl<0?'neg':'zero';
+      const wr=r.n?Math.round(r.w/r.n*100):0;
+      return `<div class="asr-row">
+        <span class="asr-rk">${toFA(i+1)}</span>
+        <span class="asr-sym">${escapeHtml(r.s)}</span>
+        <div class="asr-bar"><div class="asr-fill ${cls}" style="width:${Math.max(3,Math.abs(r.pnl)/mxAbs*100).toFixed(1)}%"></div></div>
+        <span class="asr-val ${cls}">${fmtUSD(r.pnl)}</span>
+        <span class="asr-meta">${toFA(r.n)}م · ${toFA(wr)}٪</span>
+      </div>`;
+    }).join('')+`</div>`;
   }
 
   el.innerHTML=
     `<div class="as-head">📊 تحلیل هوشمند عملکرد <span class="as-note">همه‌ی معاملات · زنده</span></div>`+
-    `<div class="as-group"><div class="as-group-title">⏱ تحلیل زمان معامله</div><div class="as-grid">${timeHTML}</div></div>`+
-    (symHTML?`<div class="as-group"><div class="as-group-title">🏷 تحلیل نمادها</div><div class="as-grid">${symHTML}</div></div>`:'')+
+    `<div class="as-group"><div class="as-group-title">⏰ عملکرد بر اساس ساعت معامله</div>${hourChartHTML}<div class="as-grid">${timeHTML}</div></div>`+
+    (dirHTML?`<div class="as-group"><div class="as-group-title">🧭 عملکرد بر اساس جهت معامله</div>${dirHTML}</div>`:'')+
+    (symHTML?`<div class="as-group"><div class="as-group-title">🏷 عملکرد بر اساس نمادها — بیشترین Net P/L</div>${symRankHTML}<div class="as-grid">${symHTML}</div></div>`:'')+
     `<div class="as-group"><div class="as-group-title">🎯 تحلیل کیفیت معاملات</div><div class="as-grid">${qualHTML}</div></div>`+
     `<div class="as-group"><div class="as-group-title">🧠 تحلیل روانشناسی</div><div class="as-grid">${psyHTML}</div></div>`;
 }
@@ -13688,12 +13897,12 @@ function scDrawCard(ctx,s){
   ctx.save(); ctx.shadowColor=execC; ctx.shadowBlur=14; ctx.fillStyle=execC;
   scRoundRect(ctx,ebR-efw,ebY,efw,ebH,ebH/2); ctx.fill(); ctx.restore();
 
-  // ── پنل مهارت: حلقه‌ی روانی + شش نوار (بازه‌ی سه ماه) ──
+  // ── پنل مهارت: حلقه‌ی روانی + شش نوار (بازه‌ی دو ماه) ──
   const pX=80, pY=1288, pW=SC_W-160, pH=258;
   ctx.fillStyle='rgba(255,255,255,.035)';
   ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=2;
   scRoundRect(ctx,pX,pY,pW,pH,30); ctx.fill(); ctx.stroke();
-  scText(ctx,'پروفایل مهارت — ۳ ماه اخیر',pX+pW-30,pY+34,{size:22,weight:800,color:MUTED,align:'right'});
+  scText(ctx,'پروفایل مهارت — ۲ ماه اخیر',pX+pW-30,pY+34,{size:22,weight:800,color:MUTED,align:'right'});
 
   const rcx=pX+pW-135, rcy=pY+158, rr=72;
   const emo=radar.emotion;
@@ -14118,7 +14327,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.1';
+const APP_VERSION='83.2';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){

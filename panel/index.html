@@ -229,6 +229,13 @@ tr.lb-top td{background:rgba(232,160,32,.045)}
 .ann-inp:focus{outline:none;border-color:var(--gold-border);background:rgba(232,160,32,.04)}
 .ann-emoji{width:64px;flex-shrink:0;text-align:center;font-size:17px;padding:9px 6px}
 textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
+.ann-exp-row{display:flex;align-items:center;gap:9px;margin-top:8px;flex-wrap:wrap}
+.ann-exp-lbl{font-size:12px;font-weight:800;color:var(--gold);flex-shrink:0}
+.ann-exp-sel{flex:1;min-width:180px;cursor:pointer;padding:10px 12px;font-size:12.5px}
+.ann-exp-sel option{background:#101d33;color:#e9eef7}
+.ann-exp-hint{font-size:10.5px;color:var(--dim);margin-top:6px;line-height:1.8}
+.ann-exp-badge{font-size:10.5px;font-weight:800;border-radius:8px;padding:3px 9px;border:1px solid rgba(232,160,32,.32);background:rgba(232,160,32,.12);color:#f0c05a}
+.ann-exp-badge.over{border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.12);color:#fca5a5}
 /* donate */
 .dn-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
 @media(max-width:720px){.dn-grid{grid-template-columns:1fr}}
@@ -641,6 +648,20 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         <input type="text" id="ann-title" class="ann-inp" placeholder="عنوان اطلاعیه…" maxlength="120">
       </div>
       <textarea id="ann-body" class="ann-inp" rows="3" placeholder="متن اطلاعیه… (به همه‌ی کاربران داخل برنامه نمایش داده می‌شود)" maxlength="2000"></textarea>
+      <div class="ann-exp-row">
+        <span class="ann-exp-lbl">⏳ تاریخ انقضا:</span>
+        <select id="ann-expires" class="ann-inp ann-exp-sel">
+          <option value="0">بدون انقضا (تا وقتی دستی متوقف کنی)</option>
+          <option value="-1" id="ann-exp-keep" hidden>انقضای فعلی حفظ شود</option>
+          <option value="6">۶ ساعته</option>
+          <option value="12">۱۲ ساعته</option>
+          <option value="24">۲۴ ساعته</option>
+          <option value="72">۳ روزه</option>
+          <option value="168">۷ روزه</option>
+          <option value="720">۳۰ روزه</option>
+        </select>
+      </div>
+      <div class="ann-exp-hint">بعد از پایانِ مهلت، اطلاعیه خودکار از برنامه‌ی کاربران برداشته می‌شود (این را خودِ سرور اعمال می‌کند).</div>
       <div class="ann-actions">
         <button class="ann-send" id="ann-save-btn" onclick="annSave()">📤 انتشار اطلاعیه</button>
         <button class="ann-cancel" id="ann-cancel-btn" onclick="annCancelEdit()" style="display:none">انصراف از ویرایش</button>
@@ -1707,6 +1728,28 @@ async function growthLoad(){
 
 /* ===== announcements ===== */
 let _annEdit=null,_anns=[];
+/* انقضا: ستون expires_at فقط بعد از اجرای ann-expiry.sql وجود دارد؛ تا آن موقع
+   undefined است و همه‌جا مثل «بدون انقضا» رفتار می‌شود. */
+function annExpired(a){
+  if(!a||!a.expires_at) return false;
+  const t=Date.parse(a.expires_at);
+  return isFinite(t) && t<=Date.now();
+}
+function annLeftTxt(a){
+  const t=Date.parse(a.expires_at);
+  if(!isFinite(t)) return '';
+  let m=Math.round((t-Date.now())/60000);
+  if(m<=0) return 'منقضی شد';
+  if(m<60) return faNum(m)+' دقیقه مانده';
+  const h=Math.round(m/60);
+  if(h<48) return faNum(h)+' ساعت مانده';
+  return faNum(Math.round(h/24))+' روز مانده';
+}
+function annExpBadge(a){
+  if(!a||!a.expires_at) return '';
+  const over=annExpired(a);
+  return '<span class="ann-exp-badge'+(over?' over':'')+'">⏳ '+annLeftTxt(a)+'</span>';
+}
 function _sqlMissing(r,box){
   if(r&&(r.code==='PGRST202'||/could not find the function/i.test(r.message||''))){
     if(box)box.innerHTML='<div class="empty-row">⚠️ فایل admin-extras.sql هنوز در Supabase اجرا نشده</div>';
@@ -1724,22 +1767,26 @@ async function annLoad(){
     }
     _anns=r.items||[];
     document.getElementById('ann-count').textContent=_anns.length?faNum(_anns.length)+' اطلاعیه':'';
-    box.innerHTML=_anns.length?_anns.map(a=>
-      '<div class="ann-item'+(a.active?'':' off')+'">'+
+    box.innerHTML=_anns.length?_anns.map(a=>{
+      const expired=annExpired(a);
+      const showing=a.active&&!expired;
+      return '<div class="ann-item'+(showing?'':' off')+'">'+
         '<div class="ann-item-head">'+
           '<span>'+esc(a.emoji)+'</span>'+
           '<span class="ann-item-title">'+esc(a.title)+'</span>'+
-          '<span class="badge '+(a.active?'ok':'no')+'">'+(a.active?'در حال نمایش':'متوقف')+'</span>'+
+          '<span class="badge '+(showing?'ok':'no')+'">'+(showing?'در حال نمایش':(expired?'منقضی شد':'متوقف'))+'</span>'+
+          annExpBadge(a)+
           (a.reads!==undefined?'<span class="badge mid">👁 '+faNum(a.reads)+' نفر خواندند</span>':'')+
           '<span class="item-date">'+faDateTime(a.created_at)+'</span>'+
         '</div>'+
         '<div class="ann-item-body">'+esc(a.body)+'</div>'+
         '<div class="item-btns">'+
-          '<button class="act-btn act-ban" onclick="annToggle('+a.id+','+(!a.active)+')">'+(a.active?'⏸ توقف نمایش':'▶️ نمایش دوباره')+'</button>'+
+          '<button class="act-btn act-ban" onclick="annToggle('+a.id+','+(!showing)+')">'+(showing?'⏸ توقف نمایش':'▶️ نمایش دوباره')+'</button>'+
           '<button class="act-btn act-pass" onclick="annEdit('+a.id+')">✏️ ویرایش</button>'+
           '<button class="act-btn act-del" onclick="annDel('+a.id+')">🗑 حذف</button>'+
         '</div>'+
-      '</div>').join(''):'<div class="empty-row">هنوز اطلاعیه‌ای ننوشته‌ای — اولین اطلاعیه را از فرم بالا منتشر کن</div>';
+      '</div>';
+    }).join(''):'<div class="empty-row">هنوز اطلاعیه‌ای ننوشته‌ای — اولین اطلاعیه را از فرم بالا منتشر کن</div>';
   }catch(e){}
 }
 async function annSave(){
@@ -1749,20 +1796,29 @@ async function annSave(){
   if(!title&&!body){ toast('عنوان یا متن اطلاعیه را بنویس'); return; }
   const editing=_annEdit;
   const keepActive=editing?((_anns.find(x=>x.id===editing)||{}).active!==false):true;
-  const r=await rpc('admin_ann_save',{p_token:ADMIN_TOKEN,p_id:editing,p_emoji:emoji,p_title:title,p_body:body,p_active:keepActive});
+  const hrs=parseInt(document.getElementById('ann-expires').value,10);
+  const r=await rpc('admin_ann_save',{p_token:ADMIN_TOKEN,p_id:editing,p_emoji:emoji,p_title:title,p_body:body,p_active:keepActive,p_expires_hours:hrs});
   if(r&&r.ok){
-    toast(editing?'✏️ اطلاعیه ویرایش شد':'📢 منتشر شد — از این لحظه به کاربران نمایش داده می‌شود');
+    const lbl=ANN_EXP_LABELS[String(hrs)]||'';
+    toast(editing?'✏️ اطلاعیه ویرایش شد':('📢 منتشر شد'+(hrs>0?' — '+lbl+' بعد خودکار متوقف می‌شود':'')));
     annCancelEdit(); annLoad();
   }
   else if(r&&r.error==='unauthorized')authFail();
+  else if(r&&(r.code==='PGRST202'||/could not find the function/i.test(r.message||'')))
+    toast('⚠️ فایل ann-expiry.sql هنوز در Supabase اجرا نشده');
   else if(!_sqlMissing(r,document.getElementById('ann-list'))) toast('❌ خطا در ذخیره اطلاعیه');
 }
+const ANN_EXP_LABELS={'6':'۶ ساعت','12':'۱۲ ساعت','24':'۲۴ ساعت','72':'۳ روز','168':'۷ روز','720':'۳۰ روز'};
 function annEdit(id){
   const a=_anns.find(x=>x.id===id); if(!a)return;
   _annEdit=id;
   document.getElementById('ann-emoji').value=a.emoji;
   document.getElementById('ann-title').value=a.title;
   document.getElementById('ann-body').value=a.body;
+  // هنگام ویرایش، پیش‌فرض این است که انقضای فعلی دست نخورد
+  const keep=document.getElementById('ann-exp-keep');
+  if(keep){ keep.hidden=false; keep.textContent=a.expires_at?('انقضای فعلی حفظ شود ('+annLeftTxt(a)+')'):'بدون تغییر در انقضا'; }
+  document.getElementById('ann-expires').value='-1';
   document.getElementById('ann-save-btn').textContent='💾 ذخیره ویرایش';
   document.getElementById('ann-cancel-btn').style.display='';
   document.getElementById('ann-title').focus();
@@ -1772,13 +1828,19 @@ function annCancelEdit(){
   document.getElementById('ann-emoji').value='';
   document.getElementById('ann-title').value='';
   document.getElementById('ann-body').value='';
+  const keep=document.getElementById('ann-exp-keep');
+  if(keep){ keep.hidden=true; keep.textContent='انقضای فعلی حفظ شود'; }
+  document.getElementById('ann-expires').value='0';
   document.getElementById('ann-save-btn').textContent='📤 انتشار اطلاعیه';
   document.getElementById('ann-cancel-btn').style.display='none';
 }
 async function annToggle(id,active){
   const a=_anns.find(x=>x.id===id); if(!a)return;
-  const r=await rpc('admin_ann_save',{p_token:ADMIN_TOKEN,p_id:id,p_emoji:a.emoji,p_title:a.title,p_body:a.body,p_active:active});
-  if(r&&r.ok){ toast(active?'▶️ نمایش اطلاعیه فعال شد':'⏸ نمایش اطلاعیه متوقف شد'); annLoad(); }
+  // ۱- = انقضای فعلی دست نخورد. استثنا: اگر اطلاعیه‌ی منقضی‌شده را دوباره روشن
+  // می‌کنی، انقضا پاک می‌شود وگرنه باز هم برای کاربران نمایش داده نمی‌شود.
+  const revive=active&&annExpired(a);
+  const r=await rpc('admin_ann_save',{p_token:ADMIN_TOKEN,p_id:id,p_emoji:a.emoji,p_title:a.title,p_body:a.body,p_active:active,p_expires_hours:revive?0:-1});
+  if(r&&r.ok){ toast(active?(revive?'▶️ دوباره فعال شد (انقضا برداشته شد)':'▶️ نمایش اطلاعیه فعال شد'):'⏸ نمایش اطلاعیه متوقف شد'); annLoad(); }
   else if(r&&r.error==='unauthorized')authFail();
 }
 async function annDel(id){

@@ -1789,6 +1789,29 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 
 
 /* ===== psychology daily nudge card (dashboard) ===== */
+/* ── یادآورِ شبانه‌ی روانشناسی (شناور روی صفحه‌ی ژورنال، ۲۱ تا ۲۴) ── */
+.psych-night-nudge{
+  position:fixed;left:12px;right:12px;bottom:78px;z-index:9200;  /* ۶۶px نوار پایین + ۱۲ فاصله */
+  display:none;align-items:center;gap:11px;padding:11px 12px;border-radius:17px;cursor:pointer;
+  background:linear-gradient(135deg,rgba(168,85,247,.24),rgba(11,22,40,.94) 60%);
+  border:1px solid rgba(199,125,255,.5);
+  box-shadow:0 14px 36px rgba(0,0,0,.55),0 0 24px rgba(168,85,247,.18);
+  backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.psych-night-nudge.show{display:flex;animation:pnnIn .45s cubic-bezier(.34,1.3,.64,1) both}
+@keyframes pnnIn{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+.pnn-ic{width:38px;height:38px;flex-shrink:0;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:radial-gradient(circle at 35% 30%,rgba(199,125,255,.4),rgba(168,85,247,.12));
+  border:1px solid rgba(199,125,255,.45);animation:pnnGlow 2.4s ease-in-out infinite}
+@keyframes pnnGlow{0%,100%{box-shadow:0 0 8px rgba(168,85,247,.3)}50%{box-shadow:0 0 20px rgba(168,85,247,.7)}}
+.pnn-body{flex:1;min-width:0}
+.pnn-title{font-size:12.5px;font-weight:900;color:#efdcff;line-height:1.6}
+.pnn-desc{font-size:10px;font-weight:700;color:var(--text-muted);line-height:1.75;margin-top:2px}
+.pnn-close{width:26px;height:26px;flex-shrink:0;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);color:var(--text-muted);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.pnn-close:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+@media (min-width:1180px){
+  .psych-night-nudge{left:auto;right:22px;bottom:22px;max-width:390px}
+}
 .psych-daily-nudge{margin:14px 14px 0;padding:12px 14px;border-radius:18px;border:1px solid rgba(199,125,255,.3);background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(11,22,40,.7));display:flex;align-items:center;gap:11px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(168,85,247,.12)}
 .psych-daily-nudge::before{content:'';position:absolute;inset:0;border-radius:18px;background:linear-gradient(105deg,transparent 40%,rgba(168,85,247,.05),transparent);animation:pndShine 4s ease-in-out infinite;pointer-events:none}
 @keyframes pndShine{0%{opacity:0;transform:translateX(-60%)}50%{opacity:1}100%{opacity:0;transform:translateX(60%)}}
@@ -3719,6 +3742,47 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 @keyframes acctPulse{0%,100%{opacity:1}50%{opacity:.3}}
 .acct-balance{font-size:clamp(20px,6.4vw,27px);font-weight:800;line-height:1.2;letter-spacing:.4px;white-space:nowrap;background:linear-gradient(180deg,#86efac 0%,#22c55e 55%,#15803d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(34,197,94,.35));animation:acctGlow 3s ease-in-out infinite}
 @keyframes acctGlow{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,197,94,.28))}50%{filter:drop-shadow(0 3px 22px rgba(34,197,94,.6))}}
+/* ── نشانِ «سرمایه اولیه» روی سر کارت — همیشه دیده می‌شود ── */
+.acct-dep-badge{display:inline-flex;align-items:center;gap:6px;margin-top:7px;padding:4px 10px 4px 8px;border-radius:999px;
+  cursor:pointer;position:relative;overflow:hidden;max-width:100%;
+  background:linear-gradient(120deg,rgba(244,200,106,.22),rgba(244,200,106,.06) 60%,rgba(255,255,255,.03));
+  border:1px solid rgba(244,200,106,.45);box-shadow:0 3px 14px rgba(244,200,106,.14);
+  transition:border-color .25s,box-shadow .25s,transform .15s}
+.acct-dep-badge::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,245,215,.28),transparent);transform:skewX(-18deg);
+  animation:adbShine 4.6s ease-in-out infinite;pointer-events:none}
+@keyframes adbShine{0%,60%{left:-70%}100%{left:130%}}
+.acct-dep-badge:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(244,200,106,.3)}
+.acct-dep-badge:active{transform:scale(.97)}
+.adb-ic{font-size:11px;flex-shrink:0}
+.adb-lbl{font-size:clamp(8.5px,2.2vw,10px);font-weight:800;color:rgba(255,236,196,.75);white-space:nowrap}
+.adb-val{font-size:clamp(12px,3.4vw,15px);font-weight:900;letter-spacing:.3px;white-space:nowrap;
+  background:linear-gradient(180deg,#fff4d6,#F4C86A 60%,#e8a020);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 1px 8px rgba(244,200,106,.5))}
+.acct-dep-badge.empty{background:linear-gradient(120deg,rgba(248,113,113,.2),rgba(244,200,106,.06));border-color:rgba(248,113,113,.5);
+  animation:adbNag 2.4s ease-in-out infinite}
+@keyframes adbNag{0%,100%{box-shadow:0 3px 14px rgba(248,113,113,.14)}50%{box-shadow:0 3px 22px rgba(248,113,113,.4)}}
+.acct-dep-badge.empty .adb-lbl{color:#fca5a5}
+.acct-dep-badge.empty .adb-val{background:none;-webkit-background-clip:initial;background-clip:initial;color:#fecaca;filter:none;font-size:clamp(9.5px,2.5vw,11px)}
+/* ── هشدارِ سرمایه اولیه ── */
+.acct-warn{display:flex;gap:10px;align-items:flex-start;margin-top:11px;padding:10px 11px;border-radius:14px;position:relative;z-index:1;
+  background:linear-gradient(135deg,rgba(244,200,106,.14),rgba(0,0,0,.25));border:1px solid rgba(244,200,106,.42)}
+.acct-warn.illogical{background:linear-gradient(135deg,rgba(239,68,68,.16),rgba(0,0,0,.25));border-color:rgba(248,113,113,.5)}
+.aw-ic{font-size:19px;flex-shrink:0;line-height:1.3}
+.aw-body{flex:1;min-width:0}
+.aw-title{font-size:clamp(11px,2.9vw,12.5px);font-weight:900;color:var(--gold);margin-bottom:4px}
+.acct-warn.illogical .aw-title{color:#fca5a5}
+.aw-desc{font-size:clamp(9.5px,2.5vw,11px);font-weight:700;line-height:2;color:rgba(255,255,255,.8)}
+.aw-desc b{color:#fff;font-weight:900;direction:ltr;display:inline-block}
+.aw-addr{display:inline-block;margin-top:4px;font-size:9.5px;font-weight:800;color:rgba(255,236,196,.7)}
+.aw-btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.aw-btn{padding:7px 12px;border-radius:10px;border:1px solid rgba(244,200,106,.45);background:rgba(244,200,106,.14);
+  color:var(--gold);font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:900;cursor:pointer;transition:all var(--tr)}
+.aw-btn:hover{background:rgba(244,200,106,.26)}
+.aw-btn.fix{border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.14);color:#6ee7a8}
+.aw-btn.fix:hover{background:rgba(52,211,153,.26)}
+.acct-deposit-input.flash{animation:depFlash 1.1s ease-in-out 2}
+@keyframes depFlash{0%,100%{box-shadow:inset 0 1px 4px rgba(0,0,0,.35),0 0 0 2px rgba(244,200,106,.25)}50%{box-shadow:inset 0 1px 4px rgba(0,0,0,.35),0 0 0 4px rgba(244,200,106,.6),0 0 24px rgba(244,200,106,.5)}}
 .acct-dep-label{font-size:clamp(8px,2.1vw,9px);font-weight:800;color:rgba(255,255,255,.45);letter-spacing:.4px;margin-bottom:4px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acct-dep-box{display:flex;align-items:center;gap:4px;direction:ltr;color:rgba(255,255,255,.82);font-size:clamp(12px,3.2vw,14px);font-weight:700}
 .acct-dep-cur{font-size:clamp(11px,2.9vw,13px);font-weight:900;color:#F4C86A;filter:drop-shadow(0 0 8px rgba(244,200,106,.5))}
@@ -3889,6 +3953,15 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mg-code code{flex:1;font-family:monospace;font-size:11px;background:rgba(0,0,0,.35);border:1px dashed var(--gold-border);border-radius:8px;padding:9px 10px;color:#7fb4e8;overflow-x:auto;white-space:nowrap;text-align:left}
 .mg-code button{background:rgba(232,160,32,.12);border:1px solid var(--gold-border);border-radius:8px;padding:8px 11px;font-size:13px;cursor:pointer;flex-shrink:0}
 .mg-note{font-size:11px;color:var(--gold);opacity:.85;font-weight:700;margin-top:6px;line-height:1.9}
+/* هشدار پررنگِ «دو چارت، دو اکسپرت» — مهم‌ترین نکته‌ی نصب */
+.mg-important{margin-top:10px;border-radius:13px;padding:10px 12px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(239,68,68,.16),rgba(232,160,32,.08));
+  border:1px solid rgba(248,113,113,.45);box-shadow:0 0 0 1px rgba(248,113,113,.08),0 6px 18px rgba(0,0,0,.25);
+  animation:mgiPulse 2.6s ease-in-out infinite}
+@keyframes mgiPulse{0%,100%{box-shadow:0 0 0 1px rgba(248,113,113,.08),0 6px 18px rgba(0,0,0,.25)}50%{box-shadow:0 0 0 1px rgba(248,113,113,.25),0 6px 24px rgba(248,113,113,.18)}}
+.mgi-t{font-size:12.5px;font-weight:900;color:#fca5a5;margin-bottom:5px}
+.mgi-b{font-size:12px;font-weight:700;line-height:2.05;color:var(--text);opacity:.95}
+.mgi-b b{color:var(--gold)}
 .mg-settings-btn{display:block;width:100%;margin-top:8px;padding:11px;background:rgba(127,180,232,.1);border:1px solid rgba(127,180,232,.3);border-radius:10px;color:#7fb4e8;font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Vazirmatn',sans-serif}
 .mg-ok{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25)}
 .mg-ok .mg-step-head{color:#4ade80}
@@ -4795,13 +4868,23 @@ body.mnt-bannered{padding-top:28px}
           <div class="mg-li">در تب <span class="mg-k">Inputs</span> توکن را جای‌گذاری کن — <b>فقط بار اول</b>؛ بعداً خودش یادش می‌ماند</div>
           <div class="mg-li">در تب <span class="mg-k">Common</span> تیک <span class="mg-k">Allow Algo Trading</span> را بزن و <span class="mg-k">OK</span></div>
           <div class="mg-li">دکمه‌ی <span class="mg-k">Algo Trading</span> بالای متاتریدر هم باید سبز باشد</div>
+          <div class="mg-important">
+            <div class="mgi-t">🔴 خیلی مهم — اگر اکسپرت دیگری (مثل <b>مدیریت سرمایه</b>) داری</div>
+            <div class="mgi-b">از همان نمادی که ترید می‌کنی <b>دو چارت باز کن</b> و روی <b>هر چارت فقط یک اکسپرت</b> بگذار:
+            چارت اول ← اکسپرت مدیریت سرمایه‌ات · چارت دوم ← <span class="mg-k">TradePlanSync</span>.<br>
+            متاتریدر روی هر چارت فقط یک اکسپرت اجرا می‌کند؛ اگر هر دو را روی یک چارت بیندازی، دومی اولی را حذف می‌کند و تداخل پیش می‌آید. با دو چارت جدا، هر دو هم‌زمان و بدون هیچ مشکلی کار می‌کنند.</div>
+          </div>
         </div>
       </div>
 
       <div class="mg-step mg-clash">
         <div class="mg-step-head"><span class="mg-num">⚠️</span>اکسپرت مدیریت سرمایه داری و تداخل پیش آمد؟</div>
         <div class="mg-step-body">
-          <div style="margin-bottom:6px">نگران نباش — متاتریدر روی هر چارت فقط <b>یک</b> اکسپرت قبول می‌کند؛ همین باعث تداخل می‌شود. دو راه‌حل داری:</div>
+          <div class="mg-important" style="margin-top:0">
+            <div class="mgi-t">🔴 قانون طلایی</div>
+            <div class="mgi-b">از نمادی که ترید می‌کنی <b>دو چارت</b> باز کن و روی هر چارت <b>یک</b> اکسپرت بگذار — این مهم‌ترین نکته‌ی نصب است.</div>
+          </div>
+          <div style="margin-bottom:6px">متاتریدر روی هر چارت فقط <b>یک</b> اکسپرت قبول می‌کند؛ همین باعث تداخل می‌شود. دو راه‌حل داری:</div>
           <div class="mg-li"><span><b>راه‌حل فوری — چارت جدید:</b> یک چارت دیگر باز کن؛ مثلاً دو چارت <span class="mg-k">XAUUSD</span> کنار هم. اکسپرت مدیریت سرمایه روی چارت اول می‌ماند و <span class="mg-k">TradePlanSync</span> را روی چارت دوم بینداز. هر دو بدون هیچ تداخلی کار می‌کنند، چون محدودیت متاتریدر «یک اکسپرت روی هر چارت» است، نه در کل برنامه.</span></div>
           <div class="mg-li"><span><b>راه‌حل دوم — فایل سرویس:</b> اگر نمی‌خواهی هیچ چارتی اشغال شود، روش ۲ (پایین همین راهنما) را نصب کن؛ در پس‌زمینه‌ی متاتریدر اجرا می‌شود و اصلاً به چارت کاری ندارد.</span></div>
         </div>
@@ -5140,6 +5223,15 @@ body.mnt-bannered{padding-top:28px}
 
 <!-- ===== JOURNAL ===== -->
 <div class="page active" id="page-journal">
+  <!-- یادآورِ شبانه‌ی روانشناسی — فقط ۲۱ تا ۲۴ و فقط وقتی ثبت نشده باشد -->
+  <div class="psych-night-nudge" id="psych-night-nudge" role="button" tabindex="0" onclick="psychNightGo()">
+    <div class="pnn-ic">🧠</div>
+    <div class="pnn-body">
+      <div class="pnn-title">روانشناسی امروزت رو ثبت کردی؟</div>
+      <div class="pnn-desc">دو دقیقه وقت می‌بره؛ همین ثبتِ کوچیک، تحلیل رفتاریِ فردات رو می‌سازه</div>
+    </div>
+    <button type="button" class="pnn-close" onclick="event.stopPropagation();psychNightDismiss()" aria-label="بستن">✕</button>
+  </div>
   <div class="journal-header">
     <div class="jh-title-row">
       <div class="jh-title">
@@ -5180,12 +5272,27 @@ body.mnt-bannered{padding-top:28px}
       <span class="acct-head-main">
         <span class="acct-label"><span class="acct-live"></span>بالانس حساب</span>
         <span class="acct-balance acct-num" id="acct-balance">—</span>
+        <!-- سرمایه اولیه — همیشه دیده می‌شود، حتی وقتی کارت بسته است -->
+        <span class="acct-dep-badge" id="acct-dep-badge" onclick="event.stopPropagation();acctFocusDeposit()"></span>
       </span>
       <span class="acct-head-side">
         <span class="acct-chip" id="acct-chip">…</span>
         <span class="acct-caret" aria-hidden="true">⌄</span>
       </span>
     </button>
+
+    <!-- هشدارِ سرمایه اولیه — وقتی ثبت نشده یا با اعداد حساب نمی‌خواند -->
+    <div class="acct-warn" id="acct-warn" style="display:none">
+      <div class="aw-ic" id="acct-warn-ic">⚠️</div>
+      <div class="aw-body">
+        <div class="aw-title" id="acct-warn-title"></div>
+        <div class="aw-desc" id="acct-warn-desc"></div>
+        <div class="aw-btns">
+          <button type="button" class="aw-btn" onclick="event.stopPropagation();acctFocusDeposit()">✏️ همین‌جا بنویس</button>
+          <button type="button" class="aw-btn fix" id="acct-warn-fix" style="display:none" onclick="event.stopPropagation();acctApplySuggested()"></button>
+        </div>
+      </div>
+    </div>
 
     <div class="acct-body" id="acct-body">
       <div class="acct-body-in">
@@ -6715,7 +6822,7 @@ function showPage(name){
   if(name==='home') updateHome();
   if(name==='settings'){ if(typeof renderGoalsInputs==='function') renderGoalsInputs(); if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); if(typeof recLoadStatus==='function') recLoadStatus(); }
   if(name==='setup') renderStrategy();
-  if(name==='journal'){ renderJournal(); animateMonthlyPnl(); if(typeof mt5CheckAccess==='function') mt5CheckAccess(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); if(typeof renderMt5Account==='function'){ renderMt5Account(); mt5LoadAccount(); } }
+  if(name==='journal'){ renderJournal(); animateMonthlyPnl(); if(typeof mt5CheckAccess==='function') mt5CheckAccess(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); if(typeof renderMt5Account==='function'){ renderMt5Account(); mt5LoadAccount(); } if(typeof maybePsychNightNudge==='function') setTimeout(maybePsychNightNudge,700); }
   if(name==='psychology') renderPsychology();
 }
 
@@ -12103,6 +12210,65 @@ function psychGoToday(){
   psychYear=n.getFullYear();psychMonth=n.getMonth();psychDay=n.getDate();
   renderPsychology();
 }
+/* رفتن به صفحه‌ی روانشناسیِ یک روزِ مشخص (امروز/دیروز) */
+function psychGoToDate(d){
+  psychYear=d.getFullYear(); psychMonth=d.getMonth(); psychDay=d.getDate();
+  showPage('psychology');
+}
+
+/* ═══ یادآورِ شبانه‌ی روانشناسی ═══
+   اگر تریدر بین ۲۱ تا ۲۴ وارد ژورنال شود و روانشناسیِ امروز (یا دیروز) را ثبت
+   نکرده باشد، همان کارت آشنای داشبورد به شکل یک اعلانِ کوچکِ شناور روی صفحه
+   می‌آید. با زدنش مستقیم می‌رود به ثبتِ روانشناسیِ همان روز. هر شب فقط یک بار
+   (بعد از بستن، تا فردا شب دیگر نمی‌آید). */
+function psychLoggedOn(key){
+  const day=(data.psychology||{})[key];
+  const ps=(day&&day.positions)||[];
+  const noteOk=!!(day&&day.note&&day.note.trim());
+  const filled=ps.some(p=>p&&((p.mistakes&&p.mistakes.length)||(p.wins&&p.wins.length)||p.mood||p.plan||(p.note&&p.note.trim())||p.score));
+  return filled||noteOk;
+}
+function psychHadTrades(key){
+  const j=(data.journal||{})[key];
+  return !!(j&&j.trades>0);
+}
+function PSYCH_NIGHT_KEY(){ return (CURRENT_USER?('tradeplan_psychnight:'+CURRENT_USER.id):'tradeplan_psychnight'); }
+function psychNightDismiss(){
+  const el=document.getElementById('psych-night-nudge');
+  if(el) el.classList.remove('show');
+  try{ localStorage.setItem(PSYCH_NIGHT_KEY(),ymd(new Date())); }catch(e){}
+}
+let _psychNightTarget=null;
+function psychNightGo(){
+  const d=_psychNightTarget||new Date();
+  psychNightDismiss();
+  psychGoToDate(d);
+}
+function maybePsychNightNudge(){
+  const el=document.getElementById('psych-night-nudge');
+  if(!el) return;
+  const now=new Date();
+  const h=now.getHours();
+  if(h<21) return;                                   // فقط بین ۹ شب تا ۱۲ شب
+  try{ if(localStorage.getItem(PSYCH_NIGHT_KEY())===ymd(now)) return; }catch(e){}  // امشب بسته شده
+  const todayKey=ymd(now);
+  const y=new Date(now); y.setDate(y.getDate()-1);
+  const yKey=ymd(y);
+  const todayMissing=!psychLoggedOn(todayKey);
+  // دیروز فقط وقتی مهم است که آن روز واقعاً معامله‌ای ثبت شده باشد
+  const yMissing=psychHadTrades(yKey)&&!psychLoggedOn(yKey);
+  if(!todayMissing&&!yMissing) return;
+  _psychNightTarget=todayMissing?now:y;
+  const t=el.querySelector('.pnn-title');
+  const d=el.querySelector('.pnn-desc');
+  if(t) t.textContent = (todayMissing&&yMissing) ? 'روانشناسی امروز و دیروزت رو ثبت کردی؟'
+                       : todayMissing ? 'روانشناسی امروزت رو ثبت کردی؟'
+                       : 'روانشناسی دیروزت رو ثبت کردی؟';
+  if(d) d.textContent = todayMissing&&psychHadTrades(todayKey)
+    ? 'امروز معامله داشتی — احساس و رفتار هر معامله رو همین حالا ثبت کن'
+    : 'دو دقیقه وقت می‌بره؛ همین ثبتِ کوچیک، تحلیل رفتاریِ فردات رو می‌سازه';
+  el.classList.add('show');
+}
 
 function renderPsychology(){
   const d=getPsychDate();
@@ -14729,7 +14895,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.3';
+const APP_VERSION='83.4';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){
@@ -14914,6 +15080,134 @@ function acctDepositBlur(inp){
   renderAcctDeposit();
   renderMt5Account(); // در حالت دستی، بالانس = سرمایه اولیه + سود/زیان ژورنال
 }
+/* کارت را باز می‌کند، می‌رود سرِ کادرِ سرمایه اولیه و چند لحظه هایلایتش می‌کند */
+function acctFocusDeposit(){
+  if(currentPage!=='journal'){ showPage('journal'); }
+  if(typeof switchJournalTab==='function') switchJournalTab(0);
+  if(!acctCardOpen()){ data.acctOpen=true; saveData(); applyAcctOpenState(); }
+  setTimeout(()=>{
+    const inp=document.getElementById('acct-deposit-input');
+    if(!inp) return;
+    const card=document.getElementById('acct-card');
+    if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+    inp.classList.add('flash');
+    setTimeout(()=>inp.classList.remove('flash'),2600);
+    try{ inp.focus({preventScroll:true}); inp.select&&inp.select(); }catch(e){}
+  },260);
+}
+/* ═══ بررسی منطقی‌بودن «سرمایه اولیه» ═══
+   برای کاربرانِ متصل به متاتریدر با عددی که خود اکسپرت گزارش کرده (deposit) و
+   اگر آن را نداشت با «بالانس منهای سود/زیان ثبت‌شده» مقایسه می‌شود؛ برای ثبتِ
+   دستی هم منطقِ خود اعداد بررسی می‌شود (ضرر بیشتر از کل سرمایه، سودِ چند برابرِ
+   غیرواقعی و…). خروجی: {level, title, desc, suggest} یا null اگر همه‌چیز درست است. */
+function acctDepositCheck(){
+  const dep=parseFloat(data&&data.acctDeposit)||0;
+  const a=data&&data.mt5Account;
+  const connected=!!(a&&a.syncedAt);
+  const jp=acctJournalPnl();
+  const hasJournal=jp.has;
+  const money=v=>acctFmt(v,(a&&a.currency)||'USD');
+  const ADDR='ژورنال ← کارت «بالانس حساب» ← خانه‌ی «💰 سرمایه اولیه»';
+
+  if(connected){
+    const mtDep=parseFloat(a.deposit)||0;
+    const bal=parseFloat(a.balance)||0;
+    if(mtDep>0){
+      if(dep<=0) return {level:'missing',title:'سرمایه اولیه‌ات ثبت نشده',
+        desc:`متاتریدر گزارش می‌کند سرمایه‌ی واریزیِ حسابت <b>${money(mtDep)}</b> است. همین عدد را ثبت کن تا بالانس، درصد رشد و نمره‌ی ریسکت درست حساب شود.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+        suggest:mtDep};
+      const diff=Math.abs(dep-mtDep);
+      if(diff>5 && diff/Math.max(mtDep,1)>0.03) return {level:'mismatch',title:'سرمایه اولیه با متاتریدر نمی‌خواند',
+        desc:`تو <b>${money(dep)}</b> نوشته‌ای ولی متاتریدر واریزیِ حساب را <b>${money(mtDep)}</b> گزارش می‌کند. اگر واریز/برداشت داشته‌ای طبیعی است، وگرنه اصلاحش کن.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+        suggest:mtDep};
+      return null;
+    }
+    // اکسپرت واریزی را نمی‌دهد → از بالانس و سود ثبت‌شده حدس می‌زنیم
+    const implied=Math.round((bal-jp.pnl)*100)/100;
+    if(dep<=0){
+      if(implied>0) return {level:'missing',title:'سرمایه اولیه‌ات ثبت نشده',
+        desc:`با بالانس فعلی (<b>${money(bal)}</b>) و سود/زیانِ ثبت‌شده، سرمایه‌ی اولیه‌ات حدوداً <b>${money(implied)}</b> بوده. ثبتش کن تا محاسبه‌ها دقیق شود.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+        suggest:implied};
+      return {level:'missing',title:'سرمایه اولیه‌ات ثبت نشده',
+        desc:`عدد سرمایه‌ی اولیه (دیپازیت) را وارد کن تا رشد حساب، درصد بازده و نمره‌ی ریسک درست محاسبه شود.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+        suggest:0};
+    }
+    if(implied>0 && Math.abs(dep-implied)>Math.max(implied*0.12,25))
+      return {level:'mismatch',title:'عددهای حسابت با سرمایه اولیه جور نیست',
+        desc:`بالانس فعلی <b>${money(bal)}</b> و سود/زیان ثبت‌شده <b>${money(jp.pnl)}</b> است؛ یعنی سرمایه‌ی اولیه باید حدود <b>${money(implied)}</b> باشد، نه <b>${money(dep)}</b>. اصلاحش کن.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+        suggest:implied};
+    return null;
+  }
+
+  // ثبت دستی
+  if(dep<=0){
+    if(!hasJournal) return null;   // هنوز چیزی ثبت نکرده — شلوغش نمی‌کنیم
+    return {level:'missing',title:'سرمایه اولیه‌ات ثبت نشده',
+      desc:`معامله ثبت کرده‌ای ولی سرمایه‌ی اولیه (دیپازیت) خالی است؛ بدون آن، بالانس و درصد رشد و نمره‌ی ریسکت واقعی نیست.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+      suggest:0};
+  }
+  if(jp.pnl<0 && Math.abs(jp.pnl)>=dep)
+    return {level:'illogical',title:'عددها منطقی نیستند',
+      desc:`ضررِ ثبت‌شده (<b>${money(jp.pnl)}</b>) از کل سرمایه‌ی اولیه‌ات (<b>${money(dep)}</b>) بیشتر است. یا سرمایه‌ی اولیه اشتباه نوشته شده یا سود/ضررِ روزها. لطفاً دقیق اصلاحش کن.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+      suggest:0};
+  if(jp.pnl>0 && dep>0 && jp.pnl>dep*10)
+    return {level:'illogical',title:'سرمایه اولیه احتمالاً اشتباه است',
+      desc:`سودِ ثبت‌شده (<b>${money(jp.pnl)}</b>) بیش از ۱۰ برابرِ سرمایه‌ی اولیه‌ای است که نوشته‌ای (<b>${money(dep)}</b>). عدد سرمایه‌ی اولیه را دقیق و درست وارد کن.<br><span class="aw-addr">آدرس: ${ADDR}</span>`,
+      suggest:0};
+  return null;
+}
+let _acctSuggest=0;
+function acctApplySuggested(){
+  if(!(_acctSuggest>0)) return;
+  data.acctDeposit=Math.round(_acctSuggest*100)/100;
+  saveData();
+  renderAcctDeposit();
+  renderMt5Account();
+  showToast('✅ سرمایه اولیه روی '+acctFmt(data.acctDeposit,(data.mt5Account&&data.mt5Account.currency)||'USD')+' تنظیم شد');
+}
+function ACCT_WARN_KEY(){ return CURRENT_USER?('tradeplan_depwarn:'+CURRENT_USER.id):'tradeplan_depwarn'; }
+function renderAcctWarn(){
+  const box=document.getElementById('acct-warn');
+  if(!box) return;
+  const w=acctDepositCheck();
+  if(!w){ box.style.display='none'; _acctSuggest=0; return; }
+  _acctSuggest=w.suggest||0;
+  box.style.display='flex';
+  box.className='acct-warn '+w.level;
+  const ic=document.getElementById('acct-warn-ic');
+  if(ic) ic.textContent=w.level==='missing'?'💰':(w.level==='illogical'?'🚨':'⚠️');
+  const t=document.getElementById('acct-warn-title'); if(t) t.textContent=w.title;
+  const d=document.getElementById('acct-warn-desc'); if(d) d.innerHTML=w.desc;
+  const fix=document.getElementById('acct-warn-fix');
+  if(fix){
+    if(_acctSuggest>0){
+      fix.style.display='';
+      fix.textContent='✅ ثبت '+acctFmt(_acctSuggest,(data.mt5Account&&data.mt5Account.currency)||'USD');
+    } else fix.style.display='none';
+  }
+  // یک بار در روز، همان پیام به‌صورت توست هم نشان داده می‌شود تا از قلم نیفتد
+  // (فقط وقتی کاربر واقعاً در صفحه‌ی ژورنال است تا پیام بی‌ربط نباشد)
+  try{
+    if(currentPage==='journal' && localStorage.getItem(ACCT_WARN_KEY())!==ymd(new Date())){
+      localStorage.setItem(ACCT_WARN_KEY(),ymd(new Date()));
+      setTimeout(()=>showToast('💰 '+w.title+' — بالای همین صفحه اصلاحش کن',5200),1400);
+    }
+  }catch(e){}
+}
+/* نشانِ همیشگیِ سرمایه اولیه روی سر کارت */
+function renderAcctDepBadge(){
+  const el=document.getElementById('acct-dep-badge');
+  if(!el) return;
+  const dep=parseFloat(data&&data.acctDeposit)||0;
+  const cur=(data.mt5Account&&data.mt5Account.currency)||'USD';
+  if(dep>0){
+    el.className='acct-dep-badge';
+    el.innerHTML='<span class="adb-ic">💰</span><span class="adb-lbl">سرمایه اولیه</span><b class="adb-val acct-num">'+acctFmt(dep,cur)+'</b>';
+  }else{
+    el.className='acct-dep-badge empty';
+    el.innerHTML='<span class="adb-ic">💰</span><span class="adb-lbl">سرمایه اولیه ثبت نشده</span><b class="adb-val">بزن بنویس ✏️</b>';
+  }
+}
 
 /* ── کارت کشویی: سر کارت همیشه بالانس را نشان می‌دهد، بقیه با یک کلیک باز می‌شود.
       وضعیت باز/بسته در حساب کاربر ذخیره می‌شود تا در همه‌ی دستگاه‌ها یکی باشد. ── */
@@ -15030,6 +15324,8 @@ function renderMt5Account(){
   // هنوز داده‌ای از متاتریدر نرسیده => حالت «در انتظار اتصال»
   renderAcctDeposit(); // سرمایه اولیه دستی است و ربطی به داده‌ی متاتریدر ندارد
   renderAcctExtras();
+  renderAcctDepBadge();
+  renderAcctWarn();
   applyAcctOpenState();
   if(!a||!a.syncedAt){
     // بدون اتصال متاتریدر: بالانس از «سرمایه اولیه + جمع سود/زیان ثبت‌شده در ژورنال»

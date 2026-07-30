@@ -150,43 +150,79 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .gr-lbl{font-size:11px;font-weight:800;color:var(--text-muted)}
 .gal-date-inp{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px 9px;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:700;color:var(--text);outline:none;color-scheme:dark}
 .gal-date-inp:focus{border-color:var(--gold)}
-.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,168px),1fr));gap:10px;padding:11px 15px 30px}
-@media (min-width:1500px){.gal-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,178px),1fr));gap:11px}}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,205px),1fr));gap:12px;padding:11px 15px 30px}
+@media (min-width:1500px){.gal-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,225px),1fr));gap:13px}}
 /* add card */
-.gal-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:14px;min-height:150px;padding:10px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr)}
+.gal-add-card{border:1.5px dashed rgba(45,212,191,.5);border-radius:17px;min-height:180px;padding:10px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;background:linear-gradient(165deg,rgba(45,212,191,.09),rgba(45,212,191,.02));transition:all var(--tr)}
 .gal-add-card.locked{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.02)}
 .gal-add-card.locked .gal-add-plus{color:var(--text-muted);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);box-shadow:none}
 .gal-add-card.locked .gal-add-title{color:var(--text-muted)}
-.gal-add-card:hover{background:rgba(232,160,32,.07);border-color:var(--gold)}
+.gal-add-card:hover{background:linear-gradient(165deg,rgba(45,212,191,.16),rgba(45,212,191,.05));border-color:#2dd4bf;box-shadow:0 0 24px rgba(45,212,191,.18)}
 .gal-add-card:active{transform:scale(.98)}
-.gal-add-plus{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08);box-shadow:0 6px 18px rgba(232,160,32,.15)}
-.gal-add-title{font-size:12px;font-weight:900;color:var(--gold);line-height:1.5}
+.gal-add-plus{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#7ee7eb;border:1px solid rgba(45,212,191,.55);background:rgba(45,212,191,.12);box-shadow:0 6px 20px rgba(45,212,191,.22)}
+.gal-add-title{font-size:12.5px;font-weight:900;color:#7ee7eb;line-height:1.5}
 .gal-add-sub{font-size:9.5px;color:var(--text-muted);line-height:1.65}
-/* trade card */
-.gal-card{border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#122540,#0a1830);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 20px rgba(0,0,0,.4);transition:transform var(--tr),box-shadow var(--tr);position:relative}
-.gal-card.star{border-color:rgba(245,200,79,.45);box-shadow:0 8px 20px rgba(0,0,0,.4),0 0 0 1px rgba(245,200,79,.14)}
-.gal-card.win{border-color:rgba(34,197,94,.3)}
-.gal-card.loss{border-color:rgba(239,68,68,.3)}
-.gal-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(0,0,0,.5)}
-.gal-img-wrap{position:relative;aspect-ratio:16/9;background:#0a1424;cursor:zoom-in;overflow:hidden}
+/* ═══ کارت معامله — تمِ فیروزه‌ای/آبی روشن با افکت شیشه‌ای ═══ */
+.gal-card{border-radius:17px;overflow:hidden;position:relative;
+  background:linear-gradient(165deg,#0e3141 0%,#0d2438 45%,#0a1830 100%);
+  border:1px solid rgba(45,212,191,.22);
+  box-shadow:0 10px 26px rgba(0,0,0,.45),inset 0 1px 0 rgba(126,231,235,.09);
+  transition:transform var(--tr),box-shadow var(--tr),border-color var(--tr)}
+.gal-card::after{content:'';position:absolute;inset:0;pointer-events:none;border-radius:17px;
+  background:radial-gradient(120% 60% at 50% -10%,rgba(45,212,191,.14),transparent 60%)}
+.gal-card.star{border-color:rgba(245,200,79,.6);box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 1px rgba(245,200,79,.25),0 0 22px rgba(245,200,79,.16)}
+.gal-card.win{border-color:rgba(45,212,191,.34)}
+.gal-card.loss{border-color:rgba(244,114,182,.3)}
+.gal-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.55),0 0 0 1px rgba(45,212,191,.28)}
+/* اسلایدر عکس‌ها — اسکرول افقی با چسبیدن به هر عکس */
+.gal-slider-wrap{position:relative;background:#08131f}
+.gal-slider{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  direction:ltr;aspect-ratio:16/10;cursor:zoom-in;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.gal-slider::-webkit-scrollbar{display:none}
+.gal-slide{flex:0 0 100%;scroll-snap-align:center;height:100%}
 .gal-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
-.gal-card:hover .gal-img{transform:scale(1.04)}
-.gal-chip-date,.gal-chip-time{position:absolute;top:6px;padding:2px 7px;border-radius:10px;font-size:8.5px;font-weight:800;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff}
-.gal-chip-date{right:6px}
-.gal-chip-time{left:6px;direction:ltr;font-variant-numeric:tabular-nums}
-/* نشان ستاره — معامله‌ی «ستاره‌دار و مهم» */
-.gal-chip-star{position:absolute;bottom:6px;right:6px;width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;background:rgba(5,12,24,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(245,200,79,.55);color:#f5c84f}
+.gal-card:hover .gal-img{transform:scale(1.05)}
+/* شمارنده‌ی «۱ از ۳» */
+.gal-imgcount{position:absolute;top:6px;left:6px;padding:2.5px 8px;border-radius:11px;font-size:9px;font-weight:900;
+  background:rgba(6,20,30,.78);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  border:1px solid rgba(45,212,191,.45);color:#7ee7eb;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+.gal-imgcount b{color:#fff;font-weight:900}
+.gal-dots{position:absolute;bottom:6px;left:0;right:0;display:flex;justify-content:center;gap:4px;pointer-events:none}
+.gal-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .25s}
+.gal-dot.on{background:#2dd4bf;width:13px;border-radius:3px;box-shadow:0 0 8px rgba(45,212,191,.7)}
+/* نشان ستاره — بزرگ، درخشان و غیرقابل‌اشتباه */
+.gal-star-flag{position:absolute;top:0;right:0;z-index:3;width:32px;height:32px;display:flex;align-items:flex-start;justify-content:flex-end;
+  padding:3px 5px 0 0;font-size:14px;color:#0b1628;font-weight:900;
+  background:linear-gradient(225deg,#ffd97a 0%,#f5c84f 45%,transparent 46%);
+  filter:drop-shadow(0 2px 8px rgba(245,200,79,.55));animation:galStarPulse 2.4s ease-in-out infinite}
+@keyframes galStarPulse{0%,100%{filter:drop-shadow(0 2px 6px rgba(245,200,79,.4))}50%{filter:drop-shadow(0 2px 13px rgba(245,200,79,.85))}}
+/* ═══ بلوکِ تاریخ — بزرگ، پررنگ، وسط‌چین، با پس‌زمینه ═══ */
+.gal-datebox{margin:0;padding:8px 6px 7px;text-align:center;position:relative;
+  background:linear-gradient(180deg,rgba(45,212,191,.16),rgba(45,212,191,.05) 70%,transparent);
+  border-top:1px solid rgba(45,212,191,.28);border-bottom:1px solid rgba(45,212,191,.14)}
+.gdb-fa{display:flex;align-items:baseline;justify-content:center;gap:5px;flex-wrap:wrap;line-height:1.15}
+.gdb-day{font-size:26px;font-weight:900;color:#fff;text-shadow:0 2px 14px rgba(45,212,191,.5)}
+.gdb-mon{font-size:15px;font-weight:900;color:#7ee7eb}
+.gdb-yr{font-size:12px;font-weight:800;color:rgba(126,231,235,.75)}
+.gdb-en{margin-top:3px;font-size:11px;font-weight:800;color:#cbe9f2;letter-spacing:.5px;direction:ltr;opacity:.95}
+.gdb-time{margin-top:2px;font-size:10px;font-weight:800;color:rgba(203,233,242,.7)}
+.gal-datebox.mini{padding:6px 4px 6px}
+.gal-datebox.mini .gdb-day{font-size:21px}
+.gal-datebox.mini .gdb-mon{font-size:12.5px}
+.gal-datebox.mini .gdb-yr{font-size:10px}
+.gal-datebox.mini .gdb-en{font-size:9.5px;margin-top:2px}
+.gal-datebox.mini .gdb-time{font-size:8.5px}
 .gal-body{padding:7px 8px 8px;display:flex;flex-direction:column;gap:6px}
 /* نوار افقی نتیجه — WIN/LOSS پهن و واضح + مبلغ جدا در سمت چپ */
 .gal-strip{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:9px;border:1px solid}
-.gal-strip.win{background:linear-gradient(to left,rgba(34,197,94,.24),rgba(34,197,94,.05));border-color:rgba(34,197,94,.5)}
-.gal-strip.loss{background:linear-gradient(to left,rgba(239,68,68,.24),rgba(239,68,68,.05));border-color:rgba(239,68,68,.5)}
+.gal-strip.win{background:linear-gradient(to left,rgba(45,212,191,.26),rgba(34,197,94,.06));border-color:rgba(45,212,191,.55)}
+.gal-strip.loss{background:linear-gradient(to left,rgba(244,114,182,.24),rgba(239,68,68,.06));border-color:rgba(244,114,182,.5)}
 .gs-label{font-size:10px;font-weight:900;letter-spacing:.2px;white-space:nowrap}
-.gal-strip.win .gs-label{color:#4ade80}
-.gal-strip.loss .gs-label{color:#f87171}
+.gal-strip.win .gs-label{color:#5eead4}
+.gal-strip.loss .gs-label{color:#fda4c8}
 .gs-pnl{margin-inline-start:auto;direction:ltr;font-size:14px;font-weight:900;font-variant-numeric:tabular-nums}
-.gal-strip.win .gs-pnl{color:#4ade80;text-shadow:0 1px 10px rgba(34,197,94,.35)}
-.gal-strip.loss .gs-pnl{color:#f87171;text-shadow:0 1px 10px rgba(239,68,68,.35)}
+.gal-strip.win .gs-pnl{color:#5eead4;text-shadow:0 1px 12px rgba(45,212,191,.5)}
+.gal-strip.loss .gs-pnl{color:#fda4c8;text-shadow:0 1px 12px rgba(244,114,182,.45)}
 .gal-row1{display:flex;align-items:center;gap:8px}
 .gal-symbol{font-size:11.5px;font-weight:900;color:#fff;direction:ltr;letter-spacing:.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .gal-badge{font-size:10px;font-weight:900;letter-spacing:.6px;padding:3px 9px;border-radius:7px;direction:ltr}
@@ -205,53 +241,79 @@ textarea::placeholder,input::placeholder{color:var(--text-dim)}
 .gal-act:hover{color:#fff;border-color:rgba(255,255,255,.25)}
 .gal-act.del:hover{color:#f87171;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1)}
 .gal-empty{grid-column:1/-1;text-align:center;padding:30px 10px;color:var(--text-muted);font-size:13px;font-weight:700}
-/* تبلت: چهار ستون جمع‌وجور */
+/* تبلت: سه ستون — تاریخِ بزرگ باید کامل جا شود */
 @media (max-width:900px) and (min-width:701px){
-  .gal-grid{grid-template-columns:repeat(4,1fr);gap:9px;padding:10px 14px 28px}
+  .gal-grid{grid-template-columns:repeat(3,1fr);gap:10px;padding:10px 14px 28px}
 }
-/* موبایل: سه ستون — کارت‌ها کوچک‌تر، عکس بیشتری در یک نگاه */
+/* موبایل: دو ستون — از v83.3 تاریخِ هر معامله بزرگ و خوانا نمایش داده می‌شود
+   و در سه ستون جا نمی‌شد. */
 @media (max-width:700px){
   .gal-toolbar{padding:9px 12px 2px;gap:6px}
   .galf-menu{inset-inline-start:12px;width:calc(100vw - 24px)}
   .galf-lbl{max-width:120px}
-  .gal-grid{grid-template-columns:repeat(3,1fr);gap:7px;padding:9px 12px 26px}
-  .gal-card{border-radius:12px}
-  .gal-body{padding:5px 6px 6px;gap:4px}
-  .gal-strip{padding:4px 6px;gap:3px;border-radius:7px}
-  .gs-label{font-size:8px;letter-spacing:0}
-  .gs-pnl{font-size:11.5px}
-  .gal-symbol{font-size:9.5px}
-  .gal-chip-date,.gal-chip-time{font-size:7px;padding:1.5px 5px;top:4px;border-radius:8px}
-  .gal-chip-date{right:4px}
-  .gal-chip-time{left:4px}
-  .gal-chip-star{width:17px;height:17px;font-size:9px;bottom:4px;right:4px}
-  .gal-tag{font-size:7.5px;padding:1.5px 5px;border-radius:8px}
+  .gal-grid{grid-template-columns:repeat(2,1fr);gap:9px;padding:9px 12px 26px}
+  .gal-card{border-radius:14px}
+  .gal-body{padding:6px 7px 7px;gap:5px}
+  .gal-strip{padding:5px 7px;gap:4px;border-radius:8px}
+  .gs-label{font-size:8.5px;letter-spacing:0}
+  .gs-pnl{font-size:12.5px}
+  .gal-symbol{font-size:10.5px}
+  .gal-datebox.mini{padding:6px 4px}
+  .gal-datebox.mini .gdb-day{font-size:19px}
+  .gal-datebox.mini .gdb-mon{font-size:11.5px}
+  .gal-datebox.mini .gdb-yr{font-size:9.5px}
+  .gal-datebox.mini .gdb-en{font-size:9px}
+  .gal-datebox.mini .gdb-time{font-size:8px}
+  .gal-imgcount{font-size:8px;padding:2px 6px}
+  .gal-star-flag{width:28px;height:28px;font-size:12px}
+  .gal-tag{font-size:8px;padding:1.5px 6px;border-radius:8px}
   .gal-row2{gap:4px;min-height:20px}
   .gal-tags{gap:3px}
-  .gal-act{width:20px;height:20px;font-size:9px;border-radius:6px}
-  .gal-add-card{min-height:118px;gap:5px;border-radius:12px;padding:7px}
-  .gal-add-plus{width:31px;height:31px;font-size:15px;border-radius:10px}
-  .gal-add-title{font-size:9.5px}
-  .gal-add-sub{font-size:7.5px;line-height:1.6}
+  .gal-act{width:21px;height:21px;font-size:9.5px;border-radius:6px}
+  .gal-add-card{min-height:150px;gap:5px;border-radius:14px;padding:8px}
+  .gal-add-plus{width:34px;height:34px;font-size:17px;border-radius:11px}
+  .gal-add-title{font-size:10.5px}
+  .gal-add-sub{font-size:8.5px;line-height:1.6}
+  .gv-nav{width:34px;height:34px;font-size:20px}
+  .gv-nav.prev{right:4px}
+  .gv-nav.next{left:4px}
 }
-/* گوشی‌های خیلی باریک: دو ستون تا کارت‌ها خوانا بمانند */
+/* گوشی‌های خیلی باریک: یک ستونِ بزرگ و خوانا */
 @media (max-width:359px){
-  .gal-grid{grid-template-columns:repeat(2,1fr)}
-  .gs-label{font-size:9px}
-  .gs-pnl{font-size:13px}
-  .gal-symbol{font-size:11px}
-  .gal-add-title{font-size:11px}
-  .gal-add-sub{font-size:9px}
+  .gal-grid{grid-template-columns:1fr}
+  .gs-label{font-size:9.5px}
+  .gs-pnl{font-size:15px}
+  .gal-symbol{font-size:12px}
+  .gal-datebox.mini .gdb-day{font-size:24px}
+  .gal-add-title{font-size:12px}
+  .gal-add-sub{font-size:9.5px}
 }
 /* add/edit sheet */
 .gal-sheet{max-height:92vh;overflow-y:auto}
+/* ── جعبه‌ی عکس‌های فرم گالری (حداکثر ۳ تا) ── */
+.gal-shotbox{border:1.5px dashed rgba(45,212,191,.45);border-radius:16px;padding:9px;margin-top:4px;background:linear-gradient(165deg,rgba(45,212,191,.07),rgba(45,212,191,.02));transition:all var(--tr)}
+.gal-shotbox.drag-over{border-color:#2dd4bf;background:rgba(45,212,191,.13)}
+.gal-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gal-shot{position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#08131f;border:1px solid rgba(45,212,191,.28);display:flex;align-items:center;justify-content:center}
+.gal-shot img{width:100%;height:100%;object-fit:cover;display:block}
+.gsh-idx{position:absolute;top:4px;right:4px;min-width:17px;height:17px;padding:0 5px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;background:rgba(6,20,30,.8);border:1px solid rgba(45,212,191,.45);color:#7ee7eb}
+.gsh-main{position:absolute;bottom:4px;right:4px;padding:1.5px 6px;border-radius:8px;font-size:8.5px;font-weight:900;background:rgba(45,212,191,.85);color:#06202b}
+.gsh-del{position:absolute;top:4px;left:4px;width:19px;height:19px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(6,20,30,.8);color:#fda4c8;font-size:10px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.gal-shot.add{border-style:dashed;cursor:pointer;flex-direction:column;gap:3px;background:rgba(45,212,191,.05)}
+.gal-shot.add:hover{background:rgba(45,212,191,.12);border-color:#2dd4bf}
+.gsh-plus{font-size:20px;color:#7ee7eb;font-weight:900;line-height:1}
+.gsh-add-t{font-size:9px;font-weight:800;color:rgba(126,231,235,.9);text-align:center;padding:0 4px}
+.gal-shot.busy{flex-direction:column;gap:6px;font-size:9px;font-weight:800;color:var(--text-muted);border-style:dashed}
+.gsh-spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(45,212,191,.25);border-top-color:#2dd4bf;animation:gshSpin .8s linear infinite}
+@keyframes gshSpin{to{transform:rotate(360deg)}}
+.gal-shots-hint{margin-top:7px;font-size:10px;font-weight:700;color:var(--text-dim);line-height:1.7;text-align:center}
 .gal-drop{position:relative;border:1.5px dashed rgba(232,160,32,.5);border-radius:16px;min-height:170px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:rgba(232,160,32,.04);margin-top:4px;transition:all var(--tr)}
 .gal-drop.drag-over{border-color:var(--gold);background:rgba(232,160,32,.1)}
 .gal-drop-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px;text-align:center}
 .gal-drop-icon{font-size:30px}
 .gal-drop-title{font-size:13.5px;font-weight:800;color:var(--text)}
 .gal-drop-sub{font-size:11px;color:var(--text-muted)}
-#gal-preview{width:100%;max-height:290px;object-fit:contain;background:#0a1424;display:none}
+#sigf-preview,#sigr-preview{width:100%;max-height:290px;object-fit:contain;background:#0a1424;display:none}
 .gal-size-badge{position:absolute;bottom:8px;left:8px;background:rgba(5,12,24,.82);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:4px 10px;font-size:10.5px;font-weight:800;color:#4ade80;direction:ltr;display:none}
 .gal-res-toggle{display:flex;gap:6px}
 .gal-res-btn{flex:1;padding:11px 0;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:900;cursor:pointer;letter-spacing:.4px;transition:all var(--tr)}
@@ -274,8 +336,17 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 /* lightbox */
 #gal-view{position:fixed;inset:0;z-index:99500;background:rgba(3,8,18,.93);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:18px}
 #gal-view.show{display:flex}
-#gal-view-img{max-width:min(1200px,96vw);max-height:76vh;border-radius:14px;border:1px solid rgba(255,255,255,.15);box-shadow:0 30px 80px rgba(0,0,0,.7)}
-.gv-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:16px;cursor:pointer;z-index:1}
+.gv-stage{position:relative;display:flex;align-items:center;justify-content:center;max-width:100%}
+#gal-view-img{max-width:min(1200px,96vw);max-height:70vh;border-radius:14px;border:1px solid rgba(45,212,191,.28);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.gv-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;display:none;align-items:center;justify-content:center;
+  border:1px solid rgba(45,212,191,.45);background:rgba(6,20,30,.75);color:#7ee7eb;font-size:24px;font-weight:900;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:2}
+.gv-nav:hover{background:rgba(45,212,191,.25);color:#fff}
+.gv-nav.prev{right:-6px}
+.gv-nav.next{left:-6px}
+.gv-counter{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);padding:3px 11px;border-radius:12px;font-size:11px;font-weight:900;
+  background:rgba(6,20,30,.8);border:1px solid rgba(45,212,191,.45);color:#7ee7eb;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.gv-date{max-width:min(420px,92vw);width:100%;border-radius:14px;overflow:hidden;border:1px solid rgba(45,212,191,.28);background:rgba(6,20,30,.55)}
+.gv-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:16px;cursor:pointer;z-index:3}
 .gv-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13px;font-weight:800;color:#fff}
 .gv-note{max-width:620px;text-align:center;font-size:12px;color:var(--text-muted);line-height:1.8}
 
@@ -291,6 +362,46 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .sigc:hover .sigc-img{transform:scale(1.04)}
 /* بدون عکس: پس‌زمینه‌ی ملایمِ جهت‌دار تا کارت خالی نباشد */
 .sigc-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:30px;opacity:.5}
+/* عکس نیامد → دکمه‌ی تلاش دوباره (به‌جای اسکلتِ همیشگی) */
+.sigc-retry{flex-direction:column;gap:3px;opacity:1;cursor:pointer;background:rgba(255,255,255,.03);text-align:center;padding:8px}
+.sigc-retry span{font-size:22px}
+.sigc-retry b{font-size:10.5px;font-weight:900;color:var(--text-muted)}
+.sigc-retry i{font-size:9px;font-style:normal;color:#7ee7eb;font-weight:800}
+/* نمادِ تحلیل — بزرگ، وسط‌چین، رنگی و با پس‌زمینه‌ی مشخص */
+.sigc-symbox{padding:7px 8px;text-align:center;position:relative;overflow:hidden;border-top:1px solid;border-bottom:1px solid}
+.sigc-symbox.buy{background:linear-gradient(180deg,rgba(45,212,191,.22),rgba(34,197,94,.06));border-color:rgba(45,212,191,.42)}
+.sigc-symbox.sell{background:linear-gradient(180deg,rgba(244,114,182,.2),rgba(239,68,68,.06));border-color:rgba(244,114,182,.42)}
+.sigc-symtxt{font-size:20px;font-weight:900;letter-spacing:1.2px;direction:ltr;display:inline-block;
+  background:linear-gradient(180deg,#ffffff,#bff3ee);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 10px rgba(45,212,191,.45))}
+.sigc-symbox.sell .sigc-symtxt{background:linear-gradient(180deg,#ffffff,#ffd4e6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 10px rgba(244,114,182,.45))}
+.sigc-symbox.big{padding:11px 10px}
+.sigc-symbox.big .sigc-symtxt{font-size:27px;letter-spacing:1.6px}
+/* تبلیغِ تریدر زیر کارت تحلیل */
+.sigc-promo{display:flex;align-items:center;gap:6px;text-decoration:none;border-radius:11px;padding:7px 9px;
+  background:linear-gradient(to left,rgba(168,85,247,.16),rgba(45,212,191,.07));
+  border:1px solid rgba(168,85,247,.34);transition:all var(--tr)}
+a.sigc-promo:hover{border-color:rgba(168,85,247,.7);background:linear-gradient(to left,rgba(168,85,247,.26),rgba(45,212,191,.1))}
+.sigp-ic{font-size:12px;flex-shrink:0}
+.sigp-txt{flex:1;min-width:0;font-size:10.5px;font-weight:800;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sigp-go{flex-shrink:0;font-size:9px;font-weight:900;color:#c4b5fd;border:1px solid rgba(196,181,253,.45);border-radius:8px;padding:2px 7px}
+/* اطلاعیه‌ی «ثبت تحلیل فعال نیست» */
+.sig-permnote{margin:10px 14px 0;display:flex;gap:11px;padding:13px 13px;border-radius:16px;
+  background:linear-gradient(150deg,rgba(232,160,32,.12),rgba(255,255,255,.02) 65%);border:1px solid var(--gold-border)}
+.spn-ic{font-size:22px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(232,160,32,.4))}
+.spn-body{flex:1;min-width:0}
+.spn-t{font-size:12.5px;font-weight:900;color:var(--gold);margin-bottom:4px}
+.spn-d{font-size:11px;line-height:2;color:var(--text-muted)}
+.spn-d b{color:var(--text-warm-bright);font-weight:900}
+.spn-btn{margin-top:9px;width:100%;padding:9px 10px;border-radius:11px;border:1px solid var(--gold-border);
+  background:rgba(232,160,32,.14);color:var(--gold);font-family:'Vazirmatn',sans-serif;font-size:11.5px;font-weight:900;cursor:pointer;transition:all var(--tr)}
+.spn-btn:hover{background:rgba(232,160,32,.24)}
+/* راهنمای کوچک زیر فیلدهای فرم تحلیل */
+.sigf-hint{font-size:10px;font-weight:700;color:var(--text-dim);line-height:1.7;margin-top:5px}
+.sigf-promo-box{border:1px solid rgba(168,85,247,.32);background:linear-gradient(150deg,rgba(168,85,247,.1),rgba(255,255,255,.02));border-radius:14px;padding:11px 11px 12px;display:flex;flex-direction:column;gap:8px}
+.sigf-promo-t{font-size:12px;font-weight:900;color:#d8b4fe}
+.sigf-promo-t span{font-size:9.5px;font-weight:700;color:var(--text-dim)}
+.sigf-promo-s{font-size:10px;font-weight:700;color:var(--text-dim);line-height:1.75;margin-top:-3px}
 /* اسکلت لودینگ — تا وقتی عکسِ کارت از سرور برسد */
 .sigc-skel{background:linear-gradient(100deg,rgba(255,255,255,.03) 30%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.03) 70%);background-size:220% 100%;animation:sigSkel 1.3s ease-in-out infinite}
 @keyframes sigSkel{0%{background-position:180% 0}100%{background-position:-40% 0}}
@@ -349,21 +460,21 @@ input[type="datetime-local"]{width:100%;background:rgba(255,255,255,.05);border:
 .sigc-rthumb{flex:0 0 auto;width:62px;height:40px;border-radius:7px;object-fit:cover;border:1px solid rgba(255,255,255,.14);cursor:zoom-in}
 .sigc-radd{flex:0 0 auto;width:62px;height:40px;border-radius:7px;border:1.5px dashed rgba(232,160,32,.45);background:rgba(232,160,32,.05);color:var(--gold);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .sigc-rlabel{font-size:9px;font-weight:800;color:var(--text-muted);display:flex;align-items:center;gap:4px}
-/* کارت «ثبت سیگنال جدید» — فقط برای کاربران دارای مجوز */
+/* کارت «ثبت تحلیل جدید» — فقط برای کاربران دارای مجوز */
 .sig-add-card{border:1.5px dashed rgba(232,160,32,.45);border-radius:16px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;background:rgba(232,160,32,.03);transition:all var(--tr);text-align:center;padding:12px}
 .sig-add-card:hover{background:rgba(232,160,32,.07);border-color:var(--gold)}
 .sig-add-card:active{transform:scale(.98)}
 .sig-add-plus{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--gold);border:1px solid rgba(232,160,32,.5);background:rgba(232,160,32,.08)}
 .sig-add-title{font-size:13.5px;font-weight:900;color:var(--gold)}
 .sig-add-sub{font-size:11px;color:var(--text-muted)}
-/* سوییچ اعلان سیگنال جدید */
+/* سوییچ اعلان تحلیل جدید */
 .sig-alert-row{display:inline-flex;align-items:center;gap:7px;margin:0 14px 2px;padding:6px 11px;border-radius:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);cursor:pointer;-webkit-tap-highlight-color:transparent;max-width:calc(100% - 28px)}
 .sig-alert-row input{width:15px;height:15px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
 .sig-alert-txt{display:flex;align-items:center;gap:6px;min-width:0}
 .sig-alert-txt b{font-size:11px;font-weight:900;color:var(--text);white-space:nowrap}
 .sig-alert-txt small{font-size:9.5px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:520px){ .sig-alert-txt small{display:none} }
-/* مودال جزئیات سیگنال */
+/* مودال جزئیات تحلیل */
 #sig-view{position:fixed;inset:0;z-index:99500;background:rgba(3,8,18,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 #sig-view.show{display:flex}
 .sv-box{width:100%;max-width:560px;background:linear-gradient(160deg,#122540,#0a1830);border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7);max-height:94vh;overflow-y:auto}
@@ -1479,14 +1590,14 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .asr-val.pos{color:#34d399}.asr-val.neg{color:#f87171}.asr-val.zero{color:var(--text-dim)}
 .asr-meta{flex-shrink:0;font-size:8px;font-weight:600;color:var(--text-dim);white-space:nowrap}
 
-/* ===== SIGNALS TAB (سیگنال) ===== */
+/* ===== SIGNALS TAB (تحلیل) ===== */
 #jpanel-signals{padding-bottom:8px}
 .sig-loading,.sig-empty{padding:40px 18px;text-align:center;color:var(--text-muted);font-size:13px;line-height:1.9}
 .sig-locked{margin:16px 14px;background:linear-gradient(135deg,rgba(232,160,32,.1),rgba(232,160,32,.03));border:1px solid var(--gold-border);border-radius:18px;padding:26px 20px;text-align:center;position:relative;overflow:hidden}
 .sig-locked .sl-ic{font-size:40px;display:block;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(232,160,32,.4))}
 .sig-locked .sl-title{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:7px}
 .sig-locked .sl-desc{font-size:12.5px;color:var(--text-muted);line-height:2}
-/* معرفی بخش سیگنال — وزن‌های ۳۰۰ و ۹۰۰ وزیرمتن کنار هم، عنوان با گرادیان طلایی.
+/* معرفی بخش تحلیل — وزن‌های ۳۰۰ و ۹۰۰ وزیرمتن کنار هم، عنوان با گرادیان طلایی.
    عمداً فونت جدیدی اضافه نشد: هر فونت خارجی یک درخواست فیلترشونده‌ی دیگر است. */
 .sig-intro{margin:14px 14px 0;padding:18px 17px;border-radius:18px;position:relative;overflow:hidden;
   background:linear-gradient(150deg,rgba(232,160,32,.09),rgba(255,255,255,.02) 60%);
@@ -1501,7 +1612,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .sig-intro-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
 .sig-intro-chips .sic{font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:9px;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--text-muted);white-space:nowrap}
-/* upsell — کارت‌های محو «بقیه‌ی سیگنال‌ها» + دعوت به VIP روی آن‌ها */
+/* upsell — کارت‌های محو «بقیه‌ی تحلیل‌ها» + دعوت به VIP روی آن‌ها */
 /* ===== RECOVERY CODE ===== */
 #rec-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(6,12,22,.88);backdrop-filter:blur(6px)}
 #rec-modal.show{display:flex}
@@ -1550,7 +1661,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .sig-hero-sub{font-size:10.5px;color:var(--text-dim);font-weight:600;margin-top:1px}
 .sig-live{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399;margin-left:5px;animation:sigPulse 1.8s ease-in-out infinite;vertical-align:middle}
 @keyframes sigPulse{0%,100%{opacity:1}50%{opacity:.35}}
-/* نوار فیلتر سیگنال — همه / امروز / دیروز / سودده / ضررده */
+/* نوار فیلتر تحلیل — همه / امروز / دیروز / سودده / ضررده */
 .sig-filters{display:flex;flex-wrap:wrap;gap:7px;margin:13px 14px 0}
 .sig-filter{flex:1 1 auto;min-width:0;padding:8px 9px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text-muted);font-family:'Vazirmatn',sans-serif;font-size:11.5px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all var(--tr)}
 .sig-filter:hover{color:#fff;border-color:rgba(255,255,255,.22)}
@@ -5056,7 +5167,7 @@ body.mnt-bannered{padding-top:28px}
   <div class="journal-tabs">
     <button class="journal-tab active" onclick="switchJournalTab(0)">📒 معاملات</button>
     <button class="journal-tab" onclick="switchJournalTab(1)">🖼 گالری شخصی</button>
-    <button class="journal-tab" onclick="switchJournalTab(2)">📡 سیگنال</button>
+    <button class="journal-tab" onclick="switchJournalTab(2)">📡 تحلیل تریدرها</button>
   </div>
 
   <!-- Panel 0: TRADES — کل محتوای فعلی ژورنال -->
@@ -5206,9 +5317,9 @@ body.mnt-bannered{padding-top:28px}
     <div class="gal-grid" id="gal-grid"></div>
   </div>
 
-  <!-- Panel 2: SIGNALS — سیگنال‌های VIP (فقط برای اعضای گروه؛ RLS سمت سرور) -->
+  <!-- Panel 2: SIGNALS — تحلیل‌های VIP (فقط برای اعضای گروه؛ RLS سمت سرور) -->
   <div class="journal-panel" id="jpanel-signals">
-    <div id="sig-root"><div class="sig-loading">در حال بارگذاری سیگنال‌ها…</div></div>
+    <div id="sig-root"><div class="sig-loading">در حال بارگذاری تحلیل‌ها…</div></div>
   </div>
 </div>
 
@@ -5273,7 +5384,7 @@ body.mnt-bannered{padding-top:28px}
           <button type="button" class="rg-help-btn" onclick="toggleRuleHelp('entry')" aria-label="راهنما">؟</button>
         </div>
         <div class="rule-help" id="rule-help-entry">
-          زمانی که ستاپ کامل شد، سیگنال ورود است. مثلاً:<br>• تایم‌فریم ۴ ساعته<br>• قیمت در محدوده‌ی حمایت اصلی<br>• تشکیل کندل بازگشتی (Pin Bar)<br>• تأیید در تایم‌فریم پایین‌تر (۱۵ دقیقه)
+          زمانی که ستاپ کامل شد، لحظه‌ی ورود است. مثلاً:<br>• تایم‌فریم ۴ ساعته<br>• قیمت در محدوده‌ی حمایت اصلی<br>• تشکیل کندل بازگشتی (Pin Bar)<br>• تأیید در تایم‌فریم پایین‌تر (۱۵ دقیقه)
         </div>
         <div class="rule-list" id="rules-entry"></div>
         <div class="rule-add">
@@ -5963,20 +6074,15 @@ body.mnt-bannered{padding-top:28px}
     <div class="modal-handle"></div>
     <div class="modal-title" id="gal-sheet-title">📸 افزودن معامله به گالری</div>
 
-    <div class="gal-drop" id="gal-drop"
-      onclick="document.getElementById('gal-file').click()"
+    <!-- تا ۳ عکس برای هر معامله — بکش‌ورها یا انتخاب چندتایی -->
+    <div class="gal-shotbox" id="gal-shotbox"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
-      ondrop="event.preventDefault();this.classList.remove('drag-over');galPickFile(event.dataTransfer.files[0])">
-      <div class="gal-drop-empty" id="gal-drop-empty">
-        <div class="gal-drop-icon">🖼</div>
-        <div class="gal-drop-title">عکس چارت معامله‌ات را اینجا بارگذاری کن</div>
-        <div class="gal-drop-sub">کلیک کن یا فایل را بکش و رها کن · JPG / PNG / WebP · خودکار فشرده می‌شود</div>
-      </div>
-      <img id="gal-preview" alt="">
-      <div class="gal-size-badge" id="gal-size-badge"></div>
+      ondrop="event.preventDefault();this.classList.remove('drag-over');galPickFiles(event.dataTransfer.files)">
+      <div class="gal-shots" id="gal-shots"></div>
+      <div class="gal-shots-hint" id="gal-shots-hint"></div>
     </div>
-    <input type="file" id="gal-file" accept="image/*" style="display:none" onchange="galPickFile(this.files[0]);this.value=''">
+    <input type="file" id="gal-file" accept="image/*" multiple style="display:none" onchange="galPickFiles(this.files);this.value=''">
 
     <div class="modal-form">
       <div class="modal-row">
@@ -6046,11 +6152,11 @@ body.mnt-bannered{padding-top:28px}
   </div>
 </div>
 
-<!-- ═══════ SIGNAL: ثبت / ویرایش سیگنال (فقط کاربران دارای مجوز) ═══════ -->
+<!-- ═══════ SIGNAL: ثبت / ویرایش تحلیل (فقط کاربران دارای مجوز) ═══════ -->
 <div class="modal-overlay" id="signal-modal">
   <div class="modal-sheet gal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title" id="sigf-title">📡 ثبت سیگنال جدید</div>
+    <div class="modal-title" id="sigf-title">📡 ثبت تحلیل جدید</div>
 
     <div class="gal-drop" id="sigf-drop"
       onclick="document.getElementById('sigf-file').click()"
@@ -6059,7 +6165,7 @@ body.mnt-bannered{padding-top:28px}
       ondrop="event.preventDefault();this.classList.remove('drag-over');sigPickFile(event.dataTransfer.files[0])">
       <div class="gal-drop-empty" id="sigf-drop-empty">
         <div class="gal-drop-icon">📈</div>
-        <div class="gal-drop-title">عکس چارت سیگنال را بارگذاری کن</div>
+        <div class="gal-drop-title">عکس چارت تحلیل را بارگذاری کن</div>
         <div class="gal-drop-sub">کلیک کن یا فایل را بکش و رها کن · خودکار فشرده و در سرور ذخیره می‌شود</div>
       </div>
       <img id="sigf-preview" alt="">
@@ -6068,6 +6174,12 @@ body.mnt-bannered{padding-top:28px}
     <input type="file" id="sigf-file" accept="image/*" style="display:none" onchange="sigPickFile(this.files[0]);this.value=''">
 
     <div class="modal-form">
+      <!-- اسم مستعارِ منتشرکننده — همین اسم زیر کارت تحلیل به بقیه نشان داده می‌شود -->
+      <div>
+        <div class="modal-label">اسم مستعار برای نمایش به بقیه</div>
+        <input type="text" id="sigf-alias" placeholder="مثلاً: آکادمی الماس · مهدی تریدر" maxlength="40">
+        <div class="sigf-hint">این اسم به‌عنوان منتشرکننده، زیر کارتِ تحلیلت دیده می‌شود.</div>
+      </div>
       <div class="modal-row">
         <div style="flex:1">
           <div class="modal-label">نماد</div>
@@ -6097,14 +6209,21 @@ body.mnt-bannered{padding-top:28px}
         <div style="flex:1"><div class="modal-label">TP3</div><input type="text" id="sigf-tp3" dir="ltr" maxlength="60"></div>
       </div>
       <div>
-        <div class="modal-label">توضیحات سیگنال</div>
+        <div class="modal-label">توضیحات تحلیل</div>
         <textarea id="sigf-note" rows="2" placeholder="مثلاً: از این ناحیه با تایید ساختار وارد شوید…" maxlength="2000"></textarea>
+      </div>
+      <!-- تبلیغِ برند / رسانه‌ی تریدر — زیر کارتِ تحلیلش نمایش داده می‌شود -->
+      <div class="sigf-promo-box">
+        <div class="sigf-promo-t">📣 تبلیغ برند یا رسانه‌ات <span>(اختیاری)</span></div>
+        <div class="sigf-promo-s">زیر کارتِ تحلیلت به همه نشان داده می‌شود — کانال، پیج یا سایتت را معرفی کن.</div>
+        <input type="text" id="sigf-promo" placeholder="مثلاً: کانال تحلیل روزانه‌ی من در تلگرام" maxlength="120">
+        <input type="text" id="sigf-promo-url" dir="ltr" placeholder="https://t.me/yourchannel" maxlength="200">
       </div>
     </div>
 
     <div class="modal-btns">
       <button class="modal-btn cancel" onclick="closeSignalSheet()">انصراف</button>
-      <button class="modal-btn primary" id="sigf-save" onclick="signalSave()">انتشار سیگنال 📡</button>
+      <button class="modal-btn primary" id="sigf-save" onclick="signalSave()">انتشار تحلیل 📡</button>
     </div>
   </div>
 </div>
@@ -6117,8 +6236,8 @@ body.mnt-bannered{padding-top:28px}
     <div class="gal-drop" id="sigr-drop" onclick="document.getElementById('sigr-file').click()">
       <div class="gal-drop-empty" id="sigr-drop-empty">
         <div class="gal-drop-icon">🖼</div>
-        <div class="gal-drop-title">عکس نتیجه‌ی این سیگنال</div>
-        <div class="gal-drop-sub">به عکس‌های قبلیِ همین سیگنال اضافه می‌شود</div>
+        <div class="gal-drop-title">عکس نتیجه‌ی این تحلیل</div>
+        <div class="gal-drop-sub">به عکس‌های قبلیِ همین تحلیل اضافه می‌شود</div>
       </div>
       <img id="sigr-preview" alt="">
       <div class="gal-size-badge" id="sigr-size-badge"></div>
@@ -6141,7 +6260,7 @@ body.mnt-bannered{padding-top:28px}
 <div class="modal-overlay" id="sigresult-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title">🎯 ثبت نتیجه‌ی سیگنال</div>
+    <div class="modal-title">🎯 ثبت نتیجه‌ی تحلیل</div>
     <div class="modal-form">
       <div>
         <div class="modal-label">نتیجه‌ی نهایی</div>
@@ -6165,17 +6284,17 @@ body.mnt-bannered{padding-top:28px}
           </div>
         </div>
       </div>
-      <div class="sigrk-hint">نتیجه به‌صورت بزرگ و خوانا روی کارت سیگنال نمایش داده می‌شود و در فیلترِ «سودده/ضررده» می‌آید.</div>
+      <div class="sigrk-hint">نتیجه به‌صورت بزرگ و خوانا روی کارت تحلیل نمایش داده می‌شود و در فیلترِ «سودده/ضررده» می‌آید.</div>
     </div>
     <div class="modal-btns">
       <button class="modal-btn cancel" onclick="closeModal('sigresult-modal')">انصراف</button>
       <button class="modal-btn primary" onclick="sigResultKindSave()">ثبت نتیجه ✅</button>
     </div>
-    <button type="button" class="sigrk-reopen" onclick="sigReopenResult()">↩️ پاک کردن نتیجه و فعال کردن دوباره‌ی سیگنال</button>
+    <button type="button" class="sigrk-reopen" onclick="sigReopenResult()">↩️ پاک کردن نتیجه و فعال کردن دوباره‌ی تحلیل</button>
   </div>
 </div>
 
-<!-- SIGNAL: جزئیات کامل سیگنال -->
+<!-- SIGNAL: جزئیات کامل تحلیل -->
 <div id="sig-view" onclick="if(event.target===this)sigCloseView()">
   <button type="button" class="gv-close" onclick="sigCloseView()">✕</button>
   <div class="sv-box" id="sig-view-box"></div>
@@ -6184,7 +6303,13 @@ body.mnt-bannered{padding-top:28px}
 <!-- GALLERY: fullscreen lightbox -->
 <div id="gal-view" onclick="if(event.target===this)galCloseView()">
   <button type="button" class="gv-close" onclick="galCloseView()">✕</button>
-  <img id="gal-view-img" alt="">
+  <div class="gv-stage">
+    <button type="button" class="gv-nav prev" id="gal-view-prev" onclick="galViewStep(-1)" aria-label="عکس قبلی">‹</button>
+    <img id="gal-view-img" alt="">
+    <button type="button" class="gv-nav next" id="gal-view-next" onclick="galViewStep(1)" aria-label="عکس بعدی">›</button>
+    <div class="gv-counter" id="gal-view-counter"></div>
+  </div>
+  <div class="gv-date" id="gal-view-date"></div>
   <div class="gv-meta" id="gal-view-meta"></div>
   <div class="gv-note" id="gal-view-note"></div>
 </div>
@@ -6426,15 +6551,15 @@ body.mnt-bannered{padding-top:28px}
   </div>
 </div>
 
-<!-- اعلان سیگنال جدید — وقتی کاربر وارد برنامه می‌شود و سیگنال تازه‌ای هست -->
+<!-- اعلان تحلیل جدید — وقتی کاربر وارد برنامه می‌شود و تحلیل تازه‌ای هست -->
 <div id="signew-overlay" onclick="if(event.target===this)sigAlertDismiss()">
   <div class="ann-card">
     <div class="ann-shine"></div>
     <div class="ann-emoji">📡</div>
-    <div class="ann-title" id="signew-title">سیگنال جدید داری!</div>
+    <div class="ann-title" id="signew-title">تحلیل جدید داری!</div>
     <div class="ann-body" id="signew-body"></div>
     <div class="ann-date" id="signew-date"></div>
-    <button type="button" class="ann-ok" onclick="sigAlertOpen()">مشاهده سیگنال ‹</button>
+    <button type="button" class="ann-ok" onclick="sigAlertOpen()">مشاهده تحلیل ‹</button>
     <button type="button" class="ann-ok" style="background:rgba(255,255,255,.06);color:var(--text-muted);box-shadow:none;margin-top:7px" onclick="sigAlertDismiss()">بعداً</button>
   </div>
 </div>
@@ -6613,38 +6738,44 @@ function switchSetupTab(idx){
 
 // ===== JOURNAL TABS =====
 function switchJournalTab(idx){
-  // idx 0=معاملات (محتوای فعلی ژورنال), 1=گالری معاملات, 2=سیگنال
+  // idx 0=معاملات (محتوای فعلی ژورنال), 1=گالری معاملات, 2=تحلیل
   document.querySelectorAll('.journal-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.journal-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
   if(idx===1) renderGallery();
   if(idx===2 && typeof loadSignals==='function') loadSignals();
 }
 
-/* ═══════════════ SIGNALS (سیگنال VIP) ═══════════════
-   RLS سمت سرور تضمین می‌کند فقط سیگنالِ گروه‌های معتبرِ همین کاربر برگردد.
+/* ═══════════════ SIGNALS (تحلیل VIP) ═══════════════
+   RLS سمت سرور تضمین می‌کند فقط تحلیلِ گروه‌های معتبرِ همین کاربر برگردد.
    عضویت VIP از user_groups (ردیف خودِ کاربر) چک می‌شود تا «قفل» از «VIP ولی
-   بدون سیگنال» تفکیک شود. رندر با هر باز شدن تب تازه می‌شود. */
+   بدون تحلیل» تفکیک شود. رندر با هر باز شدن تب تازه می‌شود. */
 let _sigItems=[], _sigVip=false, _sigBusy=false, _sigFilter='all';
-// مجوز «سیگنال دادن» — ادمین از پنل فعال می‌کند (جدول signal_access)
+// مجوز «تحلیل دادن» — ادمین از پنل فعال می‌کند (جدول signal_access)
 let _sigCanPost=false, _sigPostChecked=false;
+// ستون‌های اسم مستعار و تبلیغ (فایل supabase/signals-analysis.sql) — اگر هنوز
+// ساخته نشده باشند، برنامه بدون آن‌ها کار می‌کند و فرم این دو بخش را نشان نمی‌دهد.
+let _sigExtraCols=true;
 function SIG_POST_KEY(){ return CURRENT_USER?('tradeplan_sigpost:'+CURRENT_USER.id):'tradeplan_sigpost'; }
+function SIG_ALIAS_KEY(){ return CURRENT_USER?('tradeplan_sigalias:'+CURRENT_USER.id):'tradeplan_sigalias'; }
+function SIG_PROMO_KEY(){ return SIG_ALIAS_KEY()+':promo'; }
+function SIG_PROMO_URL_KEY(){ return SIG_ALIAS_KEY()+':promourl'; }
 
 function sigLockedHTML(msg){
   return `<div class="sig-locked">
     <span class="sl-ic">🔒</span>
-    <div class="sl-title">بخش سیگنال ویژه‌ی اعضای VIP است</div>
-    <div class="sl-desc">${msg||'برای دریافت سیگنال‌های دقیق و لحظه‌ای، عضویت VIP را از پشتیبانی فعال کن. 💛'}</div>
+    <div class="sl-title">بخش تحلیل ویژه‌ی اعضای VIP است</div>
+    <div class="sl-desc">${msg||'برای دریافت تحلیل‌های دقیق و لحظه‌ای، عضویت VIP را از پشتیبانی فعال کن. 💛'}</div>
   </div>`;
 }
-/* بنر دعوت به VIP زیر تنها سیگنالِ رایگان — دو کارتِ محو به‌عنوان «بقیه‌ی
-   سیگنال‌ها» نشان داده می‌شود تا کاربر بفهمد چه چیزی را از دست می‌دهد. */
+/* بنر دعوت به VIP زیر تنها تحلیلِ رایگان — دو کارتِ محو به‌عنوان «بقیه‌ی
+   تحلیل‌ها» نشان داده می‌شود تا کاربر بفهمد چه چیزی را از دست می‌دهد. */
 function sigUpsellHTML(shown){
   return `<div class="sig-upsell">
     <div class="sig-upsell-blur"><div class="sub-ghost"></div><div class="sub-ghost"></div></div>
     <div class="sig-upsell-body">
       <span class="sl-ic">🔒</span>
-      <div class="sl-title">${shown?'بقیه‌ی سیگنال‌ها ویژه‌ی اعضای VIP است':'سیگنال‌ها ویژه‌ی اعضای VIP است'}</div>
-      <div class="sl-desc">با عضویت VIP همه‌ی سیگنال‌های کاربران را می‌بینی، سیگنال‌های خودت را می‌گذاری و نتیجه‌ی هر سیگنال را دنبال می‌کنی. برای فعال‌سازی به پشتیبانی پیام بده 💛</div>
+      <div class="sl-title">${shown?'بقیه‌ی تحلیل‌ها ویژه‌ی اعضای VIP است':'تحلیل‌ها ویژه‌ی اعضای VIP است'}</div>
+      <div class="sl-desc">با عضویت VIP همه‌ی تحلیل‌های کاربران را می‌بینی، تحلیل‌های خودت را می‌گذاری و نتیجه‌ی هر تحلیل را دنبال می‌کنی. برای فعال‌سازی به پشتیبانی پیام بده 💛</div>
     </div>
   </div>`;
 }
@@ -6657,7 +6788,7 @@ function sigFmtSigned(v,u){
   return u==='percent' ? (s+toFA(body)+'٪') : (s+toFA(body)+(sigUnitLabel(u)?' '+sigUnitLabel(u):''));
 }
 function sigResLabel(r){ return r==='win'?'✅ سود':r==='loss'?'❌ ضرر':r==='breakeven'?'➖ سربه‌سر':''; }
-/* بنر نتیجه‌ی بزرگ روی کارت سیگنال — «نتیجه: سود شد / ضرر شد» با مقدار (در صورت وجود) */
+/* بنر نتیجه‌ی بزرگ روی کارت تحلیل — «نتیجه: سود شد / ضرر شد» با مقدار (در صورت وجود) */
 function sigBigResHTML(s){
   const r=s.result;
   const ic=r==='win'?'🎉':r==='loss'?'🔻':'➖';
@@ -6667,12 +6798,12 @@ function sigBigResHTML(s){
   return `<div class="sigc-bigres ${r}"><span class="brt">${ic} ${txt}</span>${val}</div>`;
 }
 function sigDateChip(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'})+' · '+d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}); }
-/* آیا سیگنال مربوط به امروز / دیروز است؟ (بر مبنای تاریخ محلی) */
+/* آیا تحلیل مربوط به امروز / دیروز است؟ (بر مبنای تاریخ محلی) */
 function sigSameDay(iso,ref){ const d=new Date(iso); return !isNaN(d)&&d.getFullYear()===ref.getFullYear()&&d.getMonth()===ref.getMonth()&&d.getDate()===ref.getDate(); }
 function sigIsToday(iso){ return sigSameDay(iso,new Date()); }
 function sigIsYesterday(iso){ const y=new Date(); y.setDate(y.getDate()-1); return sigSameDay(iso,y); }
-/* حذف خودکار سیگنال‌های قدیمی‌تر از ۳ روز — هم از دیتابیس (تلاش بهترین‌حالت، طبق RLS
-   فقط سیگنال‌های خودِ کاربر پاک می‌شوند) و هم از نمایش برنامه. */
+/* حذف خودکار تحلیل‌های قدیمی‌تر از ۳ روز — هم از دیتابیس (تلاش بهترین‌حالت، طبق RLS
+   فقط تحلیل‌های خودِ کاربر پاک می‌شوند) و هم از نمایش برنامه. */
 const SIG_MAX_AGE_MS=3*24*60*60*1000;
 async function sigPurgeOld(){
   const cutoff=Date.now()-SIG_MAX_AGE_MS;
@@ -6680,7 +6811,7 @@ async function sigPurgeOld(){
   if(!_sigItems.some(isOld)) return;
   // از نمایش برنامه حذف کن (فوری)
   _sigItems=_sigItems.filter(s=>!isOld(s));
-  // از دیتابیس هم پاک کن (RLS اجازه‌ی حذف فقط سیگنال‌های خودِ کاربر را می‌دهد)
+  // از دیتابیس هم پاک کن (RLS اجازه‌ی حذف فقط تحلیل‌های خودِ کاربر را می‌دهد)
   try{ await SB.from('signals').delete().lt('created_at', new Date(cutoff).toISOString()); }catch(e){}
 }
 
@@ -6688,7 +6819,7 @@ async function loadSignals(){
   const root=document.getElementById('sig-root'); if(!root||_sigBusy) return;
   _sigBusy=true;
   try{
-    if(!SB||!CURRENT_USER){ root.innerHTML=sigLockedHTML('برای دیدن سیگنال‌ها باید وارد حساب و به اینترنت وصل باشی.'); return; }
+    if(!SB||!CURRENT_USER){ root.innerHTML=sigLockedHTML('برای دیدن تحلیل‌ها باید وارد حساب و به اینترنت وصل باشی.'); return; }
     // عضویت VIP (ردیف خودِ کاربر — RLS اجازه می‌دهد)
     let vip=false;
     try{
@@ -6696,35 +6827,42 @@ async function loadSignals(){
       if(!ge) vip=(gs||[]).some(sigMemberValid);
     }catch(e){ /* جدول ساخته نشده → غیرVIP */ }
     _sigVip=vip;
-    // مجوز سیگنال‌دهی — از کش (آفلاین) و بعد از سرور
+    // مجوز ثبت تحلیل — از کش (آفلاین) و بعد از سرور
     await sigCheckPostAccess();
-    // تب دیگر برای غیرVIP قفل کامل نیست: RLS فقط تازه‌ترین سیگنال را برمی‌گرداند
+    // تب دیگر برای غیرVIP قفل کامل نیست: RLS فقط تازه‌ترین تحلیل را برمی‌گرداند
     // و پایینش بنر «بقیه ویژه‌ی VIP» نشان داده می‌شود (نمونه‌ی رایگان).
-    // سیگنال‌ها (RLS فقط سیگنالِ گروه‌های معتبرِ کاربر + سیگنال‌های خودش را برمی‌گرداند)
+    // تحلیل‌ها (RLS فقط تحلیلِ گروه‌های معتبرِ کاربر + تحلیل‌های خودش را برمی‌گرداند)
     // ستون‌های سنگین (img و result_imgs — عکس base64) عمداً اینجا خوانده نمی‌شوند؛
     // sigLoadImages() آن‌ها را کارت‌به‌کارت و فقط برای کارت‌های قابل‌دیدن می‌گیرد.
     const SIG_LIGHT_COLS='id,symbol,direction,entry,sl,tp1,tp2,tp3,note,image_url,group_name,status,result,result_value,result_unit,created_at,closed_at,author_id,author_name';
-    const {data:rows,error}=await SB.from('signals').select(SIG_LIGHT_COLS).order('id',{ascending:false}).limit(200);
+    const SIG_EXTRA_COLS=',alias,promo,promo_url';
+    let {data:rows,error}=await SB.from('signals')
+      .select(SIG_LIGHT_COLS+(_sigExtraCols?SIG_EXTRA_COLS:'')).order('id',{ascending:false}).limit(200);
+    // ستون‌های alias/promo هنوز ساخته نشده‌اند → بدون آن‌ها دوباره بگیر
+    if(error&&_sigExtraCols&&/alias|promo|column/i.test((error.message||'')+(error.details||''))){
+      _sigExtraCols=false;
+      ({data:rows,error}=await SB.from('signals').select(SIG_LIGHT_COLS).order('id',{ascending:false}).limit(200));
+    }
     if(error){
       // پیام واقعی سرور را نشان بده. قبلاً هر خطایی «signals.sql اجرا نشده»
       // تفسیر می‌شد و همین یک بار باعث چند ساعت دنبال نخود سیاه گشتن شد.
       const msg=(error.message||'')+' '+(error.details||'')+' '+(error.hint||'');
       if(/does not exist|schema cache|relation/i.test(msg))
-        root.innerHTML=sigLockedHTML('جدول سیگنال هنوز ساخته نشده — فایل signals.sql باید در Supabase اجرا شود.');
+        root.innerHTML=sigLockedHTML('جدول تحلیل هنوز ساخته نشده — فایل signals.sql باید در Supabase اجرا شود.');
       else if(/recursion/i.test(msg))
-        root.innerHTML=sigLockedHTML('خطای سیاست دسترسی سیگنال (recursion) — فایل access-tiers.sql باید دوباره در Supabase اجرا شود.');
+        root.innerHTML=sigLockedHTML('خطای سیاست دسترسی تحلیل (recursion) — فایل access-tiers.sql باید دوباره در Supabase اجرا شود.');
       else
-        root.innerHTML=sigLockedHTML('خطای سرور سیگنال: '+sigEsc(error.message||'نامشخص'));
+        root.innerHTML=sigLockedHTML('خطای سرور تحلیل: '+sigEsc(error.message||'نامشخص'));
       console.error('signals select',error);
       return;
     }
     _sigItems=rows||[];
-    // سیگنال‌های قدیمی‌تر از ۳ روز را خودکار حذف کن (برنامه + دیتابیس)
+    // تحلیل‌های قدیمی‌تر از ۳ روز را خودکار حذف کن (برنامه + دیتابیس)
     await sigPurgeOld();
-    // کاربر تب سیگنال را باز کرد → همه‌ی سیگنال‌های فعلی «دیده‌شده» حساب می‌شوند
+    // کاربر تب تحلیل را باز کرد → همه‌ی تحلیل‌های فعلی «دیده‌شده» حساب می‌شوند
     if(_sigItems.length) sigSetSeenMax(Math.max(..._sigItems.map(s=>s.id)));
     renderSignals();
-  }catch(e){ root.innerHTML='<div class="sig-empty">خطا در بارگذاری سیگنال‌ها 😕</div>'; }
+  }catch(e){ root.innerHTML='<div class="sig-empty">خطا در بارگذاری تحلیل‌ها 😕</div>'; }
   finally{ _sigBusy=false; }
 }
 
@@ -6741,7 +6879,21 @@ function renderSignals(){
   else if(f==='loss')      list=items.filter(s=>s.status==='closed'&&s.result==='loss');
 
   let html='';
-  html+=`<div class="sig-hero"><div class="sig-hero-ic">📡</div><div><div class="sig-hero-tt">سیگنال‌های VIP <span class="sig-live"></span></div><div class="sig-hero-sub">سیگنال‌های دقیق، لحظه‌ای و اختصاصی</div></div></div>`;
+  html+=`<div class="sig-hero"><div class="sig-hero-ic">📡</div><div><div class="sig-hero-tt">تحلیل تریدرها <span class="sig-live"></span></div><div class="sig-hero-sub">تحلیل‌های دقیق و لحظه‌ای تریدرهای منتخب</div></div></div>`;
+
+  /* اگر ادمین مجوز «ثبت تحلیل» را برای این کاربر فعال نکرده، همان‌جا شفاف
+     توضیح می‌دهیم چطور می‌تواند درخواست بدهد (خواسته‌ی صریح مدیر). */
+  if(!_sigCanPost){
+    html+=`<div class="sig-permnote">
+      <div class="spn-ic">🖋</div>
+      <div class="spn-body">
+        <div class="spn-t">ثبت تحلیل برای همه فعال نیست</div>
+        <div class="spn-d">این بخش برای کسانی که <b>استیتمنت یا رسانه‌ی قوی</b> دارند، توسط ادمین فعال می‌شود.
+        برای درخواست، از صفحه‌ی <b>تنظیمات</b> بخش <b>بازخورد</b> پیام بده.</div>
+        <button type="button" class="spn-btn" onclick="sigGoRequest()">📨 ارسال درخواست از بخش بازخورد</button>
+      </div>
+    </div>`;
+  }
 
   // نوار فیلتر
   html+=`<div class="sig-filters">
@@ -6752,42 +6904,57 @@ function renderSignals(){
     <button type="button" class="sig-filter loss${f==='loss'?' active':''}" onclick="sigSetFilter('loss')">❌ ضررده</button>
   </div>`;
 
-  // سوییچ اعلان سیگنال جدید — انتخاب خودِ کاربر
+  // سوییچ اعلان تحلیل جدید — انتخاب خودِ کاربر
   html+=`<label class="sig-alert-row">
     <input type="checkbox" id="sig-alert-chk" ${sigAlertOn()?'checked':''} onchange="sigToggleAlert(this.checked)">
     <span class="sig-alert-txt">
-      <b>🔔 اعلان سیگنال جدید</b>
-      <small>· با هر سیگنال تازه خبردار شو</small>
+      <b>🔔 اعلان تحلیل جدید</b>
+      <small>· با هر تحلیل تازه خبردار شو</small>
     </span>
   </label>`;
 
   // شبکه‌ی کارت‌ها — دقیقاً به سبک گالری معاملات: عکس بالا، جزئیات با کلیک
   let grid='';
-  // کارت «ثبت سیگنال» فقط در نمای «همه» تا با فیلترها قاطی نشود
+  // کارت «ثبت تحلیل» فقط در نمای «همه» تا با فیلترها قاطی نشود
   if(_sigCanPost && f==='all'){
     grid+=`<div class="sig-add-card" onclick="openSignalSheet()">
       <div class="sig-add-plus">＋</div>
-      <div class="sig-add-title">ثبت سیگنال جدید</div>
-      <div class="sig-add-sub">عکس چارت و جزئیات سیگنالت را وارد کن</div>
+      <div class="sig-add-title">ثبت تحلیل جدید</div>
+      <div class="sig-add-sub">عکس چارت و جزئیات تحلیلت را وارد کن</div>
     </div>`;
   }
   grid+=list.map(sigCardHTML).join('');
   if(!list.length){
     const emptyMsg = f==='all'
-      ? '🕊️ هنوز سیگنالی ثبت نشده.<br>به‌زودی اینجا سیگنال‌های دقیق و اختصاصی می‌بینی.'
-      : ({today:'🗓 امروز سیگنالی ثبت نشده.',yesterday:'📆 دیروز سیگنالی ثبت نشده.',win:'✅ هنوز سیگنال سوددهی نداریم.',loss:'❌ سیگنال ضرردهی وجود ندارد.'}[f]||'🔍 سیگنالی با این فیلتر پیدا نشد.');
+      ? '🕊️ هنوز تحلیلی ثبت نشده.<br>به‌زودی اینجا تحلیل‌های دقیق و اختصاصی می‌بینی.'
+      : ({today:'🗓 امروز تحلیلی ثبت نشده.',yesterday:'📆 دیروز تحلیلی ثبت نشده.',win:'✅ هنوز تحلیل سوددهی نداریم.',loss:'❌ تحلیل ضرردهی وجود ندارد.'}[f]||'🔍 تحلیلی با این فیلتر پیدا نشد.');
     grid+=`<div class="gal-empty">${emptyMsg}</div>`;
   }
   html+=`<div class="sig-grid">${grid}</div>`;
-  // کاربر رایگان فقط تازه‌ترین سیگنال را می‌بیند (سرور هم بیشتر نمی‌دهد)؛
+  // کاربر رایگان فقط تازه‌ترین تحلیل را می‌بیند (سرور هم بیشتر نمی‌دهد)؛
   // زیرش دعوت به VIP نشان داده می‌شود. VIPها این بنر را نمی‌بینند.
   if(!_sigVip) html+=sigUpsellHTML(items.length);
   root.innerHTML=html;
   sigObserveCards();   // عکس‌ها فقط برای کارت‌هایی که به دید می‌آیند گرفته می‌شوند
 }
 function sigSetFilter(f){ _sigFilter=f; renderSignals(); }
+/* از کارتِ «ثبت تحلیل فعال نیست» یک‌راست به فرم بازخوردِ تنظیمات، با متنِ آماده */
+function sigGoRequest(){
+  showPage('settings');
+  setTimeout(()=>{
+    const box=document.getElementById('fb-text');
+    if(!box) return;
+    box.closest('.fb-card').scrollIntoView({behavior:'smooth',block:'center'});
+    if(!box.value.trim()){
+      box.value='سلام؛ درخواست فعال‌سازی «ثبت تحلیل» دارم.\nاستیتمنت / رسانه‌ی من: ';
+      if(typeof fbInput==='function') fbInput();
+    }
+    box.focus();
+    try{ box.setSelectionRange(box.value.length,box.value.length); }catch(e){}
+  },260);
+}
 
-/* تاریخ و ساعت دقیقِ ثبت سیگنال — روی خود کارت دیده می‌شود */
+/* تاریخ و ساعت دقیقِ ثبت تحلیل — روی خود کارت دیده می‌شود */
 function sigDateOnly(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'}); }
 function sigTimeOnly(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}); }
 // ترتیب اجزا را دستی می‌چینیم تا در همه‌ی مرورگرها یکسان باشد
@@ -6801,23 +6968,28 @@ function sigFullWhen(iso){
   return wd+' '+dm+' '+yr+' · ساعت '+tm;
 }
 function sigIsMine(s){ return !!(CURRENT_USER && s.author_id===CURRENT_USER.id); }
-// چه کسانی می‌توانند نتیجه‌ی سیگنال را ثبت کنند: نویسنده‌ی سیگنال + ادمین/معتمدها
+// چه کسانی می‌توانند نتیجه‌ی تحلیل را ثبت کنند: نویسنده‌ی تحلیل + ادمین/معتمدها
 // (کاربرانِ مستثنیِ حالت تعمیر). سرور هم همین را با RPC دوباره چک می‌کند.
 function sigCanSetResult(s){ return sigIsMine(s) || USER_BYPASS; }
 function sigResults(s){ try{ return Array.isArray(s.result_imgs)?s.result_imgs:JSON.parse(s.result_imgs||'[]'); }catch(e){ return []; } }
 
 /* ---------- لود تنبل عکس‌ها ----------
-   عکس هر سیگنال یک data:image/webp base64 داخل ستون img است (چند صد کیلوبایت).
-   قبلاً select('*') همه‌ی آن‌ها را یک‌جا می‌گرفت و تب سیگنال کند باز می‌شد.
-   حالا اول فقط متن سیگنال‌ها می‌آید و عکسِ هر کارت درست قبل از دیده‌شدن
+   عکس هر تحلیل یک data:image/webp base64 داخل ستون img است (چند صد کیلوبایت).
+   قبلاً select('*') همه‌ی آن‌ها را یک‌جا می‌گرفت و تب تحلیل کند باز می‌شد.
+   حالا اول فقط متن تحلیل‌ها می‌آید و عکسِ هر کارت درست قبل از دیده‌شدن
    گرفته می‌شود. s.img === undefined یعنی «هنوز نگرفته‌ایم» (null یعنی عکس ندارد). */
-let _sigIO=null, _sigImgPending=new Set();
+let _sigIO=null, _sigImgPending=new Set(), _sigImgFail={}, _sigResCol=true;
+/* کشِ محلیِ عکسِ تحلیل‌هایی که همین حالا خودمان فرستادیم. بعد از انتشار،
+   لیست دوباره از سرور خوانده می‌شود (بدون ستون عکس) و تا رسیدنِ عکس، همین کش
+   بلافاصله نشانش می‌دهد — دلیل اصلیِ باگ «عکس بعد از آپلود نمایش داده نمی‌شود». */
+const _sigImgCache={};
 function sigObserveCards(){
   if(_sigIO) _sigIO.disconnect();
   const cards=document.querySelectorAll('.sigc[data-sigcard]');
   if(!cards.length) return;
+  const allIds=Array.from(cards).map(el=>+el.dataset.sigcard);
   if(!('IntersectionObserver' in window)){          // مرورگر خیلی قدیمی
-    sigLoadImages(Array.from(cards).map(el=>+el.dataset.sigcard));
+    sigLoadImages(allIds);
     return;
   }
   _sigIO=new IntersectionObserver(entries=>{
@@ -6833,49 +7005,105 @@ function sigObserveCards(){
     const s=_sigItems.find(x=>x.id===+el.dataset.sigcard);
     if(s && s.img===undefined) _sigIO.observe(el);
   });
+  /* تورِ اطمینان: اگر به هر دلیلی IntersectionObserver شلیک نکند (تب پنهان،
+     چیدمانِ داخل کانتینرِ اسکرول‌دار، بعضی وب‌ویوهای اندروید) عکسِ چند کارت
+     اولِ لیست به‌هرحال گرفته می‌شود تا صفحه هیچ‌وقت اسکلتِ خالی نماند. */
+  clearTimeout(sigObserveCards._t);
+  sigObserveCards._t=setTimeout(()=>sigLoadImages(allIds.slice(0,6)),120);
 }
-async function sigLoadImages(ids){
+function sigRepaintCard(s){
+  const el=document.querySelector('.sigc[data-sigcard="'+s.id+'"]');
+  if(!el) return;
+  const tmp=document.createElement('div');
+  tmp.innerHTML=sigCardHTML(s);
+  if(tmp.firstElementChild) el.replaceWith(tmp.firstElementChild);
+}
+async function sigLoadImages(ids,isRetry){
   if(!SB) return;
   const need=ids.filter(id=>{
     const s=_sigItems.find(x=>x.id===id);
-    return s && s.img===undefined && !_sigImgPending.has(id);
+    if(!s||s.img!==undefined) return false;
+    if(_sigImgPending.has(id)) return false;
+    return isRetry || (_sigImgFail[id]||0)<3;   // بعد از ۳ تلاشِ ناموفق، دکمه‌ی دستی
   });
   if(!need.length) return;
   need.forEach(id=>_sigImgPending.add(id));
   try{
-    const {data,error}=await SB.from('signals').select('id,img,result_imgs').in('id',need);
+    // ستون result_imgs فقط با signals-v2.sql وجود دارد؛ اگر نبود، بدون آن ادامه بده
+    let cols=_sigResCol?'id,img,result_imgs':'id,img';
+    let {data,error}=await SB.from('signals').select(cols).in('id',need);
+    if(error&&_sigResCol&&/result_imgs/i.test((error.message||'')+(error.details||''))){
+      _sigResCol=false;
+      ({data,error}=await SB.from('signals').select('id,img').in('id',need));
+    }
     if(error) throw error;
     (data||[]).forEach(r=>{
       const s=_sigItems.find(x=>x.id===r.id); if(!s) return;
-      s.img=r.img===undefined?null:r.img;
-      s.result_imgs=r.result_imgs;
-      // فقط همان کارت را دوباره می‌سازیم — بقیه‌ی صفحه تکان نمی‌خورد
-      const el=document.querySelector('.sigc[data-sigcard="'+r.id+'"]');
-      if(el){
-        const tmp=document.createElement('div');
-        tmp.innerHTML=sigCardHTML(s);
-        if(tmp.firstElementChild) el.replaceWith(tmp.firstElementChild);
+      s.img=(r.img===undefined||r.img===null)?(_sigImgCache[r.id]||null):r.img;
+      if('result_imgs' in r) s.result_imgs=r.result_imgs;
+      delete _sigImgFail[r.id];
+      sigRepaintCard(s);                 // فقط همان کارت — بقیه‌ی صفحه تکان نمی‌خورد
+    });
+    need.forEach(id=>{
+      _sigImgPending.delete(id);
+      const s=_sigItems.find(x=>x.id===id);
+      if(s&&s.img===undefined){          // ردیف برنگشت (RLS/شبکه) → قابل تلاش دوباره
+        _sigImgFail[id]=(_sigImgFail[id]||0)+1;
+        if(_sigImgCache[id]){ s.img=_sigImgCache[id]; sigRepaintCard(s); }
+        else if(_sigImgFail[id]>=3) sigRepaintCard(s);
       }
     });
   }catch(e){
-    need.forEach(id=>_sigImgPending.delete(id));   // دفعه‌ی بعد دوباره تلاش شود
+    need.forEach(id=>{
+      _sigImgPending.delete(id);         // دفعه‌ی بعد دوباره تلاش شود
+      _sigImgFail[id]=(_sigImgFail[id]||0)+1;
+      const s=_sigItems.find(x=>x.id===id);
+      if(s&&_sigImgCache[id]){ s.img=_sigImgCache[id]; sigRepaintCard(s); }
+      else if(s&&_sigImgFail[id]>=3) sigRepaintCard(s);   // نمایش دکمه‌ی «تلاش دوباره»
+    });
+    // یک تلاشِ خودکارِ دیگر با کمی فاصله — اغلب مشکل، قطعیِ لحظه‌ایِ شبکه است
+    const again=need.filter(id=>(_sigImgFail[id]||0)<3);
+    if(again.length&&!isRetry) setTimeout(()=>sigLoadImages(again,false),1800);
   }
 }
+// دکمه‌ی «تلاش دوباره» روی کارتی که عکسش نیامده
+function sigRetryImg(id,ev){
+  if(ev&&ev.stopPropagation) ev.stopPropagation();
+  _sigImgFail[id]=0;
+  const s=_sigItems.find(x=>x.id===id);
+  if(s){ s.img=undefined; sigRepaintCard(s); }
+  sigLoadImages([id],true);
+}
 
+/* نامِ منتشرکننده: اسمِ مستعارِ انتخابیِ خودِ تریدر، وگرنه نامِ حسابش */
+function sigPublisher(s){ return (s&&(s.alias||'').trim())||(s&&s.author_name)||'ادمین'; }
+/* بلوکِ تبلیغِ تریدر — زیر کارت تحلیل. لینک فقط اگر http(s) باشد باز می‌شود. */
+function sigPromoHTML(s){
+  const txt=(s.promo||'').trim(), url=(s.promo_url||'').trim();
+  if(!txt&&!url) return '';
+  const safe=/^https?:\/\//i.test(url)?url:'';
+  const body=`<span class="sigp-ic">📣</span><span class="sigp-txt">${sigEsc(txt||url)}</span>`+
+             (safe?`<span class="sigp-go">مشاهده ↗</span>`:'');
+  return safe
+    ? `<a class="sigc-promo" href="${sigEsc(safe)}" target="_blank" rel="noopener noreferrer nofollow" onclick="event.stopPropagation()">${body}</a>`
+    : `<div class="sigc-promo">${body}</div>`;
+}
 function sigCardHTML(s){
   const dir=s.direction==='sell'?'sell':'buy';
-  const img=s.img||s.image_url||'';
+  const img=s.img||_sigImgCache[s.id]||s.image_url||'';
   const res=sigResults(s);
   const mine=sigIsMine(s);
   const canRes=sigCanSetResult(s);
   const closedRes=s.status==='closed'&&(s.result==='win'||s.result==='loss'||s.result==='breakeven');
-  // بنر نتیجه‌ی بزرگ و خوانا — وقتی نتیجه‌ی سیگنال مشخص شد
+  // بنر نتیجه‌ی بزرگ و خوانا — وقتی نتیجه‌ی تحلیل مشخص شد
   const bigRes=closedRes?sigBigResHTML(s):'';
   // تا وقتی عکس نیامده، به‌جای جای خالی یک اسکلتِ در حال بارگذاری نشان می‌دهیم
   const pending=(s.img===undefined&&!s.image_url);
+  const failed=pending&&(_sigImgFail[s.id]||0)>=3;
   return `<div class="sigc ${dir}${s.status==='closed'?' closed':''}${closedRes?' has-res '+s.result:''}" data-sigcard="${s.id}">
     <div class="sigc-img-wrap" onclick="sigOpenView(${s.id})">
       ${img?`<img class="sigc-img" src="${sigEsc(img)}" alt="chart" loading="lazy">`
+           :failed?`<div class="sigc-noimg sigc-retry" onclick="sigRetryImg(${s.id},event)"><span>🖼</span><b>عکس بارگذاری نشد</b><i>برای تلاش دوباره بزن</i></div>`
            :pending?`<div class="sigc-noimg sigc-skel">${dir==='sell'?'🔻':'🔺'}</div>`
            :`<div class="sigc-noimg">${dir==='sell'?'🔻':'🔺'}</div>`}
       <span class="sigc-dirbadge ${dir}">${dir==='sell'?'🔻 فروش':'🔺 خرید'}</span>
@@ -6884,13 +7112,14 @@ function sigCardHTML(s){
         <span class="sigc-chip time">🕐 ${sigTimeOnly(s.created_at)}</span>
       </div>
     </div>
+    <div class="sigc-symbox ${dir}"><span class="sigc-symtxt">${sigEsc(s.symbol)}</span></div>
     ${bigRes}
     <div class="sigc-body">
       <div class="sigc-row1">
-        <span class="sigc-sym">${sigEsc(s.symbol)}</span>
-        <span class="sigc-author">✍️ ${sigEsc(s.author_name||'ادمین')}</span>
+        <span class="sigc-author">✍️ ${sigEsc(sigPublisher(s))}</span>
       </div>
       ${s.note?`<div class="sigc-note">${sigEsc(s.note)}</div>`:''}
+      ${sigPromoHTML(s)}
       ${(res.length||canRes)?`
         <div class="sigc-rlabel">🎯 نتیجه‌ها ${res.length?`<span>(${toFA(res.length)})</span>`:''}</div>
         <div class="sigc-results">
@@ -6901,7 +7130,7 @@ function sigCardHTML(s){
       <div class="sigc-btns">
         <button type="button" class="sigc-btn gold" onclick="sigCopy(${s.id})">📋 کپی عددها</button>
         <button type="button" class="sigc-btn" onclick="sigOpenView(${s.id})">جزئیات</button>
-        ${mine?`<button type="button" class="sigc-btn del sigc-icbtn" onclick="sigDelete(${s.id})" title="حذف سیگنال">🗑</button>`:''}
+        ${mine?`<button type="button" class="sigc-btn del sigc-icbtn" onclick="sigDelete(${s.id})" title="حذف تحلیل">🗑</button>`:''}
       </div>
     </div>
   </div>`;
@@ -6930,19 +7159,20 @@ function sigOpenView(id,scrollToRes){
     ? ' · '+sigFmtSigned((s.result==='loss'?-Math.abs(s.result_value):Math.abs(s.result_value)),s.result_unit) : '';
   document.getElementById('sig-view-box').innerHTML=
     (img?`<img class="sv-img" src="${sigEsc(img)}" alt="chart" onclick="galOpenImg('${sigEsc(img).replace(/'/g,"\\'")}')">`:'')+
-    `<div class="sv-pad">
+    `<div class="sigc-symbox ${dir} big"><span class="sigc-symtxt">${sigEsc(s.symbol)}</span></div>
+    <div class="sv-pad">
       <div class="sv-head">
         <span class="sigc-dirbadge ${dir}" style="position:static">${dir==='sell'?'🔻 فروش':'🔺 خرید'}</span>
-        <span class="sv-sym">${sigEsc(s.symbol)}</span>
         ${s.status==='closed'&&s.result?`<span class="sigc-resbadge ${s.result}" style="position:static">${sigResLabel(s.result)}${resVal}</span>`:'<span class="sigc-resbadge win" style="position:static">🟢 فعال</span>'}
       </div>
       <div class="sv-head">
-        <span class="sigc-author" style="margin:0">✍️ ${sigEsc(s.author_name||'ادمین')}</span>
+        <span class="sigc-author" style="margin:0">✍️ ${sigEsc(sigPublisher(s))}</span>
         <span class="sv-when">🕐 ${sigFullWhen(s.created_at)}</span>
       </div>
+      ${sigPromoHTML(s)}
       ${lv.length?`<div class="sv-lvls">${lv.join('')}</div>`:''}
       ${s.note?`<div class="sv-note">${sigEsc(s.note)}</div>`:''}
-      ${res.length?`<div class="sv-sec">🎯 نتیجه‌های این سیگنال (${toFA(res.length)})</div>
+      ${res.length?`<div class="sv-sec">🎯 نتیجه‌های این تحلیل (${toFA(res.length)})</div>
         <div class="sv-results" id="sv-results">
           ${res.map(r=>`<div style="flex:0 0 auto">
             <img class="sv-rimg" src="${sigEsc(r.img)}" alt="result" onclick="galOpenImg('${sigEsc(r.img).replace(/'/g,"\\'")}')">
@@ -6952,7 +7182,7 @@ function sigOpenView(id,scrollToRes){
         </div>`:''}
       ${sigCanSetResult(s)?`<button type="button" class="sigc-btn setres ${s.status==='closed'&&s.result?'edit':''}" style="width:100%;margin-top:2px" onclick="sigOpenResultKind(${s.id})">${s.status==='closed'&&s.result?'✏️ ویرایش نتیجه‌ی سود/ضرر':'🎯 ثبت نتیجه‌ی سود/ضرر'}</button>`:''}
       <div class="sigc-btns">
-        <button type="button" class="sigc-btn gold" onclick="sigCopy(${s.id})">📋 کپی دیتای سیگنال</button>
+        <button type="button" class="sigc-btn gold" onclick="sigCopy(${s.id})">📋 کپی دیتای تحلیل</button>
         ${sigCanSetResult(s)?`<button type="button" class="sigc-btn" onclick="sigOpenResult(${s.id})">🖼 افزودن عکس نتیجه</button>`:''}
         ${sigIsMine(s)?`<button type="button" class="sigc-btn" onclick="openSignalSheet(${s.id})">✏️ ویرایش</button>`:''}
       </div>
@@ -6966,13 +7196,15 @@ function sigOpenView(id,scrollToRes){
 function sigCloseView(){ _sigViewId=null; document.getElementById('sig-view').classList.remove('show'); }
 /* عکس تمام‌صفحه — از همان لایت‌باکس گالری استفاده می‌کنیم */
 function galOpenImg(src){
-  document.getElementById('gal-view-img').src=src;
+  _galViewId=null; _galViewImgs=[src]; _galViewIdx=0;
+  const dt=document.getElementById('gal-view-date'); if(dt) dt.innerHTML='';
   document.getElementById('gal-view-meta').innerHTML='';
   document.getElementById('gal-view-note').textContent='';
+  galViewPaint();
   document.getElementById('gal-view').classList.add('show');
 }
 
-/* کپی دیتای عددیِ سیگنال */
+/* کپی دیتای عددیِ تحلیل */
 function sigCopy(id){
   const s=_sigItems.find(x=>x.id===id); if(!s) return;
   const dirTxt=s.direction==='sell'?'فروش (Sell)':'خرید (Buy)';
@@ -6986,12 +7218,12 @@ function sigCopy(id){
   t+='\n🕐 '+sigFullWhen(s.created_at);
   t+='\n✍️ '+(s.author_name||'ادمین');
   t+='\n— TradePlan';
-  const done=()=>showToast('✅ دیتای سیگنال کپی شد');
+  const done=()=>showToast('✅ دیتای تحلیل کپی شد');
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done).catch(done); }
   else{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); done(); }
 }
 
-/* ═══════ سیگنال دادن از داخل برنامه (فقط با مجوز ادمین) ═══════ */
+/* ═══════ تحلیل دادن از داخل برنامه (فقط با مجوز ادمین) ═══════ */
 let _sigEditId=null, _sigPendingImg=null, _sigResId=null, _sigPendingResImg=null;
 
 // وضعیت مجوز: اول کش (برای آفلاین)، بعد تازه‌سازی از سرور
@@ -7009,10 +7241,10 @@ async function sigCheckPostAccess(){
   _sigPostChecked=true;
 }
 
-/* ═══════ اعلان سیگنال جدید ═══════
-   وقتی کاربر وارد برنامه می‌شود، اگر سیگنالی جدیدتر از آخرین چیزی که دیده
+/* ═══════ اعلان تحلیل جدید ═══════
+   وقتی کاربر وارد برنامه می‌شود، اگر تحلیلی جدیدتر از آخرین چیزی که دیده
    ثبت شده باشد، یک اعلان روی صفحه می‌آید. خودِ کاربر می‌تواند از همان بخش
-   سیگنال این اعلان را خاموش/روشن کند. RLS تضمین می‌کند فقط سیگنال‌های
+   تحلیل این اعلان را خاموش/روشن کند. RLS تضمین می‌کند فقط تحلیل‌های
    قابل‌مشاهده‌ی همین کاربر شمرده شوند، پس غیرVIP اعلانی نمی‌گیرد. */
 function SIG_SEEN_KEY(){ return CURRENT_USER?('tradeplan_sigseen:'+CURRENT_USER.id):'tradeplan_sigseen'; }
 function SIG_ALERT_KEY(){ return CURRENT_USER?('tradeplan_sigalert:'+CURRENT_USER.id):'tradeplan_sigalert'; }
@@ -7036,11 +7268,11 @@ async function checkNewSignals(){
     _sigAlertItems=fresh;
     const top=fresh[0];
     document.getElementById('signew-title').textContent =
-      fresh.length>1 ? (toFA(fresh.length)+' سیگنال جدید داری!') : 'سیگنال جدید داری!';
+      fresh.length>1 ? (toFA(fresh.length)+' تحلیل جدید داری!') : 'تحلیل جدید داری!';
     document.getElementById('signew-body').textContent =
       (top.direction==='sell'?'🔻 فروش ':'🔺 خرید ')+(top.symbol||'')+
       ' · از طرف '+(top.author_name||'ادمین')+
-      (fresh.length>1 ? ' و '+toFA(fresh.length-1)+' سیگنال دیگر' : '');
+      (fresh.length>1 ? ' و '+toFA(fresh.length-1)+' تحلیل دیگر' : '');
     document.getElementById('signew-date').textContent=sigFullWhen(top.created_at);
     document.getElementById('signew-overlay').classList.add('show');
   }catch(e){ /* آفلاین یا جدول ساخته نشده — بی‌صدا رد شو */ }
@@ -7055,10 +7287,10 @@ function sigAlertOpen(){
   showPage('journal');
   switchJournalTab(2);
 }
-// روشن/خاموش کردن اعلان از داخل بخش سیگنال
+// روشن/خاموش کردن اعلان از داخل بخش تحلیل
 function sigToggleAlert(on){
   localStorage.setItem(SIG_ALERT_KEY(), on?'1':'0');
-  showToast(on?'🔔 اعلان سیگنال جدید روشن شد':'🔕 دیگر اعلان سیگنال نمی‌گیری');
+  showToast(on?'🔔 اعلان تحلیل جدید روشن شد':'🔕 دیگر اعلان تحلیل نمی‌گیری');
 }
 
 function sigSetDir(d){
@@ -7069,12 +7301,12 @@ function sigSetDir(d){
 let _sigFormDir='buy';
 
 function openSignalSheet(id){
-  if(!_sigCanPost){ showToast('🔒 اجازه‌ی سیگنال دادن برایت فعال نشده'); return; }
+  if(!_sigCanPost){ showToast('🔒 اجازه‌ی تحلیل دادن برایت فعال نشده'); return; }
   const s=id?_sigItems.find(x=>x.id===id):null;
   _sigEditId=s?s.id:null;
   _sigPendingImg=null;
-  document.getElementById('sigf-title').textContent=s?'✏️ ویرایش سیگنال':'📡 ثبت سیگنال جدید';
-  document.getElementById('sigf-save').textContent=s?'ذخیره تغییرات 💾':'انتشار سیگنال 📡';
+  document.getElementById('sigf-title').textContent=s?'✏️ ویرایش تحلیل':'📡 ثبت تحلیل جدید';
+  document.getElementById('sigf-save').textContent=s?'ذخیره تغییرات 💾':'انتشار تحلیل 📡';
   document.getElementById('sigf-symbol').value=s?(s.symbol||''):'';
   document.getElementById('sigf-entry').value =s?(s.entry||''):'';
   document.getElementById('sigf-sl').value    =s?(s.sl||''):'';
@@ -7082,6 +7314,16 @@ function openSignalSheet(id){
   document.getElementById('sigf-tp2').value   =s?(s.tp2||''):'';
   document.getElementById('sigf-tp3').value   =s?(s.tp3||''):'';
   document.getElementById('sigf-note').value  =s?(s.note||''):'';
+  // اسم مستعار: در ویرایش همان قبلی، در ثبت جدید آخرین اسمی که استفاده کرده
+  const aliasEl=document.getElementById('sigf-alias');
+  if(aliasEl) aliasEl.value = s ? (s.alias||'') : (localStorage.getItem(SIG_ALIAS_KEY())||'');
+  const prEl=document.getElementById('sigf-promo'), puEl=document.getElementById('sigf-promo-url');
+  if(prEl) prEl.value = s ? (s.promo||'') : (localStorage.getItem(SIG_PROMO_KEY())||'');
+  if(puEl) puEl.value = s ? (s.promo_url||'') : (localStorage.getItem(SIG_PROMO_URL_KEY())||'');
+  const pbox=document.querySelector('.sigf-promo-box');
+  if(pbox) pbox.style.display=_sigExtraCols?'':'none';
+  const abox=aliasEl?aliasEl.closest('div'):null;
+  if(abox) abox.style.display=_sigExtraCols?'':'none';
   sigSetDir(s?(s.direction==='sell'?'sell':'buy'):'buy');
   // پیش‌نمایش عکس فعلی (در حالت ویرایش)
   const prev=document.getElementById('sigf-preview'), empty=document.getElementById('sigf-drop-empty'),
@@ -7095,7 +7337,7 @@ function openSignalSheet(id){
 }
 function closeSignalSheet(){ document.getElementById('signal-modal').classList.remove('show'); }
 
-// عکس سیگنال — با همان فشرده‌سازیِ گالری (وب‌پی/جی‌پگ، ~۱۸۵KB)
+// عکس تحلیل — با همان فشرده‌سازیِ گالری (وب‌پی/جی‌پگ، ~۱۸۵KB)
 async function sigPickFile(file){
   if(!file||!/^image\//.test(file.type)){ showToast('⚠️ فقط فایل عکس'); return; }
   showToast('⏳ در حال فشرده‌سازی عکس…');
@@ -7111,9 +7353,9 @@ async function sigPickFile(file){
 }
 
 async function signalSave(){
-  if(!SB||!CURRENT_USER){ showToast('برای ثبت سیگنال باید آنلاین باشی'); return; }
+  if(!SB||!CURRENT_USER){ showToast('برای ثبت تحلیل باید آنلاین باشی'); return; }
   const symbol=document.getElementById('sigf-symbol').value.trim();
-  if(!symbol){ showToast('نماد سیگنال را وارد کن'); return; }
+  if(!symbol){ showToast('نماد تحلیل را وارد کن'); return; }
   symLearn(symbol);   // نماد برای دفعات بعد پیشنهاد داده می‌شود
   const payload={
     symbol:symbol.slice(0,40), direction:_sigFormDir,
@@ -7125,30 +7367,71 @@ async function signalSave(){
     note:document.getElementById('sigf-note').value.trim().slice(0,2000)
   };
   if(_sigPendingImg) payload.img=_sigPendingImg;
+  // اسم مستعار و تبلیغ — فقط اگر ستون‌هایشان در سرور وجود داشته باشد
+  const alias=(document.getElementById('sigf-alias')||{}).value||'';
+  const promo=(document.getElementById('sigf-promo')||{}).value||'';
+  const promoUrl=(document.getElementById('sigf-promo-url')||{}).value||'';
+  if(_sigExtraCols){
+    payload.alias=alias.trim().slice(0,40);
+    payload.promo=promo.trim().slice(0,120);
+    payload.promo_url=promoUrl.trim().slice(0,200);
+    // برای دفعه‌ی بعد یادش می‌ماند
+    try{
+      localStorage.setItem(SIG_ALIAS_KEY(),payload.alias);
+      localStorage.setItem(SIG_PROMO_KEY(),payload.promo);
+      localStorage.setItem(SIG_PROMO_URL_KEY(),payload.promo_url);
+    }catch(e){}
+  }
+  const sentImg=_sigPendingImg;
   showToast('⏳ در حال ارسال…');
   try{
-    let error;
-    if(_sigEditId){ ({error}=await SB.from('signals').update(payload).eq('id',_sigEditId)); }
-    else{ ({error}=await SB.from('signals').insert(payload)); }
+    let error,newId=null;
+    const send=async p=>{
+      if(_sigEditId){
+        const r=await SB.from('signals').update(p).eq('id',_sigEditId).select('id');
+        return {error:r.error,id:_sigEditId};
+      }
+      const r=await SB.from('signals').insert(p).select('id');
+      return {error:r.error,id:(r.data&&r.data[0]&&r.data[0].id)||null};
+    };
+    let res=await send(payload);
+    // اگر ستون‌های alias/promo نبودند، یک بار بدون آن‌ها بفرست
+    if(res.error&&_sigExtraCols&&/alias|promo|column/i.test((res.error.message||'')+(res.error.details||''))){
+      _sigExtraCols=false;
+      delete payload.alias; delete payload.promo; delete payload.promo_url;
+      res=await send(payload);
+      if(!res.error) showToast('ℹ️ اسم مستعار و تبلیغ ثبت نشد — فایل signals-analysis.sql هنوز اجرا نشده');
+    }
+    error=res.error; newId=res.id;
     if(error){
       showToast(/permission|policy|row-level/i.test(error.message||'')
-        ? '🔒 اجازه‌ی سیگنال دادن برایت فعال نیست'
-        : '❌ ثبت سیگنال ناموفق بود');
+        ? '🔒 اجازه‌ی ثبت تحلیل برایت فعال نیست'
+        : '❌ ثبت تحلیل ناموفق بود');
       return;
     }
-    showToast(_sigEditId?'✅ سیگنال ویرایش شد':'📡 سیگنال منتشر شد');
+    /* عکس را همین‌جا محلی نگه می‌داریم: لیست دوباره از سرور خوانده می‌شود ولی
+       ستون عکس در آن نیست، و اگر گرفتنِ عکس کند/ناموفق باشد کارت خالی می‌ماند.
+       با این کش، عکسِ خودت بلافاصله و بدون وابستگی به شبکه دیده می‌شود. */
+    if(sentImg&&newId!=null) _sigImgCache[newId]=sentImg;
+    showToast(_sigEditId?'✅ تحلیل ویرایش شد':'📡 تحلیل منتشر شد');
     closeSignalSheet();
     _sigEditId=null; _sigPendingImg=null;
-    _sigBusy=false; loadSignals();
+    _sigBusy=false;
+    await loadSignals();
+    // بعد از رندر، عکسِ همین تحلیل را از کش روی کارتش بنشان
+    if(sentImg&&newId!=null){
+      const s=_sigItems.find(x=>x.id===newId);
+      if(s&&!s.img){ s.img=sentImg; sigRepaintCard(s); }
+    }
   }catch(e){ showToast('❌ خطا در ارتباط با سرور'); }
 }
 
 async function sigDelete(id){
-  if(!confirm('این سیگنال برای همیشه حذف شود؟')) return;
+  if(!confirm('این تحلیل برای همیشه حذف شود؟')) return;
   try{
     const {error}=await SB.from('signals').delete().eq('id',id);
     if(error){ showToast('❌ حذف ناموفق بود'); return; }
-    showToast('🗑 سیگنال حذف شد');
+    showToast('🗑 تحلیل حذف شد');
     sigCloseView();
     _sigBusy=false; loadSignals();
   }catch(e){ showToast('❌ خطا در حذف'); }
@@ -7246,7 +7529,7 @@ async function sigResultKindSave(){
         : '❌ ثبت نتیجه ناموفق بود');
       return;
     }
-    showToast('🎯 نتیجه‌ی سیگنال ثبت شد');
+    showToast('🎯 نتیجه‌ی تحلیل ثبت شد');
     closeModal('sigresult-modal');
     sigCloseView();
     _sigBusy=false; loadSignals();
@@ -7254,12 +7537,12 @@ async function sigResultKindSave(){
 }
 async function sigReopenResult(){
   const id=_sigResKindId; if(id==null) return;
-  if(!confirm('نتیجه پاک شود و سیگنال دوباره «فعال» شود؟')) return;
+  if(!confirm('نتیجه پاک شود و تحلیل دوباره «فعال» شود؟')) return;
   showToast('⏳ …');
   try{
     const {data,error}=await SB.rpc('sig_set_result',{p_id:id,p_result:null,p_value:null,p_unit:null});
     if(error||!(data&&data.ok)){ showToast('❌ ناموفق بود'); return; }
-    showToast('↩️ سیگنال دوباره فعال شد');
+    showToast('↩️ تحلیل دوباره فعال شد');
     closeModal('sigresult-modal'); sigCloseView();
     _sigBusy=false; loadSignals();
   }catch(e){ showToast('❌ خطا'); }
@@ -7296,13 +7579,25 @@ function sigEquity(closed){
    فشرده می‌شوند (وب‌پی/جی‌پگ، هدف ~۱۸۵KB) و در جدول gallery_trades
    سوپابیس ذخیره می‌شوند؛ نسخه‌ی محلی هم در localStorage می‌ماند تا
    آفلاین کار کند و بعداً خودش سینک شود. */
-let galItems=[];          // [{id,symbol,result,pnl,rr,strategy,note,starred,taken_at,img,synced}]
+let galItems=[];          // [{id,symbol,result,pnl,rr,strategy,note,starred,taken_at,img,imgs[],synced}]
+/* هر معامله تا ۳ عکس دارد. سازگاری با نسخه‌های قبل: عکس اول همیشه در ستون
+   img می‌ماند (همان ستون قدیمی) و عکس‌های ۲ و ۳ در ستون jsonb به نام imgs
+   (فایل supabase/gallery-imgs.sql). اگر آن ستون هنوز ساخته نشده باشد، مثل
+   ستون starred بی‌سروصدا بدون آن سینک می‌کنیم و عکس‌های اضافه فقط محلی می‌مانند. */
+const GAL_MAX_IMGS=3;
+function galImgsOf(it){
+  if(!it) return [];
+  const extra=Array.isArray(it.imgs)?it.imgs:[];
+  const all=[it.img].concat(extra).filter(s=>typeof s==='string'&&s.length>10);
+  return all.slice(0,GAL_MAX_IMGS);
+}
 let galFilter='all', galSymbol='all', galResult='win';
 let galQuick='all';                       // بازه‌ی سریع: all | today | week | month | custom
 let galStarInput=false;                   // وضعیت کلید «ستاره‌دار» در فرم ثبت
 let galFrom='', galTo='';                 // فیلتر بازه زمانی (YYYY-MM-DD)
-let galEditId=null, galDelId=null, galPendingImg=null;
+let galEditId=null, galDelId=null, galPendingImgs=[];   // تا ۳ عکسِ در حال ثبت
 let galStarCol=true;                      // آیا ستون starred در سوپابیس ساخته شده؟ (اگر نه، بدون آن سینک می‌کنیم)
+let galImgsCol=true;                      // آیا ستون imgs (عکس‌های دوم و سوم) ساخته شده؟
 let galLoaded=false, galPulled=false;
 let galAccess=false, galAccChecked=false; // مجوز کامل (VIP) — فقط ادمین از پنل فعال می‌کند
 // بدون مجوز، گالری قفل نیست: کاربر رایگان تا این تعداد عکس می‌تواند بگذارد و
@@ -7341,6 +7636,29 @@ function galSaveLocal(){
 function galFmtPnl(v){ const a=Math.abs(v); const s=(a%1===0)?a.toFixed(0):a.toFixed(2); return (v<0?'-$':'+$')+s; }
 function galDateChip(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('fa-IR',{day:'numeric',month:'long',year:'numeric'}); }
 function galTimeChip(iso){ const d=new Date(iso); return isNaN(d)?'':d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}); }
+/* ---------- بلوکِ تاریخِ هر معامله ----------
+   خواسته‌ی کاربر: تاریخ شمسی و میلادی، بزرگ و پررنگ و وسط‌چین، با پس‌زمینه و
+   به همان ترتیب (اول شمسی، بعد میلادی) — عددِ روز از همه بزرگ‌تر. */
+function galDateParts(iso){
+  const d=new Date(iso);
+  if(isNaN(d)) return null;
+  const faDay=d.toLocaleDateString('fa-IR',{day:'numeric'});
+  const faMon=d.toLocaleDateString('fa-IR',{month:'long'});
+  const faYr =d.toLocaleDateString('fa-IR',{year:'numeric'});
+  const faWd =d.toLocaleDateString('fa-IR',{weekday:'long'});
+  const en   =d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  const time =d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+  return {faDay,faMon,faYr,faWd,en,time};
+}
+function galDateBlockHTML(iso,compact){
+  const p=galDateParts(iso);
+  if(!p) return '';
+  return `<div class="gal-datebox${compact?' mini':''}">
+    <div class="gdb-fa"><span class="gdb-day">${p.faDay}</span><span class="gdb-mon">${p.faMon}</span><span class="gdb-yr">${p.faYr}</span></div>
+    <div class="gdb-en">${p.en}</div>
+    <div class="gdb-time">🕐 ${p.time}</div>
+  </div>`;
+}
 
 // ---------- فشرده‌سازی هوشمند عکس (کیفیت پله‌ای + کاهش ابعاد) ----------
 function galCompressImage(file){
@@ -7390,18 +7708,28 @@ async function galCloudFlush(){
       if(!error) localStorage.removeItem(GAL_DEL_KEY());
     }
     for(const it of galItems.filter(i=>!i.synced)){
+      const all=galImgsOf(it);
       const base={
         id:it.id,user_id:CURRENT_USER.id,symbol:it.symbol,result:it.result,pnl:it.pnl,
-        rr:it.rr,strategy:it.strategy,note:it.note,taken_at:it.taken_at,img:it.img
+        rr:it.rr,strategy:it.strategy,note:it.note,taken_at:it.taken_at,img:all[0]||it.img||''
       };
-      // ستون starred با فایل gallery-star.sql اضافه می‌شود. تا وقتی ادمین آن را
-      // اجرا نکرده، upsert با این ستون خطا می‌دهد؛ پس یک بار بدون آن دوباره
-      // تلاش می‌کنیم تا بقیه‌ی گالری همچنان سینک شود (ستاره محلی باقی می‌ماند).
-      let {error}=await SB.from('gallery_trades')
-        .upsert(galStarCol?Object.assign({starred:!!it.starred},base):base);
+      // ستون‌های starred (gallery-star.sql) و imgs (gallery-imgs.sql) ممکن است
+      // هنوز در سوپابیس ساخته نشده باشند؛ در آن صورت upsert خطا می‌دهد، پس یک بار
+      // بدون آن ستون دوباره تلاش می‌کنیم تا بقیه‌ی گالری همچنان سینک شود.
+      const build=()=>{
+        const o=Object.assign({},base);
+        if(galStarCol) o.starred=!!it.starred;
+        if(galImgsCol) o.imgs=all.slice(1);
+        return o;
+      };
+      let {error}=await SB.from('gallery_trades').upsert(build());
+      if(error&&galImgsCol&&/imgs/i.test(error.message||'')){
+        galImgsCol=false;
+        ({error}=await SB.from('gallery_trades').upsert(build()));
+      }
       if(error&&galStarCol&&/starred/i.test(error.message||'')){
         galStarCol=false;
-        ({error}=await SB.from('gallery_trades').upsert(base));
+        ({error}=await SB.from('gallery_trades').upsert(build()));
       }
       if(!error) it.synced=true;
     }
@@ -7416,12 +7744,18 @@ async function galCloudPull(){
       .eq('user_id',CURRENT_USER.id).order('taken_at',{ascending:false});
     if(error||!rows) return;
     const localOnly=galItems.filter(i=>!i.synced&&!rows.some(r=>r.id===i.id));
-    // اگر ستون starred هنوز در سوپابیس نیست، ستاره‌ی نسخه‌ی محلی حفظ می‌شود
-    const prevStar={}; galItems.forEach(i=>{ if(i.starred) prevStar[i.id]=true; });
-    galItems=rows.map(r=>({id:r.id,symbol:r.symbol||'',result:r.result==='loss'?'loss':'win',
+    // اگر ستون starred/imgs هنوز در سوپابیس نیست، نسخه‌ی محلی‌شان حفظ می‌شود
+    const prevStar={}, prevImgs={};
+    galItems.forEach(i=>{ if(i.starred) prevStar[i.id]=true; if(Array.isArray(i.imgs)&&i.imgs.length) prevImgs[i.id]=i.imgs; });
+    galItems=rows.map(r=>{
+      let extra=[];
+      if('imgs' in r){ try{ extra=Array.isArray(r.imgs)?r.imgs:JSON.parse(r.imgs||'[]'); }catch(e){ extra=[]; } }
+      else { extra=prevImgs[r.id]||[]; galImgsCol=false; }
+      return {id:r.id,symbol:r.symbol||'',result:r.result==='loss'?'loss':'win',
       pnl:Number(r.pnl)||0,rr:r.rr||'',strategy:r.strategy||'',note:r.note||'',
       starred:('starred' in r)?!!r.starred:!!prevStar[r.id],
-      taken_at:r.taken_at,img:r.img||'',synced:true})).concat(localOnly);
+      taken_at:r.taken_at,img:r.img||'',imgs:(extra||[]).filter(Boolean).slice(0,GAL_MAX_IMGS-1),synced:true};
+    }).concat(localOnly);
     galSort(); galSaveLocal();
   }catch(e){ /* آفلاین — نسخه محلی نمایش داده می‌شود */ }
 }
@@ -7587,14 +7921,20 @@ function galRenderGrid(){
         <div class="gal-add-sub">گالری نامحدود ویژه‌ی اعضای VIP است — برای فعال‌سازی به پشتیبانی پیام بده 💛</div>
       </div>`;
   }
-  html+=items.map(it=>`
+  html+=items.map(it=>{
+    const imgs=galImgsOf(it);
+    const multi=imgs.length>1;
+    const slides=imgs.map((src,i)=>`<div class="gal-slide"><img class="gal-img" src="${src}" loading="lazy" alt="chart ${i+1}"></div>`).join('');
+    const dots=multi?`<div class="gal-dots">${imgs.map((_,i)=>`<i class="gal-dot${i===0?' on':''}"></i>`).join('')}</div>`:'';
+    const counter=multi?`<div class="gal-imgcount"><b class="gal-imgcount-n">۱</b> از ${toFA(imgs.length)}</div>`:'';
+    return `
     <div class="gal-card ${it.result}${it.starred?' star':''}">
-      <div class="gal-img-wrap" onclick="galOpenView('${it.id}')">
-        <img class="gal-img" src="${it.img}" loading="lazy" alt="chart">
-        <div class="gal-chip-date">${galDateChip(it.taken_at)}</div>
-        <div class="gal-chip-time">🕐 ${galTimeChip(it.taken_at)}</div>
-        ${it.starred?'<div class="gal-chip-star" title="ستاره‌دار و مهم">★</div>':''}
+      ${it.starred?'<div class="gal-star-flag" title="ستاره‌دار و مهم">★</div>':''}
+      <div class="gal-slider-wrap">
+        <div class="gal-slider" data-galid="${it.id}" onscroll="galSlideScroll(this)" onclick="galOpenView('${it.id}',galSliderIndex(this))">${slides}</div>
+        ${counter}${dots}
       </div>
+      ${galDateBlockHTML(it.taken_at,true)}
       <div class="gal-body">
         <div class="gal-strip ${it.result}">
           <span class="gs-label">${it.result==='win'?'▲ WIN · سود':'▼ LOSS · ضرر'}</span>
@@ -7603,8 +7943,8 @@ function galRenderGrid(){
         <div class="gal-row2">
           <div class="gal-symbol">${galEsc(it.symbol)}</div>
           <div class="gal-actions">
-            <button type="button" class="gal-act" onclick="openGallerySheet('${it.id}')" title="ویرایش">✏️</button>
-            <button type="button" class="gal-act del" onclick="galAskDelete('${it.id}')" title="حذف">🗑</button>
+            <button type="button" class="gal-act" onclick="event.stopPropagation();openGallerySheet('${it.id}')" title="ویرایش">✏️</button>
+            <button type="button" class="gal-act del" onclick="event.stopPropagation();galAskDelete('${it.id}')" title="حذف">🗑</button>
           </div>
         </div>
         ${(it.strategy||it.rr)?`<div class="gal-tags">
@@ -7612,7 +7952,8 @@ function galRenderGrid(){
           ${it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:''}
         </div>`:''}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   if(!items.length&&galItems.length){
     const msg=galFilter==='star'
       ? 'هنوز معامله‌ی ستاره‌داری نداری ⭐ — موقع ثبت معامله، کلید «ستاره‌دار و مهم» را روشن کن'
@@ -7620,6 +7961,18 @@ function galRenderGrid(){
     html+=`<div class="gal-empty">${msg}</div>`;
   }
   grid.innerHTML=html;
+}
+/* اسکرول افقیِ عکس‌های یک معامله — شماره‌ی عکس و نقطه‌ها همان لحظه به‌روز می‌شوند */
+function galSliderIndex(el){
+  if(!el||!el.clientWidth) return 0;
+  return Math.round(el.scrollLeft/el.clientWidth);
+}
+function galSlideScroll(el){
+  const i=galSliderIndex(el);
+  const wrap=el.parentElement; if(!wrap) return;
+  const n=wrap.querySelector('.gal-imgcount-n');
+  if(n) n.textContent=toFA(i+1);
+  wrap.querySelectorAll('.gal-dot').forEach((d,k)=>d.classList.toggle('on',k===i));
 }
 function galSetFilter(f){ galFilter=f; galRenderToolbar(); galRenderGrid(); }
 function galSetSymbol(s){ galSymbol=s; galRenderToolbar(); galRenderGrid(); }
@@ -7635,13 +7988,10 @@ function openGallerySheet(id,prefill){
   if(!id && !galCanAdd()){ galLockedMsg(); return; }
   galEditId=id||null;
   const it=id?galItems.find(i=>i.id===id):null;
-  galPendingImg=it?it.img:null;
+  galPendingImgs=it?galImgsOf(it):[];
   document.getElementById('gal-sheet-title').textContent=
     it?'✏️ ویرایش معامله':(prefill?'📸 ثبت این پوزیشن در گالری':'📸 افزودن معامله به گالری');
-  const pv=document.getElementById('gal-preview'), de=document.getElementById('gal-drop-empty'), sb=document.getElementById('gal-size-badge');
-  sb.style.display='none';
-  if(it&&it.img){ pv.src=it.img; pv.style.display='block'; de.style.display='none'; }
-  else{ pv.removeAttribute('src'); pv.style.display='none'; de.style.display='flex'; }
+  galRenderShots();
   const p=prefill||{};
   document.getElementById('gal-symbol').value=it?it.symbol:(p.symbol||'');
   document.getElementById('gal-pnl').value=it?String(Math.abs(it.pnl)):(p.pnl!=null?String(p.pnl):'');
@@ -7674,22 +8024,52 @@ function galSetStar(on){
   if(ic) ic.textContent=galStarInput?'★':'☆';
 }
 function galToggleStar(){ galSetStar(!galStarInput); }
-async function galPickFile(file){
-  if(!file) return;
-  if(!/^image\//.test(file.type)){ showToast('فقط فایل عکس قابل قبول است 🖼'); return; }
-  const sb=document.getElementById('gal-size-badge');
-  sb.style.display='block'; sb.textContent='⏳ …';
-  try{
-    const out=await galCompressImage(file);
-    galPendingImg=out;
-    const pv=document.getElementById('gal-preview');
-    pv.src=out; pv.style.display='block';
-    document.getElementById('gal-drop-empty').style.display='none';
-    sb.textContent=galKB(file.size)+' → '+galKB(Math.round(out.length*3/4));
-  }catch(e){ sb.style.display='none'; showToast('خواندن عکس ممکن نشد — فایل دیگری امتحان کن'); }
+/* ---------- عکس‌های فرم (حداکثر ۳) ---------- */
+function galRenderShots(busy){
+  const box=document.getElementById('gal-shots'), hint=document.getElementById('gal-shots-hint');
+  if(!box) return;
+  const n=galPendingImgs.length;
+  let html=galPendingImgs.map((src,i)=>`
+    <div class="gal-shot">
+      <img src="${src}" alt="chart ${i+1}">
+      <span class="gsh-idx">${toFA(i+1)}</span>
+      <button type="button" class="gsh-del" onclick="galRemoveShot(${i})" title="حذف این عکس">✕</button>
+      ${i===0?'<span class="gsh-main">کاور</span>':''}
+    </div>`).join('');
+  if(busy) html+=`<div class="gal-shot busy"><div class="gsh-spin"></div><span>در حال فشرده‌سازی…</span></div>`;
+  if(n<GAL_MAX_IMGS&&!busy) html+=`
+    <div class="gal-shot add" onclick="document.getElementById('gal-file').click()">
+      <span class="gsh-plus">＋</span>
+      <span class="gsh-add-t">${n?'عکس بعدی':'افزودن عکس'}</span>
+    </div>`;
+  box.innerHTML=html;
+  if(hint) hint.textContent = n>=GAL_MAX_IMGS
+    ? `سقف ${toFA(GAL_MAX_IMGS)} عکس برای هر معامله پر شد — برای جایگزینی، یکی را حذف کن`
+    : `تا ${toFA(GAL_MAX_IMGS)} عکس برای این معامله می‌توانی بگذاری · عکس اول کاورِ کارت است · بکش‌ورها هم کار می‌کند`;
 }
+function galRemoveShot(i){
+  galPendingImgs.splice(i,1);
+  galRenderShots();
+}
+async function galPickFiles(files){
+  const list=Array.from(files||[]).filter(f=>/^image\//.test(f.type));
+  if(!list.length){ showToast('فقط فایل عکس قابل قبول است 🖼'); return; }
+  const room=GAL_MAX_IMGS-galPendingImgs.length;
+  if(room<=0){ showToast(`برای هر معامله حداکثر ${toFA(GAL_MAX_IMGS)} عکس 🖼`); return; }
+  if(list.length>room) showToast(`فقط ${toFA(room)} عکس دیگر جا دارد`);
+  galRenderShots(true);
+  for(const f of list.slice(0,room)){
+    try{
+      const out=await galCompressImage(f);
+      galPendingImgs.push(out);
+    }catch(e){ showToast('خواندن یکی از عکس‌ها ممکن نشد'); }
+  }
+  galRenderShots();
+}
+// سازگاری با کدهای قدیمی‌تر که یک فایل می‌فرستادند
+function galPickFile(file){ return galPickFiles(file?[file]:[]); }
 function gallerySave(){
-  if(!galPendingImg){ showToast('اول عکس چارت معامله را بارگذاری کن 📸'); return; }
+  if(!galPendingImgs.length){ showToast('اول عکس چارت معامله را بارگذاری کن 📸'); return; }
   // دوباره چک می‌شود چون ممکن است بین باز شدن شیت و ذخیره، سینک ابری عکس‌های
   // دستگاه دیگر را آورده و سقف رایگان پر شده باشد.
   if(!galEditId && !galCanAdd()){ closeGallerySheet(); galLockedMsg(); return; }
@@ -7710,7 +8090,9 @@ function gallerySave(){
     note:document.getElementById('gal-note').value.trim(),
     starred:galStarInput,
     taken_at:taken.toISOString(),
-    img:galPendingImg, synced:false
+    img:galPendingImgs[0]||'',
+    imgs:galPendingImgs.slice(1,GAL_MAX_IMGS),
+    synced:false
   };
   if(wasEdit){
     const i=galItems.findIndex(x=>x.id===galEditId);
@@ -7751,22 +8133,42 @@ function galDoDelete(){
   showToast('معامله از گالری حذف شد 🗑');
 }
 
-// ---------- لایت‌باکس ----------
-function galOpenView(id){
+// ---------- لایت‌باکس (با جابه‌جایی بین عکس‌های همان معامله) ----------
+let _galViewId=null, _galViewImgs=[], _galViewIdx=0;
+function galOpenView(id,startIdx){
   const it=galItems.find(i=>i.id===id); if(!it) return;
-  document.getElementById('gal-view-img').src=it.img;
+  _galViewId=id;
+  _galViewImgs=galImgsOf(it);
+  _galViewIdx=Math.max(0,Math.min(_galViewImgs.length-1,parseInt(startIdx,10)||0));
+  document.getElementById('gal-view-date').innerHTML=galDateBlockHTML(it.taken_at);
   document.getElementById('gal-view-meta').innerHTML=
     (it.starred?`<span class="gal-tag" style="background:rgba(245,200,79,.16);color:#f5c84f;border-color:rgba(245,200,79,.45)">★ مهم</span>`:'')+
     `<span class="gal-symbol">${galEsc(it.symbol)}</span>`+
     `<span class="gal-badge ${it.result}">${it.result==='win'?'WIN':'LOSS'}</span>`+
     `<span class="gal-pnl ${it.pnl<0?'neg':'pos'}">${galFmtPnl(it.pnl)}</span>`+
-    `<span style="opacity:.65;font-weight:700">${galDateChip(it.taken_at)} · ${galTimeChip(it.taken_at)}</span>`+
     (it.rr?`<span class="gal-tag rr">RR ${galEsc(it.rr)}</span>`:'')+
     (it.strategy?`<span class="gal-tag">${galEsc(it.strategy)}</span>`:'');
   document.getElementById('gal-view-note').textContent=it.note||'';
+  galViewPaint();
   document.getElementById('gal-view').classList.add('show');
 }
-function galCloseView(){ document.getElementById('gal-view').classList.remove('show'); }
+function galViewPaint(){
+  const img=document.getElementById('gal-view-img');
+  const cnt=document.getElementById('gal-view-counter');
+  const pv=document.getElementById('gal-view-prev'), nx=document.getElementById('gal-view-next');
+  if(img) img.src=_galViewImgs[_galViewIdx]||'';
+  const many=_galViewImgs.length>1;
+  if(cnt){ cnt.textContent=many?`${toFA(_galViewIdx+1)} از ${toFA(_galViewImgs.length)}`:''; cnt.style.display=many?'block':'none'; }
+  if(pv) pv.style.display=many?'flex':'none';
+  if(nx) nx.style.display=many?'flex':'none';
+}
+function galViewStep(d){
+  if(_galViewImgs.length<2) return;
+  event&&event.stopPropagation&&event.stopPropagation();
+  _galViewIdx=(_galViewIdx+d+_galViewImgs.length)%_galViewImgs.length;
+  galViewPaint();
+}
+function galCloseView(){ _galViewId=null; document.getElementById('gal-view').classList.remove('show'); }
 
 // ===== PLAN FIELDS =====
 function bindPlanField(id,key){
@@ -11213,7 +11615,7 @@ function deleteDayEntry(){
 
 /* ═══════════════════ SYMBOL REGISTRY — حافظه‌ی نمادهای معاملاتی ═══════════════════
    هر نمادی که یک بار در هر جای برنامه ثبت شود (دستی در فرم روز، از متاتریدر،
-   در گالری یا در سیگنال) اینجا یاد گرفته می‌شود و از آن به بعد در همه‌ی
+   در گالری یا در تحلیل) اینجا یاد گرفته می‌شود و از آن به بعد در همه‌ی
    کادرهای نماد به‌صورت پیشنهاد ظاهر می‌شود؛ کاربر فقط انتخاب می‌کند.
    نمادهای معروف از همان روز اول در فهرست هستند حتی اگر هنوز ثبت نشده باشند. */
 const SYM_DEFAULTS=['XAUUSD','EURUSD','DOW30','GBPUSD','USDJPY','NAS100','BTCUSD','XAGUSD','US30','SP500','AUDUSD','USDCAD','GBPJPY','ETHUSD','USOIL'];
@@ -14327,7 +14729,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.2';
+const APP_VERSION='83.3';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){
@@ -14939,7 +15341,7 @@ function goDonate(src){
 }
 
 /* ----- MT5 access (اشتراکی — ادمین از پنل مدیریت فعال می‌کند) -----
-   برخلاف گالری و سیگنال، این قابلیت حالت رایگان ندارد: یا باز است یا قفل.
+   برخلاف گالری و تحلیل، این قابلیت حالت رایگان ندارد: یا باز است یا قفل.
    سدّ واقعی سمت سرور است (access-tiers.sql): بدون مجوز نه توکن ساخته می‌شود
    نه تریدی ثبت. این‌جا فقط تجربه‌ی کاربر است تا با دیوار خطا روبه‌رو نشود. */
 let mt5Access=false, mt5AccChecked=false;
@@ -15427,7 +15829,7 @@ async function enterApp(interactive){
   recBackfill();         // کاربران قدیمی هنوز کد بازیابی ندارند — یک بار برایشان ساخته می‌شود
   checkAnnouncements();  // اطلاعیه‌های جدید ادمین (اگر باشد، نمایش داده می‌شود)
   checkPrivateMessages();// پیام خصوصی ادمین به همین کاربر
-  checkNewSignals();     // اعلان سیگنال جدید (اگر کاربر خاموشش نکرده باشد)
+  checkNewSignals();     // اعلان تحلیل جدید (اگر کاربر خاموشش نکرده باشد)
   logVisit();            // ثبت بازدید برای آمار پنل مدیریت
   donateLoad();          // تنظیمات حمایت مالی (از پنل مدیریت)
   certEveningCheck();    // بین ۲۱ تا ۲۴ اگر امروز سود ثبت شده، گواهی خودکار باز شود
@@ -15458,7 +15860,7 @@ async function enterApp(interactive){
    شبکه‌ای کلِ برنامه را برای همه قفل نکند. */
 let MNT_ON=false;
 // آیا کاربرِ فعلی جزو «مستثنی‌های حالت تعمیر» است (ادمین اصلی / معتمدها)؟
-// از site_status() خوانده می‌شود و به سیگنال‌ها اجازه‌ی «ثبت نتیجه» می‌دهد.
+// از site_status() خوانده می‌شود و به تحلیل‌ها اجازه‌ی «ثبت نتیجه» می‌دهد.
 let USER_BYPASS=false;
 async function mntCheck(){
   if(!SB) return {maintenance:false,bypass:false};

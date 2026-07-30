@@ -274,7 +274,7 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
 .badge.win{background:rgba(52,211,153,.14);color:#34d399;border:1px solid rgba(52,211,153,.35)}
 .badge.loss{background:rgba(248,113,113,.14);color:#f87171;border:1px solid rgba(248,113,113,.35)}
 .badge.breakeven{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid rgba(255,255,255,.12)}
-/* ═══════════ PERMISSIONS — سوییچ‌های مجوز (گالری / دیدن سیگنال / دادن سیگنال) ═══════════
+/* ═══════════ PERMISSIONS — سوییچ‌های مجوز (گالری / دیدن تحلیل / دادن تحلیل) ═══════════
    سوییچ داخلاً ltr است تا «خاموش = چپ، روشن = راست» در محیط RTL هم قابل‌پیش‌بینی بماند. */
 .sw{position:relative;display:inline-block;width:34px;height:19px;flex-shrink:0;direction:ltr;vertical-align:middle}
 .sw input{position:absolute;opacity:0;width:0;height:0;margin:0}
@@ -440,7 +440,7 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         <button class="ch-chip active" id="chip-signups" onclick="chMetric('signups')">✨ ثبت‌نام</button>
         <button class="ch-chip" id="chip-visits" onclick="chMetric('visits')">🔥 کاربر فعال</button>
         <button class="ch-chip" id="chip-trades" onclick="chMetric('trades')">📊 ترید</button>
-        <button class="ch-chip" id="chip-signals" onclick="chMetric('signals')">📡 سیگنال</button>
+        <button class="ch-chip" id="chip-signals" onclick="chMetric('signals')">📡 تحلیل</button>
       </div>
     </div>
     <div class="ch-stats">
@@ -510,7 +510,7 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
       <!-- پاک‌سازی گروهی کاربران غیرفعال -->
       <div class="cl-box">
         <div class="cl-title">🧹 پاک‌سازی کاربران غیرفعال</div>
-        <div class="cl-sub">کاربرانی که در بازه‌ی انتخابی هیچ بازدیدی نداشته‌اند (یا اصلاً هرگز وارد نشده‌اند) را پیدا می‌کند. اول <b>لیست را ببین</b>، بعد اگر خواستی همه را یک‌جا حذف کن.<br>⚠️ حذف کاربر یعنی پاک‌شدن کامل حسابش: ژورنال، تریدها، عکس‌های گالری و سیگنال‌هایش. <b>برگشت‌پذیر نیست.</b></div>
+        <div class="cl-sub">کاربرانی که در بازه‌ی انتخابی هیچ بازدیدی نداشته‌اند (یا اصلاً هرگز وارد نشده‌اند) را پیدا می‌کند. اول <b>لیست را ببین</b>، بعد اگر خواستی همه را یک‌جا حذف کن.<br>⚠️ حذف کاربر یعنی پاک‌شدن کامل حسابش: ژورنال، تریدها، عکس‌های گالری و تحلیل‌هایش. <b>برگشت‌پذیر نیست.</b></div>
         <div class="cl-row">
           <select id="cl-days">
             <option value="7">بیش از ۷ روز غایب</option>
@@ -526,7 +526,7 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
       <!-- مجوزهای همگانی — هر سه مجوز، فعال/غیرفعال برای همه‌ی کاربران -->
       <div class="perm-all">
         <div class="perm-all-title">⚙️ مجوزهای همگانی</div>
-        <div class="perm-all-sub">روی <b>همه‌ی</b> کاربران فعلی <b>و هر کسی که بعداً ثبت‌نام کند</b> اعمال می‌شود — یعنی یک قانون دائمی، نه فقط یک‌بار. برای هر کاربر جداگانه، از سوییچ‌های ستون «مجوزها» در جدول استفاده کن.<br>وقتی مجوزی <b>غیرفعال</b> است کاربر پیام «ویژه‌ی اعضای VIP» می‌بیند: گالری فقط تا ۳ عکس، سیگنال فقط تازه‌ترین مورد، و اتصال متاتریدر کاملاً قفل.<br>دکمه‌ی <b>سبزِ چشمک‌زن</b> یعنی همان حالت الان اعمال است. «ترکیبی» یعنی بعضی کاربران دستی تغییر کرده‌اند.</div>
+        <div class="perm-all-sub">روی <b>همه‌ی</b> کاربران فعلی <b>و هر کسی که بعداً ثبت‌نام کند</b> اعمال می‌شود — یعنی یک قانون دائمی، نه فقط یک‌بار. برای هر کاربر جداگانه، از سوییچ‌های ستون «مجوزها» در جدول استفاده کن.<br>وقتی مجوزی <b>غیرفعال</b> است کاربر پیام «ویژه‌ی اعضای VIP» می‌بیند: گالری فقط تا ۳ عکس، تحلیل فقط تازه‌ترین مورد، و اتصال متاتریدر کاملاً قفل.<br>دکمه‌ی <b>سبزِ چشمک‌زن</b> یعنی همان حالت الان اعمال است. «ترکیبی» یعنی بعضی کاربران دستی تغییر کرده‌اند.</div>
         <div class="perm-all-row" id="pa-row-gal">
           <span class="pa-ico">🖼</span>
           <span class="pa-name">گالری معاملات — بدون مجوز فقط ۳ عکس
@@ -539,7 +539,7 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         </div>
         <div class="perm-all-row" id="pa-row-vip">
           <span class="pa-ico">📡</span>
-          <span class="pa-name">دیدن سیگنال — بدون مجوز فقط ۱ سیگنال
+          <span class="pa-name">دیدن تحلیل — بدون مجوز فقط ۱ تحلیل
             <span class="pa-state" id="pa-state-vip">در حال بارگذاری…</span>
           </span>
           <div class="pa-btns">
@@ -549,7 +549,7 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
         </div>
         <div class="perm-all-row" id="pa-row-poster">
           <span class="pa-ico">✍️</span>
-          <span class="pa-name">اجازه سیگنال گذاشتن
+          <span class="pa-name">اجازه تحلیل گذاشتن
             <span class="pa-state" id="pa-state-poster">در حال بارگذاری…</span>
           </span>
           <div class="pa-btns">
@@ -597,18 +597,18 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
       <button class="ch-chip" id="lbs-days30"  onclick="lbSort('days30')">📅 بیشترین روز فعال</button>
       <button class="ch-chip" id="lbs-trades30" onclick="lbSort('trades30')">📊 بیشترین ترید</button>
       <button class="ch-chip" id="lbs-gallery30" onclick="lbSort('gallery30')">🖼 بیشترین عکس گالری</button>
-      <button class="ch-chip" id="lbs-sig_win30" onclick="lbSort('sig_win30')">✅ بیشترین سیگنال سودده</button>
-      <button class="ch-chip" id="lbs-signals30" onclick="lbSort('signals30')">📡 بیشترین سیگنال</button>
+      <button class="ch-chip" id="lbs-sig_win30" onclick="lbSort('sig_win30')">✅ بیشترین تحلیل سودده</button>
+      <button class="ch-chip" id="lbs-signals30" onclick="lbSort('signals30')">📡 بیشترین تحلیل</button>
     </div>
     <div class="tbl-wrap">
       <table class="lb-table">
         <thead><tr>
-          <th>رتبه</th><th>نام کاربری</th><th>روند</th><th>روز فعال</th><th>۷ روز</th><th>پیاپی</th><th>بازدید</th><th>ترید</th><th>گالری</th><th>📡 سیگنال</th><th>✅ سود</th><th>❌ ضرر</th><th>موفقیت</th><th>بازخورد</th><th>آخرین بازدید</th><th>امتیاز</th>
+          <th>رتبه</th><th>نام کاربری</th><th>روند</th><th>روز فعال</th><th>۷ روز</th><th>پیاپی</th><th>بازدید</th><th>ترید</th><th>گالری</th><th>📡 تحلیل</th><th>✅ سود</th><th>❌ ضرر</th><th>موفقیت</th><th>بازخورد</th><th>آخرین بازدید</th><th>امتیاز</th>
         </tr></thead>
         <tbody id="lb-body"><tr><td colspan="16" class="empty-row">در حال بارگذاری…</td></tr></tbody>
       </table>
     </div>
-    <div class="dn-hint">امتیاز هوشمند: روزِ فعال در ۷ روز اخیر ×۱۵، روزهای قدیمی‌تر ×۵، روزهای پیاپی ×۸، بازدید (سقف ۹۰)، ترید ×۳، گالری ×۴، بازخورد ×۵، <b>سیگنال منتشرشده ×۲ و سیگنال سودده ×۷</b> — و کل امتیاز بر اساس اینکه آخرین بازدید چند روز پیش بوده کم می‌شود. یعنی «فعال‌ترین» = کسی که همین حالا فعال است، نه کسی که هفته‌ها پیش بوده.<br><span id="lb-sig-warn"></span></div>
+    <div class="dn-hint">امتیاز هوشمند: روزِ فعال در ۷ روز اخیر ×۱۵، روزهای قدیمی‌تر ×۵، روزهای پیاپی ×۸، بازدید (سقف ۹۰)، ترید ×۳، گالری ×۴، بازخورد ×۵، <b>تحلیل منتشرشده ×۲ و تحلیل سودده ×۷</b> — و کل امتیاز بر اساس اینکه آخرین بازدید چند روز پیش بوده کم می‌شود. یعنی «فعال‌ترین» = کسی که همین حالا فعال است، نه کسی که هفته‌ها پیش بوده.<br><span id="lb-sig-warn"></span></div>
   </div>
 
   <!-- ===== account growth ===== -->
@@ -630,14 +630,14 @@ textarea.ann-inp{resize:vertical;min-height:74px;line-height:1.9}
   </div>
 
   <!-- ===== signals =====
-       کارت سیگنال‌ها عمداً از پنل حذف شد (۱۴۰۵/۰۵/۰۲): عکسِ هر سیگنالِ هر
-       کاربر اینجا لود می‌شد و کل پنل را سنگین و طولانی می‌کرد. مدیریت سیگنال
-       کاملاً داخل خودِ برنامه انجام می‌شود (تب 📡 سیگنال):
-         • ثبت سیگنال  → کاربرانی که مجوز «گذاشتن سیگنال» دارند
-         • ثبت سود/ضرر → فقط نویسنده‌ی همان سیگنال و «ادمین اصلی»
+       کارت تحلیل‌ها عمداً از پنل حذف شد (۱۴۰۵/۰۵/۰۲): عکسِ هر تحلیلِ هر
+       کاربر اینجا لود می‌شد و کل پنل را سنگین و طولانی می‌کرد. مدیریت تحلیل
+       کاملاً داخل خودِ برنامه انجام می‌شود (تب 📡 تحلیل):
+         • ثبت تحلیل  → کاربرانی که مجوز «گذاشتن تحلیل» دارند
+         • ثبت سود/ضرر → فقط نویسنده‌ی همان تحلیل و «ادمین اصلی»
            (همان لیستِ بالای کارت حالت تعمیر — سرور هم با sig_may_set_result
             همین را اجبار می‌کند، پس دور زدنش از سمت کلاینت ممکن نیست).
-       آمار سیگنالِ هر کاربر در کارت «فعال‌ترین کاربران» دیده می‌شود. -->
+       آمار تحلیلِ هر کاربر در کارت «فعال‌ترین کاربران» دیده می‌شود. -->
 
   <!-- ===== announcements ===== -->
   <div class="card">
@@ -850,7 +850,7 @@ const CH_METRICS={
   signups:{label:'ثبت‌نام',      unit:'کاربر',  hint:'تعداد حساب‌های تازه‌ای که آن روز ساخته شده‌اند.'},
   visits :{label:'کاربر فعال',   unit:'کاربر',  hint:'کاربرِ یکتای فعال در هر روز — اگر یک نفر ۱۰ بار وارد شود، یک بار شمرده می‌شود.'},
   trades :{label:'ترید',         unit:'ترید',   hint:'تریدهایی که آن روز از متاتریدر ثبت شده‌اند (mt5_trades).'},
-  signals:{label:'سیگنال',       unit:'سیگنال', hint:'سیگنال‌هایی که آن روز در تب سیگنالِ برنامه منتشر شده‌اند.'}
+  signals:{label:'تحلیل',       unit:'تحلیل', hint:'تحلیل‌هایی که آن روز در تب تحلیلِ برنامه منتشر شده‌اند.'}
 };
 const CH_KEYS=['signups','visits','trades','signals'];
 function chMetric(k){
@@ -890,7 +890,7 @@ async function chLoad(force){
       if(d.d>=curStart) cur.push(row);
       else CH_KEYS.forEach(k=>{ prev[k]+=row[k]; });
     });
-    // آیا سرور نسخه‌ی v2 است؟ (متریک‌های ترید/سیگنال فقط آن‌جا هستند)
+    // آیا سرور نسخه‌ی v2 است؟ (متریک‌های ترید/تحلیل فقط آن‌جا هستند)
     const hasNew=(r.days||[]).some(d=>d.trades!==undefined);
     _chCache[key]={days:cur,prevTotal:prev,hasNew:hasNew};
     chRenderStats(); chStartAnim();
@@ -1075,7 +1075,7 @@ async function loadGallery(){
     }
   }catch(e){ _gal=null; }
 }
-/* سیگنال: نقشه‌ی user_id → {vip, poster, signals}؛ null یعنی signals-v2.sql اجرا نشده */
+/* تحلیل: نقشه‌ی user_id → {vip, poster, signals}؛ null یعنی signals-v2.sql اجرا نشده */
 let _sigAcc=null;
 async function loadSignalAccess(){
   try{
@@ -1221,14 +1221,14 @@ function renderUsers(){
     const banBtn = u.banned
       ? '<button class="act-btn act-ban" onclick="setBan(\''+u.id+'\',false)">✅ رفع مسدودی</button>'
       : '<button class="act-btn act-ban" onclick="setBan(\''+u.id+'\',true)">🚫 مسدود</button>';
-    // ستون مجوزها — سه سوییچ: گالری معاملات / دیدن سیگنال / گذاشتن سیگنال
+    // ستون مجوزها — سه سوییچ: گالری معاملات / دیدن تحلیل / گذاشتن تحلیل
     const g = _gal===null ? null : (_gal[u.id]||{enabled:false,photos:0});
     const a = _sigAcc===null ? null : (_sigAcc[u.id]||{vip:false,poster:false,signals:0});
     const m = _mt5Acc===null ? null : (_mt5Acc[u.id]||{enabled:false,linked:false});
     const permCell='<div class="perm-cell">'
       + permSwitch('gal',   u.id, g?g.enabled:false, '🖼 گالری معاملات', g?faNum(g.photos)+' عکس':'', _gal===null,    'gallery.sql')
-      + permSwitch('vip',   u.id, a?a.vip:false,     '📡 دیدن سیگنال',   '',                        _sigAcc===null, 'signals.sql')
-      + permSwitch('poster',u.id, a?a.poster:false,  '✍️ گذاشتن سیگنال', a&&a.poster?faNum(a.signals)+' سیگنال':'', _sigAcc===null, 'signals-v2.sql')
+      + permSwitch('vip',   u.id, a?a.vip:false,     '📡 دیدن تحلیل',   '',                        _sigAcc===null, 'signals.sql')
+      + permSwitch('poster',u.id, a?a.poster:false,  '✍️ گذاشتن تحلیل', a&&a.poster?faNum(a.signals)+' تحلیل':'', _sigAcc===null, 'signals-v2.sql')
       + permSwitch('mt5',   u.id, m?m.enabled:false, '🤖 اتصال متاتریدر', m&&m.linked?'وصل شده':'',  _mt5Acc===null, 'access-tiers.sql')
       + '</div>';
     return '<tr>'+
@@ -1252,7 +1252,7 @@ function renderUsers(){
 }
 
 /* ═══════════ مجوزها: سوییچ on/off ═══════════
-   kind: 'gal' = گالری معاملات | 'vip' = دیدن سیگنال | 'poster' = گذاشتن سیگنال
+   kind: 'gal' = گالری معاملات | 'vip' = دیدن تحلیل | 'poster' = گذاشتن تحلیل
    sqlMissing یعنی فایل SQL مربوطه هنوز در Supabase اجرا نشده → سوییچ غیرفعال. */
 const PERM_COLOR={gal:'#e8a020', vip:'#3b82f6', poster:'#22c55e', mt5:'#a855f7'};
 function permSwitch(kind,uid,on,label,count,sqlMissing,sqlFile){
@@ -1280,12 +1280,12 @@ async function permToggle(el,kind,uid){
   }else if(kind==='vip'){
     r=en ? await rpc('admin_group_set',{p_token:ADMIN_TOKEN,p_user:uid,p_group:'vip',p_expires:null})
          : await rpc('admin_group_remove',{p_token:ADMIN_TOKEN,p_user:uid,p_group:'vip'});
-    okMsg=en?'📡 دیدن سیگنال فعال شد':'🔒 دیدن سیگنال بسته شد';
+    okMsg=en?'📡 دیدن تحلیل فعال شد':'🔒 دیدن تحلیل بسته شد';
     errMsg='❌ خطا — فایل signals.sql در Supabase اجرا شده؟';
     if(r&&r.ok&&_sigAcc){ (_sigAcc[uid]=_sigAcc[uid]||{vip:false,poster:false,signals:0}).vip=en; }
   }else if(kind==='poster'){
     r=await rpc('admin_set_signal_poster',{p_token:ADMIN_TOKEN,p_user:uid,p_enabled:en});
-    okMsg=en?'✍️ کاربر حالا می‌تواند سیگنال بگذارد':'🚫 اجازه‌ی سیگنال گذاشتن لغو شد';
+    okMsg=en?'✍️ کاربر حالا می‌تواند تحلیل بگذارد':'🚫 اجازه‌ی تحلیل گذاشتن لغو شد';
     errMsg='❌ خطا — فایل signals-v2.sql در Supabase اجرا شده؟';
     if(r&&r.ok&&_sigAcc){ (_sigAcc[uid]=_sigAcc[uid]||{vip:false,poster:false,signals:0}).poster=en; }
   }else{
@@ -1300,7 +1300,7 @@ async function permToggle(el,kind,uid){
   if(r&&r.error==='unauthorized') authFail(); else toast(errMsg);
 }
 /* اعمال یک مجوز روی همه‌ی کاربران */
-const PERM_NAMES={gal:'استفاده از گالری معاملات', vip:'دیدن سیگنال', poster:'گذاشتن سیگنال', mt5:'اتصال خودکار متاتریدر'};
+const PERM_NAMES={gal:'استفاده از گالری معاملات', vip:'دیدن تحلیل', poster:'گذاشتن تحلیل', mt5:'اتصال خودکار متاتریدر'};
 
 async function permAll(kind,en){
   const NAME=PERM_NAMES;
@@ -1567,16 +1567,16 @@ function lbRender(){
     const empty={active3:'در ۳ روز اخیر کاربر فعالی نبوده',week:'در ۷ روز اخیر کاربر فعالی نبوده',all:'در ۳۰ روز اخیر فعالیتی ثبت نشده'}[_lbFilter];
     tb.innerHTML='<tr><td colspan="16" class="empty-row">'+empty+'</td></tr>'; return;
   }
-  // اگر SQL نسخه‌ی قدیمی روی سرور باشد، ستون‌های سیگنال اصلاً برنمی‌گردند
+  // اگر SQL نسخه‌ی قدیمی روی سرور باشد، ستون‌های تحلیل اصلاً برنمی‌گردند
   const hasSig=_lbItems.some(u=>u.signals30!==undefined);
   const warn=document.getElementById('lb-sig-warn');
-  if(warn)warn.innerHTML=hasSig?'':'⚠️ ستون‌های سیگنال خالی‌اند چون فایل <b>admin-leaderboard-v2.sql</b> هنوز در Supabase اجرا نشده.';
+  if(warn)warn.innerHTML=hasSig?'':'⚠️ ستون‌های تحلیل خالی‌اند چون فایل <b>admin-leaderboard-v2.sql</b> هنوز در Supabase اجرا نشده.';
   const MEDALS=['🥇','🥈','🥉'];
   const n=v=>faNum(v==null?0:v);
   const dash=v=>(v===undefined?'—':n(v));
   tb.innerHTML=items.map((u,i)=>{
     const w=Number(u.sig_win30||0), l=Number(u.sig_loss30||0), tot=w+l;
-    // نرخ موفقیت فقط وقتی معنا دارد که سیگنالِ نتیجه‌خورده وجود داشته باشد
+    // نرخ موفقیت فقط وقتی معنا دارد که تحلیلِ نتیجه‌خورده وجود داشته باشد
     const wr=tot>0?Math.round(w/tot*100):null;
     const wrHtml=wr===null?'—':'<b style="color:'+(wr>=50?'#34d399':'#f87171')+'">'+faNum(wr)+'٪</b>';
     return '<tr'+(i<3?' class="lb-top"':'')+'>'+

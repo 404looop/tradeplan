@@ -3764,6 +3764,40 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 @keyframes adbNag{0%,100%{box-shadow:0 3px 14px rgba(248,113,113,.14)}50%{box-shadow:0 3px 22px rgba(248,113,113,.4)}}
 .acct-dep-badge.empty .adb-lbl{color:#fca5a5}
 .acct-dep-badge.empty .adb-val{background:none;-webkit-background-clip:initial;background-clip:initial;color:#fecaca;filter:none;font-size:clamp(9.5px,2.5vw,11px)}
+/* ── فیلتر «نمایش درصد» (روی سر کارتِ بالانس، همیشه دیده می‌شود) ── */
+.pctf-row{position:relative;z-index:1;margin-top:clamp(8px,2.2vw,11px);padding-top:clamp(8px,2.2vw,10px);border-top:1px dashed rgba(232,160,32,.22)}
+.pctf-switch{width:100%;display:flex;align-items:center;gap:clamp(7px,2.2vw,10px);cursor:pointer;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:13px;
+  padding:clamp(6px,1.9vw,9px) clamp(8px,2.4vw,11px);font-family:'Vazirmatn',sans-serif;text-align:right;
+  transition:background .25s,border-color .25s;-webkit-tap-highlight-color:transparent}
+.pctf-switch:active{transform:scale(.995)}
+.pctf-switch[aria-checked="true"]{background:rgba(52,211,153,.09);border-color:rgba(52,211,153,.34)}
+.pctf-switch.disabled{opacity:.55}
+.pctf-ic{flex-shrink:0;width:clamp(22px,6vw,26px);height:clamp(22px,6vw,26px);border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(11px,3vw,13px);font-weight:900;color:var(--gold);background:rgba(244,200,106,.13);border:1px solid rgba(244,200,106,.32);
+  transition:color .25s,background .25s,border-color .25s}
+.pctf-switch[aria-checked="true"] .pctf-ic{color:#34d399;background:rgba(52,211,153,.16);border-color:rgba(52,211,153,.45);
+  box-shadow:0 0 14px rgba(52,211,153,.28)}
+.pctf-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pctf-title{font-size:clamp(10px,2.6vw,11.5px);font-weight:900;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pctf-sub{font-size:clamp(8.5px,2.2vw,9.8px);font-weight:700;color:rgba(255,255,255,.5);line-height:1.6;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pctf-switch[aria-checked="true"] .pctf-sub{color:rgba(110,231,168,.8)}
+.pctf-side{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.pctf-track{--pt-w:clamp(38px,10vw,44px);--pt-h:clamp(21px,5.6vw,24px);
+  width:var(--pt-w);height:var(--pt-h);border-radius:999px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.16);position:relative;display:block;transition:background .3s,border-color .3s;flex-shrink:0}
+.pctf-knob{position:absolute;top:2px;left:2px;width:calc(var(--pt-h) - 6px);height:calc(var(--pt-h) - 6px);border-radius:50%;
+  background:#8496ad;box-shadow:0 2px 6px rgba(0,0,0,.45);transition:transform .3s cubic-bezier(.4,0,.2,1),background .3s}
+.pctf-switch[aria-checked="true"] .pctf-track{background:rgba(52,211,153,.28);border-color:rgba(52,211,153,.55)}
+.pctf-switch[aria-checked="true"] .pctf-knob{transform:translateX(calc(var(--pt-w) - var(--pt-h)));
+  background:#34d399;box-shadow:0 2px 10px rgba(52,211,153,.6)}
+.pctf-state{font-size:9.5px;font-weight:900;letter-spacing:.6px;color:rgba(255,255,255,.42);direction:ltr;width:24px;text-align:left}
+.pctf-switch[aria-checked="true"] .pctf-state{color:#34d399}
+/* عددِ درصد در خانه‌های تقویم — دقیقاً جای مبلغ دلاری را می‌گیرد.
+   ۱px فاصله‌ی انتهایی تا نشانِ «٪» به لبه‌ی خانه نچسبد (fitDayPnl هم آن را
+   در محاسبه‌ی جا شدنِ عدد می‌بیند، پس فونت بی‌دلیل ریز نمی‌شود). */
+.dc-pnl.as-pct,.wsc-val.as-pct{direction:ltr;letter-spacing:-.2px;padding-inline-end:1px}
 /* ── هشدارِ سرمایه اولیه ── */
 .acct-warn{display:flex;gap:10px;align-items:flex-start;margin-top:11px;padding:10px 11px;border-radius:14px;position:relative;z-index:1;
   background:linear-gradient(135deg,rgba(244,200,106,.14),rgba(0,0,0,.25));border:1px solid rgba(244,200,106,.42)}
@@ -5280,6 +5314,23 @@ body.mnt-bannered{padding-top:28px}
         <span class="acct-caret" aria-hidden="true">⌄</span>
       </span>
     </button>
+
+    <!-- فیلتر «نمایش درصد» — سود/زیانِ هر روزِ تقویم به‌جای دلار، درصدِ سرمایه نوشته می‌شود.
+         پایه‌ی محاسبه فقط مالِ همان ماهی است که در ژورنال باز است؛ با عوض‌شدن ماه
+         خودکار خاموش می‌شود تا تریدر آگاهانه دوباره روشنش کند. -->
+    <div class="pctf-row">
+      <button type="button" class="pctf-switch" id="pctf-switch" role="switch" aria-checked="false" onclick="togglePctFilter()">
+        <span class="pctf-ic">٪</span>
+        <span class="pctf-txt">
+          <span class="pctf-title">فیلتر نمایش درصد</span>
+          <span class="pctf-sub" id="pctf-sub">سود/زیان هر روز به‌جای دلار، درصدِ سرمایه</span>
+        </span>
+        <span class="pctf-side">
+          <span class="pctf-track"><span class="pctf-knob"></span></span>
+          <span class="pctf-state" id="pctf-state">OFF</span>
+        </span>
+      </button>
+    </div>
 
     <!-- هشدارِ سرمایه اولیه — وقتی ثبت نشده یا با اعداد حساب نمی‌خواند -->
     <div class="acct-warn" id="acct-warn" style="display:none">
@@ -11335,9 +11386,105 @@ function journalChangeMonth(dir){
   drawChart(jYear,jMonth);
 }
 
+/* ===== فیلترِ «نمایش درصد» — تقویمِ ژورنال =====
+   وقتی روشن است، به‌جای مبلغِ دلاریِ هر روز، همان مبلغ به‌صورت درصدِ سرمایه نوشته
+   می‌شود (مثال: بالانس ۲۰۰$ و سود امروز ۱۰$ ⇒ «+۵٪»).
+   پایه‌ی محاسبه = بالانسِ ابتدای همان ماهی که در ژورنال باز است؛ پس همه‌ی روزهای
+   ماه با یک پایه‌ی ثابت سنجیده می‌شوند و جمعِ درصدها دقیقاً درصدِ کلِ ماه می‌شود.
+   با هر بار عوض‌شدنِ ماه، فیلتر خودکار خاموش می‌شود (خواسته‌ی طراحی). */
+let pctFilterOn=false;
+let _pctMonthKey=null;
+let _pctLastBase=0;
+let _fitFontHooked=false;
+
+// جمعِ سود/زیانِ ژورنال، تفکیک‌شده به «قبل از ابتدای ماه» و «از ابتدای ماه به بعد»
+function pctSplitPnl(y,m){
+  const start=dateKey(y,m,1);
+  let before=0,after=0;
+  const j=(data&&data.journal)||{};
+  Object.keys(j).forEach(k=>{
+    const e=j[k];
+    if(!e||!(e.trades>0)) return;
+    const p=parseFloat(e.pnl)||0;
+    if(k<start) before+=p; else after+=p;   // کلیدها YYYY-MM-DD هستند؛ مقایسه‌ی متنی درست است
+  });
+  return {before,after};
+}
+
+// پایه‌ی درصد برای ماهِ نمایش‌داده‌شده = بالانسِ حساب در ابتدای همان ماه
+function pctMonthBase(y,m){
+  const a=data&&data.mt5Account;
+  const dep=parseFloat(data&&data.acctDeposit)||0;
+  const live=(a&&a.syncedAt)?(parseFloat(a.balance)||0):0;
+  const s=pctSplitPnl(y,m);
+  // با اتصال متاتریدر: بالانسِ زنده منهای سود/زیانِ بعد از شروعِ ماه
+  // بدون اتصال: سرمایه‌ی اولیه به‌علاوه‌ی سود/زیانِ قبل از شروعِ ماه (همان فرمولِ کارتِ بالانس)
+  let base=live>0?(live-s.after):(dep>0?(dep+s.before):0);
+  base=Math.round(base*100)/100;
+  if(!(base>0)) base=live>0?live:dep;   // دادهٔ ناقصِ ماه‌های خیلی قدیمی ⇒ پایه‌ی امن
+  return base>0?base:0;
+}
+
+// «+۵٪» / «-۲٫۳۵٪» — دقتِ اعشار هوشمند و بدونِ صفرِ اضافه
+function fmtPct(p){
+  if(!isFinite(p)) p=0;
+  const abs=Math.abs(p);
+  const d=abs>=100?0:abs>=10?1:2;
+  let s=abs.toFixed(d);
+  if(s.indexOf('.')>-1) s=s.replace(/0+$/,'').replace(/\.$/,'');
+  return (p>0?'+':p<0?'-':'')+toFA(s).replace('.','٫')+'٪';
+}
+
+// ظاهرِ کلید + توضیحِ پایه‌ی محاسبه (شفاف باشد که درصد نسبت به چه عددی است)
+function renderPctFilter(){
+  const sw=document.getElementById('pctf-switch');
+  if(!sw) return;
+  const _n=new Date();
+  const y=(jYear===undefined)?_n.getFullYear():jYear, m=(jMonth===undefined)?_n.getMonth():jMonth;
+  const base=pctMonthBase(y,m);
+  const on=pctFilterOn&&base>0;
+  sw.setAttribute('aria-checked',on?'true':'false');
+  sw.classList.toggle('disabled',!(base>0));
+  const st=document.getElementById('pctf-state'); if(st) st.textContent=on?'ON':'OFF';
+  const sub=document.getElementById('pctf-sub');
+  if(sub){
+    if(!(base>0)) sub.textContent='اول «💰 سرمایه اولیه» را وارد کن';
+    else if(on){
+      const mn=new Date(y,m,15).toLocaleDateString('fa-IR',{month:'long'});
+      sub.innerHTML='پایه: <span dir="ltr">'+escapeHtml(fmtUSD(base))+'</span> — بالانس ابتدای '+escapeHtml(mn);
+    }
+    else sub.textContent='سود/زیان هر روز به‌جای دلار، درصدِ سرمایه';
+  }
+}
+
+function togglePctFilter(){
+  const base=pctMonthBase(jYear,jMonth);
+  if(!(base>0)){
+    pctFilterOn=false; renderPctFilter();
+    showToast('برای نمایش درصد، اول «💰 سرمایه اولیه» را در همین کارت وارد کن',4200);
+    if(typeof acctFocusDeposit==='function') acctFocusDeposit();
+    return;
+  }
+  pctFilterOn=!pctFilterOn;
+  renderJournalMonth();   // تقویم با همان داده، فقط با واحدِ جدید دوباره ساخته می‌شود
+  showToast(pctFilterOn
+    ?'٪ نمایش درصد روشن شد — فقط برای همین ماه (پایه: '+fmtUSD(base)+')'
+    :'💵 نمایش دلاری برگشت',2800);
+}
+
 function renderJournalMonth(){
   const now=new Date();
   const isCurrentMonth=(jYear===now.getFullYear()&&jMonth===now.getMonth());
+
+  // عوض‌شدنِ ماه ⇒ فیلترِ درصد خاموش می‌شود (هر مسیری که ماه را عوض کند)
+  const _mKey=jYear+'-'+jMonth;
+  if(_pctMonthKey!==null&&_pctMonthKey!==_mKey) pctFilterOn=false;
+  _pctMonthKey=_mKey;
+  const pctBase=pctFilterOn?pctMonthBase(jYear,jMonth):0;
+  const usePct=pctFilterOn&&pctBase>0;
+  _pctLastBase=pctBase;
+  const pnlText=v=>usePct?fmtPct(v/pctBase*100):fmtUSD(v);
+  const pctCls=usePct?' as-pct':'';
 
   // titles
   const refDate=new Date(jYear,jMonth,15);
@@ -11436,7 +11583,7 @@ function renderJournalMonth(){
         let symHtml='';
         if(entry&&entry.trades>0){
           const cls2=entry.pnl>0?'pos':entry.pnl<0?'neg':'zero';
-          pnlHtml=`<div class="dc-pnl ${cls2}">${fmtUSD(entry.pnl)}</div>`;
+          pnlHtml=`<div class="dc-pnl ${cls2}${pctCls}">${pnlText(entry.pnl)}</div>`;
           tradesHtml=`<div class="dc-trades">${toFA(entry.trades)} معامله</div>`;
           // پرمعامله‌ترین نمادِ همان روز — خوانا، و اگر چند نماد بود تعدادش کنارش
           const ts=dayTopSymbol(k,entry);
@@ -11476,7 +11623,9 @@ function renderJournalMonth(){
         if(e){wPnl+=e.pnl||0;wTrades+=e.trades||0;}
       }
     });
-    weekTd.innerHTML=`<div class="week-summary-cell"><div class="wsc-label">هفته ${toFA(wNum)}</div><div class="wsc-val ${wPnl>0?'pos':wPnl<0?'neg':'zero'}">${fmtUSD(wPnl)}</div><div class="wsc-trades">${toFA(wTrades)} معامله</div></div>`;
+    // جمعِ هفته هم با همان واحدِ خانه‌های همان هفته نوشته می‌شود تا ستون‌ها یک‌دست بمانند
+    const wTxt=usePct?fmtPct(wPnl/pctBase*100):fmtUSD(wPnl);
+    weekTd.innerHTML=`<div class="week-summary-cell"><div class="wsc-label">هفته ${toFA(wNum)}</div><div class="wsc-val ${wPnl>0?'pos':wPnl<0?'neg':'zero'}${pctCls}">${wTxt}</div><div class="wsc-trades">${toFA(wTrades)} معامله</div></div>`;
     tr.appendChild(weekTd);
 
     tbody.appendChild(tr);
@@ -11487,11 +11636,34 @@ function renderJournalMonth(){
     renderWeek(flatCells.slice(w*7,(w+1)*7), w+1);
   }
 
+  // وضعیتِ کلیدِ فیلترِ درصد (پایه‌ی محاسبه با ماهِ جاری به‌روز می‌شود)
+  renderPctFilter();
+
   // auto-fit P&L numbers so they stay big & bold yet never overflow their cell
-  requestAnimationFrame(fitDayPnl);
+  scheduleFitDayPnl();
 
   // year cumulative hero (static set; animation is triggered on page open)
   renderYearCumulative(false);
+}
+
+/* اجرای مطمئنِ fitDayPnl: تا وقتی فونت «وزیرمتن» از اینترنت نرسیده، مرورگر با
+   فونتِ جایگزین اندازه می‌گیرد و بعدِ رسیدنِ فونت، عرضِ عددها عوض می‌شود؛ پس
+   اندازه‌گیری هم بلافاصله انجام می‌شود، هم کمی بعد، هم هر بار که فونتی لود شد.
+   fitDayPnl خودش idempotent است (اول فونت‌سایز را ریست می‌کند). */
+let _fitLateT=null,_fitLateT2=null;
+function scheduleFitDayPnl(){
+  requestAnimationFrame(fitDayPnl);
+  clearTimeout(_fitLateT);  _fitLateT =setTimeout(fitDayPnl,220);    // بعد از دوره‌ی block فونت
+  clearTimeout(_fitLateT2); _fitLateT2=setTimeout(fitDayPnl,1400);   // برای اینترنت کند / لود ناموفق
+  if(document.fonts&&!_fitFontHooked){
+    _fitFontHooked=true;
+    const refit=()=>requestAnimationFrame(fitDayPnl);
+    if(document.fonts.ready&&document.fonts.ready.then) document.fonts.ready.then(refit);
+    if(document.fonts.addEventListener){
+      document.fonts.addEventListener('loadingdone',refit);
+      document.fonts.addEventListener('loadingerror',refit);
+    }
+  }
 }
 
 // Shrink any day P&L (or week-total) number that's wider than its cell, in small
@@ -11509,6 +11681,21 @@ function fitDayPnl(){
   };
   shrink('#j-cal-body .dc-pnl, #j-cal-body .wsc-val', 8);
   shrink('#j-cal-body .dc-trades, #j-cal-body .wsc-trades', 5.5);
+
+  // حالتِ «نمایش درصد»: پهنای نشانِ «٪» در انتهای عدد در scrollWidth حساب نمی‌شود
+  // (مرورگر rect خطِ متن را به پهنای خانه می‌بُرد)، پس جای واقعیِ آخرین نویسه
+  // اندازه گرفته می‌شود و فونت تا وقتی که «٪» کامل دیده شود کوچک می‌شود.
+  const rng=document.createRange();
+  document.querySelectorAll('#j-cal-body .dc-pnl.as-pct, #j-cal-body .wsc-val.as-pct').forEach(el=>{
+    const t=el.firstChild;
+    if(!t||t.nodeType!==3||!t.length) return;
+    const cs=getComputedStyle(el);
+    const edge=()=>el.getBoundingClientRect().right
+      -(parseFloat(cs.paddingRight)||0)-(parseFloat(cs.borderRightWidth)||0);
+    const tail=()=>{ rng.setStart(t,t.length-1); rng.setEnd(t,t.length); return rng.getBoundingClientRect().right; };
+    let size=parseFloat(cs.fontSize), guard=0;
+    while(tail()>edge()+0.2 && size>7 && guard<90){ size-=0.5; el.style.fontSize=size+'px'; guard++; }
+  });
 
   // نماد روز: اول با کوچک کردن فونت جا داده می‌شود؛ اگر باز هم جا نشد (ستون‌های
   // باریکِ آخر هفته)، به‌جای ریزتر و ناخوانا شدن، شمارنده‌ی «×N» حذف می‌شود تا
@@ -14895,7 +15082,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.4';
+const APP_VERSION='83.5';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){
@@ -15314,6 +15501,11 @@ function renderAcctExtras(){
     chip.textContent=!on?'✋ ثبت دستی':(connected?'🤖 اکسپرت فعال':'✏️ ثبت دستی');
   }
   renderAcctAuto();
+  // فیلترِ درصد: اگر روشن است و بالانس/سرمایه عوض شده، تقویم با پایه‌ی تازه دوباره ساخته شود
+  if(typeof renderPctFilter==='function'){
+    if(pctFilterOn&&jYear!==undefined&&pctMonthBase(jYear,jMonth)!==_pctLastBase) renderJournalMonth();
+    else renderPctFilter();
+  }
 }
 
 let _acctShownBal=null;

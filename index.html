@@ -1324,14 +1324,28 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .dts-net-badge{font-size:10.5px;font-weight:900;direction:ltr;flex-shrink:0;font-variant-numeric:tabular-nums}
 .dts-net-badge.pos{color:#4ade80}
 .dts-net-badge.neg{color:#f87171}
-/* ساعت و دقیقه‌ی هر پوزیشن */
-.dts-time-box{display:flex;align-items:center;gap:5px;flex:1;min-width:0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:0 8px;transition:border-color var(--tr)}
+/* ساعت و دقیقه‌ی هر پوزیشن (به وقت ایران).
+   input[type=time] روی موبایل عرضِ ذاتیِ خودش را دارد؛ اگر جعبه از آن باریک‌تر
+   شود، عدد اصلاً دیده نمی‌شود. برای همین جعبه یک flex-basis واقعی و min-width
+   دارد و خودِ input با appearance:none و ::-webkit-date-and-time-value مهار
+   می‌شود تا در iOS و اندروید هم عدد کامل و چپ‌چین دیده شود. */
+.dts-time-box{display:flex;align-items:center;gap:5px;flex:1 1 122px;min-width:116px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:0 8px;transition:border-color var(--tr)}
 .dts-time-box:focus-within{border-color:var(--gold-border)}
 .dts-time-box.auto{border-color:rgba(59,130,246,.32);background:rgba(59,130,246,.07)}
 .dts-time-ic{font-size:9.5px;font-weight:800;color:var(--text-muted);flex-shrink:0}
-.dts-time{flex:1;min-width:0;width:100%;background:none;border:none;outline:none;font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:800;color:var(--text);padding:6px 0;direction:ltr;text-align:left;color-scheme:dark;font-variant-numeric:tabular-nums}
-.dts-time::-webkit-calendar-picker-indicator{filter:invert(.75);cursor:pointer;opacity:.7;margin:0}
+.dts-time{flex:1 1 auto;min-width:58px;width:100%;background:none;border:none;outline:none;
+  -webkit-appearance:none;appearance:none;
+  font-family:'Vazirmatn',sans-serif;font-size:12.5px;font-weight:800;color:var(--text);
+  padding:6px 0;line-height:1.35;direction:ltr;text-align:left;color-scheme:dark;font-variant-numeric:tabular-nums}
+.dts-time::-webkit-date-and-time-value{text-align:left;margin:0;padding:0;min-height:1.35em}
+.dts-time::-webkit-calendar-picker-indicator{filter:invert(.75);cursor:pointer;opacity:.7;margin:0;padding:0;flex-shrink:0}
 .dts-time-tag{font-size:8.5px;font-weight:800;color:#93c5fd;flex-shrink:0;opacity:.9}
+/* روی صفحه‌های باریک، دکمه‌ی گالری یک خطِ کامل می‌گیرد تا نماد و ساعت هر دو جا شوند */
+@media (max-width:430px){
+  .dts-sym-box{flex:1 1 44%}
+  .dts-time-box{flex:1 1 46%}
+  .dts-gal-btn{flex:1 1 100%;justify-content:center}
+}
 /* نماد هر پوزیشن — دستی با پیشنهاد خودکار، یا ثابت وقتی از متاتریدر آمده */
 .dts-sym-box{display:flex;align-items:center;gap:5px;flex:1 1 104px;min-width:0;background:rgba(244,200,106,.06);border:1px solid rgba(244,200,106,.22);border-radius:8px;padding:0 8px;transition:border-color var(--tr),background var(--tr)}
 .dts-sym-box:focus-within{border-color:var(--gold);background:rgba(244,200,106,.12)}
@@ -3122,22 +3136,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   transform:skewX(-18deg);animation:sheroShine 6s ease-in-out infinite;pointer-events:none;
 }
 @keyframes sheroShine{0%{left:-60%}100%{left:130%}}
-.sh-avatar-wrap{
-  width:64px;height:64px;border-radius:20px;margin:0 auto 10px;
-  background:linear-gradient(135deg,#F4C86A,#b87010);
-  display:flex;align-items:center;justify-content:center;font-size:28px;
-  box-shadow:0 8px 28px rgba(244,200,106,.45);position:relative;z-index:1;
-  border:2px solid rgba(255,255,255,.15);
-}
-.sh-tag{font-size:9.5px;color:rgba(255,255,255,.45);font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;position:relative;z-index:1}
-.sh-name-input{
-  position:relative;z-index:1;width:100%;
-  background:rgba(255,255,255,.06);border:1px solid rgba(244,200,106,.3);
-  border-radius:13px;padding:11px 14px;font-family:'Vazirmatn',sans-serif;
-  font-size:16px;font-weight:900;color:#F4C86A;text-align:center;outline:none;transition:all .25s;margin-top:4px;
-}
-.sh-name-input:focus{border-color:#F4C86A;background:rgba(244,200,106,.07);box-shadow:0 0 0 3px rgba(244,200,106,.1)}
-.sh-name-input::placeholder{color:rgba(255,255,255,.25);font-weight:600}
+/* (استایلِ نهاییِ کارتِ پروفایل پایین‌تر در بخش «SETTINGS HERO — Compact Luxury» است) */
 
 
 /* ── Settings Stats Grid ── */
@@ -3327,11 +3326,11 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
    SETTINGS HERO — Compact Luxury
    ══════════════════════════════════════════════ */
 .settings-hero{
-  margin:12px 14px 0;padding:14px 16px;border-radius:18px;
+  margin:12px 14px 0;padding:clamp(13px,3.6vw,16px);border-radius:18px;
   background:linear-gradient(150deg,rgba(22,48,79,.98),rgba(11,22,40,.95));
   border:1px solid rgba(244,200,106,.22);
   box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.07);
-  display:flex;align-items:center;gap:13px;
+  display:block;text-align:right;
   position:relative;overflow:hidden;
 }
 .settings-hero::before{
@@ -3344,23 +3343,45 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
   background:linear-gradient(105deg,transparent,rgba(255,255,255,.05),transparent);
   transform:skewX(-18deg);animation:sheroShine 5s ease-in-out infinite;pointer-events:none;
 }
+/* ردیفِ بالا: آواتار (حرفِ اولِ اسم) کنارِ برچسب و کادرِ اسم */
+.sh-top{display:flex;align-items:center;gap:clamp(11px,3vw,14px);position:relative;z-index:1}
 .sh-avatar-wrap{
-  width:48px;height:48px;border-radius:15px;flex-shrink:0;
-  background:linear-gradient(135deg,#F4C86A,#b87010);
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-  box-shadow:0 6px 18px rgba(244,200,106,.4),inset 0 1px 0 rgba(255,255,255,.2);
-  position:relative;z-index:1;
-  border:1.5px solid rgba(255,255,255,.15);
+  width:clamp(48px,12.5vw,56px);height:clamp(48px,12.5vw,56px);border-radius:17px;flex-shrink:0;margin:0;
+  background:linear-gradient(140deg,#ffe6a8,#F4C86A 42%,#b87010);
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(21px,5.6vw,25px);font-weight:900;color:#231303;line-height:1;
+  box-shadow:0 7px 22px rgba(244,200,106,.4),inset 0 1px 0 rgba(255,255,255,.5);
+  position:relative;z-index:1;border:1px solid rgba(255,255,255,.28);
 }
+.sh-avatar-wrap::after{content:'';position:absolute;inset:-4px;border-radius:21px;
+  pointer-events:none;border:1px solid rgba(244,200,106,.26)}
 .sh-text-wrap{flex:1;min-width:0;position:relative;z-index:1}
-.sh-tag{font-size:9px;color:rgba(255,255,255,.4);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
-.sh-name-input{
-  width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(244,200,106,.28);
-  border-radius:11px;padding:9px 12px;font-family:'Vazirmatn',sans-serif;
-  font-size:14px;font-weight:900;color:#F4C86A;outline:none;transition:all .25s;
+.sh-tag{font-size:clamp(9.5px,2.5vw,10.5px);color:var(--gold);font-weight:800;letter-spacing:.4px;
+  text-transform:none;margin-bottom:6px;opacity:.9}
+/* کادر اسم: قلمِ کوچک نشان می‌دهد که قابلِ ویرایش است */
+.sh-name-box{display:flex;align-items:center;gap:8px;position:relative;z-index:1;
+  background:rgba(255,255,255,.05);border:1px solid rgba(244,200,106,.3);border-radius:12px;
+  padding:0 11px;transition:border-color .25s,background .25s,box-shadow .25s}
+.sh-name-box:focus-within{border-color:#F4C86A;background:rgba(244,200,106,.08);box-shadow:0 0 0 3px rgba(244,200,106,.1)}
+input.sh-name-input{
+  flex:1;min-width:0;width:100%;background:none;border:none;border-radius:0;box-shadow:none;
+  padding:clamp(9px,2.5vw,11px) 0;font-family:'Vazirmatn',sans-serif;
+  font-size:clamp(14px,3.8vw,16px);font-weight:900;color:#F4C86A;text-align:right;outline:none;
 }
-.sh-name-input:focus{border-color:#F4C86A;background:rgba(244,200,106,.07);box-shadow:0 0 0 3px rgba(244,200,106,.1)}
-.sh-name-input::placeholder{color:rgba(255,255,255,.25);font-weight:600}
+input.sh-name-input:focus{border:none;background:none;box-shadow:none}
+input.sh-name-input::placeholder{color:rgba(255,255,255,.25);font-weight:600}
+.sh-name-pen{font-size:12px;opacity:.5;flex-shrink:0;transition:opacity .25s}
+.sh-name-box:focus-within .sh-name-pen{opacity:1}
+/* نشانِ «وارد شده به‌عنوان …» — ردیفِ جدا زیرِ کارت، با چراغِ سبزِ آنلاین */
+.sh-acct{display:none;align-items:center;gap:8px;position:relative;z-index:1;
+  margin-top:clamp(10px,2.6vw,12px);padding-top:clamp(9px,2.4vw,11px);
+  border-top:1px dashed rgba(244,200,106,.22)}
+.sh-acct.on{display:flex}
+.sha-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;
+  box-shadow:0 0 9px var(--green);animation:acctPulse 2.2s ease-in-out infinite}
+.sha-lbl{font-size:clamp(9.5px,2.5vw,10.5px);font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
+.sha-val{font-size:clamp(11.5px,3vw,13px);font-weight:900;color:#fff;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ══════════════════════════════════════════════
    GOALS CARD — Compact 2-col grid
@@ -3695,16 +3716,18 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .mt5link-token{flex:1;direction:ltr;text-align:left;font-family:monospace;font-size:11px;background:rgba(0,0,0,.3);border:1px dashed var(--gold-border);border-radius:8px;padding:9px 10px;color:var(--gold);overflow-x:auto;white-space:nowrap}
 
 /* JOURNAL — live MT5 account card (balance / deposit / last sync) */
-.acct-card{margin:10px 14px 0;padding:clamp(9px,2.6vw,12px) clamp(11px,3.4vw,15px);border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(150deg,#16304f,#0d1f3c 58%,#0a1830);border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
+.acct-card{margin:10px 14px 0;padding:clamp(8px,2.2vw,11px) clamp(11px,3.4vw,15px);border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(150deg,#16304f,#0d1f3c 58%,#0a1830);border:1px solid var(--gold-border);box-shadow:0 12px 32px rgba(0,0,0,.45)}
 .acct-card::before{content:'';position:absolute;top:-46px;right:-34px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.16),transparent 70%);pointer-events:none}
 .acct-num{font-family:'Segoe UI','SF Pro Display','Helvetica Neue',Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:embed}
 /* ── سر کارت (همیشه دیده می‌شود و کل کارت را باز/بسته می‌کند) ── */
-.acct-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,2.5vw,14px);
+.acct-head{width:100%;display:block;
   background:none;border:none;padding:0;margin:0;cursor:pointer;text-align:right;font-family:'Vazirmatn',sans-serif;
   position:relative;z-index:1;min-width:0;-webkit-tap-highlight-color:transparent}
 .acct-head:active{opacity:.85}
-.acct-head-main{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
-.acct-head-side{display:flex;align-items:center;gap:clamp(6px,1.8vw,9px);flex-shrink:0}
+/* دو ردیفِ سر کارت: هر ردیف عنوانِ راست + مقدارِ چپ (کارت کوتاه‌تر می‌شود) */
+.ahg-row{display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,2.5vw,12px);min-width:0}
+.ahg-row.bottom{margin-top:2px}
+.ahg-left{display:flex;align-items:center;gap:clamp(6px,1.8vw,9px);min-width:0;flex-shrink:1}
 .acct-chip{font-size:clamp(8.5px,2.2vw,10px);font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6)}
 .acct-chip.live{background:rgba(34,197,94,.13);border-color:rgba(34,197,94,.4);color:#6ee7a8}
@@ -3737,14 +3760,17 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .aa-switch[aria-checked="true"] .aa-knob{transform:translateX(20px);background:#34d399;box-shadow:0 2px 10px rgba(52,211,153,.6)}
 .aa-state{font-size:10px;font-weight:900;letter-spacing:.6px;color:rgba(255,255,255,.45);direction:ltr;width:26px;text-align:left}
 .aa-switch[aria-checked="true"] .aa-state{color:#34d399}
-.acct-label{font-size:clamp(9px,2.4vw,10.5px);font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.acct-label{font-size:clamp(9px,2.4vw,10.5px);font-weight:800;color:var(--gold);letter-spacing:.3px;display:flex;align-items:center;gap:7px;white-space:nowrap}
+/* روی صفحه‌های خیلی باریک، «سرمایه اولیه» فقط با آیکن و عدد نشان داده می‌شود
+   تا بالانس و نشانِ سرمایه در یک ردیف جا شوند */
+@media (max-width:389px){ .acct-dep-badge:not(.empty) .adb-lbl{display:none} }
 .acct-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:acctPulse 2.2s ease-in-out infinite;flex-shrink:0}
 @keyframes acctPulse{0%,100%{opacity:1}50%{opacity:.3}}
 .acct-balance{font-size:clamp(20px,6.4vw,27px);font-weight:800;line-height:1.2;letter-spacing:.4px;white-space:nowrap;background:linear-gradient(180deg,#86efac 0%,#22c55e 55%,#15803d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(34,197,94,.35));animation:acctGlow 3s ease-in-out infinite}
 @keyframes acctGlow{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,197,94,.28))}50%{filter:drop-shadow(0 3px 22px rgba(34,197,94,.6))}}
 /* ── نشانِ «سرمایه اولیه» روی سر کارت — همیشه دیده می‌شود ── */
-.acct-dep-badge{display:inline-flex;align-items:center;gap:6px;margin-top:7px;padding:4px 10px 4px 8px;border-radius:999px;
-  cursor:pointer;position:relative;overflow:hidden;max-width:100%;
+.acct-dep-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 7px;border-radius:999px;
+  cursor:pointer;position:relative;overflow:hidden;min-width:0;max-width:100%;
   background:linear-gradient(120deg,rgba(244,200,106,.22),rgba(244,200,106,.06) 60%,rgba(255,255,255,.03));
   border:1px solid rgba(244,200,106,.45);box-shadow:0 3px 14px rgba(244,200,106,.14);
   transition:border-color .25s,box-shadow .25s,transform .15s}
@@ -3844,6 +3870,43 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .acct-sync{margin-top:9px;padding-top:8px;border-top:1px dashed rgba(232,160,32,.22);font-size:clamp(9px,2.3vw,10px);font-weight:600;color:rgba(255,255,255,.55);position:relative;line-height:1.8}
 .acct-card.waiting .acct-live{background:#8496ad;box-shadow:none;animation:none}
 .acct-card.waiting .acct-balance{background:none;-webkit-background-clip:initial;background-clip:initial;color:rgba(255,255,255,.35);filter:none;animation:none}
+
+/* ===== یادآورِ ثبتِ روانشناسیِ معامله‌ها ===== */
+#psyask-overlay{position:fixed;inset:0;z-index:98500;display:none;align-items:center;justify-content:center;
+  padding:24px;background:rgba(3,8,18,.82);backdrop-filter:blur(6px)}
+#psyask-overlay.show{display:flex}
+.psyask-card{position:relative;width:100%;max-width:360px;text-align:center;overflow:hidden;
+  background:linear-gradient(160deg,#1a2f4e 0%,#0f2238 55%,#0a1830 100%);
+  border:1px solid rgba(167,139,250,.42);border-radius:24px;padding:26px 22px 20px;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(167,139,250,.14);
+  animation:annIn .45s cubic-bezier(.2,.8,.2,1)}
+.psyask-card::before{content:'';position:absolute;top:-52px;left:50%;transform:translateX(-50%);
+  width:190px;height:190px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(167,139,250,.2),transparent 70%)}
+.psyask-emoji{font-size:42px;line-height:1;margin-bottom:11px;position:relative;z-index:1;
+  filter:drop-shadow(0 4px 18px rgba(167,139,250,.5));animation:annPulse 2.6s ease-in-out infinite}
+.psyask-title{position:relative;z-index:1;font-size:clamp(15px,4vw,17px);font-weight:900;color:#fff;line-height:1.7;margin-bottom:8px}
+.psyask-desc{position:relative;z-index:1;font-size:clamp(11px,3vw,12.5px);font-weight:700;line-height:2;
+  color:rgba(255,255,255,.7);margin-bottom:13px}
+.psyask-chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:16px}
+.psyask-chip{font-size:10.5px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap;
+  background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.34);color:#d8ccff}
+.psyask-chip b{color:#fff;font-weight:900;direction:ltr;display:inline-block}
+.psyask-go{position:relative;z-index:1;width:100%;padding:13px;border-radius:14px;border:none;cursor:pointer;
+  font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:900;color:#1b1030;
+  background:linear-gradient(135deg,#c4b5fd,#a78bfa 55%,#8b5cf6);
+  box-shadow:0 10px 26px rgba(139,92,246,.42);transition:transform .15s,box-shadow .25s}
+.psyask-go:hover{box-shadow:0 12px 32px rgba(139,92,246,.6)}
+.psyask-go:active{transform:scale(.98)}
+.psyask-skip{position:relative;z-index:1;margin-top:9px;background:none;border:none;cursor:pointer;
+  font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.45)}
+.psyask-skip:hover{color:rgba(255,255,255,.75)}
+/* کارتِ معامله‌ای که از روی یادآور باز شده — یک لحظه برجسته می‌شود */
+.position-card.psy-focus{border-color:rgba(167,139,250,.75)!important;
+  box-shadow:0 0 0 3px rgba(167,139,250,.18),0 12px 34px rgba(139,92,246,.32)!important;
+  animation:psyFocusPulse 1.6s ease-in-out 2}
+@keyframes psyFocusPulse{0%,100%{box-shadow:0 0 0 3px rgba(167,139,250,.18),0 12px 34px rgba(139,92,246,.3)}
+  50%{box-shadow:0 0 0 6px rgba(167,139,250,.3),0 14px 40px rgba(139,92,246,.5)}}
 
 /* ===== ANNOUNCEMENT modal — luxe broadcast from admin ===== */
 #ann-overlay,#pm-overlay,#signew-overlay{position:fixed;inset:0;z-index:98000;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(3,8,18,.82);backdrop-filter:blur(6px)}
@@ -5302,16 +5365,19 @@ body.mnt-bannered{padding-top:28px}
   <!-- MT5 ACCOUNT — کارت کشویی: سر کارت همیشه بالانس را نشان می‌دهد،
        بدنه با یک کلیک باز می‌شود (سرمایه اولیه، سود ژورنال، کلید ثبت خودکار، آخرین سینک) -->
   <div class="acct-card waiting" id="acct-card">
+    <!-- سر کارت در دو ردیف: (۱) عنوان + وضعیت اکسپرت  (۲) بالانس + سرمایه اولیه در سمت چپ.
+         سرمایه اولیه همیشه دیده می‌شود، حتی وقتی کارت بسته است. -->
     <button type="button" class="acct-head" id="acct-head" onclick="toggleAcctCard()" aria-expanded="false" aria-controls="acct-body">
-      <span class="acct-head-main">
+      <span class="ahg-row">
         <span class="acct-label"><span class="acct-live"></span>بالانس حساب</span>
-        <span class="acct-balance acct-num" id="acct-balance">—</span>
-        <!-- سرمایه اولیه — همیشه دیده می‌شود، حتی وقتی کارت بسته است -->
-        <span class="acct-dep-badge" id="acct-dep-badge" onclick="event.stopPropagation();acctFocusDeposit()"></span>
-      </span>
-      <span class="acct-head-side">
         <span class="acct-chip" id="acct-chip">…</span>
-        <span class="acct-caret" aria-hidden="true">⌄</span>
+      </span>
+      <span class="ahg-row bottom">
+        <span class="acct-balance acct-num" id="acct-balance">—</span>
+        <span class="ahg-left">
+          <span class="acct-dep-badge" id="acct-dep-badge" onclick="event.stopPropagation();acctFocusDeposit()"></span>
+          <span class="acct-caret" aria-hidden="true">⌄</span>
+        </span>
       </span>
     </button>
 
@@ -5954,16 +6020,22 @@ body.mnt-bannered{padding-top:28px}
   </div>
   <div class="set-cols">
 
+  <!-- کارت پروفایل تریدر: آواتار (حرف اول اسم) + کادر ویرایش اسم + نشانِ «وارد شده به‌عنوان» -->
   <div class="settings-hero">
-    <div class="sh-avatar-wrap">🎯</div>
-    <div class="sh-text-wrap">
-      <div class="sh-tag">Trader Profile</div>
-      <input type="text" id="settings-name-input" class="sh-name-input" placeholder="اسمت رو بنویس...">
+    <div class="sh-top">
+      <div class="sh-avatar-wrap"><span id="sh-avatar">🎯</span></div>
+      <div class="sh-text-wrap">
+        <div class="sh-tag">👤 پروفایل تریدر</div>
+        <label class="sh-name-box" title="اسمی که در کارت‌ها و گزارش‌ها نمایش داده می‌شود">
+          <input type="text" id="settings-name-input" class="sh-name-input" placeholder="اسمت رو بنویس...">
+          <span class="sh-name-pen" aria-hidden="true">✏️</span>
+        </label>
+      </div>
     </div>
+    <div class="sh-acct" id="settings-acct-name"></div>
   </div>
 
   <button type="button" class="settings-logout" onclick="doLogout()">🚪 خروج از حساب</button>
-  <div class="settings-acct-name" id="settings-acct-name"></div>
 
   <div class="settings-section"><h2 class="h2-lux">✨ هدف‌گذاری پیشرفته</h2></div>
   <div class="goals-card">
@@ -6023,7 +6095,6 @@ body.mnt-bannered{padding-top:28px}
 
   <div class="mt5link-card" id="mt5-token-wrap">
     <div class="mt5link-desc">با اکسپرت <b>TradePlanSync</b> هر پوزیشنی که در متاتریدر ۵ بسته شود، خودکار با تمام جزئیات (نماد، نوع، حجم، قیمت‌ها، زمان و سود/ضرر خالص شامل کمیسیون و سواپ) در ژورنال ثبت می‌شود. با هر بار روشن شدن متاتریدر، کل ۲ ماه اخیر هم دوباره بررسی می‌شود — پوزیشن‌های موبایل و حتی ثبت‌های دستی اشتباه، با ارقام دقیق متاتریدر تصحیح می‌شوند.</div>
-    <div class="mt5link-desc">دو روش نصب داری و فقط یکی کافی است: <b>اکسپرت</b> (ساده — روی یک چارت، هر نمادی) یا <b>سرویس بدون چارت</b> — مخصوص کسانی که اکسپرت دیگری مثل مدیریت سرمایه دارند؛ در پس‌زمینه‌ی متاتریدر اجرا می‌شود و با هیچ اکسپرتی تداخل ندارد. آموزش هر دو در راهنمای پایین 👇</div>
     <div class="mt5link-token-row">
       <code class="mt5link-token" id="mt5-token-value">در حال دریافت توکن…</code>
       <button type="button" class="mt5link-copy" onclick="mt5CopyToken()" title="کپی توکن">📋</button>
@@ -6622,6 +6693,20 @@ body.mnt-bannered{padding-top:28px}
   </div>
 </div>
 
+<!-- ═══ یادآورِ ثبتِ روانشناسیِ معامله‌ها ═══
+     دو جا بالا می‌آید: (۱) بعد از «✓ ثبت» در ژورنالِ یک روز، (۲) وقتی برنامه باز
+     می‌شود و معامله‌های خودکارِ اکسپرت هنوز احساسات‌شان ثبت نشده. -->
+<div id="psyask-overlay" onclick="if(event.target===this)psyAskClose()">
+  <div class="psyask-card">
+    <div class="psyask-emoji">🧠</div>
+    <div class="psyask-title" id="psyask-title">روانشناسی این معامله‌ها رو ثبت کردی؟</div>
+    <div class="psyask-desc" id="psyask-desc"></div>
+    <div class="psyask-chips" id="psyask-chips"></div>
+    <button type="button" class="psyask-go" id="psyask-go" onclick="psyAskGo()">✍️ بریم ثبت کنیم</button>
+    <button type="button" class="psyask-skip" onclick="psyAskClose()">بعداً</button>
+  </div>
+</div>
+
 <!-- فهرست مشترک نمادها: هر کادر نمادی در برنامه با list="sym-dl" از همین تغذیه می‌شود -->
 <datalist id="sym-dl"></datalist>
 
@@ -6871,7 +6956,7 @@ function showPage(name){
   document.getElementById('nav-'+name).classList.add('active');
   currentPage=name;
   if(name==='home') updateHome();
-  if(name==='settings'){ if(typeof renderGoalsInputs==='function') renderGoalsInputs(); if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); if(typeof recLoadStatus==='function') recLoadStatus(); }
+  if(name==='settings'){ if(typeof renderGoalsInputs==='function') renderGoalsInputs(); if(typeof mt5LoadToken==='function') mt5LoadToken(); if(typeof donateLoad==='function') donateLoad(); if(typeof recLoadStatus==='function') recLoadStatus(); if(typeof renderSettingsProfile==='function') renderSettingsProfile(); }
   if(name==='setup') renderStrategy();
   if(name==='journal'){ renderJournal(); animateMonthlyPnl(); if(typeof mt5CheckAccess==='function') mt5CheckAccess(); if(typeof updateMt5Banner==='function') updateMt5Banner(); if(typeof mtCloudSync==='function') mtCloudSync(); if(typeof renderMt5Account==='function'){ renderMt5Account(); mt5LoadAccount(); } if(typeof maybePsychNightNudge==='function') setTimeout(maybePsychNightNudge,700); }
   if(name==='psychology') renderPsychology();
@@ -8475,13 +8560,14 @@ function renderStrategyIdentity(){
         انضباط، ریسک، ثبات، احساسات، رعایت پلن و عملکرد یک نمره‌ی مستقل
         می‌گیرد و امتیاز محور، میانگینِ وزنیِ همان روزهاست (روزهای نزدیک‌تر
         وزن بیشتری دارند). روز خوب امتیاز را بالا می‌برد، روز بد پایین.
-     ۳) شروع از ۷۰: تریدرِ تازه یا کسی که هنوز داده‌ی کافی ندارد، از ۷۰ شروع
-        می‌کند و هر محور به اندازه‌ی «اطمینانِ داده» از ۷۰ به سمت عملکرد
-        واقعی حرکت می‌کند — نه تنبیهِ بی‌دلیل، نه امتیازِ مجانی.
+     ۳) شروع از ۴۰: تریدرِ تازه‌ثبت‌نام یا کسی که هنوز داده‌ی کافی ندارد، هر شش
+        محور و امتیاز کلش ۴۰ است و هر محور به اندازه‌ی «اطمینانِ داده» از ۴۰
+        به سمت عملکرد واقعی حرکت می‌کند — امتیاز بالا مجانی داده نمی‌شود و با
+        ثبتِ منظمِ معامله و رفتار، خودش بالا می‌آید.
    ═══════════════════════════════════════════════════════════════════════════ */
 const RADAR_WINDOW_DAYS=60;        // دو ماه اخیر
 const RADAR_EXPECTED_ACTIVE=24;    // انتظارِ فعالیت در ۶۰ روز (~۳ روز در هفته)
-const RADAR_BASE=70;               // نمره‌ی شروع (تریدر تازه / داده‌ی کم)
+const RADAR_BASE=40;               // نمره‌ی شروع (تریدر تازه / داده‌ی کم)
 function computeSkillRadar(){
   const plan=data.plan||{};
   ensureStrategy(); const strat=data.strategy;
@@ -8507,8 +8593,8 @@ function computeSkillRadar(){
               emotion:RADAR_BASE, profit:RADAR_BASE, planAdh:RADAR_BASE};
   const GROW=[[0,2],[10,9],[20,18],[30,27],[40,37],[50,47],[60,57],[70,67],[80,77],[88,85],[94,91],[98,96],[100,99]];
   const curve=raw=>piece(Math.max(0,Math.min(100,raw||0)),GROW);
-  /* امتیاز نهایی = از پایه‌ی ۷۰ شروع، و به اندازه‌ی «اطمینانِ داده» (w) به
-     سمت امتیاز واقعی حرکت می‌کند. w=0 یعنی هنوز داده‌ای نیست → همان ۷۰. */
+  /* امتیاز نهایی = از پایه‌ی ۴۰ شروع، و به اندازه‌ی «اطمینانِ داده» (w) به
+     سمت امتیاز واقعی حرکت می‌کند. w=0 یعنی هنوز داده‌ای نیست → همان ۴۰. */
   const score=(raw,w,cold)=>clamp(cold+(curve(raw)-cold)*Math.max(0,Math.min(1,w)),2,99);
   /* میانگینِ وزنی با تأکید بر روزهای نزدیک‌تر: قدیمی‌ترین روزِ بازه وزن ۰٫۶ و
      امروز وزن ۱٫۴ می‌گیرد؛ یعنی تغییر رفتارِ اخیر سریع‌تر در نمره دیده می‌شود. */
@@ -8633,8 +8719,9 @@ function computeSkillRadar(){
      هر روزِ معاملاتی برای هر شش محور یک نمره‌ی مستقل می‌گیرد و امتیاز محور،
      میانگینِ وزنیِ همان روزهاست. روزی که سقف ضرر روزانه را شکسته یا همه‌ی
      معامله‌هایش تخلف از پلن بوده، همان‌جا نزدیک صفر می‌گیرد و میانگین را
-     واقعاً پایین می‌کشد. روزی که لاگ روانشناسی ندارد، به‌جای تنبیه، از همان
-     پایه‌ی ۷۰ شروع می‌کند و بقیه‌ی نمره‌اش را خودِ اعدادِ روز تعیین می‌کند. */
+     واقعاً پایین می‌کشد. روزی که لاگ روانشناسی ندارد از همان پایه‌ی ۴۰ شروع
+     می‌کند و بقیه‌ی نمره‌اش را خودِ اعدادِ روز تعیین می‌کند — یعنی نمره با
+     ثبتِ رفتار بالا می‌رود، نه با نداشتنِ داده. */
   const NEUTRAL=RADAR_BASE;               // نمره‌ی روزی که هنوز داده‌ی رفتاری ندارد
   const medAbsDay=median(dailyPnls.map(v=>Math.abs(v)))||avgAbsDay;
   // مقیاسِ مرجعِ یک روزِ خوب: هدف روزانه‌ی کاربر ← تارگت پلن ← اندازه‌ی معمولِ روزهای خودش
@@ -8731,7 +8818,7 @@ function computeSkillRadar(){
 
   /* ═══════ پوشش داده و وزنِ اطمینان ═══════
      covRatio = چند روز از دو ماه واقعاً ثبت شده. کسی که در ۶۰ روز فقط ۳ روز
-     ثبت کرده، هنوز نزدیکِ پایه‌ی ۷۰ می‌ماند: نه تنبیه، نه نمره‌ی یک تریدرِ منظمِ دوماهه. */
+     ثبت کرده، هنوز نزدیکِ پایه‌ی ۴۰ می‌ماند و با ثبتِ منظم بالا می‌رود. */
   const covRatio=Math.min(1,activeDays/RADAR_EXPECTED_ACTIVE);
   const covMul  =0.55+0.45*covRatio;
   const wDays   =Math.min(1,activeDays/12);
@@ -11436,6 +11523,10 @@ function fmtPct(p){
   return (p>0?'+':p<0?'-':'')+s+'%';
 }
 
+// پایه با همان قالبِ کارتِ بالانس نوشته می‌شود (بدون اعشار) تا دو عدد یک‌شکل باشند
+function pctBaseTxt(base){
+  return (typeof acctFmt==='function')?acctFmt(base,'USD'):fmtUSD(base);
+}
 // ظاهرِ کلید + توضیحِ پایه‌ی محاسبه (شفاف باشد که درصد نسبت به چه عددی است)
 function renderPctFilter(){
   const sw=document.getElementById('pctf-switch');
@@ -11452,7 +11543,7 @@ function renderPctFilter(){
     if(!(base>0)) sub.textContent='اول «💰 سرمایه اولیه» را وارد کن';
     else if(on){
       const mn=new Date(y,m,15).toLocaleDateString('fa-IR',{month:'long'});
-      sub.innerHTML='پایه: <span dir="ltr">'+escapeHtml(fmtUSD(base))+'</span> — بالانس ابتدای '+escapeHtml(mn);
+      sub.innerHTML='پایه: <span dir="ltr">'+escapeHtml(pctBaseTxt(base))+'</span> — بالانس ابتدای '+escapeHtml(mn);
     }
     else sub.textContent='سود/زیان هر روز به‌جای دلار، درصدِ سرمایه';
   }
@@ -11469,7 +11560,7 @@ function togglePctFilter(){
   pctFilterOn=!pctFilterOn;
   renderJournalMonth();   // تقویم با همان داده، فقط با واحدِ جدید دوباره ساخته می‌شود
   showToast(pctFilterOn
-    ?'٪ نمایش درصد روشن شد — فقط برای همین ماه (پایه: '+fmtUSD(base)+')'
+    ?'٪ نمایش درصد روشن شد — فقط برای همین ماه (پایه: '+pctBaseTxt(base)+')'
     :'💵 نمایش دلاری برگشت',2800);
 }
 
@@ -11881,9 +11972,18 @@ function saveDayEntry(){
     return;
   }
 
+  const savedKey=activeDayKey;
   liveSaveDay();
   closeDayModal();
   showToast('✅ ثبت شد');
+  // بلافاصله بعد از ثبتِ روز: اگر معامله‌ای بدونِ ثبتِ روانشناسی مانده،
+  // همان‌جا پرسیده می‌شود و تریدر مستقیم به همان معامله برده می‌شود.
+  if(typeof psyAskForDay==='function'){
+    setTimeout(()=>psyAskForDay(savedKey,{
+      title:'آیا روانشناسی هر معامله را ثبت کردی؟',
+      desc:'معامله‌های این روز ثبت شدند. حالا احساس و رفتارِ هر معامله را ثبت کن — همین ثبتِ کوتاه، نمره‌ی مهارت و تحلیل رفتاری‌ات را می‌سازد.'
+    }),420);
+  }
   // اگر همین حالا (شب) روزِ سودده‌ی امروز ثبت شد، گواهی‌اش را پیشنهاد بده
   if(typeof certEveningCheck==='function') certEveningCheck();
 }
@@ -12064,12 +12164,58 @@ function mtDetail(pos){
 }
 
 /* ---------- ساعت و دقیقه‌ی هر پوزیشن ----------
-   منبع خودکار: mtOpenTime متاتریدر با قالب «YYYY.MM.DD HH:MM:SS».
-   اگر کاربر دستی وارد کند، pos.time نوشته می‌شود و بر مقدار خودکار اولویت دارد. */
+   منبع خودکار: mtOpenTime متاتریدر با قالب «YYYY.MM.DD HH:MM:SS» — این عدد به
+   «وقتِ سرورِ بروکر» است، نه وقتِ ایران؛ برای همین قبل از نمایش تبدیل می‌شود.
+   اگر کاربر دستی وارد کند، pos.time نوشته می‌شود (خودش وقتِ ایران است) و
+   بر مقدار خودکار اولویت دارد. */
+const IRAN_OFFSET_MIN=210;   // ایران +۳:۳۰ و ساعت تابستانی هم ندارد
+
+// اختلافِ ساعتِ سرورِ بروکر با UTC (دقیقه) — خودکار از داده‌ها تخمین زده می‌شود؛
+// تا وقتی تخمینی نداریم، فرض می‌شود سرور روی UTC است.
+function mtBrokerOffsetMin(){
+  const v=data&&data.mtGmtOffsetMin;
+  return (typeof v==='number'&&isFinite(v))?v:0;
+}
+// «YYYY.MM.DD HH:MM[:SS]» به وقت سرور  →  {ms} یا null
+function mtParseServerTime(ot){
+  const m=String(ot||'').match(/^(\d{4})[.\-/](\d{2})[.\-/](\d{2})[ T](\d{2}):(\d{2})/);
+  return m?Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]):null;
+}
+// همان زمان، به وقت ایران — خروجی «HH:MM»
+function mtTimeToIran(ot){
+  const t=mtParseServerTime(ot);
+  if(t===null) return '';
+  const d=new Date(t+(IRAN_OFFSET_MIN-mtBrokerOffsetMin())*60000);
+  return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');
+}
 function mtTimeOf(pos){
-  const ot=pos&&pos.mtOpenTime;
-  const m=ot&&String(ot).match(/(\d{2}):(\d{2})/);
-  return m?(m[1]+':'+m[2]):'';
+  return mtTimeToIran(pos&&pos.mtOpenTime);
+}
+
+/* ── تخمینِ خودکارِ تایم‌زونِ بروکر ──────────────────────────────────────────
+   هر ردیفِ mt5_trades دو زمان دارد: close_time (ساعتِ سرورِ بروکر، متن) و
+   created_at (لحظه‌ی واقعیِ ثبت در دیتابیس، UTC). اکسپرت پوزیشنِ بسته‌شده را
+   با تأخیرِ کوتاهی می‌فرستد، پس «close_time − created_at» تقریباً همان اختلافِ
+   ساعتِ سرور با UTC است. چند نکته:
+     • ردیف‌های ایمپورتِ تاریخی (اولین اجرا) تأخیرِ روزها دارند ⇒ با فیلترِ ۱۴
+       ساعت کنار گذاشته می‌شوند.
+     • تأخیر همیشه مثبت است، پس صدکِ بالا (۸۰٪) به واقعیت نزدیک‌تر از میانه است.
+     • نتیجه به ۱۵ دقیقه گِرد می‌شود (تایم‌زون‌ها مضربِ ۱۵ دقیقه‌اند).
+   اگر داده‌ی کافی نباشد، مقدارِ قبلی دست‌نخورده می‌ماند (پیش‌فرض: UTC). */
+function mtLearnBrokerOffset(rows){
+  const dl=[];
+  (rows||[]).forEach(r=>{
+    const srv=mtParseServerTime(r&&r.close_time);
+    const ins=r&&r.created_at?Date.parse(r.created_at):NaN;
+    if(srv===null||!isFinite(ins)) return;
+    const d=(srv-ins)/60000;
+    if(Math.abs(d)<=14*60) dl.push(d);
+  });
+  if(dl.length<3) return;
+  dl.sort((a,b)=>a-b);
+  const q=dl[Math.min(dl.length-1,Math.floor(dl.length*0.8))];
+  const off=Math.max(-840,Math.min(840,Math.round(q/15)*15));
+  if(data.mtGmtOffsetMin!==off){ data.mtGmtOffsetMin=off; saveData(); }
 }
 function dayTradeTime(pos){
   if(pos&&pos.time&&/^\d{2}:\d{2}$/.test(pos.time)) return pos.time;
@@ -12402,6 +12548,113 @@ function psychGoToday(){
 function psychGoToDate(d){
   psychYear=d.getFullYear(); psychMonth=d.getMonth(); psychDay=d.getDate();
   showPage('psychology');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   یادآورِ ثبتِ روانشناسیِ هر معامله
+   ─────────────────────────────────────────────────────────────────────────
+   دو ورودی دارد و هر دو به یک مودالِ مشترک می‌رسند:
+     ۱) بعد از «✓ ثبت»ِ یک روز در ژورنال (ثبتِ دستی)
+     ۲) وقتی برنامه باز می‌شود و معامله‌های خودکارِ اکسپرت هنوز احساسات ندارند
+   با زدنِ «بریم ثبت کنیم» تریدر مستقیم به صفحه‌ی روانشناسیِ همان روز می‌رود و
+   اولین معامله‌ی ثبت‌نشده باز و برجسته می‌شود.
+   ═══════════════════════════════════════════════════════════════════════════ */
+// آیا برای این پوزیشن چیزی از رفتار/احساس ثبت شده؟
+function psyPosFilled(p){
+  return !!(p&&((p.mistakes&&p.mistakes.length)||(p.wins&&p.wins.length)||p.mood||p.plan||
+                (p.note&&p.note.trim())||p.score));
+}
+// شماره‌ی اولین معامله‌ی بدونِ ثبتِ روانشناسی در یک روز (یا -۱)
+function psyFirstUnfilled(key){
+  const ps=((data.psychology||{})[key]||{}).positions||[];
+  for(let i=0;i<ps.length;i++) if(!psyPosFilled(ps[i])) return i;
+  return -1;
+}
+// چند معامله‌ی آن روز هنوز ثبت نشده‌اند
+function psyMissingCount(key){
+  const ps=((data.psychology||{})[key]||{}).positions||[];
+  return ps.filter(p=>!psyPosFilled(p)).length;
+}
+
+let _psyAskKey=null, _psyAskIdx=0;
+function psyAskClose(){
+  const el=document.getElementById('psyask-overlay');
+  if(el) el.classList.remove('show');
+}
+function psyAskGo(){
+  const key=_psyAskKey, idx=_psyAskIdx;
+  psyAskClose();
+  if(!key) return;
+  const p=key.split('-').map(Number);
+  psychYear=p[0]; psychMonth=p[1]-1; psychDay=p[2];
+  showPage('psychology');
+  // بعد از رندرِ صفحه، همان معامله باز و برجسته می‌شود
+  setTimeout(()=>psyFocusPosition(idx),240);
+}
+/* کارتِ معامله‌ی موردنظر را وسط صفحه می‌آورد، برجسته می‌کند و فرمِ روانشناسی‌اش
+   را باز می‌کند تا تریدر بلافاصله همان‌جا ثبت کند. */
+function psyFocusPosition(idx){
+  const cards=document.querySelectorAll('#psych-positions-list .position-card');
+  const card=cards[idx]||cards[0];
+  if(!card) return;
+  card.scrollIntoView({behavior:'smooth',block:'center'});
+  card.classList.add('psy-focus');
+  setTimeout(()=>card.classList.remove('psy-focus'),3400);
+  if(typeof openPositionModal==='function') setTimeout(()=>openPositionModal(cards[idx]?idx:0),520);
+}
+/* نمایشِ مودال برای یک روزِ مشخص. اگر همه‌ی معامله‌های آن روز ثبت شده‌اند،
+   چیزی نشان داده نمی‌شود (یادآورِ بی‌مورد = مزاحمت). */
+function psyAskForDay(key,opts){
+  const miss=psyMissingCount(key);
+  if(miss<=0) return false;
+  const el=document.getElementById('psyask-overlay');
+  if(!el) return false;
+  _psyAskKey=key; _psyAskIdx=Math.max(0,psyFirstUnfilled(key));
+  const o=opts||{};
+  const d=new Date(key.split('-')[0],key.split('-')[1]-1,key.split('-')[2]);
+  const fa=d.toLocaleDateString('fa-IR',{day:'numeric',month:'long'});
+  const j=(data.journal||{})[key]||{};
+  document.getElementById('psyask-title').textContent=o.title||'روانشناسی هر معامله رو ثبت کردی؟';
+  document.getElementById('psyask-desc').textContent=o.desc||
+    'ثبتِ احساس و رفتارِ هر معامله همان چیزی است که تحلیل رفتاری و نمره‌ی مهارتت را می‌سازد — کمتر از یک دقیقه برای هر معامله.';
+  const chips=[];
+  chips.push('<span class="psyask-chip">📅 '+escapeHtml(fa)+'</span>');
+  chips.push('<span class="psyask-chip">🧠 <b>'+toFA(miss)+'</b> معامله بدون ثبت</span>');
+  if(j.trades>0) chips.push('<span class="psyask-chip">📈 <b>'+toFA(j.trades)+'</b> معامله‌ی این روز</span>');
+  document.getElementById('psyask-chips').innerHTML=chips.join('');
+  el.classList.add('show');
+  return true;
+}
+
+/* ── ورودیِ دوم: باز شدنِ برنامه ──────────────────────────────────────────
+   روزهای اخیر (۷ روز) بررسی می‌شوند و اگر معامله‌ای — چه از اکسپرت، چه دستی —
+   بدون ثبتِ روانشناسی مانده باشد، یادآور می‌آید. روزی فقط یک بار. */
+function PSY_ASK_KEY(){ return CURRENT_USER?('tradeplan_psyask:'+CURRENT_USER.id):'tradeplan_psyask'; }
+function maybePsychTradesNudge(){
+  if(!appStarted) return;
+  const now=new Date();
+  const today=ymd(now);
+  try{ if(localStorage.getItem(PSY_ASK_KEY())===today) return; }catch(e){}
+  // از دیروز به عقب تا ۷ روز؛ امروز عمداً آخر بررسی می‌شود چون ممکن است
+  // تریدر هنوز وسطِ معامله‌های امروز باشد.
+  let target=null,total=0;
+  for(let i=1;i<=7;i++){
+    const d=new Date(now); d.setDate(d.getDate()-i);
+    const k=ymd(d);
+    const m=psyMissingCount(k);
+    if(m>0&&psychHadTrades(k)){ total+=m; if(!target) target=k; }
+  }
+  if(!target){
+    const m=psyMissingCount(today);
+    if(m>0&&psychHadTrades(today)){ target=today; total=m; }
+  }
+  if(!target) return;
+  try{ localStorage.setItem(PSY_ASK_KEY(),today); }catch(e){}
+  psyAskForDay(target,{
+    title:'معامله‌هات ثبت شدن — احساسات‌شون نه!',
+    desc:'اکسپرت معامله‌های تو را خودکار در ژورنال گذاشته، ولی رفتار و احساسِ '+
+         toFA(total)+' معامله هنوز ثبت نشده. بیا همین حالا ثبتشون کن تا تحلیل رفتاری‌ات کامل شود.'
+  });
 }
 
 /* ═══ یادآورِ شبانه‌ی روانشناسی ═══
@@ -13857,9 +14110,11 @@ function renderAdvancedStats(){
       const h=parseInt(p.time.split(':')[0],10);
       if(h>=0&&h<=23) return h;
     }
-    const ot=p&&p.mtOpenTime;
-    if(ot&&/^\d{4}\.\d{2}\.\d{2}/.test(ot)){
-      const h=parseInt(String(ot).substr(11,2),10);
+    // ساعتِ متاتریدر به وقتِ ایران تبدیل می‌شود تا نمودارِ ساعتی با حسِ واقعیِ
+    // تریدر بخواند (mtTimeToIran خودش تایم‌زونِ بروکر را در نظر می‌گیرد)
+    const t=(typeof mtTimeToIran==='function')?mtTimeToIran(p&&p.mtOpenTime):'';
+    if(/^\d{2}:\d{2}$/.test(t)){
+      const h=parseInt(t.slice(0,2),10);
       if(h>=0&&h<=23) return h;
     }
     return null;
@@ -14115,7 +14370,7 @@ function renderAdvancedStats(){
 
 // name bind
 const nameInput=document.getElementById('settings-name-input');
-nameInput.addEventListener('input',()=>{data.name=nameInput.value;saveData();updateHome();if(typeof renderStrategyIdentity==='function')renderStrategyIdentity();});
+nameInput.addEventListener('input',()=>{data.name=nameInput.value;saveData();updateHome();if(typeof renderStrategyIdentity==='function')renderStrategyIdentity();if(typeof renderSettingsProfile==='function')renderSettingsProfile();});
 
 function ensureGoals(){ if(!data.goals) data.goals={daily:'',weekly:'',monthly:data.monthlyGoal||'',yearly:''}; }
 const GOAL_FIELDS=[['goal-daily','daily'],['goal-weekly','weekly'],['goal-monthly','monthly'],['goal-yearly','yearly']];
@@ -15083,7 +15338,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.6';
+const APP_VERSION='83.7';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){
@@ -15195,12 +15450,16 @@ async function mtCloudSync(){
     const cd=new Date(Date.now()-95*86400000);
     const cutoff=cd.getFullYear()+'.'+String(cd.getMonth()+1).padStart(2,'0')+'.'+String(cd.getDate()).padStart(2,'0');
     const {data:rows,error}=await SB.from('mt5_trades')
-      .select('ticket,symbol,type,volume,open_price,close_price,profit,commission,swap,open_time,close_time')
+      .select('ticket,symbol,type,volume,open_price,close_price,profit,commission,swap,open_time,close_time,created_at')
       .gte('open_time',cutoff)
       .order('open_time',{ascending:false})
       .limit(3000);
     if(error||!rows||!rows.length) return;
     rows.reverse();
+
+    // اختلافِ ساعتِ سرورِ بروکر با UTC یک بار از خودِ همین ردیف‌ها تخمین زده
+    // می‌شود تا ساعتِ معامله‌ها به وقت ایران درست نشان داده شود
+    mtLearnBrokerOffset(rows);
 
     // امضای مجموعه فقط نشانگر «اتصال برقرار است» می‌ماند؛ ادغام همیشه اجرا
     // می‌شود تا ثبت/ویرایش دستی کاربر هم با ارقام دقیق متاتریدر تصحیح شود
@@ -15241,6 +15500,8 @@ async function mtCloudSync(){
       // لحظه‌ی طلایی ثبت: دقیقاً بعد از رسیدن معامله‌ی جدید
       if(typeof showPsychNudge==='function') showPsychNudge();
     }
+    // معامله‌های خودکارِ اکسپرت که هنوز احساسات‌شان ثبت نشده — یادآورِ روزی یک بار
+    if(typeof maybePsychTradesNudge==='function') setTimeout(maybePsychTradesNudge,1200);
   }catch(e){ /* آفلاین — تلاش بعدی در سینک بعدی */ }
   finally{ _mtCloudBusy=false; }
 }
@@ -15248,9 +15509,11 @@ async function mtCloudSync(){
 setInterval(()=>{ if(document.visibilityState==='visible'){ mtCloudSync(); mt5LoadAccount(); } },120000);
 
 /* ----- MT5 account card: balance / deposit / last sync (journal top) ----- */
+// بالانس و سرمایه اولیه بدون رقم اعشار نشان داده می‌شوند (گِرد می‌شوند) تا
+// سر کارت کوتاه و خوانا بماند؛ عددِ دقیق دست‌نخورده در data ذخیره است.
 function acctFmt(v,cur){
-  const n=parseFloat(v)||0;
-  const s=n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const n=Math.round(parseFloat(v)||0);
+  const s=n.toLocaleString('en-US',{maximumFractionDigits:0});
   return (!cur||cur==='USD')?('$'+s):(s+' '+cur);
 }
 // سرمایه اولیه (Deposit) — کاملاً دستی؛ کاربر خودش عدد را می‌نویسد و در
@@ -16322,6 +16585,8 @@ async function enterApp(interactive){
   logVisit();            // ثبت بازدید برای آمار پنل مدیریت
   donateLoad();          // تنظیمات حمایت مالی (از پنل مدیریت)
   certEveningCheck();    // بین ۲۱ تا ۲۴ اگر امروز سود ثبت شده، گواهی خودکار باز شود
+  // معامله‌های ثبت‌شده (خودکار یا دستی) که هنوز احساسات‌شان ثبت نشده — روزی یک بار
+  setTimeout(()=>{ if(typeof maybePsychTradesNudge==='function') maybePsychTradesNudge(); },2600);
   // For a brand-new account with no data yet, seed the display name into the app.
   if(!hadRow){
     const dn = CURRENT_USER.user_metadata && CURRENT_USER.user_metadata.display_name;
@@ -16333,9 +16598,25 @@ async function enterApp(interactive){
     }
   }
   // Show which account is signed in, on the settings screen.
+  renderSettingsProfile();
+}
+
+/* کارت پروفایلِ تنظیمات: آواتار = حرفِ اولِ اسم، و نشانِ «وارد شده به‌عنوان …» */
+function renderSettingsProfile(){
+  const av=document.getElementById('sh-avatar');
+  if(av){
+    const n=String((data&&data.name)||'').trim();
+    av.textContent=n?n[0].toUpperCase():'🎯';
+  }
   const acct=document.getElementById('settings-acct-name');
-  if(acct && CURRENT_USER.user_metadata && CURRENT_USER.user_metadata.display_name){
-    acct.textContent='وارد شده به‌عنوان: '+CURRENT_USER.user_metadata.display_name;
+  if(!acct) return;
+  const dn=CURRENT_USER&&CURRENT_USER.user_metadata&&CURRENT_USER.user_metadata.display_name;
+  if(dn){
+    acct.innerHTML='<span class="sha-dot"></span><span class="sha-lbl">وارد شده به‌عنوان</span>'+
+                   '<span class="sha-val">'+escapeHtml(dn)+'</span>';
+    acct.classList.add('on');
+  }else{
+    acct.classList.remove('on'); acct.innerHTML='';
   }
 }
 

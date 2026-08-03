@@ -3795,7 +3795,7 @@ canvas#pnl-chart{width:100%;min-width:0;height:240px;display:block;position:rela
 .pctf-state{font-size:9.5px;font-weight:900;letter-spacing:.6px;color:rgba(255,255,255,.42);direction:ltr;width:24px;text-align:left}
 .pctf-switch[aria-checked="true"] .pctf-state{color:#34d399}
 /* عددِ درصد در خانه‌های تقویم — دقیقاً جای مبلغ دلاری را می‌گیرد.
-   ۱px فاصله‌ی انتهایی تا نشانِ «٪» به لبه‌ی خانه نچسبد (fitDayPnl هم آن را
+   ۱px فاصله‌ی انتهایی تا نشانِ درصد به لبه‌ی خانه نچسبد (fitDayPnl هم آن را
    در محاسبه‌ی جا شدنِ عدد می‌بیند، پس فونت بی‌دلیل ریز نمی‌شود). */
 .dc-pnl.as-pct,.wsc-val.as-pct{direction:ltr;letter-spacing:-.2px;padding-inline-end:1px}
 /* ── هشدارِ سرمایه اولیه ── */
@@ -11425,14 +11425,15 @@ function pctMonthBase(y,m){
   return base>0?base:0;
 }
 
-// «+۵٪» / «-۲٫۳۵٪» — دقتِ اعشار هوشمند و بدونِ صفرِ اضافه
+// «+5%» / «-2.35%» — عدد با رقم‌های انگلیسی (هم‌شکلِ مبلغ دلاری خانه‌ها)،
+// دقتِ اعشار هوشمند و بدونِ صفرِ اضافه
 function fmtPct(p){
   if(!isFinite(p)) p=0;
   const abs=Math.abs(p);
   const d=abs>=100?0:abs>=10?1:2;
   let s=abs.toFixed(d);
   if(s.indexOf('.')>-1) s=s.replace(/0+$/,'').replace(/\.$/,'');
-  return (p>0?'+':p<0?'-':'')+toFA(s).replace('.','٫')+'٪';
+  return (p>0?'+':p<0?'-':'')+s+'%';
 }
 
 // ظاهرِ کلید + توضیحِ پایه‌ی محاسبه (شفاف باشد که درصد نسبت به چه عددی است)
@@ -11682,9 +11683,9 @@ function fitDayPnl(){
   shrink('#j-cal-body .dc-pnl, #j-cal-body .wsc-val', 8);
   shrink('#j-cal-body .dc-trades, #j-cal-body .wsc-trades', 5.5);
 
-  // حالتِ «نمایش درصد»: پهنای نشانِ «٪» در انتهای عدد در scrollWidth حساب نمی‌شود
+  // حالتِ «نمایش درصد»: پهنای نشانِ درصد در انتهای عدد در scrollWidth حساب نمی‌شود
   // (مرورگر rect خطِ متن را به پهنای خانه می‌بُرد)، پس جای واقعیِ آخرین نویسه
-  // اندازه گرفته می‌شود و فونت تا وقتی که «٪» کامل دیده شود کوچک می‌شود.
+  // اندازه گرفته می‌شود و فونت تا وقتی که نشانِ درصد کامل دیده شود کوچک می‌شود.
   const rng=document.createRange();
   document.querySelectorAll('#j-cal-body .dc-pnl.as-pct, #j-cal-body .wsc-val.as-pct').forEach(el=>{
     const t=el.firstChild;
@@ -15082,7 +15083,7 @@ const AUTH_EMAIL_DOMAIN='tradeplan.app';
    MT5_EA_VERSION: باید با «#property version» داخل mt5/TradePlanSync.mq5 یکی باشد؛
    MT5_SVC_VERSION: باید با «#property version» داخل mt5/TradePlanSyncService.mq5 یکی باشد؛
    اسم فایل دانلودی و متن دکمه‌های دانلود از همین ثابت‌ها ساخته می‌شود. */
-const APP_VERSION='83.5';
+const APP_VERSION='83.6';
 const MT5_EA_VERSION='1.40';
 const MT5_SVC_VERSION='1.40';
 (function(){
